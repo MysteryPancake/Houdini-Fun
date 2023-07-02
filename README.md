@@ -8,25 +8,29 @@ A great fix comes from Raphael Gadot: stabilise the environment around the colli
 
 For gravity:
 1. Add `@orient` and `@up` vectors in world space (before Transform Pieces).
-```
+```js
 v@up = {0, 1, 0};
 p@orient = {0, 0, 0, 1};
 ```
 2. Add a Gravity Force node to your sim (after Transform Pieces). Use the transformed `@up` vector as the gravity force.
-```
+
+<img src="images/movingcontainers1.PNG"/>
+
+```js
 Force X: -9.81 * point(-1, 0, "up", 0)
 Force Y: -9.81 * point(-1, 0, "up", 1)
 Force Z: -9.81 * point(-1, 0, "up", 2)
 ```
-
 Make sure the Gravity Force is set to "Calculate Always" since the gravity always changes.
 
 For acceleration:
-1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration".
+1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point. Make sure to trail in the correct reference frame.
 
-It's faster to do this after packing so it only trails one point. Make sure to trail in the correct reference frame.
-3. Add another Gravity Force node, using negative `@accel` as the force vector.
-```
+2. Add another Gravity Force node, using negative `@accel` as the force vector.
+
+<img src="images/movingcontainers2.PNG"/>
+
+```js
 Force X: -point(-1, 0, "accel", 0)
 Force Y: -point(-1, 0, "accel", 1)
 Force Z: -point(-1, 0, "accel", 2)
