@@ -8,7 +8,7 @@ A great fix comes from Raphael: stabilise the environment around the collider. T
 
 For gravity:
 1. Add `@orient` and `@up` vectors in world space (before Transform Pieces).
-2. Add a Gravity Force node, using @up to set the gravity direction. Make sure it's set to "Calculate Always" since the gravity always changes.
+2. Add a Gravity Force node, using `@up` to set the gravity direction. Make sure it's set to "Calculate Always" since the gravity always changes.
 
 For acceleration:
 1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point. Make sure to trail in the correct reference frame.
