@@ -22,7 +22,10 @@ For stabilisation:
 5. It should be stabilized. Unpack and do your sim with the gravity forces described above.
 6. Pack the simulation result.
 7. Use a Transform Pieces node with the same Extract Transform input. This time, set it to "Invert Transform" to go back to world space.
+8. Unpack the world space result.
+
 This works best for enclosed containers. When fluid exits the container, you have to do a separate sim in the new reference frame. This is possible by killing points outside the container, then feeding the killed points into the other sim.
+
 Another tip is using "Central Difference" when trailing. This gives the fluid more time to move away from the collider, and helps calculate motion blur.
 
 ## Karma: Fix motion blur
