@@ -2,17 +2,36 @@
 Various tips and tricks I learnt at UTS Animal Logic Academy and beyond. Hope someone finds this helpful!
 
 ## Smoke / Fluids: Fix moving colliders
-Fluids often screw up whenever colliders move around them, for example water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer from the collider.
+Fluids often screw up whenever colliders move, for example water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer from the collider.
 
-A great fix comes from Raphael: stabilise the environment around the collider. The sim is done in local space with the collider fixed in place, then inverted back to world space. I think Vellum Reference Frame does something similar.
+A great fix comes from Raphael Gadot: stabilise the environment around the collider. This means the sim is done in local space with the collider fixed in place, then inverted back to world space. I think Vellum Reference Frame does something similar.
 
 For gravity:
 1. Add `@orient` and `@up` vectors in world space (before Transform Pieces).
-2. Add a Gravity Force node, using `@up` to set the gravity direction. Make sure it's set to "Calculate Always" since the gravity always changes.
+```
+v@up = {0, 1, 0};
+p@orient = {0, 0, 0, 1};
+```
+2. Add a Gravity Force node to your sim (after Transform Pieces). Use the transformed `@up` vector as the gravity force.
+```
+Force X: -9.81 * point(-1, 0, "up", 0)
+Force Y: -9.81 * point(-1, 0, "up", 1)
+Force Z: -9.81 * point(-1, 0, "up", 2)
+```
+
+Make sure the Gravity Force is set to "Calculate Always" since the gravity always changes.
 
 For acceleration:
-1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point. Make sure to trail in the correct reference frame.
-2. Add another Gravity Force node, using negative `@accel` as the force vector. Make sure it's set to "Calculate Always", since the acceleration always changes.
+1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration".
+
+It's faster to do this after packing so it only trails one point. Make sure to trail in the correct reference frame.
+3. Add another Gravity Force node, using negative `@accel` as the force vector.
+```
+Force X: -point(-1, 0, "accel", 0)
+Force Y: -point(-1, 0, "accel", 1)
+Force Z: -point(-1, 0, "accel", 2)
+```
+Make sure the Gravity Force is set to "Calculate Always", since the acceleration always changes.
 
 For stabilisation:
 1. Pick a face on the collider you want to stabilise. Blast everything except that face.
@@ -34,3 +53,5 @@ Motion blur in Karma rarely works properly out of the box, even with manual velo
 A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=UsdGuide18): simply add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after.
 
 Works much faster on large scenes than Karma's motion blur LOP, which caches the whole timeline at once.
+
+## 
