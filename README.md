@@ -7,12 +7,12 @@ Fluids often screw up whenever colliders move around them, for example water in 
 A great fix comes from Raphael: stabilise the environment around the collider. The sim is done in local space with the collider fixed in place, then inverted back to world space. I think Vellum Reference Frame does something similar.
 
 For gravity:
-1. Add @orient and @up vectors in world space (before Transform Pieces).
+1. Add `@orient` and `@up` vectors in world space (before Transform Pieces).
 2. Add a Gravity Force node, using @up to set the gravity direction. Make sure it's set to "Calculate Always" since the gravity always changes.
 
 For acceleration:
 1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point. Make sure to trail in the correct reference frame.
-2. Add another Gravity Force node, using negative @accel as the force vector. Make sure it's set to "Calculate Always", since the acceleration always changes.
+2. Add another Gravity Force node, using negative `@accel` as the force vector. Make sure it's set to "Calculate Always", since the acceleration always changes.
 
 For stabilisation:
 1. Pick a face on the collider you want to stabilise. Blast everything except that face.
@@ -31,4 +31,6 @@ Another tip is using "Central Difference" when trailing. This gives the fluid mo
 ## Karma: Fix motion blur
 Motion blur in Karma rarely works properly out of the box, even with manual velocity vectors.
 
-A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=UsdGuide18): simply add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after. Works much faster on large scenes than Karma's motion blur LOP, which caches the whole timeline at once.
+A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=UsdGuide18): simply add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after.
+
+Works much faster on large scenes than Karma's motion blur LOP, which caches the whole timeline at once.
