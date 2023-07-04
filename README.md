@@ -56,7 +56,7 @@ Motion blur in Karma rarely works properly out of the box, even with manual velo
 
 A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=UsdGuide18): simply add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after.
 
-Works much faster on large scenes than Karma's motion blur LOP, which caches the whole timeline at once.
+This works faster than Karma's motion blur LOP, which caches the entire timeline at once.
 
 # Fluids: Fix density loss 
 
