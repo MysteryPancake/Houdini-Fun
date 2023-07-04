@@ -4,7 +4,7 @@ Various tips and tricks I learnt at UTS Animal Logic Academy and beyond. Hope so
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, for example water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer from the collider.
 
-A great fix comes from Raphael Gadot: stabilise the environment around the collider. This means the sim is done in local space with the collider fixed in place, then inverted back to world space. I think Vellum Reference Frame does something similar.
+A great fix comes from Raphael Gadot: stabilise the environment around the collider. This means the sim is done in local space with the collider fixed in place, then inverted back to world space. Raphael stresses this isn't a proper technique, but it works well in my tests.
 
 For gravity:
 1. Add `@orient` and `@up` vectors in world space (before Transform Pieces).
@@ -17,9 +17,9 @@ p@orient = {0, 0, 0, 1};
 <img src="images/movingcontainers1.PNG"/>
 
 ```js
-Force X: -9.81 * point(-1, 0, "up", 0)
-Force Y: -9.81 * point(-1, 0, "up", 1)
-Force Z: -9.81 * point(-1, 0, "up", 2)
+Force X = -9.81 * point(-1, 0, "up", 0)
+Force Y = -9.81 * point(-1, 0, "up", 1)
+Force Z = -9.81 * point(-1, 0, "up", 2)
 ```
 Make sure the Gravity Force is set to "Calculate Always" since the gravity always changes.
 
@@ -31,9 +31,9 @@ For acceleration:
 <img src="images/movingcontainers2.PNG"/>
 
 ```js
-Force X: -point(-1, 0, "accel", 0)
-Force Y: -point(-1, 0, "accel", 1)
-Force Z: -point(-1, 0, "accel", 2)
+Force X = -point(-1, 0, "accel", 0)
+Force Y = -point(-1, 0, "accel", 1)
+Force Z = -point(-1, 0, "accel", 2)
 ```
 Make sure the Gravity Force is set to "Calculate Always", since the acceleration always changes.
 
@@ -58,4 +58,18 @@ A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=Us
 
 Works much faster on large scenes than Karma's motion blur LOP, which caches the whole timeline at once.
 
-## 
+# Fluids: Fix density loss 
+
+Don't take this section seriously. These are just techniques which seem to work for me. 
+
+Density loss often happens when Surface Tension is enabled. Droplets tend to disappear when bunched too close together, so try disabling it before anything else. 
+
+Grid Scale and Particle Radius Scale also affect the density. It seems to oversmooth sometimes, leading to particles being smoothed out of existence. 
+
+According to [SideFX](https://www.sidefx.com/docs/houdini/nodes/dop/flipsolver.html), if the Particle Radius Scale divided by the Grid Scale is at least sqrt(3)/2, it will never be underresolved. 
+
+In case this affects density, to find the minimum: 
+```js
+Particle Radius Scale = Grid Scale × (sqrt(3)/2)
+Grid Scale = Particle Radius Scale / (sqrt(3)/2)
+```
