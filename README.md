@@ -51,13 +51,6 @@ This works best for enclosed containers. When fluid exits the container, you hav
 
 Another tip is using "Central Difference" when trailing. This gives the fluid more time to move away from the collider, and helps calculate motion blur.
 
-## Karma: Fix motion blur
-Motion blur in Karma rarely works properly out of the box, even with manual velocity vectors.
-
-A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=UsdGuide18): simply add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after.
-
-This works faster than Karma's motion blur LOP, which caches the entire timeline at once.
-
 ## Cloth: Fix Preroll
 Cloth sims work best with preroll starting in a neutral rest pose. For example, the character starts in an A-Pose or T-Pose before transitioning into the animation. 
 
@@ -91,8 +84,14 @@ SideFX recommends at least 5 substeps as a starting point, with many more needed
 
 To avoid infinite sim time, try using "Constraint Iterations" or "Collision Iterations" instead. Good info on this can be found in the Vellum Cloth masterclasses by Jeff Lait.
 
-## Fluids: Fix density loss 
+## Karma: Fix motion blur
+Motion blur in Karma rarely works properly out of the box, even with manual velocity vectors.
 
+A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=UsdGuide18): simply add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after.
+
+This works faster than Karma's motion blur LOP, which caches the entire timeline at once.
+
+## Fluids: Fix density loss 
 Don't take this section seriously. These are just techniques which seem to work for me. 
 
 Density loss often happens when Surface Tension is enabled. Droplets tend to disappear when bunched too close together, so try disabling it before anything else. 
