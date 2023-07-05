@@ -58,7 +58,40 @@ A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=Us
 
 This works faster than Karma's motion blur LOP, which caches the entire timeline at once.
 
-# Fluids: Fix density loss 
+## Cloth: Fix Preroll
+Cloth sims work best with preroll starting in a neutral rest pose. For example, the character starts in an A-Pose or T-Pose before transitioning into the animation. 
+
+If anim screwed you over, never fear! Preroll can be added in Houdini. 
+
+1. Export the animated character as FBX, including the skeleton.
+2. Import the character with the FBX Character Import node.
+2. Use the Skeleton Blend node to blend from the rest skeleton to the animated skeleton. If the rest skeleton has a bad pose, adjust it with the Rig Pose node. Alternatively, export another FBX posed to your liking. FBX Character Import that animated skeleton as the rest skeleton.
+3. Use the Time Shift node to move the animation forward so it doesn't bleed into the preroll. This can also be done in the "Timing" menu of FBX Character Import.
+4. Use Bone Deform to animate the skin based on Skeleton Blend. 
+
+## Cloth: Fix Rest Pose Clipping
+Cloth sims screw up from clipping, especially when clipped from the start. One option is growing the character into the cloth. 
+
+1. Disable gravity in the cloth sim.
+2. Use Smooth, Peak or VDB Reshape to shrink the character.
+3. Animate the character growing.
+4. Enable gravity in the cloth sim.
+5. Use the Time Shift node to move the animation forward so it doesn't bleed into the growing. 
+
+## Cloth: Layer Stacking
+One little known feature of Vellum Cloth (at least to me) is layering. It can improve the physics of overlapping garments, like jackets on top of t-shirts. 
+
+1. In Vellum Configure Cloth, use the "Layer" setting to define the ordering, bottom to top.
+2. On the Vellum Solver under "Collisions", enable "Layer Shock". Lower layers are simulated much heavier than higher layers. 
+
+## Cloth: Fix Everything
+With Vellum Cloth, if anything screws up it usually needs substeps. Bending and stretching settings have no effect? Increase the substeps! Collisions passing through? Increase the substeps! 
+
+SideFX recommends at least 5 substeps as a starting point, with many more needed for most situations. Sotiris Bakosis said over 200 substeps were used for a balloon string shot in Peter Rabbit. 
+
+To avoid infinite sim time, try using "Constraint Iterations" or "Collision Iterations" instead. Good info on this can be found in the Vellum Cloth masterclasses by Jeff Lait.
+
+## Fluids: Fix density loss 
 
 Don't take this section seriously. These are just techniques which seem to work for me. 
 
