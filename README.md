@@ -4,7 +4,9 @@ Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, for example water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer from the collider.
 
-A great fix comes from Raphael Gadot: stabilise the environment around the collider. This means the sim is done in local space with the collider fixed in place, then inverted back to world space. Raphael stresses this isn't a proper technique, but it works well in my tests.
+A great fix comes from Raphael Gadot: stabilise the environment around the collider. This means the sim is done in local space with the collider fixed in place, then inverted back to world space.
+
+This technique doesn't work in all situations, but works well for containers or pinned geometry.
 
 For gravity:
 1. Add an `@up` vector in world space (before Transform Pieces).
