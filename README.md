@@ -1,5 +1,5 @@
 # CGWiki DLC
-Various tips and tricks I learnt at UTS Animal Logic Academy and beyond. Hope someone finds this helpful!
+Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, for example water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer from the collider.
@@ -7,10 +7,9 @@ Fluids often screw up whenever colliders move, for example water in a moving cup
 A great fix comes from Raphael Gadot: stabilise the environment around the collider. This means the sim is done in local space with the collider fixed in place, then inverted back to world space. Raphael stresses this isn't a proper technique, but it works well in my tests.
 
 For gravity:
-1. Add `@orient` and `@up` vectors in world space (before Transform Pieces).
+1. Add an `@up` vector in world space (before Transform Pieces).
 ```js
 v@up = {0, 1, 0};
-p@orient = {0, 0, 0, 1};
 ```
 2. Add a Gravity Force node to your sim (after Transform Pieces). Use the transformed `@up` vector as the gravity force.
 
@@ -76,13 +75,6 @@ One little known feature of Vellum Cloth (at least to me) is layering. It can im
 
 1. In Vellum Configure Cloth, use the "Layer" setting to define the ordering, bottom to top.
 2. On the Vellum Solver under "Collisions", enable "Layer Shock". Lower layers are simulated much heavier than higher layers. 
-
-## Cloth: Fix Everything
-With Vellum Cloth, if anything screws up it usually needs substeps. Bending and stretching settings have no effect? Increase the substeps! Collisions passing through? Increase the substeps! 
-
-SideFX recommends at least 5 substeps as a starting point, with many more needed for most situations. Sotiris Bakosis said over 200 substeps were used for a balloon string shot in Peter Rabbit. 
-
-To avoid infinite sim time, try using "Constraint Iterations" or "Collision Iterations" instead. Good info on this can be found in the Vellum Cloth masterclasses by Jeff Lait.
 
 ## Karma: Fix motion blur
 Motion blur in Karma rarely works properly out of the box, even with manual velocity vectors.
