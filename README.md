@@ -25,7 +25,7 @@ Force Z = -9.81 * point(-1, 0, "up", 2)
 Make sure the Gravity Force is set to "Calculate Always" since the gravity always changes.
 
 For acceleration:
-1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point. Make sure to trail in the correct reference frame.
+1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point.
 
 2. Add another Gravity Force node, using negative `@accel` as the force vector.
 
@@ -99,3 +99,9 @@ In case this affects density, to find the minimum:
 Particle Radius Scale = Grid Scale × (sqrt(3)/2)
 Grid Scale = Particle Radius Scale / (sqrt(3)/2)
 ```
+
+## Attribute min/max/average...
+Simply use Attribute Promote set to "Detail" with the appropriate mode.
+
+## Access context geometry inside solver
+Basic tip I always forget. If you need context geometry in a context that doesn't provide it (like the forces of a Vellum Solver), drop down a SOP Solver and use the geometry from there. You can use Object Merge inside a SOP Solver to get geometry from anywhere else too. Create feedback loops until your heart's content!
