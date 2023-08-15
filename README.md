@@ -101,7 +101,7 @@ Grid Scale = Particle Radius Scale / (sqrt(3)/2)
 ```
 
 ## Attribute min/max/average...
-Simply use Attribute Promote set to "Detail" with the appropriate mode.
+Use Attribute Promote set to "Detail" with the appropriate mode.
 
 ## Access context geometry inside solver
-Basic tip I always forget. If you need context geometry in a context that doesn't provide it (like the forces of a Vellum Solver), drop down a SOP Solver and use the geometry from there. You can use Object Merge inside a SOP Solver to get geometry from anywhere else too. Create feedback loops until your heart's content!
+If you need geometry in a context that doesn't provide it (like the forces of a Vellum Solver), just drop down a SOP Solver. You can use Object Merge inside a SOP Solver to get geometry from anywhere else too. Create feedback loops until your heart's content!
