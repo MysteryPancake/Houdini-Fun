@@ -4,9 +4,9 @@ Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, for example water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer from the collider.
 
-A great fix comes from Raphael Gadot: stabilise the environment around the collider. This means the sim is done in local space with the collider fixed in place, then inverted back to world space.
+A great fix comes from Raphael Gadot: don't bother, freeze it in place. Simulate in local space, apply transformed forces, then invert back to world space.
 
-This technique doesn't work in all situations, but works well for containers or pinned geometry.
+This technique doesn't work in all situations, but works well for containers or pinned geometry. Vellum Reference Frame is probably a better choice for cloth.
 
 For gravity:
 1. Add an `@up` vector in world space (before Transform Pieces).
@@ -22,7 +22,7 @@ Force X = -9.81 * point(-1, 0, "up", 0)
 Force Y = -9.81 * point(-1, 0, "up", 1)
 Force Z = -9.81 * point(-1, 0, "up", 2)
 ```
-Make sure the Gravity Force is set to "Calculate Always" since the gravity always changes.
+Make sure the force is "Set Always"!
 
 For acceleration:
 1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point.
@@ -36,7 +36,7 @@ Force X = -point(-1, 0, "accel", 0)
 Force Y = -point(-1, 0, "accel", 1)
 Force Z = -point(-1, 0, "accel", 2)
 ```
-Make sure the Gravity Force is set to "Calculate Always", since the acceleration always changes.
+Make sure the force is "Set Always"!
 
 For stabilisation:
 1. Pick a face on the collider you want to stabilise. Blast everything except that face.
