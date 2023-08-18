@@ -8,14 +8,12 @@ A great fix comes from Raphael Gadot: don't bother, freeze it in place. Simulate
 
 This technique doesn't work in all situations, but works well for containers or pinned geometry. Vellum Reference Frame is probably a better choice for cloth.
 
-For gravity:
+**For gravity:**
 1. Add an `@up` vector in world space (before Transform Pieces).
 ```js
 v@up = {0, 1, 0};
 ```
 2. Add a Gravity Force node to your sim (after Transform Pieces). Use the transformed `@up` vector as the gravity force.
-
-<img src="images/movingcontainers1.PNG"/>
 
 ```js
 Force X = -9.81 * point(-1, 0, "up", 0)
@@ -24,12 +22,10 @@ Force Z = -9.81 * point(-1, 0, "up", 2)
 ```
 Make sure the force is "Set Always"!
 
-For acceleration:
+**For acceleration:**
 1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point.
 
 2. Add another Gravity Force node, using negative `@accel` as the force vector.
-
-<img src="images/movingcontainers2.PNG"/>
 
 ```js
 Force X = -point(-1, 0, "accel", 0)
@@ -38,7 +34,7 @@ Force Z = -point(-1, 0, "accel", 2)
 ```
 Make sure the force is "Set Always"!
 
-For stabilisation:
+**For stabilisation:**
 1. Pick a face on the collider you want to stabilise. Blast everything except that face.
 2. Use an Extract Transform node to find where it moves over time.
 3. Pack everything else. Make sure to enable "No Point Velocities" in case it screws with our trail.
