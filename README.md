@@ -81,6 +81,17 @@ A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=Us
 
 This works faster than Karma's motion blur LOP, which caches the entire timeline at once.
 
+## Attribute min/max/average...
+Use Attribute Promote set to "Detail" with the appropriate mode.
+
+## Access context geometry inside solver
+If you need geometry in a context that doesn't provide it (like the forces of a Vellum Solver), just drop down a SOP Solver. You can use Object Merge inside a SOP Solver to get geometry from anywhere else too. Create feedback loops until your heart's content!
+
+## Pyro: Fix mushrooms
+Many techniques work depending on the situation. Sometimes more randomization is needed, other times the velocity needs reducing.
+
+A common technique is cranking up the disturbance. Controlling it by speed helps add it where mushrooms are likely to form.
+
 ## Fluids: Fix density loss 
 Don't take this section seriously. These are just techniques which seem to work for me. 
 
@@ -95,9 +106,3 @@ In case this affects density, to find the minimum:
 Particle Radius Scale = Grid Scale × (sqrt(3)/2)
 Grid Scale = Particle Radius Scale / (sqrt(3)/2)
 ```
-
-## Attribute min/max/average...
-Use Attribute Promote set to "Detail" with the appropriate mode.
-
-## Access context geometry inside solver
-If you need geometry in a context that doesn't provide it (like the forces of a Vellum Solver), just drop down a SOP Solver. You can use Object Merge inside a SOP Solver to get geometry from anywhere else too. Create feedback loops until your heart's content!
