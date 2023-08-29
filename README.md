@@ -1,6 +1,36 @@
 # CGWiki DLC
 Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 
+## Simple Spring Solver
+Need to overshoot an animation or smooth it over time to reduce bumps? Introducing my simple spring solver!
+
+I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position then set the acceleration so it points towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip back. Next, you apply damping to stop it going too crazy.
+
+First, add a target position to your geometry:
+```c
+v@targetP = v@P;
+```
+Next, add a solver. Inside the solver, add a point wrangle with this VEX;
+```c
+float freq = 0.3;
+float damping = 0.2;
+
+v@accel = (v@targetP - v@P) * freq;
+v@v += v@accel;
+v@v *= 1 - damping;
+v@P += v@v;
+```
+To smooth motion over time, get the target position from the first input of the solver:
+```c
+float freq = 0.3;
+float damping = 0.2;
+
+v@accel = (v@opinput1_P - v@P) * freq;
+v@v += v@accel;
+v@v *= 1 - damping;
+v@P += v@v;
+```
+
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
 
