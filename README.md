@@ -2,13 +2,13 @@
 Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 
 ## Smoke / Fluids: Fix moving colliders
-Fluids often screw up whenever colliders move, for example water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer from the collider.
+Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
 
-A great fix comes from Raphael Gadot: don't bother, freeze it in place. Simulate in local space, apply transformed forces, then invert back to world space.
+A great fix comes from Raph Gadot: Stabilize the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space.
 
-This technique doesn't work in all situations, but works well for containers or pinned geometry. Vellum Reference Frame is probably a better choice for cloth.
+This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims. Vellum Reference Frame is probably a better choice for cloth.
 
-**For gravity:**
+**Relative gravity**
 1. Add an `@up` vector in world space (before Transform Pieces).
 ```js
 v@up = {0, 1, 0};
@@ -22,7 +22,7 @@ Force Z = -9.81 * point(-1, 0, "up", 2)
 ```
 Make sure the force is "Set Always"!
 
-**For acceleration:**
+**Relative acceleration**
 1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point.
 
 2. Add another Gravity Force node, using negative `@accel` as the force vector.
@@ -34,32 +34,41 @@ Force Z = -point(-1, 0, "accel", 2)
 ```
 Make sure the force is "Set Always"!
 
-**For stabilisation:**
+**Stabilise (world to local)**
 1. Pick a face on the collider you want to stabilise. Blast everything except that face.
-2. Use an Extract Transform node to find where it moves over time.
-3. Pack everything else. Make sure to enable "No Point Velocities" in case it screws with our trail.
-4. Plug the packed geometry into a Transform Pieces node, then plug the Extract Transform result into the other input.
-5. It should be stabilized. Unpack and do your sim with the gravity forces described above.
-6. Pack the simulation result.
-7. Use a Transform Pieces node with the same Extract Transform input. This time, set it to "Invert Transform" to go back to world space.
-8. Unpack the world space result.
+2. Time freeze that face with a Time Shift node.
+3. Use an Extract Transform node to compare the frozen face to the moving face. That tells you how the collider moves over time, allowing you to cancel out the movement.
+4. Pack everything else. Make sure to enable "No Point Velocities".
+5. Plug the Pack into a Transform Pieces node, then plug Extract Transform into the other input.
+6. You should see the collider frozen in place. If not, try swapping the Time Shift to the other input in your Extract Transform node.
+7. Unpack and do your sim in local space.
+8. Pack the sim result.
+9. Add another Transform Pieces node with the same Extract Transform input. This time, set it to "Invert Transform" to go back to world space.
+10. Unpack the world space result.
 
-This works best for enclosed containers. When fluid exits the container, you have to do a separate sim in the new reference frame. This is possible by killing points outside the container, then feeding the killed points into the other sim.
+If you want to deal with open containers, the easiest way is to do a separate sim when the fluid exits the container. This is done by killing points outside the container, then feeding the killed points into the other sim. Make sure to nuke all point attributes to keep it clean for the next sim.
 
-Another tip is using "Central Difference" when trailing. This gives the fluid more time to move away from the collider, and helps calculate motion blur.
+Another tip is use "Central Difference" when calculating the velocity. This gives the fluid more time to move away from the collider.
 
-## Cloth: Fix Preroll
-Cloth sims work best with preroll starting in a neutral rest pose. For example, the character starts in an A-Pose or T-Pose before transitioning into the animation. 
+## Cloth: Fix preroll with FBX
+Cloth sims work best with preroll starting in a neutral rest pose. For example, the character starts in an A-pose or T-pose before transitioning into the animation. 
 
-If anim screwed you over, never fear! Preroll can be added in Houdini. 
+If anim screwed you over, never fear! Preroll can be added in Houdini.
 
-1. Export the animated character as FBX, including the skeleton.
-2. Import the character with the FBX Character Import node.
-2. Use the Skeleton Blend node to blend from the rest skeleton to the animated skeleton. If the rest skeleton has a bad pose, adjust it with the Rig Pose node. Alternatively, export another FBX posed to your liking. FBX Character Import that animated skeleton as the rest skeleton.
-3. Use the Time Shift node to move the animation forward so it doesn't bleed into the preroll. This can also be done in the "Timing" menu of FBX Character Import.
-4. Use Bone Deform to animate the skin based on Skeleton Blend. 
+1. Export the animated character as FBX. Make sure to include the skeleton!
+2. Import the character with a FBX Character Import node.
+3. Use a Skeleton Blend node to blend from the rest skeleton to the animated skeleton. If the rest skeleton has a bad pose, fix it with the Rig Pose node. Alternatively, export another FBX posed to your liking. FBX Character Import that animated skeleton as the rest skeleton.
+4. Use the Time Shift node to move the animation forward so it doesn't bleed into the preroll. This can also be done in the "Timing" menu of FBX Character Import.
+5. Use Bone Deform to animate the skin based on Skeleton Blend.
 
-## Cloth: Fix Rest Pose Clipping
+## Cloth: Fix preroll without FBX
+Sometimes you can't get an FBX of the character. This makes it harder to get a clean blend, but there are still some options.
+
+One option is using a Blend Shapes node, but you'll find the limbs usually clip through the body as it swaps from the T-pose to the animated pose.
+
+My sketchy method of improving this is using Extract Transform and Transform Pieces. Use blast to isolate a face from the character's chest. Next, use Extract Transform and Transform Pieces to transform the T-pose to match the animated pose. In other words, the T-posed character flies over to the animated position and rotates to match it. That gives you an easier time using Blend Shapes, since it only has to move the arms and legs a short distance to match the animated pose.
+
+## Cloth: Fix rest pose clipping
 Cloth sims screw up from clipping, especially when clipped from the start. One option is growing the character into the cloth. 
 
 1. Disable gravity in the cloth sim.
@@ -68,7 +77,7 @@ Cloth sims screw up from clipping, especially when clipped from the start. One o
 4. Enable gravity in the cloth sim.
 5. Use the Time Shift node to move the animation forward so it doesn't bleed into the growing. 
 
-## Cloth: Layer Stacking
+## Cloth: Layer stacking
 One little known feature of Vellum Cloth (at least to me) is layering. It can improve the physics of overlapping garments, like jackets on top of t-shirts. 
 
 1. In Vellum Configure Cloth, use the "Layer" setting to define the ordering, bottom to top.
