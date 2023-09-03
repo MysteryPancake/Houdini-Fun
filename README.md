@@ -12,7 +12,7 @@ v@targetP = v@P;
 ```
 Next, add a solver. Inside the solver, add a point wrangle with this VEX;
 ```glsl
-float freq = 0.3;
+float freq = 0.01;
 float damping = 0.2;
 
 v@accel = (v@targetP - v@P) * freq;
@@ -22,7 +22,7 @@ v@P += v@v;
 ```
 To smooth motion over time, get the target position from the first input of the solver:
 ```c
-float freq = 0.3;
+float freq = 0.01;
 float damping = 0.2;
 
 v@accel = (v@opinput1_P - v@P) * freq;
@@ -31,6 +31,28 @@ v@v *= 1 - damping;
 v@P += v@v;
 ```
 
+## Rigid Bodies: Make an aimbot (find velocity to hit a target)
+Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
+
+### Hit a static target
+1. Connect your projectile to a Ballistic Path node.
+2. Set the Launch Method to "Targeted" and disable drag.
+3. Add a `v@targetP` attribute to your projectile. Set it to the centroid of the target object.
+```c
+v@targetP = getbbox_center(1);
+```
+4. You should see an arc. Transfer the velocity of the first point of the arc to your projectile.
+```c
+v@v = point(1, "v", 0);
+```
+5. Connect everything to a RBD Solver.
+### Hit a moving target
+Use the same method as before, but sample the target's position forwards in time.
+
+1. On the Ballistic Path node, set the Targeting Method to "Life".
+2. Copy the "Life" attribute. It's the number of seconds until we hit the target. We need to find where the target is at that time.
+3. Add a Time Shift node to the target (before the centroid is calculated). Set it to the current time plus the "Life" attribute.
+
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
 
@@ -38,7 +60,7 @@ A great fix comes from Raph Gadot: Stabilize the collider, freeze it in place. S
 
 This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims. Vellum Reference Frame is probably a better choice for cloth.
 
-**Relative gravity**
+### 1. Relative gravity
 1. Add an `@up` vector in world space (before Transform Pieces).
 ```js
 v@up = {0, 1, 0};
@@ -52,7 +74,7 @@ Force Z = -9.81 * point(-1, 0, "up", 2)
 ```
 Make sure the force is "Set Always"!
 
-**Relative acceleration**
+### 2. Relative acceleration
 1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point.
 
 2. Add another Gravity Force node, using negative `@accel` as the force vector.
@@ -64,7 +86,7 @@ Force Z = -point(-1, 0, "accel", 2)
 ```
 Make sure the force is "Set Always"!
 
-**Stabilise (world to local)**
+### 3. Stabilise (world to local)
 1. Pick a face on the collider you want to stabilise. Blast everything except that face.
 2. Time freeze that face with a Time Shift node.
 3. Use an Extract Transform node to compare the frozen face to the moving face. That tells you how the collider moves over time, allowing you to cancel out the movement.
@@ -81,22 +103,22 @@ If you want to deal with open containers, the easiest way is to do a separate si
 Another tip is use "Central Difference" when calculating the velocity. This gives the fluid more time to move away from the collider.
 
 ## Cloth: Fix preroll with FBX
-Cloth sims work best with preroll starting in a neutral rest pose. For example, the character starts in an A-pose or T-pose before transitioning into the animation. 
+Cloth sims work best with preroll starting in a neutral rest pose. For example, the character starts in an A-pose or T-pose before transitioning into the animation. If anim screwed you over, never fear! Preroll can be added in Houdini.
 
-If anim screwed you over, never fear! Preroll can be added in Houdini.
-
+### With FBX
 1. Export the animated character as FBX. Make sure to include the skeleton!
 2. Import the character with a FBX Character Import node.
 3. Use a Skeleton Blend node to blend from the rest skeleton to the animated skeleton. If the rest skeleton has a bad pose, fix it with the Rig Pose node. Alternatively, export another FBX posed to your liking. FBX Character Import that animated skeleton as the rest skeleton.
 4. Use the Time Shift node to move the animation forward so it doesn't bleed into the preroll. This can also be done in the "Timing" menu of FBX Character Import.
 5. Use Bone Deform to animate the skin based on Skeleton Blend.
 
-## Cloth: Fix preroll without FBX
-Sometimes you can't get an FBX of the character. This makes it harder to get a clean blend, but there are still some options.
+### Without FBX
+One option is using a Blend Shapes node, but you'll find the limbs usually clip through the body as it swaps from the T-pose to the animated pose. My sketchy method to improve this is using Extract Transform and Transform Pieces.
 
-One option is using a Blend Shapes node, but you'll find the limbs usually clip through the body as it swaps from the T-pose to the animated pose.
+1. Use blast to isolate a face from the character's chest.
+2. Use Extract Transform and Transform Pieces to transform the T-pose to match the animated pose.
 
-My sketchy method of improving this is using Extract Transform and Transform Pieces. Use blast to isolate a face from the character's chest. Next, use Extract Transform and Transform Pieces to transform the T-pose to match the animated pose. In other words, the T-posed character flies over to the animated position and rotates to match it. That gives you an easier time using Blend Shapes, since it only has to move the arms and legs a short distance to match the animated pose.
+In other words, the T-posed character flies over to the animated position and rotates to match it. That gives you an easier time using Blend Shapes, since it only has to move the arms and legs a short distance to match the animated pose.
 
 ## Cloth: Fix rest pose clipping
 Cloth sims screw up from clipping, especially when clipped from the start. One option is growing the character into the cloth. 
