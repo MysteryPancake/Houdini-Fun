@@ -7,27 +7,27 @@ Need to overshoot an animation or smooth it over time to reduce bumps? Introduci
 I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position then set the acceleration so it points towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip back. Next, you apply damping to stop it going too crazy.
 
 First, add a target position to your geometry:
-```glsl
+```c
 v@targetP = v@P;
 ```
 Next, add a solver. Inside the solver, add a point wrangle with this VEX;
 ```glsl
-float freq = 0.01;
-float damping = 0.2;
+float freq = 100.0;
+float damping = 5.0;
 
-v@accel = (v@targetP - v@P) * freq;
+v@accel = (v@targetP - v@P) * freq * f@TimeInc * f@TimeInc;
 v@v += v@accel;
-v@v *= 1 - damping;
+v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
 To smooth motion over time, get the target position from the first input of the solver:
-```c
-float freq = 0.01;
-float damping = 0.2;
+```glsl
+float freq = 100.0;
+float damping = 5.0;
 
-v@accel = (v@opinput1_P - v@P) * freq;
+v@accel = (v@opinput1_P - v@P) * freq * f@TimeInc * f@TimeInc;
 v@v += v@accel;
-v@v *= 1 - damping;
+v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
 
