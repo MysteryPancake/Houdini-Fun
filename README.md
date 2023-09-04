@@ -26,7 +26,7 @@ v@v += accel;
 v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
-To smooth motion over time, plug the current geometry into the second input and use it instead of v@targetP:
+To smooth motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
 ```glsl
 float freq = 100.0;
 float damping = 5.0;
@@ -174,7 +174,7 @@ Grid Scale and Particle Radius Scale also affect the density. It seems to oversm
 
 According to [SideFX](https://www.sidefx.com/docs/houdini/nodes/dop/flipsolver.html), if the Particle Radius Scale divided by the Grid Scale is at least sqrt(3)/2, it will never be underresolved. 
 
-In case this affects density, to find the minimum: 
+No idea if this affects density, but just in case here's the minimum:
 ```js
 Particle Radius Scale = Grid Scale × (sqrt(3)/2)
 Grid Scale = Particle Radius Scale / (sqrt(3)/2)
