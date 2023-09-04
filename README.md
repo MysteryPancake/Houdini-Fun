@@ -4,29 +4,41 @@ Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 ## Simple Spring Solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing my simple spring solver!
 
-I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position then set the acceleration so it points towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip back. Next, you apply damping to stop it going too crazy.
+I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next, you apply damping to stop it going too crazy.
 
 First, add a target position to your geometry:
 ```c
 v@targetP = v@P;
 ```
-Next, add a solver. Inside the solver, add a point wrangle with this VEX;
+Next, add a solver. Inside the solver, add a point wrangle with this VEX:
 ```glsl
 float freq = 100.0;
 float damping = 5.0;
 
-v@accel = (v@targetP - v@P) * freq * f@TimeInc * f@TimeInc;
-v@v += v@accel;
+// Find direction towards target
+vector dir = v@targetP - v@P;
+
+// Accelerate towards it (@TimeInc to handle substeps)
+vector accel = dir * freq * f@TimeInc * f@TimeInc;
+v@v += accel;
+
+// Reduce velocity to prevent infinite overshoot
 v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
-To smooth motion over time, get the target position from the first input of the solver:
+To smooth motion over time, plug the current geometry into the second input and use it instead of v@targetP:
 ```glsl
 float freq = 100.0;
 float damping = 5.0;
 
-v@accel = (v@opinput1_P - v@P) * freq * f@TimeInc * f@TimeInc;
-v@v += v@accel;
+// Find direction towards target
+vector dir = v@opinput1_P - v@P;
+
+// Accelerate towards it (@TimeInc to handle substeps)
+vector accel = dir * freq * f@TimeInc * f@TimeInc;
+v@v += accel;
+
+// Reduce velocity to prevent infinite overshoot
 v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
