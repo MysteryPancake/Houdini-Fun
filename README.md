@@ -49,7 +49,7 @@ Want to prepare for the next war but can't solve projectile motion? Never fear, 
 ### Hit a static target
 1. Connect your projectile to a Ballistic Path node.
 2. Set the Launch Method to "Targeted" and disable drag.
-3. Add a `v@targetP` attribute to your projectile. Set it to the centroid of the target object.
+3. Add a `@targetP` attribute to your projectile. Set it to the centroid of the target object.
 ```c
 v@targetP = getbbox_center(1);
 ```
@@ -64,6 +64,17 @@ Use the same method as before, but sample the target's position forwards in time
 1. On the Ballistic Path node, set the Targeting Method to "Life".
 2. Copy the "Life" attribute. It's the number of seconds until we hit the target. We need to find where the target is at that time.
 3. Add a Time Shift node to the target (before the centroid is calculated). Set it to the current time plus the "Life" attribute.
+
+## VDBs: SDF Modelling
+Most signed distance functions are expressed directly, like [these classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). To use them in Houdini is easy:
+
+1. Add a VDB node. Set the class to "Level Set" and the name to "surface".
+2. Add a VDB Activate node. This sets the size of your VDB.
+3. Add a Volume Wrangle. Here you define the SDF based on `@P`, for example a basic sphere:
+```c
+float radius = 1.0;
+f@surface = length(v@P) - radius;
+```
 
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
