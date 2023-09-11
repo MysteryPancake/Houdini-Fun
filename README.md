@@ -7,7 +7,7 @@ Need to overshoot an animation or smooth it over time to reduce bumps? Introduci
 I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next, you apply damping to stop it going too crazy.
 
 First, add a target position to your geometry:
-```c
+```glsl
 v@targetP = v@P;
 ```
 Next, add a solver. Inside the solver, add a point wrangle with this VEX:
@@ -50,11 +50,11 @@ Want to prepare for the next war but can't solve projectile motion? Never fear, 
 1. Connect your projectile to a Ballistic Path node.
 2. Set the Launch Method to "Targeted" and disable drag.
 3. Add a `@targetP` attribute to your projectile. Set it to the centroid of the target object.
-```c
+```glsl
 v@targetP = getbbox_center(1);
 ```
 4. You should see an arc. Transfer the velocity of the first point of the arc to your projectile.
-```c
+```glsl
 v@v = point(1, "v", 0);
 ```
 5. Connect everything to a RBD Solver.
@@ -71,15 +71,64 @@ Most signed distance functions are expressed directly, like [these classics from
 1. Add a VDB node. Set the class to "Level Set" and the name to "surface".
 2. Add a VDB Activate node. This sets the size of your VDB.
 3. Add a Volume Wrangle. Here you define the SDF based on `@P`, for example a basic sphere:
-```c
+```js
 float radius = 1.0;
 f@surface = length(v@P) - radius;
+```
+
+## Be careful with typecasting
+I used to do this to generate random velocities between -1 and 1. See if you can spot the problem.
+```glsl
+v@v = rand(i@ptnum) - 0.5;
+```
+The issue is VEX uses the float version of `rand()`, making the result 1D:
+```glsl
+float x = rand(i@ptnum);
+v@v = x - 0.5;
+```
+To get a 3D result, there are two options. Either explicitly declare 0.5 as a vector:
+```glsl
+v@v = rand(i@ptnum) - vector(0.5);
+```
+Or explicity declare `rand()` as a vector:
+```glsl
+vector x = rand(i@ptnum);
+v@v = x - 0.5;
+```
+This is a common issue with many VEX expressions. Always explicitly declare types to be safe!
+
+## Be careful with random
+Sometimes silly people use `rand()` to generate velocities between -1 and 1. See if you can spot the problem.
+```glsl
+v@v = rand(i@ptnum) - vector(0.5);
+```
+What shape would you expect to see? Surely a sphere, since it's centered at 0 and random in all directions?
+
+Unfortunately it's a cube, since the distribution is between -0.5 and 0.5 on all axes independently.
+
+To get a sphere with random lengths, use `sample_sphere_uniform()`:
+```glsl
+v@v = sample_sphere_uniform(rand(i@ptnum));
+```
+Visually equivalent to the following:
+```glsl
+float mag = rand(i@ptnum + 1);
+v@v = normalize(rand(i@ptnum) - vector(0.5)) * mag;
+```
+
+To get a sphere with normalized lengths, use `sample_direction_uniform()`:
+```glsl
+v@v = sample_direction_uniform(rand(i@ptnum));
+```
+Visually equivalent to the following:
+```glsl
+v@v = normalize(rand(i@ptnum) - vector(0.5));
 ```
 
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
 
-A great fix comes from Raph Gadot: Stabilize the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space.
+A great fix comes from Raph Gadot: Stabilise the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space.
 
 This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims. Vellum Reference Frame is probably a better choice for cloth.
 
@@ -172,7 +221,7 @@ Use Attribute Promote set to "Detail" with the appropriate mode.
 If you need geometry in a context that doesn't provide it (like the forces of a Vellum Solver), just drop down a SOP Solver. You can use Object Merge inside a SOP Solver to get geometry from anywhere else too. Create feedback loops until your heart's content!
 
 ## Pyro: Fix mushrooms
-Many techniques work depending on the situation. Sometimes more randomization is needed, other times the velocity needs reducing.
+Many techniques work depending on the situation. Sometimes more randomisation is needed, other times the velocity needs reducing.
 
 A common technique is cranking up the disturbance. Controlling it by speed helps add it where mushrooms are likely to form.
 
