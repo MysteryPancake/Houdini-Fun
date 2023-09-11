@@ -98,7 +98,7 @@ Or explicity declare `rand()` as a vector:
 vector x = rand(i@ptnum);
 v@v = x - 0.5;
 ```
-This is a common issue with many VEX expressions. Always explicitly declare types to be safe!
+This happens a lot, so always explicitly declare types to be safe!
 
 ## Be careful with random
 Sometimes silly people use `rand()` to generate velocities between -1 and 1. See if you can spot the problem.
@@ -107,10 +107,10 @@ v@v = rand(i@ptnum) - vector(0.5);
 ```
 What shape would you expect to see? Surely a sphere, since it's centered at 0 and random in all directions?
 
-Unfortunately it's a cube, since the distribution is between -0.5 and 0.5 on all axes independently.
+Unfortunately it's a cube, since the range is -0.5 to 0.5 on all axes separately.
 
 ### Random direction, random length
-To get a sphere of random lengths, use `sample_sphere_uniform()`:
+To get a sphere and random vector lengths, use `sample_sphere_uniform()`:
 ```glsl
 v@v = sample_sphere_uniform(rand(i@ptnum));
 ```
@@ -121,7 +121,7 @@ v@v = normalize(rand(i@ptnum) - vector(0.5)) * mag;
 ```
 
 ### Random direction, constant length
-To get a sphere of normalized lengths, use `sample_direction_uniform()`:
+To get a sphere and normalized vector lengths, use `sample_direction_uniform()`:
 ```glsl
 v@v = sample_direction_uniform(rand(i@ptnum));
 ```
@@ -133,7 +133,7 @@ v@v = normalize(rand(i@ptnum) - vector(0.5));
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
 
-A great fix comes from Raph Gadot: Stabilise the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space.
+A great fix comes from Raphael Gadot: Stabilise the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space.
 
 This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims. Vellum Reference Frame is probably a better choice for cloth.
 
@@ -142,7 +142,7 @@ This works best for enclosed containers or pinned geometry, since it's hard to m
 ```js
 v@up = {0, 1, 0};
 ```
-2. Add a Gravity Force node to your sim (after Transform Pieces). Use the transformed `@up` vector as the gravity force.
+2. Add a Gravity Force node to your sim (after Transform Pieces). Use the transformed `@up` vector as your gravity force.
 
 ```js
 Force X = -9.81 * point(-1, 0, "up", 0)
@@ -154,7 +154,7 @@ Make sure the force is "Set Always"!
 ### 2. Relative acceleration
 1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point.
 
-2. Add another Gravity Force node, using negative `@accel` as the force vector.
+2. Add another Gravity Force node, using negative `@accel` as your force vector.
 
 ```js
 Force X = -point(-1, 0, "accel", 0)
@@ -231,13 +231,11 @@ Many techniques work depending on the situation. Sometimes more randomisation is
 A common technique is cranking up the disturbance. Controlling it by speed helps add it where mushrooms are likely to form.
 
 ## Fluids: Fix density loss 
-Don't take this section seriously. These are just techniques which seem to work for me. 
+Don't take this section seriously. These are just techniques which seem to work for me.
 
 Density loss often happens when Surface Tension is enabled. Droplets tend to disappear when bunched too close together, so try disabling it before anything else. 
 
-Grid Scale and Particle Radius Scale also affect the density. It seems to oversmooth sometimes, leading to particles being smoothed out of existence. 
-
-According to [SideFX](https://www.sidefx.com/docs/houdini/nodes/dop/flipsolver.html), if the Particle Radius Scale divided by the Grid Scale is at least sqrt(3)/2, it will never be underresolved. 
+Grid Scale and Particle Radius Scale also affect the density. According to [SideFX](https://www.sidefx.com/docs/houdini/nodes/dop/flipsolver.html), if the Particle Radius Scale divided by the Grid Scale is at least sqrt(3)/2, it will never be underresolved. 
 
 No idea if this affects density, but just in case here's the minimum:
 ```js
