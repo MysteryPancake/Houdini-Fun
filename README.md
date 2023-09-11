@@ -66,7 +66,7 @@ Use the same method as before, but sample the target's position forwards in time
 3. Add a Time Shift node to the target (before the centroid is calculated). Set it to the current time plus the "Life" attribute.
 
 ## VDBs: SDF Modelling
-Most signed distance functions are expressed directly, like [these classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). To use them in Houdini is easy:
+Most signed distance functions are coded directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
 
 1. Add a VDB node. Set the class to "Level Set" and the name to "surface".
 2. Add a VDB Activate node. Use it to set the size of your VDB.
