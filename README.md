@@ -106,7 +106,8 @@ What shape would you expect to see? Surely a sphere, since it's centered at 0 an
 
 Unfortunately it's a cube, since the distribution is between -0.5 and 0.5 on all axes independently.
 
-To get a sphere with random lengths, use `sample_sphere_uniform()`:
+### Random direction, random length
+To get a sphere of random lengths, use `sample_sphere_uniform()`:
 ```glsl
 v@v = sample_sphere_uniform(rand(i@ptnum));
 ```
@@ -116,7 +117,8 @@ float mag = rand(i@ptnum + 1);
 v@v = normalize(rand(i@ptnum) - vector(0.5)) * mag;
 ```
 
-To get a sphere with normalized lengths, use `sample_direction_uniform()`:
+### Random direction, constant length
+To get a sphere of normalized lengths, use `sample_direction_uniform()`:
 ```glsl
 v@v = sample_direction_uniform(rand(i@ptnum));
 ```
