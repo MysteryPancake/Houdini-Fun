@@ -116,8 +116,7 @@ v@v = sample_sphere_uniform(rand(i@ptnum));
 ```
 Roughly equivalent to the following:
 ```glsl
-float mag = rand(i@ptnum + 1);
-v@v = normalize(rand(i@ptnum) - vector(0.5)) * mag;
+v@v = normalize(rand(i@ptnum) - vector(0.5)) * rand(i@ptnum + 1);
 ```
 
 ### Random direction, constant length
