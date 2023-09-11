@@ -69,11 +69,14 @@ Use the same method as before, but sample the target's position forwards in time
 Most signed distance functions are expressed directly, like [these classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). To use them in Houdini is easy:
 
 1. Add a VDB node. Set the class to "Level Set" and the name to "surface".
-2. Add a VDB Activate node. This sets the size of your VDB.
-3. Add a Volume Wrangle. Here you define the SDF based on `@P`, for example a basic sphere:
+2. Add a VDB Activate node. Use it to set the size of your VDB.
+3. Add a Volume Wrangle. Here you define your SDF based on `@P`, for example a basic sphere:
 ```js
-float radius = 1.0;
-f@surface = length(v@P) - radius;
+float sdSphere(vector p; float s) {
+  return length(p) - s;
+}
+
+f@surface = sdSphere(@P, 0.5);
 ```
 
 ## Be careful with typecasting
