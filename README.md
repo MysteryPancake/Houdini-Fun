@@ -114,7 +114,7 @@ To get a sphere and random vector lengths, use `sample_sphere_uniform()`:
 ```glsl
 v@v = sample_sphere_uniform(rand(i@ptnum));
 ```
-Visually equivalent to the following:
+Roughly equivalent to the following:
 ```glsl
 float mag = rand(i@ptnum + 1);
 v@v = normalize(rand(i@ptnum) - vector(0.5)) * mag;
@@ -125,7 +125,7 @@ To get a sphere and normalized vector lengths, use `sample_direction_uniform()`:
 ```glsl
 v@v = sample_direction_uniform(rand(i@ptnum));
 ```
-Visually equivalent to the following:
+Roughly equivalent to the following:
 ```glsl
 v@v = normalize(rand(i@ptnum) - vector(0.5));
 ```
