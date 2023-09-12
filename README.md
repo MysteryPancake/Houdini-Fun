@@ -4,7 +4,7 @@ Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 ## Simple Spring Solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing my simple spring solver!
 
-I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next, you apply damping to stop it going too crazy.
+I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next you apply damping to stop it going too crazy.
 
 First, add a target position to your geometry:
 ```glsl
@@ -58,6 +58,7 @@ v@targetP = getbbox_center(1);
 v@v = point(1, "v", 0);
 ```
 5. Connect everything to a RBD Solver.
+
 ### Hit a moving target
 Use the same method as before, but sample the target's position forwards in time.
 
@@ -65,8 +66,19 @@ Use the same method as before, but sample the target's position forwards in time
 2. Copy the "Life" attribute. It's the number of seconds until we hit the target. We need to find where the target is at that time.
 3. Add a Time Shift node to the target (before the centroid is calculated). Set it to the current time plus the "Life" attribute.
 
-## VDBs: SDF Modelling
-Most signed distance functions are coded directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
+## Vellum: Stop wobbling, be rigid and bouncy
+Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD solver.
+
+If you absolutely need Vellum, a great fix comes from Matt Estela.
+
+1. Go to the "Advanced" tab of the Vellum Solver and disable "Max Acceleration".
+2. For any shapes you want to make rigid, add a "Shape Match" constraint and make it super stiff.
+3. Disable anything to do with smoothing or softening and lower the thickness.
+
+Keep the topology as basic as possible and try increasing substeps to make Shape Match even more stiff.
+
+## Volumes from signed distance functions
+Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
 
 1. Add a VDB node. Set the class to "Level Set" and the name to "surface".
 2. Add a VDB Activate node. Use it to set the size of your VDB.
