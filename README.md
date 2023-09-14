@@ -235,7 +235,7 @@ A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=Us
 
 This works faster than Karma's motion blur LOP, which caches the entire timeline at once.
 
-## Attribute min/max/average...
+## Attribute min / max / average...
 Use Attribute Promote set to "Detail" with the appropriate mode.
 
 ## Access context geometry inside solver
