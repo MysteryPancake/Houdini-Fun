@@ -113,6 +113,8 @@ The issue is VEX uses the float version of `rand()`, making the result 1D:
 float x = rand(i@ptnum);
 v@v = x - 0.5;
 ```
+<img src="./images/velocity_1d.png?raw=true" height="320">
+
 To get a 3D result, there are two options. Either explicitly declare 0.5 as a vector:
 ```glsl
 v@v = rand(i@ptnum) - vector(0.5);
@@ -133,6 +135,8 @@ What shape would you expect to see? Surely a sphere, since it's centered at 0 an
 
 Unfortunately it's a cube, since the range is -0.5 to 0.5 on all axes separately.
 
+<img src="./images/velocity_cube.png?raw=true" height="320">
+
 ### Random direction, random length
 To get a sphere and random vector lengths, use `sample_sphere_uniform()`:
 ```glsl
@@ -143,6 +147,8 @@ Roughly equivalent to the following:
 v@v = normalize(rand(i@ptnum) - vector(0.5)) * rand(i@ptnum + 1);
 ```
 
+<img src="./images/velocity_sphere.png?raw=true" height="320">
+
 ### Random direction, constant length
 To get a sphere and normalized vector lengths, use `sample_direction_uniform()`:
 ```glsl
@@ -152,6 +158,8 @@ Roughly equivalent to the following:
 ```glsl
 v@v = normalize(rand(i@ptnum) - vector(0.5));
 ```
+
+<img src="./images/velocity_direction.png?raw=true" height="320">
 
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
