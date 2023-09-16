@@ -46,6 +46,8 @@ v@P += v@v;
 ## Rigid Bodies: Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
+[Click here to download the HIP file!](./hips/aimbot.hipnc?raw=true)
+
 ### Hit a static target
 1. Connect your projectile to a Ballistic Path node.
 2. Set the Launch Method to "Targeted" and disable drag.
@@ -95,7 +97,8 @@ float sdSphere(vector p; float s) {
 
 f@surface = sdSphere(@P, 0.5);
 ```
-[Click here for all the classic SDFs ported to Houdini](./Houdini_SDFs.md).
+[Click here for all the classic SDFs ported to Houdini!](./Houdini_SDFs.md)
+
 <img src="./images/sdf_volumes.png?raw=true">
 
 ## Be careful with typecasting
