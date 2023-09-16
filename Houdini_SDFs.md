@@ -1,7 +1,7 @@
 # Houdini SDFs
-[All of these are made by the legendary Inigo Quilez](https://iquilezles.org/articles/distfunctions).
+Made by the legendary [Inigo Quilez](https://iquilezles.org/articles/distfunctions), ported to Houdini by MysteryPancake.
 
-Ported to Houdini by MysteryPancake, [click here for the file](./hips/sdf_volumes.hipnc)!
+[Click here to download the HIP file!](hips/sdf_volumes.hipnc?raw=true)
 
 ## Sphere - exact
 ```c
