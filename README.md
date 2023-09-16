@@ -46,7 +46,7 @@ v@P += v@v;
 ## Rigid Bodies: Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
-[Click here to download the HIP file!](./hips/aimbot.hipnc?raw=true)
+<img src="./images/aimbot.gif?raw=true" height="320">
 
 ### Hit a static target
 1. Connect your projectile to a Ballistic Path node.
@@ -71,6 +71,8 @@ Use the same method as before, but sample the target's position forwards in time
 3. Add a Time Shift node to the target (before the centroid is calculated). Set it to the current time plus the "Life" attribute.
 
 <img src="./images/aimbot_moving.gif?raw=true" height="320">
+
+[Click here to download the HIP file!](./hips/aimbot.hipnc?raw=true)
 
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD solver.
