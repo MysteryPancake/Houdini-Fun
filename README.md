@@ -7,10 +7,13 @@ Need to overshoot an animation or smooth it over time to reduce bumps? Introduci
 I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next you apply damping to stop it going too crazy.
 
 First, add a target position to your geometry:
+
 ```glsl
 v@targetP = v@P;
 ```
+
 Next, add a solver. Inside the solver, add a point wrangle with this VEX:
+
 ```glsl
 float freq = 100.0;
 float damping = 5.0;
@@ -26,7 +29,9 @@ v@v += accel;
 v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
+
 To smooth motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
+
 ```glsl
 float freq = 100.0;
 float damping = 5.0;
@@ -52,13 +57,17 @@ Want to prepare for the next war but can't solve projectile motion? Never fear, 
 1. Connect your projectile to a Ballistic Path node.
 2. Set the Launch Method to "Targeted" and disable drag.
 3. Add a `@targetP` attribute to your projectile. Set it to the centroid of the target object.
+
 ```glsl
 v@targetP = getbbox_center(1);
 ```
+
 4. You should see an arc. Transfer the velocity of the first point of the arc to your projectile.
+
 ```glsl
 v@v = point(1, "v", 0);
 ```
+
 5. Connect everything to a RBD Solver.
 
 <img src="./images/aimbot_static.gif?raw=true" height="320">
@@ -98,6 +107,7 @@ Most SDFs are written directly, like [the classics from Inigo Quilez](https://iq
 1. Add a VDB node. Set the class to "Level Set" and the name to "surface".
 2. Add a VDB Activate node. Use it to set the size of your VDB.
 3. Add a Volume Wrangle. Here you define your SDF based on `@P`, for example a basic sphere:
+
 ```js
 float sdSphere(vector p; float s) {
   return length(p) - s;
@@ -105,38 +115,49 @@ float sdSphere(vector p; float s) {
 
 f@surface = sdSphere(@P, 0.5);
 ```
+
 [Click here for all the classic SDFs ported to Houdini!](./Houdini_SDFs.md)
 
 <img src="./images/sdf_volumes.png?raw=true">
 
 ## Be careful with typecasting
 I used to do this to generate random velocities between -1 and 1. See if you can spot the problem.
+
 ```glsl
 v@v = rand(i@ptnum) - 0.5;
 ```
+
 The issue is VEX uses the float version of `rand()`, making the result 1D:
+
 ```glsl
 float x = rand(i@ptnum);
 v@v = x - 0.5;
 ```
+
 <img src="./images/velocity_1d.png?raw=true" height="320">
 
 To get a 3D result, there are two options. Either explicitly declare 0.5 as a vector:
+
 ```glsl
 v@v = rand(i@ptnum) - vector(0.5);
 ```
+
 Or explicity declare `rand()` as a vector:
+
 ```glsl
 vector x = rand(i@ptnum);
 v@v = x - 0.5;
 ```
+
 This happens a lot, so always explicitly declare types to be safe!
 
 ## Be careful with random
 Sometimes silly people use `rand()` to generate velocities between -1 and 1. See if you can spot the problem.
+
 ```glsl
 v@v = rand(i@ptnum) - vector(0.5);
 ```
+
 What shape would you expect to see? Surely a sphere, since it's centered at 0 and random in all directions?
 
 Unfortunately it's a cube, since the range is -0.5 to 0.5 on all axes separately.
@@ -145,10 +166,13 @@ Unfortunately it's a cube, since the range is -0.5 to 0.5 on all axes separately
 
 ### Random direction, random length
 To get a sphere and random vector lengths, use `sample_sphere_uniform()`:
+
 ```glsl
 v@v = sample_sphere_uniform(rand(i@ptnum));
 ```
+
 Roughly equivalent to the following:
+
 ```glsl
 v@v = normalize(rand(i@ptnum) - vector(0.5)) * rand(i@ptnum + 1);
 ```
@@ -157,10 +181,13 @@ v@v = normalize(rand(i@ptnum) - vector(0.5)) * rand(i@ptnum + 1);
 
 ### Random direction, constant length
 To get a sphere and normalized vector lengths, use `sample_direction_uniform()`:
+
 ```glsl
 v@v = sample_direction_uniform(rand(i@ptnum));
 ```
+
 Roughly equivalent to the following:
+
 ```glsl
 v@v = normalize(rand(i@ptnum) - vector(0.5));
 ```
@@ -176,9 +203,11 @@ This works best for enclosed containers or pinned geometry, since it's hard to m
 
 ### 1. Relative gravity
 1. Add an `@up` vector in world space (before Transform Pieces).
+
 ```js
 v@up = {0, 1, 0};
 ```
+
 2. Add a Gravity Force node to your sim (after Transform Pieces). Use the transformed `@up` vector as your gravity force.
 
 ```js
@@ -186,6 +215,7 @@ Force X = -9.81 * point(-1, 0, "up", 0)
 Force Y = -9.81 * point(-1, 0, "up", 1)
 Force Z = -9.81 * point(-1, 0, "up", 2)
 ```
+
 Make sure the force is "Set Always"!
 
 ### 2. Relative acceleration
@@ -198,6 +228,7 @@ Force X = -point(-1, 0, "accel", 0)
 Force Y = -point(-1, 0, "accel", 1)
 Force Z = -point(-1, 0, "accel", 2)
 ```
+
 Make sure the force is "Set Always"!
 
 ### 3. Stabilise (world to local)
@@ -275,6 +306,7 @@ Density loss often happens when Surface Tension is enabled. Droplets tend to dis
 Grid Scale and Particle Radius Scale also affect the density. According to [SideFX](https://www.sidefx.com/docs/houdini/nodes/dop/flipsolver.html), if the Particle Radius Scale divided by the Grid Scale is at least sqrt(3)/2, it will never be underresolved. 
 
 No idea if this affects density, but just in case here's the minimum:
+
 ```js
 Particle Radius Scale = Grid Scale × (sqrt(3)/2)
 Grid Scale = Particle Radius Scale / (sqrt(3)/2)
