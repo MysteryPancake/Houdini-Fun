@@ -82,7 +82,9 @@ Keep the topology as basic as possible and try increasing substeps to make Shape
 ## Negative frame ranges
 Seems obvious but worth noting: Unlike some software, Houdini supports negative frame ranges.
 
-For preroll you can start simulating on a negative frame without needing to time shift anything.
+For preroll you can always start simulating on a negative frame without needing to time shift anything.
+
+<img src="./images/negative_framerange.png?raw=true">
 
 ## Volumes from signed distance functions
 Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
