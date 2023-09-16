@@ -95,7 +95,7 @@ float sdSphere(vector p; float s) {
 
 f@surface = sdSphere(@P, 0.5);
 ```
-[See this page for all of Inigo's classic SDFs ported to Houdini](./Houdini_SDFs.md).
+[Click here for all the classic SDFs ported to Houdini](./Houdini_SDFs.md).
 
 ## Be careful with typecasting
 I used to do this to generate random velocities between -1 and 1. See if you can spot the problem.
