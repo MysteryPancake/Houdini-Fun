@@ -61,12 +61,16 @@ v@v = point(1, "v", 0);
 ```
 5. Connect everything to a RBD Solver.
 
+<img src="./images/aimbot_static.gif?raw=true" height="320">
+
 ### Hit a moving target
 Use the same method as before, but sample the target's position forwards in time.
 
 1. On the Ballistic Path node, set the Targeting Method to "Life".
 2. Copy the "Life" attribute. It's the number of seconds until we hit the target. We need to find where the target is at that time.
 3. Add a Time Shift node to the target (before the centroid is calculated). Set it to the current time plus the "Life" attribute.
+
+<img src="./images/aimbot_moving.gif?raw=true" height="320">
 
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD solver.
