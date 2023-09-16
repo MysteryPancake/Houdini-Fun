@@ -96,6 +96,7 @@ float sdSphere(vector p; float s) {
 f@surface = sdSphere(@P, 0.5);
 ```
 [Click here for all the classic SDFs ported to Houdini](./Houdini_SDFs.md).
+<img src="./images/sdf_volumes.png?raw=true">
 
 ## Be careful with typecasting
 I used to do this to generate random velocities between -1 and 1. See if you can spot the problem.

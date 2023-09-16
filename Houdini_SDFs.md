@@ -3,6 +3,8 @@ Made by the legendary [Inigo Quilez](https://iquilezles.org/articles/distfunctio
 
 [Click here to download the HIP file!](hips/sdf_volumes.hipnc?raw=true)
 
+<img src="./images/sdf_volumes.png?raw=true">
+
 ## Sphere - exact
 ```c
 // From https://iquilezles.org/articles/distfunctions
