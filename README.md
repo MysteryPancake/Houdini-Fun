@@ -281,11 +281,11 @@ One little known feature of Vellum Cloth (at least to me) is layering. It can im
 2. On the Vellum Solver under "Collisions", enable "Layer Shock". Lower layers are simulated much heavier than higher layers. 
 
 ## Karma: Fix motion blur
-Motion blur in Karma rarely works properly out of the box, even with manual velocity vectors.
+Motion blur in Karma can be pretty unpredictable, especially with packed instances.
 
 A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=UsdGuide18): simply add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after.
 
-This works faster than Karma's motion blur LOP, which caches the entire timeline at once.
+This works faster than Karma's motion blur LOP, which caches the entire timeline at once. It also fixed some issues I had with animated materials.
 
 ## Attribute min / max / average...
 Use Attribute Promote set to "Detail" with the appropriate mode.
