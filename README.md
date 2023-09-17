@@ -72,9 +72,9 @@ float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
 ```
 
 ```c
-// Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale
+// Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale (imprecise)
 float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
-	return (clamp(t, omin, omax) - omin) * (nmax - nmin) / (omax - omin) + nmin; // Note this uses the imprecise version of lerp
+	return (clamp(t, omin, omax) - omin) * (nmax - nmin) / (omax - omin) + nmin;
 }
 ```
 
@@ -96,13 +96,14 @@ float efit_diy(float t; float omin; float omax; float nmin; float nmax) {
 ```
 
 ```c
-// Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale
+// Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale (imprecise)
 float efit_diy(float t; float omin; float omax; float nmin; float nmax) {
-	return (t - omin) * (nmax - nmin) / (omax - omin) + nmin; // Note this uses the imprecise version of lerp
+	return (t - omin) * (nmax - nmin) / (omax - omin) + nmin;
 }
 ```
 
 ### `fit01()`
+
 ```c
 float fit01_diy(float t; float nmin; float nmax) {
 	float normal = clamp(t, 0, 1); // No inverse lerp needed
@@ -114,6 +115,36 @@ float fit01_diy(float t; float nmin; float nmax) {
 // Lerp equivalent
 float fit01_diy(float t; float nmin; float nmax) {
 	return lerp(nmin, nmax, clamp(t, 0, 1));
+}
+```
+
+```c
+// Imprecise version
+float fit01_diy(float t; float nmin; float nmax) {
+	return nmin + clamp(t, 0, 1) * (nmax - nmin);
+}
+```
+
+### `fit10()`
+
+```c
+float fit10_diy(float t; float nmin; float nmax) {
+	float normal = clamp(1 - t, 0, 1); // No inverse lerp needed
+	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
+}
+```
+
+```c
+// Lerp equivalent
+float fit10_diy(float t; float nmin; float nmax) {
+	return lerp(nmin, nmax, clamp(1 - t, 0, 1));
+}
+```
+
+```c
+// Imprecise version
+float fit10_diy(float t; float nmin; float nmax) {
+	return nmin + clamp(1 - t, 0, 1) * (nmax - nmin);
 }
 ```
 
