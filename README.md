@@ -57,24 +57,24 @@ I remade `linear()` on my [After Effects Fun](https://github.com/MysteryPancake/
 
 ```c
 // My original version
-float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
-	t = clamp(t, omin, omax);
-	float normal = (t - omin) / (omax - omin); // Inverse Lerp: Normalize t to a number between 0 and 1 (cannot exceed)
+float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	value = clamp(value, omin, omax);
+	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (cannot exceed)
 	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
 }
 ```
 
 ```c
 // Lerp equivalent
-float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
-	return lerp(nmin, nmax, invlerp(clamp(t, omin, omax), omin, omax));
+float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	return lerp(nmin, nmax, invlerp(clamp(value, omin, omax), omin, omax));
 }
 ```
 
 ```c
 // Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale (imprecise)
-float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
-	return (clamp(t, omin, omax) - omin) * (nmax - nmin) / (omax - omin) + nmin;
+float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	return (clamp(value, omin, omax) - omin) * (nmax - nmin) / (omax - omin) + nmin;
 }
 ```
 
@@ -82,69 +82,69 @@ float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
 
 ```c
 // My original version
-float efit_diy(float t; float omin; float omax; float nmin; float nmax) {
-	float normal = (t - omin) / (omax - omin); // Inverse Lerp: Normalize t to a number between 0 and 1 (can exceed)
+float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (can exceed)
 	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
 }
 ```
 
 ```c
 // Lerp equivalent
-float efit_diy(float t; float omin; float omax; float nmin; float nmax) {
-	return lerp(nmin, nmax, invlerp(t, omin, omax));
+float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	return lerp(nmin, nmax, invlerp(value, omin, omax));
 }
 ```
 
 ```c
 // Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale (imprecise)
-float efit_diy(float t; float omin; float omax; float nmin; float nmax) {
-	return (t - omin) * (nmax - nmin) / (omax - omin) + nmin;
+float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	return (value - omin) * (nmax - nmin) / (omax - omin) + nmin;
 }
 ```
 
 ### `fit01()`
 
 ```c
-float fit01_diy(float t; float nmin; float nmax) {
-	float normal = clamp(t, 0, 1); // No inverse lerp needed
+float fit01_diy(float value; float nmin; float nmax) {
+	float normal = clamp(value, 0, 1); // No inverse lerp needed
 	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
 }
 ```
 
 ```c
 // Lerp equivalent
-float fit01_diy(float t; float nmin; float nmax) {
-	return lerp(nmin, nmax, clamp(t, 0, 1));
+float fit01_diy(float value; float nmin; float nmax) {
+	return lerp(nmin, nmax, clamp(value, 0, 1));
 }
 ```
 
 ```c
 // Imprecise version
-float fit01_diy(float t; float nmin; float nmax) {
-	return nmin + clamp(t, 0, 1) * (nmax - nmin);
+float fit01_diy(float value; float nmin; float nmax) {
+	return nmin + clamp(value, 0, 1) * (nmax - nmin);
 }
 ```
 
 ### `fit10()`
 
 ```c
-float fit10_diy(float t; float nmin; float nmax) {
-	float normal = clamp(1 - t, 0, 1); // No inverse lerp needed
+float fit10_diy(float value; float nmin; float nmax) {
+	float normal = clamp(1 - value, 0, 1); // No inverse lerp needed
 	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
 }
 ```
 
 ```c
 // Lerp equivalent
-float fit10_diy(float t; float nmin; float nmax) {
-	return lerp(nmin, nmax, clamp(1 - t, 0, 1));
+float fit10_diy(float value; float nmin; float nmax) {
+	return lerp(nmin, nmax, clamp(1 - value, 0, 1));
 }
 ```
 
 ```c
 // Imprecise version
-float fit10_diy(float t; float nmin; float nmax) {
-	return nmin + clamp(1 - t, 0, 1) * (nmax - nmin);
+float fit10_diy(float value; float nmin; float nmax) {
+	return nmin + clamp(1 - value, 0, 1) * (nmax - nmin);
 }
 ```
 
