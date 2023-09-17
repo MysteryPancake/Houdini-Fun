@@ -56,7 +56,6 @@ I remade `linear()` on my [After Effects Fun](https://github.com/MysteryPancake/
 ### `fit()`
 
 ```c
-// My original version
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	value = clamp(value, omin, omax);
 	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (cannot exceed)
@@ -65,7 +64,7 @@ float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 ```
 
 ```c
-// Lerp equivalent
+// Lerp version
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	return lerp(nmin, nmax, invlerp(clamp(value, omin, omax), omin, omax));
 }
@@ -81,7 +80,6 @@ float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 ### `efit()`
 
 ```c
-// My original version
 float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (can exceed)
 	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
@@ -89,7 +87,7 @@ float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
 ```
 
 ```c
-// Lerp equivalent
+// Lerp version
 float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	return lerp(nmin, nmax, invlerp(value, omin, omax));
 }
@@ -112,7 +110,7 @@ float fit01_diy(float value; float nmin; float nmax) {
 ```
 
 ```c
-// Lerp equivalent
+// Lerp version
 float fit01_diy(float value; float nmin; float nmax) {
 	return lerp(nmin, nmax, clamp(value, 0, 1));
 }
@@ -135,7 +133,7 @@ float fit10_diy(float value; float nmin; float nmax) {
 ```
 
 ```c
-// Lerp equivalent
+// Lerp version
 float fit10_diy(float value; float nmin; float nmax) {
 	return lerp(nmin, nmax, clamp(1 - value, 0, 1));
 }
