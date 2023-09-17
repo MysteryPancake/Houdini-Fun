@@ -102,6 +102,21 @@ float efit_diy(float t; float omin; float omax; float nmin; float nmax) {
 }
 ```
 
+### `fit01()`
+```c
+float fit01_diy(float t; float nmin; float nmax) {
+	float normal = clamp(t, 0, 1); // No inverse lerp needed
+	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
+}
+```
+
+```c
+// Lerp equivalent
+float fit01_diy(float t; float nmin; float nmax) {
+	return lerp(nmin, nmax, clamp(t, 0, 1));
+}
+```
+
 ## Rigid Bodies: Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
