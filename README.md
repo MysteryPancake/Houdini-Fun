@@ -48,6 +48,62 @@ v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
 
+## Make your own fit()
+`fit()` in Houdini is the same as `linear()` in After Effects.
+
+I remade `linear()` on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port it to VEX!
+
+### `fit()`
+
+```c
+// My original version
+float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
+	t = clamp(t, omin, omax);
+	float normal = (t - omin) / (omax - omin); // Inverse Lerp: Normalize t to a number between 0 and 1 (cannot exceed)
+	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
+}
+```
+
+```c
+// Lerp equivalent
+float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
+	t = clamp(t, omin, omax);
+	return lerp(nmin, nmax, invlerp(t, omin, omax));
+}
+```
+
+```c
+// Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale
+float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
+	t = clamp(t, omin, omax);
+	return (t - omin) * (nmax - nmin) / (omax - omin) + nmin; // Note this uses the imprecise version of lerp
+}
+```
+
+### `efit()`
+
+```c
+// My original version
+float efit_diy(float t; float omin; float omax; float nmin; float nmax) {
+	float normal = (t - omin) / (omax - omin); // Inverse Lerp: Normalize t to a number between 0 and 1 (can exceed)
+	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
+}
+```
+
+```c
+// Lerp equivalent
+float efit_diy(float t; float omin; float omax; float nmin; float nmax) {
+	return lerp(nmin, nmax, invlerp(t, omin, omax));
+}
+```
+
+```c
+// Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale
+float efit_diy(float t; float omin; float omax; float nmin; float nmax) {
+	return (t - omin) * (nmax - nmin) / (omax - omin) + nmin; // Note this uses the imprecise version of lerp
+}
+```
+
 ## Rigid Bodies: Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
