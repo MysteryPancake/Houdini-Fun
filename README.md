@@ -71,7 +71,7 @@ float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 ```
 
 ```c
-// Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale (imprecise)
+// Imprecise version (rwaldron.github.io/proposal-math-extensions/#sec-math.scale)
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	return (clamp(value, omin, omax) - omin) * (nmax - nmin) / (omax - omin) + nmin;
 }
@@ -94,7 +94,7 @@ float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
 ```
 
 ```c
-// Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale (imprecise)
+// Imprecise version (rwaldron.github.io/proposal-math-extensions/#sec-math.scale)
 float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	return (value - omin) * (nmax - nmin) / (omax - omin) + nmin;
 }
