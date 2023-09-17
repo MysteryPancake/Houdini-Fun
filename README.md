@@ -285,7 +285,7 @@ Motion blur in Karma can be pretty unpredictable, especially with packed instanc
 
 A great fix comes from [CGWiki](https://www.tokeru.com/cgwiki/index.php?title=UsdGuide18): simply add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after.
 
-This works faster than Karma's motion blur LOP, which caches the entire timeline at once. It also fixed some issues I had with animated materials.
+This is faster than the new Motion Blur node, which caches the entire timeline at once. It also fixes issues with animated materials.
 
 ## Attribute min / max / average...
 Use Attribute Promote set to "Detail" with the appropriate mode.
