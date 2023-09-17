@@ -67,16 +67,14 @@ float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
 ```c
 // Lerp equivalent
 float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
-	t = clamp(t, omin, omax);
-	return lerp(nmin, nmax, invlerp(t, omin, omax));
+	return lerp(nmin, nmax, invlerp(clamp(t, omin, omax), omin, omax));
 }
 ```
 
 ```c
 // Alternative from rwaldron.github.io/proposal-math-extensions/#sec-math.scale
 float fit_diy(float t; float omin; float omax; float nmin; float nmax) {
-	t = clamp(t, omin, omax);
-	return (t - omin) * (nmax - nmin) / (omax - omin) + nmin; // Note this uses the imprecise version of lerp
+	return (clamp(t, omin, omax) - omin) * (nmax - nmin) / (omax - omin) + nmin; // Note this uses the imprecise version of lerp
 }
 ```
 
