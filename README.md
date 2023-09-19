@@ -192,13 +192,6 @@ If you absolutely need Vellum, a great fix comes from Matt Estela.
 
 Keep the topology as basic as possible and try increasing substeps to make Shape Match even more stiff.
 
-## Negative frame ranges
-Seems obvious but worth noting: Unlike some software, Houdini supports negative frame ranges.
-
-For preroll you can always start simulating on a negative frame without needing to time shift anything.
-
-<img src="./images/negative_framerange.png?raw=true">
-
 ## Volumes from signed distance functions
 Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
 
@@ -217,6 +210,11 @@ f@surface = sdSphere(@P, 0.5);
 [Click here for all the classic SDFs ported to Houdini!](./Houdini_SDFs.md)
 
 <img src="./images/sdf_volumes.png?raw=true">
+
+## Fluids: Fix gap on surface in render
+Usually liquids resting on a surface have a small gap due to the collision geometry, easier to see in render.
+
+To fix this gap, a tip from Raphael Gadot is to transfer normals from the surface, making it blend much better.
 
 ## Be careful with typecasting
 I used to do this to generate random velocities between -1 and 1. See if you can spot the problem.
@@ -399,6 +397,13 @@ If you need geometry in a context that doesn't provide it (like the forces of a 
 Many techniques work depending on the situation. Sometimes more randomisation is needed, other times the velocity needs reducing.
 
 A common technique is cranking up the disturbance. Controlling it by speed helps add it where mushrooms are likely to form.
+
+## Negative frame ranges
+Seems obvious but worth noting: Unlike some software, Houdini supports negative frame ranges.
+
+For preroll you can always start simulating on a negative frame without needing to time shift anything.
+
+<img src="./images/negative_framerange.png?raw=true">
 
 ## Fluids: Fix density loss 
 Don't take this section seriously. These are just techniques which seem to work for me.
