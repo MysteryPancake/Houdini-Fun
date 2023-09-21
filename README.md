@@ -211,10 +211,24 @@ f@surface = sdSphere(@P, 0.5);
 
 <img src="./images/sdf_volumes.png?raw=true">
 
-## Fluids: Fix gap on surface in render
-Usually liquids resting on a surface have a small gap due to the collision geometry, easier to see in render.
+## Optimize everything
+Is your scene slow? Don't blame Houdini, it's likely you haven't optimized properly.
 
-To fix this gap, a tip from Raphael Gadot is to transfer normals from the surface, making it blend much better.
+- Using subdivided geometry? PolyReduce and Remesh it down to the simplest form.
+- Using Copy to Points? Pack the geometry and use instancing. If not possible, make a few variants in a for loop and use packed versions of those.
+- Using Vellum? Keep the overall substeps at 5-10 and focus on the relevant substeps, like collision substeps or constraint substeps.
+- Using Alembic or USD? Freeze non-animated geometry with a Time Shift node so it never gets cached twice.
+- Using surface collisions? Use Convex Hull, Convex Decomposition, PolyReduce and Remesh to simplify detailed geometry and improve collisions.
+- Using volume collisions? Split animated and non-animated geometry into separate volumes, freeze the non-animated one with Time Shift, then merge with VDB Combine.
+- Using Pyro? Keep the total voxel count as low as possible, a million is usually plenty. Convert to VDB to prune blank voxels from memory.
+- Use File Caches religiously, and be sure to save your caches on a fast SSD instead of a HDD!
+
+Use Houdini's [performance monitor](https://www.sidefx.com/docs/houdini/ref/panes/perfmon.html) to track down what's slowest.
+
+## Fluids: Fix gap on surface in render
+Usually liquids resting on a surface have a small gap due to the collision geometry, easier to see once rendered.
+
+To help hide this gap, transfer normals from the surface, making it blend much better. Thanks to Raphael Gadot for this tip!
 
 ## Be careful with typecasting
 I used to do this to generate random velocities between -1 and 1. See if you can spot the problem.
