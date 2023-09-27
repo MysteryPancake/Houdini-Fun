@@ -138,7 +138,9 @@ float fit10_diy(float value; float nmin; float nmax) {
 ## Rigid Bodies: Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
-<img src="./images/aimbot.gif?raw=true" height="320">
+Tutorial here:
+
+[![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
 
 ### Hit a static target
 1. Connect your projectile to a Ballistic Path node.
@@ -157,6 +159,8 @@ v@v = point(1, "v", 0);
 
 5. Connect everything to a RBD Solver.
 
+6. Use "Life" to set the height of the path, and lower the "FPS" to reduce unneeded points.
+
 <img src="./images/aimbot_static.gif?raw=true" height="320">
 
 ### Hit a moving target
@@ -169,6 +173,13 @@ Use the same method as before, but sample the target's position forwards in time
 <img src="./images/aimbot_moving.gif?raw=true" height="320">
 
 [Click here to download the HIP file!](./hips/aimbot.hipnc?raw=true)
+
+### Hit multiple targets
+If "Life" is the same for all projectiles, extract multiple centroids and transfer velocities from the first point of each arc based on connectivity. Try enabling "Path Point Index" on Ballistic Path and blasting all non-zero indices.
+
+If the path height changes per target, use a for loop instead.
+
+<img src="./images/aimbot.gif?raw=true" height="320">
 
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD solver.
