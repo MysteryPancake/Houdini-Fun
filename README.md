@@ -33,19 +33,8 @@ v@P += v@v;
 To smooth motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
 
 ```glsl
-float freq = 100.0;
-float damping = 5.0;
-
 // Find direction towards target
 vector dir = v@opinput1_P - v@P;
-
-// Accelerate towards it (@TimeInc to handle substeps)
-vector accel = dir * freq * f@TimeInc * f@TimeInc;
-v@v += accel;
-
-// Reduce velocity to prevent infinite overshoot
-v@v /= 1.0 + damping * f@TimeInc;
-v@P += v@v;
 ```
 
 ## Make your own fit()
