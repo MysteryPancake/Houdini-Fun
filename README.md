@@ -230,6 +230,11 @@ Usually liquids resting on a surface have a small gap due to the collision geome
 
 To help hide this gap, transfer normals from the surface, making it blend much better. Thanks to Raphael Gadot for this tip!
 
+## Be careful combining VDBs
+Cmbining multiple pairs of VDBs is often unpredictable. For example, combining two sims by density may skip velocity. 
+
+Make sure to combine each VDB pair separately, then feed all pairs into a merge node.
+
 ## Be careful with typecasting
 I used to do this to generate random velocities between -1 and 1. See if you can spot the problem.
 
