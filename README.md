@@ -230,8 +230,15 @@ Usually liquids resting on a surface have a small gap due to the collision geome
 
 To help hide this gap, transfer normals from the surface, making it blend much better. Thanks to Raphael Gadot for this tip!
 
+## Be careful with velocity
+Velocity is easy to overlook and hard to get right. I've rendered full shots before realising I forgot to put velocity on deforming geo, transfer it to packed geo, or it doesn't line up between frames.
+
+A good tip from Lewis Taylor is double check velocities coming out of POP sims. They often ignore POP forces and mismatch the final position.
+
+For checking velocities, a tip from Ben Anderson is Time Shift a frame forward, template it and enable velocity display. The velocity should form a line between the present and future positions.
+
 ## Be careful combining VDBs
-Cmbining multiple pairs of VDBs is often unpredictable. For example, combining two sims by density may skip velocity. 
+Combining multiple pairs of VDBs is often unpredictable, for example combining two sims by density may skip velocity. 
 
 Make sure to combine each VDB pair separately, then feed all pairs into a merge node.
 
