@@ -125,17 +125,17 @@ Is your scene slow? Don't blame Houdini, it's likely you haven't optimized prope
 
 Use Houdini's [performance monitor](https://www.sidefx.com/docs/houdini/ref/panes/perfmon.html) to track down what's slowest.
 
-## Fluids: Fix gap on surface in render
+## Fluids: Fix gap between surfaces
 Usually liquids resting on a surface have a small gap due to the collision geometry, easier to see once rendered.
 
-To help hide this gap, transfer normals from the surface, making it blend much better. Thanks to Raphael Gadot for this tip!
+A tip from Raphael Gadot is to transfer normals from the surface onto the liquid with some falloff. This greatly improves the blending.
 
 ## Be careful with velocity
 Velocity is easy to overlook and hard to get right. I've rendered full shots before realising I forgot to put velocity on deforming geo, transfer it to packed geo, or it doesn't line up.
 
-A good tip from Lewis Taylor is double check velocity coming out of POP sims. It often ignores POP forces and mismatches the final position.
+A good tip from Lewis Taylor is double check velocity coming out of POP sims. It sometimes ignores POP forces and calculates an incorrect result.
 
-For checking velocities, a tip from Ben Anderson is Time Shift a frame backward, template it and display velocity. It should form a line between the past and present position.
+For checking velocities, a tip from Ben Anderson is Time Shift a frame backward, template it and display velocity. You should see a line between the past and present position.
 
 ## Be careful combining VDBs
 Combining multiple pairs of VDBs is often unpredictable, for example combining two sims by density may skip velocity. 
