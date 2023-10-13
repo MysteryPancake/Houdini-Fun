@@ -37,104 +37,6 @@ To smooth motion over time, plug the current geometry into the second input and 
 vector dir = v@opinput1_P - v@P;
 ```
 
-## Make your own fit()
-`fit()` in Houdini is the same as `linear()` in After Effects.
-
-I remade `linear()` on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port it to VEX!
-
-### `fit()`
-
-```c
-float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	value = clamp(value, omin, omax);
-	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (cannot exceed)
-	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
-}
-```
-
-```c
-// Lerp version
-float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	return lerp(nmin, nmax, invlerp(clamp(value, omin, omax), omin, omax));
-}
-```
-
-```c
-// Imprecise version (rwaldron.github.io/proposal-math-extensions/#sec-math.scale)
-float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	return (clamp(value, omin, omax) - omin) * (nmax - nmin) / (omax - omin) + nmin;
-}
-```
-
-### `efit()`
-
-```c
-float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (can exceed)
-	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
-}
-```
-
-```c
-// Lerp version
-float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	return lerp(nmin, nmax, invlerp(value, omin, omax));
-}
-```
-
-```c
-// Imprecise version (rwaldron.github.io/proposal-math-extensions/#sec-math.scale)
-float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	return (value - omin) * (nmax - nmin) / (omax - omin) + nmin;
-}
-```
-
-### `fit01()`
-
-```c
-float fit01_diy(float value; float nmin; float nmax) {
-	float normal = clamp(value, 0, 1); // No inverse lerp needed
-	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
-}
-```
-
-```c
-// Lerp version
-float fit01_diy(float value; float nmin; float nmax) {
-	return lerp(nmin, nmax, clamp(value, 0, 1));
-}
-```
-
-```c
-// Imprecise version
-float fit01_diy(float value; float nmin; float nmax) {
-	return nmin + clamp(value, 0, 1) * (nmax - nmin);
-}
-```
-
-### `fit10()`
-
-```c
-float fit10_diy(float value; float nmin; float nmax) {
-	float normal = clamp(1 - value, 0, 1); // No inverse lerp needed
-	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
-}
-```
-
-```c
-// Lerp version
-float fit10_diy(float value; float nmin; float nmax) {
-	return lerp(nmin, nmax, clamp(1 - value, 0, 1));
-}
-```
-
-```c
-// Imprecise version
-float fit10_diy(float value; float nmin; float nmax) {
-	return nmin + clamp(1 - value, 0, 1) * (nmax - nmin);
-}
-```
-
 ## Rigid Bodies: Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
@@ -420,6 +322,104 @@ One little known feature of Vellum Cloth (at least to me) is layering. It can im
 
 1. In Vellum Configure Cloth, use the "Layer" setting to define the ordering, bottom to top.
 2. On the Vellum Solver under "Collisions", enable "Layer Shock". Lower layers are simulated much heavier than higher layers. 
+
+## Make your own fit()
+`fit()` in Houdini is the same as `linear()` in After Effects.
+
+I remade `linear()` on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port it to VEX!
+
+### `fit()`
+
+```c
+float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	value = clamp(value, omin, omax);
+	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (cannot exceed)
+	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
+}
+```
+
+```c
+// Lerp version
+float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	return lerp(nmin, nmax, invlerp(clamp(value, omin, omax), omin, omax));
+}
+```
+
+```c
+// Imprecise version (rwaldron.github.io/proposal-math-extensions/#sec-math.scale)
+float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	return (clamp(value, omin, omax) - omin) * (nmax - nmin) / (omax - omin) + nmin;
+}
+```
+
+### `efit()`
+
+```c
+float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (can exceed)
+	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
+}
+```
+
+```c
+// Lerp version
+float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	return lerp(nmin, nmax, invlerp(value, omin, omax));
+}
+```
+
+```c
+// Imprecise version (rwaldron.github.io/proposal-math-extensions/#sec-math.scale)
+float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
+	return (value - omin) * (nmax - nmin) / (omax - omin) + nmin;
+}
+```
+
+### `fit01()`
+
+```c
+float fit01_diy(float value; float nmin; float nmax) {
+	float normal = clamp(value, 0, 1); // No inverse lerp needed
+	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
+}
+```
+
+```c
+// Lerp version
+float fit01_diy(float value; float nmin; float nmax) {
+	return lerp(nmin, nmax, clamp(value, 0, 1));
+}
+```
+
+```c
+// Imprecise version
+float fit01_diy(float value; float nmin; float nmax) {
+	return nmin + clamp(value, 0, 1) * (nmax - nmin);
+}
+```
+
+### `fit10()`
+
+```c
+float fit10_diy(float value; float nmin; float nmax) {
+	float normal = clamp(1 - value, 0, 1); // No inverse lerp needed
+	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
+}
+```
+
+```c
+// Lerp version
+float fit10_diy(float value; float nmin; float nmax) {
+	return lerp(nmin, nmax, clamp(1 - value, 0, 1));
+}
+```
+
+```c
+// Imprecise version
+float fit10_diy(float value; float nmin; float nmax) {
+	return nmin + clamp(1 - value, 0, 1) * (nmax - nmin);
+}
+```
 
 ## Karma: Fix motion blur
 Motion blur in Karma can be pretty unpredictable, especially with packed instances.
