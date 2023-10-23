@@ -92,6 +92,43 @@ If you absolutely need Vellum, a great fix comes from Matt Estela.
 
 Keep the topology as basic as possible and try increasing substeps to make Shape Match even more stiff.
 
+## Stabilize and unstabilize geometry
+Otherwise known as swapping reference frames, rest to animated, world to local, frozen to unfrozen...
+
+Maybe the best trick in Houdini is moving geometry to a rest pose, doing something and moving it back to an animated pose.
+
+It fixes tons of issues like broken collisions, VDBs jumping around, plus aliasing and quantization artifacts.
+
+### Rigid geometry
+Extract Transform and Transform Pieces are your best friends.
+
+1. Use Time Shift to freeze the animated geometry. This is your rest pose.
+2. If possible, blast everything except a single prim for optimization.
+3. Use Extract Transform to compare the frozen prim to the animated prim.
+5. Use Transform Pieces to apply the transform. This inverts the animation and stabilizes the geometry.
+6. Do whatever you want to the geometry while stabilized.
+7. Use Transform Pieces again to animate the geometry again. Make sure to tick "Invert Transformation"!
+
+As well as Transform Pieces, you can set Extract Transform to output a matrix and transform manually in VEX:
+```c
+// Extract Transform matrix from input 1
+matrix m = point(1, "transform", 0);
+// Forward transform
+v@P *= m;
+// Inverse transform
+v@P *= invert(m);
+```
+
+### Bendy geometry
+Point Deform and Attribute Interpolate are your best friends.
+
+1. Use Time Shift to freeze the animated geometry. This is your rest pose.
+2. Point Deform with the inputs in the wrong order, so it deforms from animated to rest.
+3. Do whatever you want to the geometry while stabilized.
+4. Point deform with the inputs in the right order, so it deforms from rest to animated.
+
+You may get better results with Attribute Interpolate, so try both if you can.
+
 ## Volumes from signed distance functions
 Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
 
@@ -111,6 +148,11 @@ f@surface = sdSphere(@P, 0.5);
 
 <img src="./images/sdf_volumes.png?raw=true">
 
+## Fluids: Fix gap between surfaces
+Usually liquids resting on a surface have a small gap due to the collision geometry, easier to see once rendered.
+
+A tip from Raphael Gadot is to transfer normals from the surface onto the liquid with some falloff. This greatly improves the blending.
+
 ## Optimize everything
 Is your scene slow? Don't blame Houdini, it's likely you haven't optimized properly.
 
@@ -124,11 +166,6 @@ Is your scene slow? Don't blame Houdini, it's likely you haven't optimized prope
 - Use File Caches religiously, and be sure to save your caches on a fast SSD instead of a HDD!
 
 Use Houdini's [performance monitor](https://www.sidefx.com/docs/houdini/ref/panes/perfmon.html) to track down what's slowest.
-
-## Fluids: Fix gap between surfaces
-Usually liquids resting on a surface have a small gap due to the collision geometry, easier to see once rendered.
-
-A tip from Raphael Gadot is to transfer normals from the surface onto the liquid with some falloff. This greatly improves the blending.
 
 ## Be careful with velocity
 Velocity is easy to overlook and hard to get right. I've rendered full shots before realising I forgot to put velocity on deforming geo, transfer it to packed geo, or it doesn't line up.
