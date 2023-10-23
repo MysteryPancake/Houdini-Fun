@@ -104,8 +104,8 @@ Extract Transform and Transform Pieces are your best friends.
 
 1. Use Time Shift to freeze the animated geometry. This is your rest pose.
 2. If possible, blast everything except a single prim for optimization.
-3. Use Extract Transform to compare the frozen prim to the animated prim.
-5. Use Transform Pieces to apply the transform. This inverts the animation and stabilizes the geometry.
+3. Use Extract Transform to make a transform going from frozen prim to the animated prim.
+5. Use Transform Pieces to invert the animation and stabilize the geometry.
 6. Do whatever you want to the geometry while stabilized.
 7. Use Transform Pieces again to animate the geometry again. Make sure to tick "Invert Transformation"!
 
@@ -314,7 +314,7 @@ Make sure the force is "Set Always"!
 6. You should see the collider frozen in place. If not, try swapping the Time Shift to the other input in your Extract Transform node.
 7. Unpack and do your sim in local space.
 8. Pack the sim result.
-9. Add another Transform Pieces node with the same Extract Transform input. This time, set it to "Invert Transform" to go back to world space.
+9. Add another Transform Pieces node with the same Extract Transform input. This time, set it to "Invert Transformation" to go back to world space.
 10. Unpack the world space result.
 
 If you want to deal with open containers, the easiest way is to do a separate sim when the fluid exits the container. This is done by killing points outside the container, then feeding the killed points into the other sim. Make sure to nuke all point attributes to keep it clean for the next sim.
