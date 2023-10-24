@@ -82,20 +82,20 @@ If your "Life" changes per target, use a for loop instead.
 <img src="./images/aimbot.gif?raw=true" height="320">
 
 ## Vellum: Stop wobbling, be rigid and bouncy
-Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD solver.
+Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
 
-If you absolutely need Vellum, a great fix comes from Matt Estela.
+If you absolutely need Vellum, a great technique comes from Matt Estela.
 
 1. Go to the "Advanced" tab of the Vellum Solver and disable "Max Acceleration".
 2. For any shapes you want to make rigid, add a "Shape Match" constraint and make it super stiff.
 3. Disable anything to do with smoothing or softening and lower the thickness.
 
-Keep the topology as basic as possible and try increasing substeps to make Shape Match even more stiff.
+Keep the topology as basic as possible and try increasing the substeps to make Shape Match even more stiff.
 
 ## Stabilize and unstabilize geometry
 Otherwise known as swapping reference frames, rest to animated, world to local, frozen to unfrozen...
 
-Maybe the best trick in Houdini is moving geometry to a rest pose, doing something and moving it back to an animated pose.
+Perhaps the best trick in Houdini is moving geometry to a rest pose, doing something and moving it back to an animated pose.
 
 It fixes tons of issues like broken collisions, VDBs jumping around, plus aliasing and quantization artifacts.
 
@@ -141,7 +141,7 @@ float sdSphere(vector p; float s) {
   return length(p) - s;
 }
 
-f@surface = sdSphere(@P, 0.5);
+f@surface = sdSphere(v@P, 0.5);
 ```
 
 [Click here for all the classic SDFs ported to Houdini!](./Houdini_SDFs.md)
