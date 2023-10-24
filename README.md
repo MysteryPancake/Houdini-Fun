@@ -268,17 +268,15 @@ dir = sample_direction_uniform(rand(@ptnum));
 v@v = dir * mag;
 ```
 
-## Make particles look like fluids
-A key characteristics of fluids is how they stick together, forming clumps and strands of particles. POP Fluid tries to emulate this, but it doesn't look as good as FLIP.
+## POP: Make particles look like fluid
+A key characteristics of fluid is how it sticks together, forming clumps and strands of particles. POP Fluid tries to emulate this, but it doesn't look as good as FLIP.
 
 To get nicer clumps, a tip from Raphael Gadot is to use Attribute Blur set to "Proximity". Though it won't affect the motion, it looks incredibly realistic on single frames.
 
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
 
-A great fix comes from Raphael Gadot: Stabilise the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space.
-
-This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims. Vellum Reference Frame is probably a better choice for cloth.
+A great fix comes from Raphael Gadot: Stabilise the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space. This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims.
 
 ### 1. Relative gravity
 1. Add an `@up` vector in world space (before Transform Pieces).
