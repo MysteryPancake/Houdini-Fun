@@ -106,28 +106,28 @@ Extract Transform and Transform Pieces are your best friends.
 2. If possible, blast everything except a single prim for optimization.
 3. Use Extract Transform to calculate the transform from the animated prim to the frozen prim.
 5. Use Transform Pieces to invert the animation and stabilize the geometry.
-6. Do whatever you want to the geometry while stabilized.
+6. Do stuff while it's frozen.
 7. Use Transform Pieces again to animate the geometry again. Make sure to tick "Invert Transformation"!
 
 As well as Transform Pieces, you can set Extract Transform to output a matrix and transform manually in VEX:
 ```c
 // Extract Transform matrix from input 1
-matrix m = point(1, "transform", 0);
+matrix mat = point(1, "transform", 0);
 // Forward transform
-v@P *= m;
+v@P *= mat;
 // Inverse transform
-v@P *= invert(m);
+v@P *= invert(mat);
 ```
 
 ### Bendy geometry
 Point Deform and Attribute Interpolate are your best friends.
 
 1. Use Time Shift to freeze the animated geometry. This is your rest pose.
-2. Point Deform with the inputs in the wrong order, so it deforms from animated to rest.
-3. Do whatever you want to the geometry while stabilized.
-4. Point deform with the inputs in the right order, so it deforms from rest to animated.
+2. Point Deform the animated geometry with the inputs in the wrong order, so it deforms from animated to rest.
+3. Do stuff while it's frozen.
+4. Point Deform back with the inputs in the right order, so it deforms from rest to animated.
 
-You may get better results with Attribute Interpolate, so try both if you can.
+This can also be done with Attribute Interpolate, though I haven't tried it myself.
 
 ## Volumes from signed distance functions
 Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
@@ -267,6 +267,11 @@ dir = sample_direction_uniform(rand(@ptnum));
 // Reconstruction, make sure direction is normalized
 v@v = dir * mag;
 ```
+
+## Make particles look like fluids
+A key characteristics of fluids is how they stick together, forming clumps and strands of particles. POP Fluid tries to emulate this, but it doesn't look as good as FLIP.
+
+To get nicer clumps, a tip from Raphael Gadot is to use Attribute Blur set to "Proximity". Though it won't affect the motion, it looks incredibly realistic on single frames.
 
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
