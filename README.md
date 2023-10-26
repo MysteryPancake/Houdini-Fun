@@ -38,6 +38,7 @@ vector dir = v@opinput1_P - v@P;
 ```
 
 UPDATE: The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
+
 ```glsl
 float mass = 1.0;
 float k = 0.4;
