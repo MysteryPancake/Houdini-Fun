@@ -6,13 +6,13 @@ Need to overshoot an animation or smooth it over time to reduce bumps? Introduci
 
 I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next you apply damping to stop it going too crazy.
 
-First, add a target position to your geometry:
+First add a target position to your geometry:
 
 ```glsl
 v@targetP = v@P;
 ```
 
-Next, add a solver. Inside the solver, add a point wrangle with this VEX:
+Next add a solver. Inside the solver, add a point wrangle with this VEX:
 
 ```glsl
 float freq = 100.0;
@@ -30,14 +30,7 @@ v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
 
-To smooth motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
-
-```glsl
-// Find direction towards target
-vector dir = v@opinput1_P - v@P;
-```
-
-UPDATE: The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
+UPDATE: The spring solver in [MOPs](https://www.motionoperators.com/) has better damping, so let's steal it:
 
 ```glsl
 float mass = 1.0;
@@ -55,6 +48,13 @@ v@v += accel;
 // Dampen velocity to prevent infinite overshoot
 v@v *= damping;
 v@P += v@v;
+```
+
+To smooth motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
+
+```glsl
+// Find direction towards target
+vector dir = v@opinput1_P - v@P;
 ```
 
 ## Rigid Bodies: Make an aimbot (find velocity to hit a target)
