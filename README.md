@@ -37,8 +37,7 @@ To smooth motion over time, plug the current geometry into the second input and 
 vector dir = v@opinput1_P - v@P;
 ```
 
-### Updated version
-The spring solver in [MOPs](https://www.motionoperators.com/) has better damping, so let's steal it:
+UPDATE: The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
 ```glsl
 float mass = 1.0;
 float k = 0.4;
