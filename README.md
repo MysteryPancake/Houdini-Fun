@@ -25,7 +25,7 @@ vector dir = v@targetP - v@P;
 vector accel = dir * freq * f@TimeInc * f@TimeInc;
 v@v += accel;
 
-// Reduce velocity to prevent infinite overshoot
+// Dampen velocity to prevent infinite overshoot
 v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
@@ -35,6 +35,26 @@ To smooth motion over time, plug the current geometry into the second input and 
 ```glsl
 // Find direction towards target
 vector dir = v@opinput1_P - v@P;
+```
+
+### Improved version
+The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
+```glsl
+float mass = 1.0;
+float k = 0.4;
+float damping = 0.9;
+
+// Find direction towards target
+vector dir = v@targetP - v@P;
+
+// Accelerate towards it
+vector force = k * dir;
+vector accel = force / mass;
+v@v += accel;
+
+// Dampen velocity to prevent infinite overshoot
+v@v *= damping;
+v@P += v@v;
 ```
 
 ## Rigid Bodies: Make an aimbot (find velocity to hit a target)
