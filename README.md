@@ -125,9 +125,9 @@ Extract Transform and Transform Pieces are your best friends.
 1. Use Time Shift to freeze the animated geometry. This is your rest pose.
 2. If possible, blast everything except a single prim for optimization.
 3. Use Extract Transform to calculate the transform from the animated prim to the frozen prim.
-5. Use Transform Pieces to invert the animation and stabilize the geometry.
-6. Do stuff while it's frozen.
-7. Use Transform Pieces again to animate the geometry again. Make sure to tick "Invert Transformation"!
+5. Use Transform Pieces to stabilize the geometry. Make sure to tick "Invert Transformation"!
+6. Do stuff while it's stabilized.
+7. Use Transform Pieces to move the geometry back to the animated pose.
 
 As well as Transform Pieces, you can set Extract Transform to output a matrix and transform manually in VEX:
 ```c
