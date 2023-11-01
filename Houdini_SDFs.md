@@ -1,5 +1,5 @@
 # Houdini SDFs
-Made by the legendary [Inigo Quilez](https://iquilezles.org/articles/distfunctions), ported to Houdini by MysteryPancake.
+Made by the legendary [Inigo Quilez](https://iquilezles.org/articles/distfunctions), ported to Houdini by myself.
 
 [Click here to download the HIP file!](hips/sdf_volumes.hipnc?raw=true)
 
