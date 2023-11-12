@@ -57,7 +57,7 @@ To smooth motion over time, plug the current geometry into the second input and 
 vector dir = v@opinput1_P - v@P;
 ```
 
-## RBD: Make an aimbot (find velocity to hit a target)
+## RBDs: Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
 [![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
@@ -104,15 +104,15 @@ If your "Life" changes per target, use a for loop instead.
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
 
-One option is abusing `pcfind()`, which takes any input as the position channel:
+The shortest way is abusing `pcfind()` which takes any input as the position channel:
 
 ```glsl
-string attrib_name = "density";
+string attrib = "density";
 float target = 16.0;
-int nearest_id = pcfind(0, attrib_name, target, 99999.9, 1)[0];
+int nearest_id = pcfind(0, attrib, target, 99999.9, 1)[0];
 ```
 
-Another option is using Attribute Swap to move the attribute to `@P`. This only works for attributes representable as a vector.
+Another way is using Attribute Swap to move the attribute to `@P`. Keep in mind this only works for certain types of attributes.
 
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
