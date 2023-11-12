@@ -104,7 +104,7 @@ If your "Life" changes per target, use a for loop instead.
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
 
-The shortest way is abusing `pcfind()` which takes any input as the position channel:
+The shortest way is abusing `pcfind()`, which takes any input as the position channel:
 
 ```glsl
 string attrib = "density";
@@ -112,7 +112,7 @@ float target = 16.0;
 int nearest_id = pcfind(0, attrib, target, 99999.9, 1)[0];
 ```
 
-Another way is using Attribute Swap to move the attribute to `@P`. Keep in mind this only works for certain types of attributes.
+Another option is using Attribute Swap to move the attribute to `@P`. Keep in mind this only works for certain types of attributes.
 
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
