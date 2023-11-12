@@ -489,8 +489,13 @@ This is faster than the new Motion Blur node, which caches the entire timeline a
 ## Attribute min / max / average...
 Use Attribute Promote set to "Detail" with the appropriate mode.
 
+## Alternating rows for brick walls
+The hard part about modelling brick walls is the alternating pattern. Every second row is slid across by half a brick's width. How would you create this pattern? Manual interpolation? Primuv?
+
+An easy way is working subtractively. Take the base curve and resample it. This gives you the first row. For the second row, subdivide the first. Use a "Group by Range" node to select every second point, then delete them with a "Dissolve" node.
+
 ## Access context geometry inside solver
-If you need geometry in a context that doesn't provide it (like the forces of a Vellum Solver), just drop down a SOP Solver. You can use Object Merge inside a SOP Solver to get geometry from anywhere else too. Create feedback loops until your heart's content!
+If you need geometry in a context that doesn't provide it (like the forces of a Vellum Solver), just drop down a SOP Solver. You can use Object Merge inside a SOP Solver to grab geometry from anywhere else too. Great for feedback loops!
 
 ## Pyro: Fix mushrooms
 Many techniques work depending on the situation. Sometimes more randomisation is needed, other times the velocity needs reducing.
