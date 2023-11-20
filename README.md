@@ -503,7 +503,7 @@ This is faster than the new Motion Blur node, which caches the entire timeline a
 Use Attribute Promote set to "Detail" with the appropriate mode.
 
 ## Alternating rows for brick walls
-The hard part about modelling brick walls is the alternating pattern. Every second row is slid across by half a brick's width. How would you create this pattern? Manual interpolation? Primuv?
+The tricky part about modelling brick walls is the alternating pattern. Every second row is slid across by half a brick's width. How would you create this pattern? Manual interpolation? Primuv?
 
 An easy way is working subtractively. Take the base curve and resample it. This gives you the first row. For the second row, subdivide the first. Use a "Group by Range" node to select every second point, then delete them with a "Dissolve" node.
 
