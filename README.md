@@ -302,7 +302,7 @@ v@v = dir * mag;
 ```
 
 ## POP: Make particles look like fluid
-A key characteristics of fluid is how it sticks together, forming clumps and strands of particles. POP Fluid tries to emulate this, but it doesn't look as good as FLIP.
+A key characteristic of fluid is how it sticks together, forming clumps and strands. POP Fluid tries to emulate this, but it doesn't look as good as FLIP.
 
 To get nicer clumps, a tip from Raphael Gadot is to use Attribute Blur set to "Proximity". Though it won't affect the motion, it looks incredibly realistic on single frames.
 
