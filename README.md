@@ -206,11 +206,11 @@ f@surface = sdSphere(v@P, 0.5);
 <img src="./images/sdf_volumes.png?raw=true">
 
 ## Select inside or outside
-It can help to group the inside or outside of double-sided geometry, for example to make single-sided geometry when Fuse doesn't work.
+Sometimes you need to select the inside or outside of double-sided geometry, for example to make single-sided geometry if Fuse doesn't work.
 
-The normals are a safe bet whenever you need to select by direction. Usually you can use a Group node set to "Keep By Normals", then use "Backface from" to pick the interior.
+The normals are great whenever you need to select anything by direction. Usually you can use a Group node set to "Keep By Normals", then use "Backface from" to pick the interior.
 
-Here's another approach if it screws up. Assuming the interior points inwards and the exterior points outwards, the normals of the interior should point roughly towards the center. That means to detect the interior, you can compare the direction of the normal with the direction towards the center.
+If it screws up, here's another approach. Assuming the interior points inwards and the exterior points outwards, the normals of the interior should point roughly towards the center. That means to detect the interior, you can compare the direction of the normal with the direction towards the center.
 
 1. Pick a center point. Extract Centroid is good for this.
 
