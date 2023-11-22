@@ -30,7 +30,7 @@ v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
 
-UPDATE: The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
+**UPDATE:** The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
 
 ```js
 float mass = 1.0;
