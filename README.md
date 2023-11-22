@@ -8,13 +8,13 @@ I stole this from an article on [2D wave simulation](https://gamedevelopment.tut
 
 First add a target position to your geometry:
 
-```glsl
+```c
 v@targetP = v@P;
 ```
 
 Next add a solver. Inside the solver, add a point wrangle with this VEX:
 
-```glsl
+```c
 float freq = 100.0;
 float damping = 5.0;
 
@@ -32,7 +32,7 @@ v@P += v@v;
 
 UPDATE: The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
 
-```glsl
+```c
 float mass = 1.0;
 float k = 0.4;
 float damping = 0.9;
@@ -52,7 +52,7 @@ v@P += v@v;
 
 To smooth motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
 
-```glsl
+```c
 // Find direction towards target
 vector dir = v@opinput1_P - v@P;
 ```
@@ -67,13 +67,13 @@ Want to prepare for the next war but can't solve projectile motion? Never fear, 
 2. Set the Launch Method to "Targeted" and disable drag.
 3. Add a `@targetP` attribute to your projectile. Set it to the centroid of the target object.
 
-```glsl
+```c
 v@targetP = getbbox_center(1);
 ```
 
 4. You should see an arc. Transfer the velocity of the first point of the arc to your projectile.
 
-```glsl
+```c
 v@v = point(1, "v", 0);
 ```
 
@@ -106,7 +106,7 @@ If your "Life" changes per target, use a for loop instead.
 
 The shortest way is abusing `pcfind()`, which takes any input as the position channel:
 
-```glsl
+```c
 string attrib = "density";
 float target = 16.0;
 int nearest_id = pcfind(0, attrib, target, 99999.9, 1)[0];
@@ -214,19 +214,19 @@ If it screws up, here's another approach. Assuming the interior points inwards a
 
 1. Pick a center point. Extract Centroid is good for this.
 
-```glsl
+```c
 vector center = point(1, "P", 0);
 ```
 
 2. Find the direction towards the center.
 
-```glsl
+```c
 vector dir = normalize(center - v@P);
 ```
 
 3. Compare it to the normal using a dot product. This tells you how much the normal faces the center (-1 to 1).
 
-```glsl
+```c
 float correlation = dot(dir, v@N);
 @group_inside = correlation > ch("threshold");
 ```
@@ -269,13 +269,13 @@ Make sure to combine each VDB pair separately, then feed all pairs into a merge 
 ## Be careful with typecasting
 I used to do this to generate random velocities between -1 and 1. See if you can spot the problem.
 
-```glsl
+```c
 v@v = rand(i@ptnum) - 0.5;
 ```
 
 The issue is VEX uses the float version of `rand()`, making the result 1D:
 
-```glsl
+```c
 float x = rand(i@ptnum);
 v@v = x - 0.5;
 ```
@@ -284,13 +284,13 @@ v@v = x - 0.5;
 
 To get a 3D result, there are two options. Either explicitly declare 0.5 as a vector:
 
-```glsl
+```c
 v@v = rand(i@ptnum) - vector(0.5);
 ```
 
 Or explicity declare `rand()` as a vector:
 
-```glsl
+```c
 vector x = rand(i@ptnum);
 v@v = x - 0.5;
 ```
@@ -300,7 +300,7 @@ This happens a lot, so always explicitly declare types to be safe!
 ## Be careful with random
 Sometimes silly people use `rand()` to generate velocities between -1 and 1. See if you can spot the problem.
 
-```glsl
+```c
 v@v = rand(i@ptnum) - vector(0.5);
 ```
 
@@ -313,13 +313,13 @@ Unfortunately it's a cube, since the range is -0.5 to 0.5 on all axes separately
 ### Random direction, random length
 To get a sphere and random vector lengths, use `sample_sphere_uniform()`:
 
-```glsl
+```c
 v@v = sample_sphere_uniform(rand(i@ptnum));
 ```
 
 Roughly equivalent to the following:
 
-```glsl
+```c
 v@v = normalize(rand(i@ptnum) - vector(0.5)) * rand(i@ptnum + 1);
 ```
 
@@ -328,13 +328,13 @@ v@v = normalize(rand(i@ptnum) - vector(0.5)) * rand(i@ptnum + 1);
 ### Random direction, constant length
 To get a sphere and normalized vector lengths, use `sample_direction_uniform()`:
 
-```glsl
+```c
 v@v = sample_direction_uniform(rand(i@ptnum));
 ```
 
 Roughly equivalent to the following:
 
-```glsl
+```c
 v@v = normalize(rand(i@ptnum) - vector(0.5));
 ```
 
