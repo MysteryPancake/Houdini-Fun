@@ -513,7 +513,7 @@ If you need geometry in a context that doesn't provide it (like the forces of a 
 ## Primuv vs actual UVs
 A common misconception is primuv uses the actual UV map of the geometry. Unfortunately this wouldn't work since regular UVs can overlap.
 
-Instead it uses intrinsic UVs. Intrinsic UVs are separated by prim index and range from 0 to 1 across each prim. Since each prim is separated by index, no overlap will occur.
+Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 0 to 1 across each prim. Since each prim is separated by index, no overlap will occur.
 
 |Regular UVs|Primitive UVS|
 |---|---|
