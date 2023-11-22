@@ -8,13 +8,13 @@ I stole this from an article on [2D wave simulation](https://gamedevelopment.tut
 
 First add a target position to your geometry:
 
-```c
+```js
 v@targetP = v@P;
 ```
 
 Next add a solver. Inside the solver, add a point wrangle with this VEX:
 
-```c
+```js
 float freq = 100.0;
 float damping = 5.0;
 
@@ -32,7 +32,7 @@ v@P += v@v;
 
 UPDATE: The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
 
-```c
+```js
 float mass = 1.0;
 float k = 0.4;
 float damping = 0.9;
@@ -52,7 +52,7 @@ v@P += v@v;
 
 To smooth motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
 
-```c
+```js
 // Find direction towards target
 vector dir = v@opinput1_P - v@P;
 ```
@@ -67,13 +67,13 @@ Want to prepare for the next war but can't solve projectile motion? Never fear, 
 2. Set the Launch Method to "Targeted" and disable drag.
 3. Add a `@targetP` attribute to your projectile. Set it to the centroid of the target object.
 
-```c
+```js
 v@targetP = getbbox_center(1);
 ```
 
 4. You should see an arc. Transfer the velocity of the first point of the arc to your projectile.
 
-```c
+```js
 v@v = point(1, "v", 0);
 ```
 
@@ -106,7 +106,7 @@ If your "Life" changes per target, use a for loop instead.
 
 The shortest way is abusing `pcfind()`, which takes any input as the position channel:
 
-```c
+```js
 string attrib = "density";
 float target = 16.0;
 int nearest_id = pcfind(0, attrib, target, 99999.9, 1)[0];
@@ -143,7 +143,7 @@ Extract Transform and Transform Pieces are your best friends.
 7. Use Transform Pieces to move the geometry back to the animated pose.
 
 As well as Transform Pieces, you can set Extract Transform to output a matrix and transform manually in VEX:
-```c
+```js
 // Extract Transform matrix from input 1
 matrix mat = point(1, "transform", 0);
 // Forward transform
@@ -214,19 +214,19 @@ If it screws up, here's another approach. Assuming the interior points inwards a
 
 1. Pick a center point. Extract Centroid is good for this.
 
-```c
+```js
 vector center = point(1, "P", 0);
 ```
 
 2. Find the direction towards the center.
 
-```c
+```js
 vector dir = normalize(center - v@P);
 ```
 
 3. Compare it to the normal using a dot product. This tells you how much the normal faces the center (-1 to 1).
 
-```c
+```js
 float correlation = dot(dir, v@N);
 @group_inside = correlation > ch("threshold");
 ```
@@ -269,13 +269,13 @@ Make sure to combine each VDB pair separately, then feed all pairs into a merge 
 ## Be careful with typecasting
 I used to do this to generate random velocities between -1 and 1. See if you can spot the problem.
 
-```c
+```js
 v@v = rand(i@ptnum) - 0.5;
 ```
 
 The issue is VEX uses the float version of `rand()`, making the result 1D:
 
-```c
+```js
 float x = rand(i@ptnum);
 v@v = x - 0.5;
 ```
@@ -284,13 +284,13 @@ v@v = x - 0.5;
 
 To get a 3D result, there are two options. Either explicitly declare 0.5 as a vector:
 
-```c
+```js
 v@v = rand(i@ptnum) - vector(0.5);
 ```
 
 Or explicity declare `rand()` as a vector:
 
-```c
+```js
 vector x = rand(i@ptnum);
 v@v = x - 0.5;
 ```
@@ -300,7 +300,7 @@ This happens a lot, so always explicitly declare types to be safe!
 ## Be careful with random
 Sometimes silly people use `rand()` to generate velocities between -1 and 1. See if you can spot the problem.
 
-```c
+```js
 v@v = rand(i@ptnum) - vector(0.5);
 ```
 
@@ -313,13 +313,13 @@ Unfortunately it's a cube, since the range is -0.5 to 0.5 on all axes separately
 ### Random direction, random length
 To get a sphere and random vector lengths, use `sample_sphere_uniform()`:
 
-```c
+```js
 v@v = sample_sphere_uniform(rand(i@ptnum));
 ```
 
 Roughly equivalent to the following:
 
-```c
+```js
 v@v = normalize(rand(i@ptnum) - vector(0.5)) * rand(i@ptnum + 1);
 ```
 
@@ -328,13 +328,13 @@ v@v = normalize(rand(i@ptnum) - vector(0.5)) * rand(i@ptnum + 1);
 ### Random direction, constant length
 To get a sphere and normalized vector lengths, use `sample_direction_uniform()`:
 
-```c
+```js
 v@v = sample_direction_uniform(rand(i@ptnum));
 ```
 
 Roughly equivalent to the following:
 
-```c
+```js
 v@v = normalize(rand(i@ptnum) - vector(0.5));
 ```
 
@@ -343,7 +343,7 @@ v@v = normalize(rand(i@ptnum) - vector(0.5));
 ## Split vector magnitude and direction
 Sometimes you need to change part of a vector but not the other, like to randomize velocity but inherit the magnitude. It's easy with rotation, but here's a more general approach:
 
-```c
+```js
 // Deconstruction
 vector dir = normalize(v@v);
 float mag = length(v@v);
@@ -455,7 +455,7 @@ I remade `linear()` on my [After Effects Fun](https://github.com/MysteryPancake/
 
 ### `fit()`
 
-```c
+```js
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	value = clamp(value, omin, omax);
 	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (cannot exceed)
@@ -463,14 +463,14 @@ float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 }
 ```
 
-```c
+```js
 // Lerp version
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	return lerp(nmin, nmax, invlerp(clamp(value, omin, omax), omin, omax));
 }
 ```
 
-```c
+```js
 // Imprecise version (rwaldron.github.io/proposal-math-extensions/#sec-math.scale)
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	return (clamp(value, omin, omax) - omin) * (nmax - nmin) / (omax - omin) + nmin;
@@ -479,21 +479,21 @@ float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 
 ### `efit()`
 
-```c
+```js
 float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (can exceed)
 	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
 }
 ```
 
-```c
+```js
 // Lerp version
 float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	return lerp(nmin, nmax, invlerp(value, omin, omax));
 }
 ```
 
-```c
+```js
 // Imprecise version (rwaldron.github.io/proposal-math-extensions/#sec-math.scale)
 float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
 	return (value - omin) * (nmax - nmin) / (omax - omin) + nmin;
@@ -502,21 +502,21 @@ float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
 
 ### `fit01()`
 
-```c
+```js
 float fit01_diy(float value; float nmin; float nmax) {
 	float normal = clamp(value, 0, 1); // No inverse lerp needed
 	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
 }
 ```
 
-```c
+```js
 // Lerp version
 float fit01_diy(float value; float nmin; float nmax) {
 	return lerp(nmin, nmax, clamp(value, 0, 1));
 }
 ```
 
-```c
+```js
 // Imprecise version
 float fit01_diy(float value; float nmin; float nmax) {
 	return nmin + clamp(value, 0, 1) * (nmax - nmin);
@@ -525,21 +525,21 @@ float fit01_diy(float value; float nmin; float nmax) {
 
 ### `fit10()`
 
-```c
+```js
 float fit10_diy(float value; float nmin; float nmax) {
 	float normal = clamp(1 - value, 0, 1); // No inverse lerp needed
 	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
 }
 ```
 
-```c
+```js
 // Lerp version
 float fit10_diy(float value; float nmin; float nmax) {
 	return lerp(nmin, nmax, clamp(1 - value, 0, 1));
 }
 ```
 
-```c
+```js
 // Imprecise version
 float fit10_diy(float value; float nmin; float nmax) {
 	return nmin + clamp(1 - value, 0, 1) * (nmax - nmin);
