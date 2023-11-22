@@ -218,8 +218,8 @@ If it screws up, here's another approach. Assuming the interior points inwards a
 vector center = point(1, "P", 0);
 ```
 
-2. Calculate the direction towards the center.
-3. 
+2. Find the direction towards the center.
+
 ```glsl
 vector dir = normalize(center - v@P);
 ```
