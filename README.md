@@ -549,7 +549,7 @@ float fit10_diy(float value; float nmin; float nmax) {
 ## Karma: Fix motion blur
 Motion blur in Karma can be pretty unpredictable, especially with packed instances.
 
-A great fix comes from [CGWiki](https://tokeru.com/cgwiki/UsdGuide18.html#motion-blur): simply add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after.
+A great fix comes from [Matt Estela](https://tokeru.com/cgwiki/UsdGuide18.html#motion-blur): just add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after.
 
 This is faster than the new Motion Blur node, which caches the entire timeline at once. It also fixes issues with animated materials.
 
