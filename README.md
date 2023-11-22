@@ -164,25 +164,27 @@ If you need better interpolation, try `primuv()` or Attribute Interpolate. This 
 
 1. Use `xyzdist()` to map the positions of the good geometry onto the proxy geometry, both in rest position.
 
-```glsl
+```js
 xyzdist(1, v@P, i@near_prim, v@near_uv);
 ```
 
 2. Simulate the proxy geometry.
 2. In another wrangle, use `primuv()` to match the good geometry's position to the animated proxy.
 
-```glsl
+```js
 v@P = primuv(1, "P", i@near_prim, v@near_uv);
 ```
 
 ## Primuv vs actual UVs
-A common misconception is `primuv()` uses the actual UV map of the geometry. Unfortunately this wouldn't work since regular UVs can overlap.
+A common misconception is `primuv()` uses the actual UV map of the geometry. This would cause problems if the UVs overlapped.
 
-Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 0 to 1 across each prim. Since each prim is separated by index, no overlap will occur.
+Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 0 to 1 per prim. Since each prim is separated by index, it'll never overlap.
 
-|Regular UVs|Primitive UVS|
+|Regular UVs|Intrinsic UVS|
 |---|---|
 |<img src="./images/regularuv.png?raw=true">|<img src="./images/primuv.png?raw=true">|
+
+If you want to use the actual UVs, use `uvsample()` instead.
 
 ## Volumes from signed distance functions
 Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
@@ -202,6 +204,36 @@ f@surface = sdSphere(v@P, 0.5);
 [Click here for all the classic SDFs ported to Houdini!](./Houdini_SDFs.md)
 
 <img src="./images/sdf_volumes.png?raw=true">
+
+## Select inside or outside
+It can help to group the inside or outside of double-sided geometry, for example to make single-sided geometry when Fuse doesn't work.
+
+The normals are a safe bet whenever you need to select by direction. Usually you can use a Group node set to "Keep By Normals", then use "Backface from" to pick the interior.
+
+Here's another approach if it screws up. Assuming the interior points inwards and the exterior points outwards, the normals of the interior should point roughly towards the center. That means to detect the interior, you can compare the direction of the normal with the direction towards the center.
+
+1. Pick a center point. Extract Centroid is good for this.
+
+```glsl
+vector center = point(1, "P", 0);
+```
+
+2. Calculate the direction towards the center.
+3. 
+```glsl
+vector dir = normalize(center - v@P);
+```
+
+3. Compare it to the normal using a dot product. This tells you how much the normal faces the center (-1 to 1).
+
+```glsl
+float correlation = dot(dir, v@N);
+@group_inside = correlation > ch("threshold");
+```
+
+<img src="./images/inside.png?raw=true" height="320">
+
+[Click here to download the HIP file!](./hips/inside.hipnc?raw=true)
 
 ## Fluids: Fix gap between surfaces
 Usually liquids resting on a surface have a small gap due to the collision geometry, easier to see once rendered.
