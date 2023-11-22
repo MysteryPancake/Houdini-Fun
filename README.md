@@ -153,14 +153,36 @@ v@P *= invert(mat);
 ```
 
 ### Bendy geometry
-Point Deform and Attribute Interpolate are your best friends.
+For simple cases, Point Deform is your best friend.
 
 1. Use Time Shift to freeze the animated geometry. This is your rest pose.
 2. Point Deform the animated geometry with the inputs in the wrong order, so it deforms from animated to rest.
 3. Do stuff while it's frozen.
 4. Point Deform back with the inputs in the right order, so it deforms from rest to animated.
 
-This can also be done with Attribute Interpolate, though I haven't tried it myself.
+If you need better interpolation, try `primuv()` or Attribute Interpolate. This works great for proxy geometry, for example remeshed cloth.
+
+1. Use `xyzdist()` to map the positions of the good geometry onto the proxy geometry, both in rest position.
+
+```glsl
+xyzdist(1, v@P, i@near_prim, v@near_uv);
+```
+
+2. Simulate the proxy geometry.
+2. In another wrangle, use `primuv()` to match the good geometry's position to the animated proxy.
+
+```glsl
+v@P = primuv(1, "P", i@near_prim, v@near_uv);
+```
+
+## Primuv vs actual UVs
+A common misconception is `primuv()` uses the actual UV map of the geometry. Unfortunately this wouldn't work since regular UVs can overlap.
+
+Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 0 to 1 across each prim. Since each prim is separated by index, no overlap will occur.
+
+|Regular UVs|Primitive UVS|
+|---|---|
+|<img src="./images/regularuv.png?raw=true">|<img src="./images/primuv.png?raw=true">|
 
 ## Volumes from signed distance functions
 Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
@@ -509,15 +531,6 @@ An easy way is working subtractively. Take the base curve and resample it. This 
 
 ## Access context geometry inside solver
 If you need geometry in a context that doesn't provide it (like the forces of a Vellum Solver), just drop down a SOP Solver. You can use Object Merge inside a SOP Solver to grab geometry from anywhere else too. Great for feedback loops!
-
-## Primuv vs actual UVs
-A common misconception is primuv uses the actual UV map of the geometry. Unfortunately this wouldn't work since regular UVs can overlap.
-
-Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 0 to 1 across each prim. Since each prim is separated by index, no overlap will occur.
-
-|Regular UVs|Primitive UVS|
-|---|---|
-|<img src="./images/regularuv.png?raw=true">|<img src="./images/primuv.png?raw=true">|
 
 ## Pyro: Fix mushrooms
 Many techniques work depending on the situation. Sometimes more randomisation is needed, other times the velocity needs reducing.
