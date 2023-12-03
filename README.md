@@ -30,6 +30,13 @@ v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
 
+To smooth motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
+
+```js
+// Find direction towards target
+vector dir = v@opinput1_P - v@P;
+```
+
 **UPDATE:** The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
 
 ```js
@@ -48,13 +55,6 @@ v@v += accel;
 // Dampen velocity to prevent infinite overshoot
 v@v *= damping;
 v@P += v@v;
-```
-
-To smooth motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
-
-```js
-// Find direction towards target
-vector dir = v@opinput1_P - v@P;
 ```
 
 ## RBDs: Make an aimbot (find velocity to hit a target)
