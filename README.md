@@ -4,6 +4,28 @@ Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 ## Vexember 2023
 Vexember is a VEX challenge covering tons of cool topics you should check out. [See my writeup here!](Vexember.md)
 
+## Make your own fit()
+[See my writeup here!](Lerp.md)
+
+## Volumes from signed distance functions
+Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
+
+1. Add a VDB node. Set the class to "Level Set" and the name to "surface".
+2. Add a VDB Activate node. Use it to set the size of your VDB.
+3. Add a Volume Wrangle. Here you define your SDF based on `@P`, for example a basic sphere:
+
+```js
+float sdSphere(vector p; float s) {
+  return length(p) - s;
+}
+
+f@surface = sdSphere(v@P, 0.5);
+```
+
+[Click here for all the classic SDFs ported to Houdini!](./Houdini_SDFs.md)
+
+<img src="./images/sdf_volumes.png?raw=true">
+
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
 
@@ -188,25 +210,6 @@ Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 
 |<img src="./images/regularuv.png?raw=true">|<img src="./images/primuv.png?raw=true">|
 
 If you want to use the actual UVs, use `uvsample()` instead.
-
-## Volumes from signed distance functions
-Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
-
-1. Add a VDB node. Set the class to "Level Set" and the name to "surface".
-2. Add a VDB Activate node. Use it to set the size of your VDB.
-3. Add a Volume Wrangle. Here you define your SDF based on `@P`, for example a basic sphere:
-
-```js
-float sdSphere(vector p; float s) {
-  return length(p) - s;
-}
-
-f@surface = sdSphere(v@P, 0.5);
-```
-
-[Click here for all the classic SDFs ported to Houdini!](./Houdini_SDFs.md)
-
-<img src="./images/sdf_volumes.png?raw=true">
 
 ## Select inside or outside
 Sometimes you need to select the inside or outside of double-sided geometry, for example to make single-sided geometry if Fuse doesn't work.
@@ -450,104 +453,6 @@ One little known feature of Vellum Cloth (at least to me) is layering. It can im
 
 1. In Vellum Configure Cloth, use the "Layer" setting to define the ordering, bottom to top.
 2. On the Vellum Solver under "Collisions", enable "Layer Shock". Lower layers are simulated much heavier than higher layers. 
-
-## Make your own fit()
-`fit()` in Houdini is the same as `linear()` in After Effects.
-
-I remade `linear()` on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port it to VEX!
-
-### `fit()`
-
-```js
-float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	value = clamp(value, omin, omax);
-	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (cannot exceed)
-	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
-}
-```
-
-```js
-// Lerp version
-float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	return lerp(nmin, nmax, invlerp(clamp(value, omin, omax), omin, omax));
-}
-```
-
-```js
-// Imprecise version (rwaldron.github.io/proposal-math-extensions/#sec-math.scale)
-float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	return (clamp(value, omin, omax) - omin) * (nmax - nmin) / (omax - omin) + nmin;
-}
-```
-
-### `efit()`
-
-```js
-float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (can exceed)
-	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
-}
-```
-
-```js
-// Lerp version
-float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	return lerp(nmin, nmax, invlerp(value, omin, omax));
-}
-```
-
-```js
-// Imprecise version (rwaldron.github.io/proposal-math-extensions/#sec-math.scale)
-float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	return (value - omin) * (nmax - nmin) / (omax - omin) + nmin;
-}
-```
-
-### `fit01()`
-
-```js
-float fit01_diy(float value; float nmin; float nmax) {
-	float normal = clamp(value, 0, 1); // No inverse lerp needed
-	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
-}
-```
-
-```js
-// Lerp version
-float fit01_diy(float value; float nmin; float nmax) {
-	return lerp(nmin, nmax, clamp(value, 0, 1));
-}
-```
-
-```js
-// Imprecise version
-float fit01_diy(float value; float nmin; float nmax) {
-	return nmin + clamp(value, 0, 1) * (nmax - nmin);
-}
-```
-
-### `fit10()`
-
-```js
-float fit10_diy(float value; float nmin; float nmax) {
-	float normal = clamp(1 - value, 0, 1); // No inverse lerp needed
-	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
-}
-```
-
-```js
-// Lerp version
-float fit10_diy(float value; float nmin; float nmax) {
-	return lerp(nmin, nmax, clamp(1 - value, 0, 1));
-}
-```
-
-```js
-// Imprecise version
-float fit10_diy(float value; float nmin; float nmax) {
-	return nmin + clamp(1 - value, 0, 1) * (nmax - nmin);
-}
-```
 
 ## Karma: Fix motion blur
 Motion blur in Karma can be pretty unpredictable, especially with packed instances.
