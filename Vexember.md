@@ -178,7 +178,7 @@ Add a toy and a point. Plug them into a Point Wrangle.
 
 <img src="./images/vexember1nodes.png" width="400">
 
-First let's color the toy based on its distance to the point like before:
+First let's color the toy based on the distance to the point like before:
 
 ```c
 // Get the position of the other point (wrangle input 1)
@@ -191,7 +191,7 @@ v@Cd = sdf;
 
 <img src="./images/vexemberdist6.png" width="400">
 
-Looking good! Now let's add a sine wave like before:
+Looking good! Now let's add a sine wave:
 
 ```c
 // Get the position of the other point (wrangle input 1)
@@ -207,7 +207,7 @@ v@Cd = fit11(wave, 0, 1);
 
 <img src="./images/vexemberdist7.png" width="400">
 
-Trippy! Now let's make the sine wave move over time like before:
+Trippy! Now let's make the sine wave move over time:
 
 ```c
 // Get the position of the other point (wrangle input 1)
@@ -225,7 +225,7 @@ v@Cd = fit11(wave, 0, 1);
 
 <img src="./images/vexemberwave.gif" width="400">
 
-Finally let's scale the geometry based on the sine wave. We can do this by adding the normal to the position, same as the peak node:
+Finally let's scale the geometry based on the sine wave. We can do this by adding the normal to the position, much like the Peak node:
 
 ```c
 // Get the position of the other point (wrangle input 1)
