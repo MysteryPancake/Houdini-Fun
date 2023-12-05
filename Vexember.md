@@ -148,21 +148,24 @@ v@Cd = fit11(wave, 0, 1);
 
 <img src="./images/vexemberdist5.png" width="400">
 
-Much nicer! Now let's add some movement to make it more interesting. To add movement, we need to know how sine waves work.
+Much nicer! Now let's add some movement to make it more interesting. First we need to know how sine waves work.
 
+### How sine waves work
 Sine waves have 3 main parameters we can mess with: the **amplitude**, **frequency** and **phase**.
 
-- **Amplitude** is the height of the wave, measured from the highest peak. For sound waves, this controls the volume.
-- **Frequency** is the distance between peaks of the wave. For sound waves, this controls the pitch.
-- **Phase** is the time offset of the wave. For sound waves, this controls the time.
+- **Amplitude** is the height of the wave, measured from the highest peak. For audio waves, this is the volume.
+- **Frequency** is the distance between peaks of the wave. For audio waves, this is the pitch.
+- **Phase** is how far along we are in the wave's cycle. For audio waves, this is the time.
 
-You can set each of these parameters individually using the following formula:
+<img src="./images/vexemberwave.png" width="500">
+
+You can set each individually using the following formula:
 
 ```js
 float wave = sin(time * frequency + phase) * amplitude;
 ```
 
-In this case, we just want to modify the phase:
+In this case, we want to modify the **phase**:
 
 ```js
 float sdf = length(v@P);
@@ -179,7 +182,7 @@ v@Cd = fit11(wave, 0, 1);
 
 Looking good! Now I'll admit, I had to modify the code to get a seamless loop.
 
-Sine waves are awkward to work with since their range is 0 to 2*PI:
+Sine waves are awkward to work with since they repeat every 2*PI units:
 
 <img src="./images/vexembersine2.png" width="500">
 
