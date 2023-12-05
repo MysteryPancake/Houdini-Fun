@@ -148,7 +148,7 @@ v@Cd = fit11(wave, 0, 1);
 
 <img src="./images/vexemberdist5.png" width="400">
 
-Much nicer! Now let's add some movement to make it more interesting. First we need to know how sine waves work.
+Much nicer! Now let's add some movement to make it more interesting. To do this, we need to know how sine waves work.
 
 ### How sine waves work
 Sine waves have 3 main parameters we can mess with: the **frequency**, **phase** and **amplitude**.
