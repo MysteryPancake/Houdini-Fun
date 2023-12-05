@@ -1,7 +1,9 @@
-# Easings
-Easings are great for adding visual interest to your animations. Some common easings are found [Easings.net](https://easings.net/).
+# Houdini Easings
+Easings are the foundation of motion graphics, and great for adding flair to your animations. [Easings.net](https://easings.net/) has a bunch of common easings.
 
 I ported them on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
+
+<img src="./images/EasingDemo.gif" width="500">
 
 ## Ease In Sine
 ```js
