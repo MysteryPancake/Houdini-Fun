@@ -3,7 +3,24 @@
 
 If you've ever wondered how they work, look no further! I remade them on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
 
+For a great resource on deriving them yourself, be sure to check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://www.youtube.com/watch?v=aVwxzDHniEw) videos!
+
 ## `lerp()`
+Lerp takes two values and performs a weighted sum based on a factor.
+
+For example, to get 50% between two values, you'd add half of each:
+
+```js
+0.5 * value1 + 0.5 * value2
+```
+
+To get 75% between two values, you'd add 1/4 of the first and 3/4 of the second:
+
+```js
+0.25 * value1 + 0.75 * value2
+```
+
+Generalising this idea gives us the formula for lerp:
 
 ```js
 float lerp_diy(float value1; float value2; float amount) {
@@ -11,7 +28,21 @@ float lerp_diy(float value1; float value2; float amount) {
 }
 ```
 
+## `invlerp()`
+Inverse lerp takes a value and a range, then normalizes the value so it lies between 0 and 1.
+
+Given a minimum and maximum value, the range is `max - min`. To normalize a value we can divide it by the range.
+
+```js
+float invlerp_diy(float a; float min; float max) {
+	return (a - min) / (max - min); // Inverse Lerp: Normalize between 0 and 1 (cannot exceed)
+}
+```
+
 ## `fit()`
+`fit()` is the combination of `invlerp()` and `lerp()`.
+
+It can interpolate but can't extrapolate, because `value` is clamped between `omin` and `omax`.
 
 ```js
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
@@ -36,6 +67,9 @@ float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 ```
 
 ## `efit()`
+`efit()` is the same as `fit()`, except `value` isn't clamped.
+
+This means it can interpolate and extrapolate `value` outside of `omin` and `omax`.
 
 ```js
 float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
@@ -59,6 +93,7 @@ float efit_diy(float value; float omin; float omax; float nmin; float nmax) {
 ```
 
 ## `fit01()`
+`fit01()` is the same as `fit()` except the range is hardcoded as 0 to 1. It's the same as `lerp()` except `value` is clamped.
 
 ```js
 float fit01_diy(float value; float nmin; float nmax) {
@@ -82,6 +117,7 @@ float fit01_diy(float value; float nmin; float nmax) {
 ```
 
 ## `fit10()`
+`fit01()` is the same as `fit()` except the range is hardcoded as 1 to 0.
 
 ```js
 float fit10_diy(float value; float nmin; float nmax) {
@@ -103,5 +139,3 @@ float fit10_diy(float value; float nmin; float nmax) {
 	return nmin + clamp(1 - value, 0, 1) * (nmax - nmin);
 }
 ```
-
-For more info on lerp and fit, be sure to check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://www.youtube.com/watch?v=aVwxzDHniEw) videos!
