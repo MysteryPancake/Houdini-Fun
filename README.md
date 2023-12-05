@@ -1,11 +1,11 @@
 # CGWiki DLC
 Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 
-## Vexember 2023
-Vexember is a VEX challenge covering tons of cool topics you should check out. [See my writeup here!](Vexember.md)
+## Separate articles
+These grew too large to fit on the main page. Be sure to check them out!
 
-## Make your own fit()
-[See my writeup here!](Lerp.md)
+- [Vexcember 2023](Vexember.md)
+- [Make your own lerp() and fit()](Lerp.md)
 
 ## Volumes from signed distance functions
 Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
