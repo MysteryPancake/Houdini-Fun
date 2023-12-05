@@ -70,7 +70,7 @@ Let's start from the SDF of a point.
 v@Cd = length(v@P);
 ```
 
-We know the distance grows in a circular fashion away from `{0, 0, 0}` so let's shade the area above a certain radius:
+We know the distance grows in a circular fashion away from the center, so let's color everything above a certain distance:
 
 ```c
 // Shade everything below 1 black and above 1 white
