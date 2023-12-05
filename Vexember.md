@@ -88,7 +88,7 @@ The 'Signed' in 'Signed Distance Function' means the distance is negative on the
 
 <img src="./images/vexembersdfsign.png" width="400">
 
-We need the inside to be negative. It's easy to achieve this, we just need to subtract the radius:
+We need the inside to be negative. It's easy to achieve, just subtract the radius:
 
 ```c
 // Make the inside negative
@@ -97,6 +97,18 @@ v@Cd = length(v@P) - radius;
 ```
 
 <img src="./images/vexemberdist3.png" width="400">
+
+Now we can use the same method as before to sharpen the edge:
+
+```c
+float radius = 1;
+float sdf = length(v@P) - radius;
+
+// Shade positive white and negative black
+v@Cd = sdf > 0;
+```
+
+<img src="./images/vexemberdist2.png" width="400">
 
 Congratulations, we made our second SDF! You're practically a geometry god already.
 
