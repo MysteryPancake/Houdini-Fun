@@ -133,7 +133,7 @@ Very trippy! Seems a bit dark though? It's because we're writing to `@Cd` which 
 
 <img src="./images/vexembersine.png" width="500">
 
-We can fix this by moving sine a little, either manually or with `fit11()`.
+We can fix it by remapping the range to 0 to 1, either manually or with `fit11()`.
 
 ```js
 float sdf = length(v@P);
