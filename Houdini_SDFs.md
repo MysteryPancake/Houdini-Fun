@@ -18,6 +18,7 @@ I did this for every single SDF I could find. [Click here to download the HIP fi
 <img src="./images/sdf_volumes.png?raw=true">
 
 ## Sphere - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdSphere( vector p; float s ) {
@@ -28,6 +29,7 @@ f@surface = sdSphere(v@P, 1.0);
 ```
 
 ## Box - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdBox( vector p; vector b ) {
@@ -39,6 +41,7 @@ f@surface = sdBox(v@P, {1.0, 1.0, 1.0});
 ```
 
 ## Round Box - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdRoundBox( vector p; vector b; float r ) {
@@ -50,6 +53,7 @@ f@surface = sdRoundBox(v@P, {0.5, 0.5, 0.5}, 0.5);
 ```
 
 ## Box Frame - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdBoxFrame( vector p; vector b; float e ) {
@@ -65,6 +69,7 @@ f@surface = sdBoxFrame(v@P, {1.0, 1.0, 1.0}, 0.2);
 ```
 
 ## Torus - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdTorus( vector p; vector2 t ) {
@@ -76,6 +81,7 @@ f@surface = sdTorus(v@P, {1.0, 0.2});
 ```
 
 ## Capped Torus - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCappedTorus( vector p; vector2 sc; float ra; float rb ) {
@@ -88,6 +94,7 @@ f@surface = sdCappedTorus(v@P, set(sin(2.0), cos(2.0)), 1.0, 0.2);
 ```
 
 ## Link - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdLink( vector p; float le; float r1; float r2 ) {
@@ -99,6 +106,7 @@ f@surface = sdLink(v@P, 1.0, 0.5, 0.2);
 ```
 
 ## Cone - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCone( vector p; vector2 c; float h ) {
@@ -120,6 +128,7 @@ f@surface = sdCone(v@P, {0.5, 1.0}, 2.0);
 ```
 
 ## Plane - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdPlane( vector p; vector n; float h ) {
@@ -131,6 +140,7 @@ f@surface = sdPlane(v@P, normalize({0.0, 1.0, 0.0}), 0.0);
 ```
 
 ## Hexagonal Prism - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdHexPrism( vector p; vector2 h ) {
@@ -147,6 +157,7 @@ f@surface = sdHexPrism(v@P, {1.0, 1.0});
 ```
 
 ## Arbitrary Capsule / Line - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCapsule( vector p; vector a; vector b; float r ) {
@@ -159,6 +170,7 @@ f@surface = sdCapsule(v@P, {-0.5, -0.5, 0.0}, {0.5, 0.5, 0.0}, 0.5);
 ```
 
 ## Vertical Capsule / Line - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdVerticalCapsule( vector p; float h; float r ) {
@@ -170,6 +182,7 @@ f@surface = sdVerticalCapsule(v@P, 1.0, 0.5);
 ```
 
 ## Vertical Capped Cylinder - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCappedCylinder( vector p; float h; float r ) {
@@ -181,6 +194,7 @@ f@surface = sdCappedCylinder(v@P, 1.0, 0.5);
 ```
 
 ## Arbitrary Capped Cylinder - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCappedCylinder( vector p; vector a; vector b; float r ) {
@@ -200,6 +214,7 @@ f@surface = sdCappedCylinder(v@P, {-1.0, -1.0, 0.0}, {1.0, 1.0, 0.0}, 0.5);
 ```
 
 ## Rounded Cylinder - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdRoundedCylinder( vector p; float ra; float rb; float h ) {
@@ -211,6 +226,7 @@ f@surface = sdRoundedCylinder(v@P, 0.3, 0.2, 1.0);
 ```
 
 ## Vertical Capped Cone - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCappedCone( vector p; float h; float r1; float r2 ) {
@@ -227,6 +243,7 @@ f@surface = sdCappedCone(v@P, 1.0, 1.0, 0.5);
 ```
 
 ## Arbitrary Capped Cone - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCappedCone( vector p; vector a; vector b; float ra; float rb ) {
@@ -250,6 +267,7 @@ f@surface = sdCappedCone(v@P, {-0.5, -0.5, 0.0}, {0.5, 0.5, 0.0}, 1.0, 0.5);
 ```
 
 ## Solid Angle - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdSolidAngle( vector p; vector2 c; float ra ) {
@@ -264,6 +282,7 @@ f@surface = sdSolidAngle(v@P, {1.0, 1.0}, 1.5);
 ```
 
 ## Cut Sphere - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCutSphere( vector p; float r; float h ) {
@@ -282,6 +301,7 @@ f@surface = sdCutSphere(v@P, 1.0, 0.0);
 ```
 
 ## Cut Hollow Sphere - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCutHollowSphere( vector p; float r; float h; float t ) {
@@ -298,6 +318,7 @@ f@surface = sdCutHollowSphere(v@P, 1.0, 0.0, 0.1);
 ```
 
 ## Death Star - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdDeathStar( vector p2; float ra; float rb; float d ) {
@@ -318,6 +339,7 @@ f@surface = sdDeathStar(v@P, 1.0, 1.0, 1.0);
 ```
 
 ## Vertical Round Cone - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdRoundCone( vector p; float r1; float r2; float h ) {
@@ -337,6 +359,7 @@ f@surface = sdRoundCone(v@P, 1.0, 0.5, 1.5);
 ```
 
 ## Arbitrary Round Cone - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdRoundCone( vector p; vector a; vector b; float r1; float r2 ) {
@@ -367,6 +390,7 @@ f@surface = sdRoundCone(v@P, {-1.0, -1.0, 0.0}, {0.5, 0.5, 0.0}, 0.5, 1.0);
 ```
 
 ## Revolved Vesica - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdVesicaSegment( vector p; vector a; vector b; float w ) {
@@ -387,6 +411,7 @@ f@surface = sdVesicaSegment(v@P, {-1.0, -1.0, 0.0}, {1.0, 1.0, 0.0}, 0.5);
 ```
 
 ## Rhombus - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float ndot( vector2 a; vector2 b ) {
@@ -405,6 +430,7 @@ f@surface = sdRhombus(v@P, 1.0, 0.5, 0.5, 0.5);
 ```
 
 ## Octahedron - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdOctahedron( vector p; float s ) {
@@ -424,6 +450,7 @@ f@surface = sdOctahedron(v@P, 1.0);
 ```
 
 ## Pyramid - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdPyramid( vector p; float h ) {
@@ -452,6 +479,7 @@ f@surface = sdPyramid(v@P, 2.0);
 ```
 
 ## Triangle - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float dot2( vector v ) {
@@ -482,6 +510,7 @@ f@surface = udTriangle(v@P, {1.0, 1.0, 0.0}, {-1.0, -1.0, 0.0}, {-1.0, 1.0, -1.0
 ```
 
 ## Quad - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float dot2( vector v ) {
@@ -515,6 +544,7 @@ f@surface = udQuad(v@P, {1.0, 0.0, -1.0}, {0.0, 1.0, -1.0}, {-1.0, 0.0, 1.0}, {0
 ```
 
 ## Chain - exact
+
 ```c
 // From https://www.shadertoy.com/view/wlXSD7
 float sdChain( vector pos; float le; float r1; float r2 ) {
@@ -532,6 +562,7 @@ f@surface = sdChain(v@P, 0.1, 0.3, 0.1);
 ```
 
 ## Octagonal Prism - Exact
+
 ```c
 // From https://www.shadertoy.com/view/Xds3zN
 float sdOctagonPrism( vector p; float r; float h ) {
@@ -558,6 +589,7 @@ f@surface = sdOctagonPrism(v@P, 1.0, 1.0);
 ```
 
 ## Horseshoe - exact
+
 ```c
 // From https://www.shadertoy.com/view/Xds3zN
 float sdHorseshoe( vector p; vector2 c; float r; float le; vector2 w ) {
@@ -580,6 +612,7 @@ f@surface = sdHorseshoe(v@P, set(cos(1.3), sin(1.3)), 1.0, 1.0, {0.1, 0.5});
 ```
 
 ## Infinite Cone - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCone( vector p; vector2 c ) {
@@ -593,6 +626,7 @@ f@surface = sdCone(v@P, {0.5, 1.0});
 ```
 
 ## Infinite Cylinder - exact
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCylinder( vector p; vector c ) {
@@ -603,6 +637,7 @@ f@surface = sdCylinder(v@P, {0.0, 0.0, 0.5});
 ```
 
 ## Cone - bound (not exact)
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdCone( vector p; vector2 c; float h ) {
@@ -614,6 +649,7 @@ f@surface = sdCone(v@P, {0.5, 0.25}, 2.0);
 ```
 
 ## Triangular Prism - bound (not exact)
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdTriPrism( vector p; vector2 h ) {
@@ -625,6 +661,7 @@ f@surface = sdTriPrism(v@P, {1.0, 1.0});
 ```
 
 ## Ellipsoid - bound (not exact)
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdEllipsoid( vector p; vector r ) {
@@ -637,6 +674,7 @@ f@surface = sdEllipsoid(v@P, {0.5, 1.0, 0.5});
 ```
 
 ## Octahedron - bound (not exact)
+
 ```c
 // From https://iquilezles.org/articles/distfunctions
 float sdOctahedron( vector p; float s ) {
@@ -648,6 +686,7 @@ f@surface = sdOctahedron(v@P, 1.0);
 ```
 
 ## Helix - bound (not exact)
+
 ```c
 // From https://www.shadertoy.com/view/ftyBRd
 float sdHelix( vector p; float fr; float r1; float r2 ) {
