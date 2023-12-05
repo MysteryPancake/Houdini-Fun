@@ -153,11 +153,11 @@ v@Cd = fit11(wave, 0, 1);
 
 Looking good! Now I'll admit, I had to modify the code to get a seamless loop.
 
-Sine waves are awkward to work with since their range is 0 to `2*PI`:
+Sine waves are awkward to work with since their range is 0 to 2*PI:
 
 <img src="./images/vexembersine2.png" width="500">
 
-For a seamless loop, we need to remap from 0 to `2*PI` to 0 to 1:
+For a seamless loop, we need to remap from 0 to 2*PI to 0 to 1:
 
 ```c
 float sdf = length(v@P);
