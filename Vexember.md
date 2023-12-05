@@ -18,7 +18,7 @@ How is this possible? Simple! We don't use triangles. Instead we use distances, 
 
 <img src="./images/vexemberd.png" width="400">
 
-I can't mention SDFs without mentioning [ShaderToy](https://www.shadertoy.com/). It's the coolest website on the internet, and a god tier resource for SDFs along with raymarching, noises, shapes, and every math-related topic under the sun. Be sure to check it out, and try out shader programming!
+I can't mention SDFs without mentioning [ShaderToy](https://www.shadertoy.com/). It's the coolest website on the internet, and a god tier resource for SDFs along with raymarching, noises, shapes, and every topic under the sun. Be sure to check it out, and try out shader programming!
 
 Let's start by making our first SDF, the SDF of a point.
 
