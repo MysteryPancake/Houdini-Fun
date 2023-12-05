@@ -86,7 +86,7 @@ The 'Signed' in 'Signed Distance Function' means the distance is negative on the
 
 <img src="./images/vexembersdfsign.png" width="400">
 
-We need the inside to be negative. To do this, we simply subtract the radius:
+We need the inside to be negative. It's easy to achieve this, we just need to subtract the radius:
 
 ```c
 // Make the inside negative
