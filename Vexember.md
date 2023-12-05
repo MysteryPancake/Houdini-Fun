@@ -153,7 +153,7 @@ Much nicer! Now let's add some movement to make it more interesting. First we ne
 ### How sine waves work
 Sine waves have 3 main parameters we can mess with: the **amplitude**, **frequency** and **phase**.
 
-- **Amplitude** is the height of the wave, measured from the highest peak. For audio waves, this is the volume.
+- **Amplitude** is the height of the wave. For audio waves, this is the volume.
 - **Frequency** is the distance between peaks of the wave. For audio waves, this is the pitch.
 - **Phase** is how far along we are in the wave's cycle. For audio waves, this is the time.
 
