@@ -18,11 +18,13 @@ How is this possible? Simple! We don't use triangles. Instead we use distances, 
 
 <img src="./images/vexemberd.png" width="400">
 
+I can't mention SDFs without mentioning [ShaderToy](https://www.shadertoy.com/). It's the coolest website on the internet, and a god tier resource for SDFs along with raymarching, noises, shapes, and every math-related topic under the sun. Be sure to check it out, and try out shader programming!
+
 Let's start by making our first SDF, the SDF of a point.
 
 ### SDF of a point
 
-Drop down a grid in Houdini, and set the rows and columns to a large number. Next add a point wrangle. We want to find the distance from our current position to another point. Let's use the world origin `{0, 0, 0}`:
+Drop down a grid in Houdini, and set the rows and columns to a large number. Next add a Point Wrangle. We want to find the distance from our current position to another point. Let's use the world origin `{0, 0, 0}`:
 
 ```c
 v@Cd = distance(v@P, {0, 0, 0});
@@ -34,7 +36,7 @@ And just like that, we have a blurry circle:
 
 Congratulations, we made our first SDF! Wasn't too hard, was it? The black part is where the distance is 0, and it gets brighter as the distance grows. It's only 2 lines of VEX, but let's see if we can make it even shorter.
 
-Most SDFs you'll find online [like the classics by Inigo Quilez](https://iquilezles.org/articles/distfunctions2d/) don't use `distance()`. Instead they use `length()`.
+Most SDFs you'll find online [like these classics by Inigo Quilez](https://iquilezles.org/articles/distfunctions2d/) don't use `distance()`. Instead they use `length()`.
 
 `length()` gets the magnitude of a vector, meaning how far it is from `{0, 0, 0}`. That's exactly what we're doing:
 
@@ -117,7 +119,7 @@ v@Cd = sin(sdf * 10);
 
 Very trippy! Seems a bit dark though? This is because we're writing to `@Cd` which ranges from 0 to 1, but sine ranges from -1 to 1.
 
-<img src="./images/vexembersine.png" width="400">
+<img src="./images/vexembersine.png" width="500">
 
 We can fix this by moving sine a little, either manually or with `fit11()`.
 
@@ -153,7 +155,7 @@ Looking good! Now I'll admit, I had to modify the code to get a seamless loop.
 
 Sine waves are awkward to work with since their range is 0 to `2*PI`:
 
-<img src="./images/vexembersine2.png" width="400">
+<img src="./images/vexembersine2.png" width="500">
 
 For a seamless loop, we need to remap from 0 to `2*PI` to 0 to 1:
 
@@ -172,22 +174,107 @@ v@Cd = fit11(wave, 0, 1);
 With all that out of the way, let's start the actual challenge!
 
 ### The actual challenge
+Add a toy and a point. Plug them into a Point Wrangle.
+
+<img src="./images/vexember1nodes.png" width="400">
+
+First let's color the toy based on its distance to the point like before:
 
 ```c
-// Get the position of the other point (wrangle input 1).
+// Get the position of the other point (wrangle input 1)
 vector p2 = point(1, "P", 0);
 
-// Get the distance from us to the other point. This is the signed distance function of a point.
+// Color the distance from us to the point
 float sdf = length(v@P - p2);
+v@Cd = sdf;
+```
 
-// We can visualise the SDFs using a sine wave. This is commonly found on ShaderToy
-float frequency = 50; // Distance between peaks in the wave
-float phase = @Time * -10; // How fast it wobbles over time
+<img src="./images/vexemberdist6.png" width="400">
+
+Looking good! Now let's add a sine wave like before:
+
+```c
+// Get the position of the other point (wrangle input 1)
+vector p2 = point(1, "P", 0);
+
+// Plug the SDF into a sine wave
+float sdf = length(v@P - p2);
+float wave = sin(sdf * 30);
+
+// Remap sine -1 to 1 to RGB 0 to 1
+v@Cd = fit11(wave, 0, 1);
+```
+
+<img src="./images/vexemberdist7.png" width="400">
+
+Trippy! Now let's make the sine wave move over time like before:
+
+```c
+// Get the position of the other point (wrangle input 1)
+vector p2 = point(1, "P", 0);
+
+// Change the sine wave's phase over time
+float sdf = length(v@P - p2);
+float frequency = 30;
+float phase = @Time * -5;
 float wave = sin(sdf * frequency + phase);
 
-// Sine waves range from -1 to 1, so remap it to 0 to 1 since RGB is 0 to 1
-wave = fit11(wave, 0, 1); // Or wave * 0.5 + 0.5
-
-v@Cd = wave; // Color based on the wave
-v@P += v@N * wave * 0.02; // Peak based on the wave. 0.02 is the distance to peak
+// Remap sine -1 to 1 to RGB 0 to 1
+v@Cd = fit11(wave, 0, 1);
 ```
+
+<img src="./images/vexemberwave.gif" width="400">
+
+Finally let's scale the geometry based on the sine wave. We can do this by adding the normal to the position, same as the peak node:
+
+```c
+// Get the position of the other point (wrangle input 1)
+vector p2 = point(1, "P", 0);
+
+// Change the sine wave's phase over time
+float sdf = length(v@P - p2);
+float frequency = 30;
+float phase = @Time * -5;
+float wave = sin(sdf * frequency + phase);
+
+// Remap sine -1 to 1 to RGB 0 to 1
+v@Cd = fit11(wave, 0, 1);
+
+// Offset geometry based on normal, 0.02 controls depth
+v@P += v@N * wave * 0.02;
+```
+
+<img src="./images/vexemberwave2.gif" width="400">
+
+Congratulations, you made it through day 1!
+
+Be sure to check out [ShaderToy](https://www.shadertoy.com/), [The Book of Shaders](https://thebookofshaders.com/) and [Inigo Quilez](https://iquilezles.org/articles/distfunctions/) for more!
+
+### Advanced
+If SDFs are old news to you, here's something new! So far we've drawn SDFs with colors, but what if we want to turn them into actual geometry? Turns out we can using VDB Level Sets!
+
+Add a VDB node. Set it to make a 'Level Set' named 'surface'.
+
+<img src="./images/vexemberlevelset.png" width="600">
+
+Add a VDB Activate node. Set the size of your volume to (2, 2, 2).
+
+<img src="./images/vexemberlevelset2.png" width="600">
+
+Add a Volume Wrangle. Here you can type in your SDF, for example let's use the sphere we made earlier:
+
+```c
+// SDF of a sphere
+float radius = 1;
+f@surface = length(v@P) - radius;
+```
+
+<img src="./images/vexemberlevelset3.png" width="600">
+
+Finally, add a VDB Convert node to turn it from a volume into polygons.
+
+<img src="./images/vexemberlevelset4.png" width="600">
+
+Just for fun, I did this for every SDF I could find. [You can find them all here!](./Houdini_SDFs.md)
+
+<img src="./images/sdf_volumes.png?raw=true">
