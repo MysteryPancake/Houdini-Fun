@@ -7,6 +7,7 @@ These articles grew too long to fit on the main page. Be sure to check them out!
 - [Vexember 2023](Vexember.md)
 - [Make your own lerp() and fit()](Lerp.md)
 - [Volumes from signed distance functions](./Houdini_SDFs.md)
+- [Easings](./Easings.md)
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
