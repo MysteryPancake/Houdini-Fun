@@ -6,25 +6,7 @@ These grew too large to fit on the main page. Be sure to check them out!
 
 - [Vexcember 2023](Vexember.md)
 - [Make your own lerp() and fit()](Lerp.md)
-
-## Volumes from signed distance functions
-Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
-
-1. Add a VDB node. Set the class to "Level Set" and the name to "surface".
-2. Add a VDB Activate node. Use it to set the size of your VDB.
-3. Add a Volume Wrangle. Here you define your SDF based on `@P`, for example a basic sphere:
-
-```js
-float sdSphere(vector p; float s) {
-  return length(p) - s;
-}
-
-f@surface = sdSphere(v@P, 0.5);
-```
-
-[Click here for all the classic SDFs ported to Houdini!](./Houdini_SDFs.md)
-
-<img src="./images/sdf_volumes.png?raw=true">
+- [Volumes from signed distance functions](./Houdini_SDFs.md)
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
