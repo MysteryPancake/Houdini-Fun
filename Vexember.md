@@ -26,7 +26,7 @@ Let's start by making our first SDF, the SDF of a point.
 
 Drop down a grid in Houdini, and set the rows and columns to a large number. Next add a Point Wrangle. We want to find the distance from our current position to another point. Let's use the world origin `{0, 0, 0}`:
 
-```c
+```js
 v@Cd = distance(v@P, {0, 0, 0});
 ```
 
@@ -40,7 +40,7 @@ Most SDFs you'll find online [like these classics by Inigo Quilez](https://iquil
 
 `length()` gets the magnitude of a vector, meaning how far it is from `{0, 0, 0}`. That's exactly what we're doing:
 
-```c
+```js
 // Using length()
 v@Cd = length(v@P);
 
@@ -50,7 +50,7 @@ v@Cd = distance(v@P, {0, 0, 0});
 
 Much shorter! But what if we want to move our point to a different location? Turns out `length()` works for that too!
 
-```c
+```js
 // Move 1 unit along the X axis
 vector p2 = {1, 0, 0};
 
@@ -68,13 +68,13 @@ Now let's make our second SDF, the SDF of a circle.
 ### SDF of a circle
 Let's start from the SDF of a point.
 
-```c
+```js
 v@Cd = length(v@P);
 ```
 
 We know the distance grows in a circular fashion away from the center, so let's color everything above a certain distance:
 
-```c
+```js
 // Shade everything below 1 black and above 1 white
 float radius = 1;
 v@Cd = length(v@P) > radius;
@@ -90,7 +90,7 @@ The 'Signed' in 'Signed Distance Function' means the distance is negative on the
 
 We need the inside to be negative. It's easy to achieve, just subtract the radius:
 
-```c
+```js
 // Make the inside negative
 float radius = 1;
 v@Cd = length(v@P) - radius;
@@ -100,7 +100,7 @@ v@Cd = length(v@P) - radius;
 
 Now we can use the same method as before to sharpen the edge:
 
-```c
+```js
 float radius = 1;
 float sdf = length(v@P) - radius;
 
@@ -119,7 +119,7 @@ Though I must say, your artistic ability is falling a little. These blurry shape
 
 Take the point SDF and plug it into `sin()`:
 
-```c
+```js
 // SDF of a point located at {0, 0, 0}
 float sdf = length(v@P);
 
@@ -135,7 +135,7 @@ Very trippy! Seems a bit dark though? It's because we're writing to `@Cd` which 
 
 We can fix this by moving sine a little, either manually or with `fit11()`.
 
-```c
+```js
 float sdf = length(v@P);
 float wave = sin(sdf * 10);
 
@@ -150,7 +150,7 @@ v@Cd = fit11(wave, 0, 1);
 
 Much nicer! Now let's add some movement to make it more interesting. We can do this by changing the phase based on time:
 
-```c
+```js
 float sdf = length(v@P);
 
 // Make the sine wave move based on time
@@ -171,7 +171,7 @@ Sine waves are awkward to work with since their range is 0 to 2*PI:
 
 For a seamless loop, we need to remap from 0 to 2*PI to 0 to 1. This can be done with multiplication:
 
-```c
+```js
 float sdf = length(v@P);
 
 // Multiply by 2 * PI to get a seamless loop every second
@@ -192,7 +192,7 @@ Add a toy and a point. Plug them into a Point Wrangle.
 
 First let's color the toy based on the distance to the point like before:
 
-```c
+```js
 // Get the position of the other point (wrangle input 1)
 vector p2 = point(1, "P", 0);
 
@@ -205,7 +205,7 @@ v@Cd = sdf;
 
 Looking good! Now let's add a sine wave:
 
-```c
+```js
 // Get the position of the other point (wrangle input 1)
 vector p2 = point(1, "P", 0);
 
@@ -221,7 +221,7 @@ v@Cd = fit11(wave, 0, 1);
 
 Trippy! Now let's make the sine wave move over time:
 
-```c
+```js
 // Get the position of the other point (wrangle input 1)
 vector p2 = point(1, "P", 0);
 
@@ -239,7 +239,7 @@ v@Cd = fit11(wave, 0, 1);
 
 Finally let's scale the geometry based on the sine wave. We can do this by adding the normal to the position, much like the Peak node:
 
-```c
+```js
 // Get the position of the other point (wrangle input 1)
 vector p2 = point(1, "P", 0);
 
@@ -275,7 +275,7 @@ Add a VDB Activate node. Set the size of your volume to (2, 2, 2).
 
 Add a Volume Wrangle. Here you can type in your SDF, for example let's use the sphere we made earlier:
 
-```c
+```js
 // SDF of a sphere
 float radius = 1;
 f@surface = length(v@P) - radius;
