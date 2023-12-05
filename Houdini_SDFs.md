@@ -19,7 +19,7 @@ I did this for every single SDF I could find. [Click here to download the HIP fi
 
 ## Sphere - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdSphere( vector p; float s ) {
 	return length(p)-s;
@@ -30,7 +30,7 @@ f@surface = sdSphere(v@P, 1.0);
 
 ## Box - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdBox( vector p; vector b ) {
 	vector q = abs(p) - b;
@@ -42,7 +42,7 @@ f@surface = sdBox(v@P, {1.0, 1.0, 1.0});
 
 ## Round Box - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdRoundBox( vector p; vector b; float r ) {
 	vector q = abs(p) - b;
@@ -54,7 +54,7 @@ f@surface = sdRoundBox(v@P, {0.5, 0.5, 0.5}, 0.5);
 
 ## Box Frame - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdBoxFrame( vector p; vector b; float e ) {
 	p = abs(p)-b;
@@ -70,7 +70,7 @@ f@surface = sdBoxFrame(v@P, {1.0, 1.0, 1.0}, 0.2);
 
 ## Torus - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdTorus( vector p; vector2 t ) {
 	vector2 q = set(length(set(p.x, p.z))-t.x,p.y);
@@ -82,7 +82,7 @@ f@surface = sdTorus(v@P, {1.0, 0.2});
 
 ## Capped Torus - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCappedTorus( vector p; vector2 sc; float ra; float rb ) {
 	p.x = abs(p.x);
@@ -95,7 +95,7 @@ f@surface = sdCappedTorus(v@P, set(sin(2.0), cos(2.0)), 1.0, 0.2);
 
 ## Link - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdLink( vector p; float le; float r1; float r2 ) {
 	vector q = set( p.x, max(abs(p.y)-le,0.0), p.z );
@@ -107,7 +107,7 @@ f@surface = sdLink(v@P, 1.0, 0.5, 0.2);
 
 ## Cone - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCone( vector p; vector2 c; float h ) {
 	// c is the sin/cos of the angle, h is height
@@ -129,7 +129,7 @@ f@surface = sdCone(v@P, {0.5, 1.0}, 2.0);
 
 ## Plane - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdPlane( vector p; vector n; float h ) {
 	// n must be normalized
@@ -141,7 +141,7 @@ f@surface = sdPlane(v@P, normalize({0.0, 1.0, 0.0}), 0.0);
 
 ## Hexagonal Prism - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdHexPrism( vector p; vector2 h ) {
 	vector k = {-0.8660254, 0.5, 0.57735};
@@ -158,7 +158,7 @@ f@surface = sdHexPrism(v@P, {1.0, 1.0});
 
 ## Arbitrary Capsule / Line - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCapsule( vector p; vector a; vector b; float r ) {
 	vector pa = p - a, ba = b - a;
@@ -171,7 +171,7 @@ f@surface = sdCapsule(v@P, {-0.5, -0.5, 0.0}, {0.5, 0.5, 0.0}, 0.5);
 
 ## Vertical Capsule / Line - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdVerticalCapsule( vector p; float h; float r ) {
 	p.y -= clamp( p.y, 0.0, h );
@@ -183,7 +183,7 @@ f@surface = sdVerticalCapsule(v@P, 1.0, 0.5);
 
 ## Vertical Capped Cylinder - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCappedCylinder( vector p; float h; float r ) {
 	vector2 d = abs(set(length(set(p.x,p.z)),p.y)) - set(r,h);
@@ -195,7 +195,7 @@ f@surface = sdCappedCylinder(v@P, 1.0, 0.5);
 
 ## Arbitrary Capped Cylinder - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCappedCylinder( vector p; vector a; vector b; float r ) {
 	vector ba = b - a;
@@ -215,7 +215,7 @@ f@surface = sdCappedCylinder(v@P, {-1.0, -1.0, 0.0}, {1.0, 1.0, 0.0}, 0.5);
 
 ## Rounded Cylinder - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdRoundedCylinder( vector p; float ra; float rb; float h ) {
 	vector2 d = set( length(set(p.x,p.z))-2.0*ra+rb, abs(p.y) - h );
@@ -227,7 +227,7 @@ f@surface = sdRoundedCylinder(v@P, 0.3, 0.2, 1.0);
 
 ## Vertical Capped Cone - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCappedCone( vector p; float h; float r1; float r2 ) {
 	vector2 q = set( length(set(p.x,p.z)), p.y );
@@ -244,7 +244,7 @@ f@surface = sdCappedCone(v@P, 1.0, 1.0, 0.5);
 
 ## Arbitrary Capped Cone - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCappedCone( vector p; vector a; vector b; float ra; float rb ) {
 	float rba  = rb-ra;
@@ -268,7 +268,7 @@ f@surface = sdCappedCone(v@P, {-0.5, -0.5, 0.0}, {0.5, 0.5, 0.0}, 1.0, 0.5);
 
 ## Solid Angle - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdSolidAngle( vector p; vector2 c; float ra ) {
 	// c is the sin/cos of the angle
@@ -283,7 +283,7 @@ f@surface = sdSolidAngle(v@P, {1.0, 1.0}, 1.5);
 
 ## Cut Sphere - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCutSphere( vector p; float r; float h ) {
 	// sampling independent computations (only depend on shape)
@@ -302,7 +302,7 @@ f@surface = sdCutSphere(v@P, 1.0, 0.0);
 
 ## Cut Hollow Sphere - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCutHollowSphere( vector p; float r; float h; float t ) {
 	// sampling independent computations (only depend on shape)
@@ -319,7 +319,7 @@ f@surface = sdCutHollowSphere(v@P, 1.0, 0.0, 0.1);
 
 ## Death Star - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdDeathStar( vector p2; float ra; float rb; float d ) {
 	// sampling independent computations (only depend on shape)
@@ -340,7 +340,7 @@ f@surface = sdDeathStar(v@P, 1.0, 1.0, 1.0);
 
 ## Vertical Round Cone - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdRoundCone( vector p; float r1; float r2; float h ) {
 	// sampling independent computations (only depend on shape)
@@ -360,7 +360,7 @@ f@surface = sdRoundCone(v@P, 1.0, 0.5, 1.5);
 
 ## Arbitrary Round Cone - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdRoundCone( vector p; vector a; vector b; float r1; float r2 ) {
 	// sampling independent computations (only depend on shape)
@@ -391,7 +391,7 @@ f@surface = sdRoundCone(v@P, {-1.0, -1.0, 0.0}, {0.5, 0.5, 0.0}, 0.5, 1.0);
 
 ## Revolved Vesica - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdVesicaSegment( vector p; vector a; vector b; float w ) {
 	vector c = (a+b)*0.5;
@@ -412,7 +412,7 @@ f@surface = sdVesicaSegment(v@P, {-1.0, -1.0, 0.0}, {1.0, 1.0, 0.0}, 0.5);
 
 ## Rhombus - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float ndot( vector2 a; vector2 b ) {
 	return a.x*b.x - a.y*b.y;
@@ -431,7 +431,7 @@ f@surface = sdRhombus(v@P, 1.0, 0.5, 0.5, 0.5);
 
 ## Octahedron - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdOctahedron( vector p; float s ) {
 	p = abs(p);
@@ -451,7 +451,7 @@ f@surface = sdOctahedron(v@P, 1.0);
 
 ## Pyramid - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdPyramid( vector p; float h ) {
 	float m2 = h*h + 0.25;
@@ -480,7 +480,7 @@ f@surface = sdPyramid(v@P, 2.0);
 
 ## Triangle - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float dot2( vector v ) {
 	return dot(v,v);
@@ -511,7 +511,7 @@ f@surface = udTriangle(v@P, {1.0, 1.0, 0.0}, {-1.0, -1.0, 0.0}, {-1.0, 1.0, -1.0
 
 ## Quad - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float dot2( vector v ) {
 	return dot(v,v);
@@ -545,7 +545,7 @@ f@surface = udQuad(v@P, {1.0, 0.0, -1.0}, {0.0, 1.0, -1.0}, {-1.0, 0.0, 1.0}, {0
 
 ## Chain - exact
 
-```c
+```js
 // From https://www.shadertoy.com/view/wlXSD7
 float sdChain( vector pos; float le; float r1; float r2 ) {
 	float ya = max(abs(frac(pos.y    )-0.5)-le,0.0);
@@ -563,7 +563,7 @@ f@surface = sdChain(v@P, 0.1, 0.3, 0.1);
 
 ## Octagonal Prism - Exact
 
-```c
+```js
 // From https://www.shadertoy.com/view/Xds3zN
 float sdOctagonPrism( vector p; float r; float h ) {
 	vector k = set(-0.9238795325,   // sqrt(2+sqrt(2))/2 
@@ -590,7 +590,7 @@ f@surface = sdOctagonPrism(v@P, 1.0, 1.0);
 
 ## Horseshoe - exact
 
-```c
+```js
 // From https://www.shadertoy.com/view/Xds3zN
 float sdHorseshoe( vector p; vector2 c; float r; float le; vector2 w ) {
 	p.x = abs(p.x);
@@ -613,7 +613,7 @@ f@surface = sdHorseshoe(v@P, set(cos(1.3), sin(1.3)), 1.0, 1.0, {0.1, 0.5});
 
 ## Infinite Cone - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCone( vector p; vector2 c ) {
 	// c is the sin/cos of the angle
@@ -627,7 +627,7 @@ f@surface = sdCone(v@P, {0.5, 1.0});
 
 ## Infinite Cylinder - exact
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCylinder( vector p; vector c ) {
 	return length(set(p.x,p.z)-set(c.x,c.y))-c.z;
@@ -638,7 +638,7 @@ f@surface = sdCylinder(v@P, {0.0, 0.0, 0.5});
 
 ## Cone - bound (not exact)
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCone( vector p; vector2 c; float h ) {
   float q = length(set(p.x,p.z));
@@ -650,7 +650,7 @@ f@surface = sdCone(v@P, {0.5, 0.25}, 2.0);
 
 ## Triangular Prism - bound (not exact)
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdTriPrism( vector p; vector2 h ) {
 	vector q = abs(p);
@@ -662,7 +662,7 @@ f@surface = sdTriPrism(v@P, {1.0, 1.0});
 
 ## Ellipsoid - bound (not exact)
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdEllipsoid( vector p; vector r ) {
   float k0 = length(p/r);
@@ -675,7 +675,7 @@ f@surface = sdEllipsoid(v@P, {0.5, 1.0, 0.5});
 
 ## Octahedron - bound (not exact)
 
-```c
+```js
 // From https://iquilezles.org/articles/distfunctions
 float sdOctahedron( vector p; float s ) {
 	p = abs(p);
@@ -687,7 +687,7 @@ f@surface = sdOctahedron(v@P, 1.0);
 
 ## Helix - bound (not exact)
 
-```c
+```js
 // From https://www.shadertoy.com/view/ftyBRd
 float sdHelix( vector p; float fr; float r1; float r2 ) {
 	vector2 nline = set(fr, 6.283185*r1 );
