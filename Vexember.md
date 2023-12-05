@@ -275,6 +275,15 @@ Finally, add a VDB Convert node to turn it from a volume into polygons.
 
 <img src="./images/vexemberlevelset4.png" width="600">
 
-Just for fun, I did this for every SDF I could find. [You can find them all here!](./Houdini_SDFs.md)
+I did this for every SDF I could find. [You can find them all here!](./Houdini_SDFs.md)
 
 <img src="./images/sdf_volumes.png?raw=true">
+
+## Day 2: Voronoi
+TODO
+
+## Day 3: Lerp and easings
+TODO
+
+## Day 4: Linked lists and sorting
+TODO
