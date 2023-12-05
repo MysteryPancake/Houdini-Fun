@@ -18,7 +18,7 @@ How is this possible? Simple! We don't use triangles. Instead we use distances, 
 
 <img src="./images/vexemberd.png" width="400">
 
-I can't mention SDFs without mentioning [ShaderToy](https://www.shadertoy.com/). It's the coolest website on the internet, and a god tier resource for SDFs along with raymarching, noises, shapes, and every topic under the sun. Be sure to check it out, and try out shader programming!
+I can't mention SDFs without mentioning [ShaderToy](https://www.shadertoy.com/). It's the coolest website on the internet, and a god tier resource for SDFs along with raymarching, noises, shapes and every topic under the sun. Be sure to check it out, and try out shader programming!
 
 Let's start by making our first SDF, the SDF of a point.
 
@@ -246,7 +246,7 @@ v@P += v@N * wave * 0.02;
 
 <img src="./images/vexemberwave2.gif" width="400">
 
-Congratulations, you made it through day 1! Now it's your turn to add color and animate the point.
+Congratulations, you made it through day 1! Now it's your turn to add subdivision, color and animate the point.
 
 Be sure to check out [ShaderToy](https://www.shadertoy.com/), [The Book of Shaders](https://thebookofshaders.com/) and [Inigo Quilez](https://iquilezles.org/articles/distfunctions/) for more!
 
