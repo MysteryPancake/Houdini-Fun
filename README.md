@@ -2,7 +2,7 @@
 Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 
 ## Vexember 2023
-Vexember is a VEX challenge covering tons of cool topics you should check out. [See my writeup here!](Vexcember.md)
+Vexember is a VEX challenge covering tons of cool topics you should check out. [See my writeup here!](Vexember.md)
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
