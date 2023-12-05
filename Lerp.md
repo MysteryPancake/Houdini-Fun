@@ -1,9 +1,18 @@
-# Make your own fit()
+# Make your own lerp() and fit()
+`lerp()` and `fit()` are two functions you'll use constantly. They let you remap the range of a value in a linear way, great for interpolation and extrapolation.
+
+## `lerp()`
+```js
+float lerp_diy(float value1; float value2; float amount) {
+	return (1 - amount) * value1 + amount * value2; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
+}
+```
+
+## `fit()`
+
 `fit()` in Houdini is the same as `linear()` in After Effects.
 
 I remade `linear()` on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port it to VEX!
-
-## `fit()`
 
 ```js
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
@@ -95,3 +104,5 @@ float fit10_diy(float value; float nmin; float nmax) {
 	return nmin + clamp(1 - value, 0, 1) * (nmax - nmin);
 }
 ```
+
+For more info on lerp and fit, be sure to check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://www.youtube.com/watch?v=aVwxzDHniEw) videos!
