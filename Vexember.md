@@ -151,11 +151,11 @@ v@Cd = fit11(wave, 0, 1);
 Much nicer! Now let's add some movement to make it more interesting. First we need to know how sine waves work.
 
 ### How sine waves work
-Sine waves have 3 main parameters we can mess with: the **amplitude**, **frequency** and **phase**.
+Sine waves have 3 main parameters we can mess with: the **frequency**, **phase** and **amplitude**.
 
-- **Amplitude** is the height of the wave. For audio waves, this is the volume.
 - **Frequency** is the distance between peaks of the wave. For audio waves, this is the pitch.
 - **Phase** is how far along we are in the wave's cycle. For audio waves, this is the time.
+- **Amplitude** is the height of the wave. For audio waves, this is the volume.
 
 <img src="./images/vexemberwave.png" width="500">
 
