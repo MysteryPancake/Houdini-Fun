@@ -117,7 +117,7 @@ v@Cd = sin(sdf * 10);
 
 <img src="./images/vexemberdist4.png" width="400">
 
-Very trippy! Seems a bit dark though? This is because we're writing to `@Cd` which ranges from 0 to 1, but sine ranges from -1 to 1.
+Very trippy! Seems a bit dark though? It's because we're writing to `@Cd` which usually ranges from 0 to 1, but sine ranges from -1 to 1.
 
 <img src="./images/vexembersine.png" width="500">
 
