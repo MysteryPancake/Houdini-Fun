@@ -1,7 +1,19 @@
 # Houdini SDFs
-Made by the legendary [Inigo Quilez](https://iquilezles.org/articles/distfunctions), ported to Houdini by myself.
+Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
 
-[Click here to download the HIP file!](hips/sdf_volumes.hipnc?raw=true)
+1. Add a VDB node. Set the class to 'Level Set' and the name to 'surface'.
+2. Add a VDB Activate node. Use it to set the size of your VDB.
+3. Add a Volume Wrangle. Here you define your SDF based on `@P`, for example a basic sphere:
+
+```js
+float sdSphere(vector p; float s) {
+  return length(p) - s;
+}
+
+f@surface = sdSphere(v@P, 0.5);
+```
+
+I did this for every single SDF I could find. [Click here to download the HIP file!](hips/sdf_volumes.hipnc?raw=true)
 
 <img src="./images/sdf_volumes.png?raw=true">
 
