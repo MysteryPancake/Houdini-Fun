@@ -148,7 +148,21 @@ v@Cd = fit11(wave, 0, 1);
 
 <img src="./images/vexemberdist5.png" width="400">
 
-Much nicer! Now let's add some movement to make it more interesting. We can do this by changing the phase based on time:
+Much nicer! Now let's add some movement to make it more interesting. To add movement, we need to know how sine waves work.
+
+Sine waves have 3 main parameters we can mess with: the **amplitude**, **frequency** and **phase**.
+
+- **Amplitude** is the height of the wave, measured from the highest peak. For sound waves, this controls the volume.
+- **Frequency** is the distance between peaks of the wave. For sound waves, this controls the pitch.
+- **Phase** is the time offset of the wave. For sound waves, this controls the time.
+
+You can set each of these parameters individually using the following formula:
+
+```js
+float wave = sin(time * frequency + phase) * amplitude;
+```
+
+In this case, we just want to modify the phase:
 
 ```js
 float sdf = length(v@P);
