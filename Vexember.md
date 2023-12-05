@@ -246,7 +246,7 @@ v@P += v@N * wave * 0.02;
 
 <img src="./images/vexemberwave2.gif" width="400">
 
-Congratulations, you made it through day 1!
+Congratulations, you made it through day 1! Now it's your turn to add color and animate the point.
 
 Be sure to check out [ShaderToy](https://www.shadertoy.com/), [The Book of Shaders](https://thebookofshaders.com/) and [Inigo Quilez](https://iquilezles.org/articles/distfunctions/) for more!
 
