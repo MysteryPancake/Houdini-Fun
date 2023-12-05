@@ -1,5 +1,7 @@
 # Vexember 2023
-Vexember is a Houdini challenge created by [Paul Esteves](https://www.youtube.com/watch?v=uxevpt_xK68) and some other legends on the CGWiki Discord. It's covered tons of cool topics so far, here's a writeup on everything I know at the moment. Whether new or old to Houdini, I hope you learn something new!
+Vexember is a Houdini challenge created by [Paul Esteves](https://www.youtube.com/watch?v=uxevpt_xK68) and some other legends on the CGWiki Discord.
+
+It's covered tons of my favourite topics, so here's a writeup with some fun exercises along the way. Whether new or old to Houdini, I hope you learn something new!
 
 ## Day 1: SDFs
 <img src="./images/vexember1.gif" width="400">
