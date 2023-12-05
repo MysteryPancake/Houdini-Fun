@@ -7,7 +7,7 @@ Most SDFs are written directly, like [the classics from Inigo Quilez](https://iq
 
 ```js
 float sdSphere(vector p; float s) {
-  return length(p) - s;
+	return length(p) - s;
 }
 
 f@surface = sdSphere(v@P, 0.5);
