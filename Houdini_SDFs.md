@@ -823,7 +823,7 @@ f@surface = sdEllipsoid(v@P, {0.5, 1.0, 0.5});
 
 ## Octahedron - bound (not exact)
 
-<img align="left" src="./images/sdOctahedron.png" width="200">
+<img align="left" src="./images/sdOctahedronBound.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
