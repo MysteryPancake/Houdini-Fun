@@ -11,9 +11,9 @@ Waveforms have 3 main parameters we can mess with: the [amplitude](https://en.wi
 <img src="./images/vexemberwave.png" width="500">
 
 ### Amplitude
-<img src="./images/amplitude.gif" width="500">
-
 [Amplitude](https://en.wikipedia.org/wiki/Amplitude) is the height of the wave. It controls the **volume** if the sound is heard.
+
+<img src="./images/amplitude.gif" width="500">
 
 An amplitude of 0 means you can't hear the sound at all, while 1 means it plays at full blast.
 
@@ -28,9 +28,9 @@ float wave = sin(time) * amplitude;
 ```
 
 ### Frequency
-<img src="./images/frequency.gif" width="500">
-
 [Frequency](https://en.wikipedia.org/wiki/Frequency) is how often the wave repeats. It controls the **pitch** if the sound is heard.
+
+<img src="./images/frequency.gif" width="500">
 
 Each repeat is called a **cycle**. Sine and cosine waves complete a full **cycle** every `2*PI` radians (360 degrees):
 
@@ -51,9 +51,9 @@ float wave = sin(time * frequency * 2 * PI);
 <img src="./images/vexembersine3.png" width="400">
 
 ### Phase
-<img src="./images/phase.gif" width="500">
-
 [Phase](https://en.wikipedia.org/wiki/Phase_(waves)) is how far along we are in the wave's cycle. It controls the **time offset** if the sound is heard.
+
+<img src="./images/phase.gif" width="500">
 
 You control the phase by adding to the time:
 
@@ -85,6 +85,8 @@ Here's a collection of common waveforms. I originally made these for music produ
 - Each waveform's **phase** is controlled by adding to the time.
 
 ## Sine wave
+<img align="right" src="./images/sinewave.png" width="400">
+
 Add 0.25 to time to get a cosine wave.
 
 ```js
@@ -93,7 +95,11 @@ float waveSine(float freq; float time) {
 }
 ```
 
+<br clear="right"/>
+
 ## Cosine wave
+<img align="right" src="./images/coswave.png" width="400">
+
 Subtract 0.25 from time to get a sine wave.
 
 ```js
@@ -102,7 +108,11 @@ float waveCosine(float freq; float time) {
 }
 ```
 
+<br clear="right"/>
+
 ## Square wave
+<img align="right" src="./images/squarewave.png" width="400">
+
 I used `ceil()` instead of `sign()` since it seems more accurate.
 
 ```js
@@ -111,7 +121,11 @@ float waveSquare(float freq; float time) {
 }
 ```
 
+<br clear="right"/>
+
 ## Triangle wave
+<img align="right" src="./images/triwave.png" width="400">
+
 I used `fract()` since it's faster than modulo.
 
 ```js
@@ -120,7 +134,10 @@ float waveTriangle(float freq; float time) {
 }
 ```
 
+<br clear="right"/>
+
 ## Sawtooth wave
+<img align="right" src="./images/sawwave.png" width="400">
 
 ```js
 float waveSaw(float freq; float time) {
@@ -128,7 +145,11 @@ float waveSaw(float freq; float time) {
 }
 ```
 
+<br clear="right"/>
+
 ## Pulse wave
+<img align="right" src="./images/pulsewave.png" width="400">
+
 The duty cycle argument should be between 0 and 1.
 
 ```js
@@ -136,3 +157,5 @@ float wavePulse(float freq; float time; float duty) {
 	return (frac(freq * time) < duty) * 2.0 - 1.0;
 }
 ```
+
+<br clear="right"/>
