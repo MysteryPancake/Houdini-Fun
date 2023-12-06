@@ -336,6 +336,8 @@ f@surface = sdCappedCone(v@P, {-0.5, -0.5, 0.0}, {0.5, 0.5, 0.0}, 1.0, 0.5);
 
 ## Solid Angle - exact
 
+<img align="left" src="./images/sdSolidAngle.png" width="200">
+
 ```js
 // From https://iquilezles.org/articles/distfunctions
 float sdSolidAngle( vector p; vector2 c; float ra ) {
@@ -352,6 +354,8 @@ f@surface = sdSolidAngle(v@P, {1.0, 1.0}, 1.5);
 <br clear="left"/>
 
 ## Cut Sphere - exact
+
+<img align="left" src="./images/sdCutSphere.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -373,6 +377,8 @@ f@surface = sdCutSphere(v@P, 1.0, 0.0);
 <br clear="left"/>
 
 ## Cut Hollow Sphere - exact
+
+<img align="left" src="./images/sdCutHollowSphere.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -418,6 +424,8 @@ f@surface = sdDeathStar(v@P, 1.0, 1.0, 1.0);
 
 ## Vertical Round Cone - exact
 
+<img align="left" src="./images/sdRoundCone.png" width="200">
+
 ```js
 // From https://iquilezles.org/articles/distfunctions
 float sdRoundCone( vector p; float r1; float r2; float h ) {
@@ -439,6 +447,8 @@ f@surface = sdRoundCone(v@P, 1.0, 0.5, 1.5);
 <br clear="left"/>
 
 ## Arbitrary Round Cone - exact
+
+<img align="left" src="./images/sdRoundCone2.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -473,6 +483,8 @@ f@surface = sdRoundCone(v@P, {-1.0, -1.0, 0.0}, {0.5, 0.5, 0.0}, 0.5, 1.0);
 
 ## Revolved Vesica - exact
 
+<img align="left" src="./images/sdVesicaSegment.png" width="200">
+
 ```js
 // From https://iquilezles.org/articles/distfunctions
 float sdVesicaSegment( vector p; vector a; vector b; float w ) {
@@ -496,6 +508,8 @@ f@surface = sdVesicaSegment(v@P, {-1.0, -1.0, 0.0}, {1.0, 1.0, 0.0}, 0.5);
 
 ## Rhombus - exact
 
+<img align="left" src="./images/sdRhombus.png" width="200">
+
 ```js
 // From https://iquilezles.org/articles/distfunctions
 float ndot( vector2 a; vector2 b ) {
@@ -516,6 +530,8 @@ f@surface = sdRhombus(v@P, 1.0, 0.5, 0.5, 0.5);
 <br clear="left"/>
 
 ## Octahedron - exact
+
+<img align="left" src="./images/sdOctahedron.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -538,6 +554,8 @@ f@surface = sdOctahedron(v@P, 1.0);
 <br clear="left"/>
 
 ## Pyramid - exact
+
+<img align="left" src="./images/sdPyramid.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -569,6 +587,8 @@ f@surface = sdPyramid(v@P, 2.0);
 <br clear="left"/>
 
 ## Triangle - exact
+
+<img align="left" src="./images/udTriangle.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -602,6 +622,8 @@ f@surface = udTriangle(v@P, {1.0, 1.0, 0.0}, {-1.0, -1.0, 0.0}, {-1.0, 1.0, -1.0
 <br clear="left"/>
 
 ## Quad - exact
+
+<img align="left" src="./images/udQuad.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -639,6 +661,8 @@ f@surface = udQuad(v@P, {1.0, 0.0, -1.0}, {0.0, 1.0, -1.0}, {-1.0, 0.0, 1.0}, {0
 
 ## Chain - exact
 
+<img align="left" src="./images/sdChain.png" width="200">
+
 ```js
 // From https://www.shadertoy.com/view/wlXSD7
 float sdChain( vector pos; float le; float r1; float r2 ) {
@@ -658,6 +682,8 @@ f@surface = sdChain(v@P, 0.1, 0.3, 0.1);
 <br clear="left"/>
 
 ## Octagonal Prism - exact
+
+<img align="left" src="./images/sdOctagonPrism.png" width="200">
 
 ```js
 // From https://www.shadertoy.com/view/Xds3zN
@@ -687,6 +713,8 @@ f@surface = sdOctagonPrism(v@P, 1.0, 1.0);
 <br clear="left"/>
 
 ## Horseshoe - exact
+
+<img align="left" src="./images/sdHorseshoe.png" width="200">
 
 ```js
 // From https://www.shadertoy.com/view/Xds3zN
