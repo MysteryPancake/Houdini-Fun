@@ -1,9 +1,21 @@
 # Houdini Easings
 Easings are the foundation of motion graphics, and great for adding flair to your animations. [Easings.net](https://easings.net/) has a bunch of common easings.
 
-I ported them on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
+I ported them to JavaScript on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
 
-<img src="./images/EasingDemo.gif" width="600">
+<img src="./images/EasingDemo.gif" width="500">
+
+To use one, copy paste it into a wrangle and call it like so:
+
+```js
+float outCubic(float x) {
+	return 1 - pow(1 - x, 3);
+}
+
+// Easings expect a value between 0 and 1
+float x = clamp(f@Time, 0, 1);
+v@P.x += outCubic(x);
+```
 
 ## Ease In Sine
 ```js
