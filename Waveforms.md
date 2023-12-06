@@ -84,6 +84,17 @@ Here's a collection of common waveforms. I originally made these for music produ
 - Each waveform has an **amplitude** of 1, with each [sample](https://en.wikipedia.org/wiki/Sampling_(signal_processing)) ranging from -1 to 1. Multiply to control the volume.
 - Each waveform's **phase** is controlled by adding to the time.
 
+To use one, copy paste it into a wrangle and call it like so:
+
+```js
+float waveSine(float freq; float time) {
+	return sin(2 * PI * freq * time);
+}
+
+// Sine wave which repeats every second
+v@P.x += waveSine(1, f@Time);
+```
+
 ## Sine wave
 <img align="right" src="./images/sinewave.png" width="400">
 
