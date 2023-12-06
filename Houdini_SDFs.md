@@ -15,7 +15,7 @@ f@surface = sdSphere(v@P, 0.5);
 
 I did this for all the common SDFs I could find. [Click here to download the HIP file!](hips/sdf_volumes.hipnc?raw=true)
 
-<img src="./images/sdf_volumes.png?raw=true">
+[<img src="./images/sdf_volumes.png?raw=true">](hips/sdf_volumes.hipnc?raw=true)
 
 ## Sphere - exact
 
