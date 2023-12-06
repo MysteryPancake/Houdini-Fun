@@ -150,9 +150,9 @@ v@Cd = fit11(wave, 0, 1);
 
 Much nicer! Now let's add some movement to make it more interesting. To do this, we need to know how sine waves work.
 
-I split this off into a [separate article](./Waveforms.md). I recommend reading the article and coming back when you're done!
+I split this part into a [separate article](./Waveforms.md). I suggest reading it and coming back when you're done!
 
-Now that you're back, you should have a better idea of how to add movement. We can modify the **phase**:
+Once you're back, you should have a better idea of how to add the movement. We can modify the **phase**:
 
 ```js
 float sdf = length(v@P);
