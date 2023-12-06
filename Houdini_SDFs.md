@@ -177,6 +177,8 @@ f@surface = sdPlane(v@P, normalize({0.0, 1.0, 0.0}), 0.0);
 
 ## Hexagonal Prism - exact
 
+<img align="left" src="./images/sdHexPrism.png" width="200">
+
 ```js
 // From https://iquilezles.org/articles/distfunctions
 float sdHexPrism( vector p; vector2 h ) {
@@ -194,7 +196,25 @@ f@surface = sdHexPrism(v@P, {1.0, 1.0});
 
 <br clear="left"/>
 
+## Vertical Capsule / Line - exact
+
+<img align="left" src="./images/sdVerticalCapsule.png" width="200">
+
+```js
+// From https://iquilezles.org/articles/distfunctions
+float sdVerticalCapsule( vector p; float h; float r ) {
+	p.y -= clamp( p.y, 0.0, h );
+	return length( p ) - r;
+}
+
+f@surface = sdVerticalCapsule(v@P, 1.0, 0.5);
+```
+
+<br clear="left"/>
+
 ## Arbitrary Capsule / Line - exact
+
+<img align="left" src="./images/sdCapsule.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -209,21 +229,9 @@ f@surface = sdCapsule(v@P, {-0.5, -0.5, 0.0}, {0.5, 0.5, 0.0}, 0.5);
 
 <br clear="left"/>
 
-## Vertical Capsule / Line - exact
-
-```js
-// From https://iquilezles.org/articles/distfunctions
-float sdVerticalCapsule( vector p; float h; float r ) {
-	p.y -= clamp( p.y, 0.0, h );
-	return length( p ) - r;
-}
-
-f@surface = sdVerticalCapsule(v@P, 1.0, 0.5);
-```
-
-<br clear="left"/>
-
 ## Vertical Capped Cylinder - exact
+
+<img align="left" src="./images/sdCappedCylinder.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -238,6 +246,8 @@ f@surface = sdCappedCylinder(v@P, 1.0, 0.5);
 <br clear="left"/>
 
 ## Arbitrary Capped Cylinder - exact
+
+<img align="left" src="./images/sdCappedCylinder2.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -260,6 +270,8 @@ f@surface = sdCappedCylinder(v@P, {-1.0, -1.0, 0.0}, {1.0, 1.0, 0.0}, 0.5);
 <br clear="left"/>
 
 ## Rounded Cylinder - exact
+
+<img align="left" src="./images/sdRoundedCylinder.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -380,6 +392,8 @@ f@surface = sdCutHollowSphere(v@P, 1.0, 0.0, 0.1);
 <br clear="left"/>
 
 ## Death Star - exact
+
+<img align="left" src="./images/sdDeathStar.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
