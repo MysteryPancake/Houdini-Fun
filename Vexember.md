@@ -129,9 +129,9 @@ v@Cd = sin(sdf * 10);
 
 <img src="./images/vexemberdist4.png" width="400">
 
-Very trippy! Seems a bit dark though? It's because we're writing to `@Cd` which usually ranges from 0 to 1, but sine ranges from -1 to 1.
+Very trippy! Seems a bit dark though? It's because we're writing to `@Cd` which usually ranges from 0 to 1, but sine waves range from -1 to 1.
 
-<img src="./images/vexembersine.png" width="500">
+<img src="./images/vexembersine4.png" width="500">
 
 We can fix it by remapping the range to 0 to 1, either manually or with `fit11()`.
 
