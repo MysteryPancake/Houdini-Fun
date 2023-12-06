@@ -5,8 +5,8 @@ Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 These articles grew too long to fit on the main page. Be sure to check them out!
 
 - [Vexember 2023](Vexember.md)
-- [Volumes from signed distance functions](./Houdini_SDFs.md)
-- [Make your own lerp() and fit()](Lerp.md)
+- [Volumes from SDFs](./Houdini_SDFs.md)
+- [Lerp and Fit](Lerp.md)
 - [Waveforms](./Waveforms.md)
 - [Easings](./Easings.md)
 
