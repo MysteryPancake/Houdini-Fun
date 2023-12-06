@@ -150,22 +150,9 @@ v@Cd = fit11(wave, 0, 1);
 
 Much nicer! Now let's add some movement to make it more interesting. To do this, we need to know how sine waves work.
 
-### How sine waves work
-Sine waves have 3 main parameters we can mess with: the **amplitude**, **frequency** and **phase**.
+I split this off into a [separate article](./Waveforms.md). I recommend reading the article and coming back when you're done!
 
-- **Amplitude** is the height of the wave. For audio waves, this is the volume.
-- **Frequency** is the distance between peaks of the wave. For audio waves, this is the pitch.
-- **Phase** is how far along we are in the wave's cycle. For audio waves, this is the time.
-
-<img src="./images/vexemberwave.png" width="500">
-
-You can set each individually using the following formula:
-
-```js
-float wave = amplitude * sin(time * frequency + phase);
-```
-
-In this case, we want to modify the **phase**:
+Now that you're back, you should have a better idea of how to add movement. We can modify the **phase**:
 
 ```js
 float sdf = length(v@P);
