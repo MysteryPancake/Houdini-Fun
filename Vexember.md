@@ -115,7 +115,7 @@ Congratulations, we made our second SDF! You're practically a geometry god alrea
 Though I must say, your artistic ability is falling a little. These blurry shapes look pretty boring. Let's enter the world of waveforms!
 
 ### Waveforms
-[Pick a shape, any shape](https://thebookofshaders.com/05/)! Let's try a sine wave.
+[Pick a wave, any wave](./Waveforms.md)! Let's try a sine wave.
 
 Take the point SDF and plug it into `sin()`:
 
