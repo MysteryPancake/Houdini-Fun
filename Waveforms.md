@@ -38,7 +38,7 @@ You control the frequency by multiplying the time:
 float wave = sin(time * frequency);
 ```
 
-Since it's easier to use normalized units (0 to 1) than radians (0 to `2*PI`), you can multiply by `2*PI` to make it repeat every unit:
+Since it's easier to use normalized units (0 to 1) than radians (0 to `2*PI`), multiply by `2*PI` to repeat every unit instead:
 
 ```js
 float wave = sin(time * frequency * 2 * PI);
@@ -69,14 +69,14 @@ float wave = amplitude * sin(time * frequency * 2 * PI + phase);
 ```
 
 ## Common waveforms
-Here's a collection of common waveforms. I originally made these on [ShaderToy](https://www.shadertoy.com/view/clXSR7) for music production, but they're useful in Houdini too.
-
-- Each waveform is phase aligned, meaning the positive and negative cycles match. This prevents [interference](https://en.wikipedia.org/wiki/Wave_interference) when they're added together.
-- Each waveform is centered with a DC offset of 0.
-- Each have samples are between -1 and 1 (maximum volume). Multiply to reduce the volume.
-- Each can be adjusted in phase by adding to the time.
+Here's a collection of common waveforms. I originally made these for music production on [ShaderToy](https://www.shadertoy.com/view/clXSR7), but they're great for Houdini too.
 
 [<img src="./images/waveforms.png" width="600">](https://www.shadertoy.com/view/clXSR7)
+
+- Each waveform is **phase aligned**, meaning the positive and negative **cycles** match. This prevents [interference](https://en.wikipedia.org/wiki/Wave_interference) when they're added together.
+- Each waveform is centered with a **DC offset** of 0.
+- Each waveform has an **amplitude** of 1, with each [sample](https://en.wikipedia.org/wiki/Sampling_(signal_processing)) ranging from -1 to 1. Multiply to control the volume.
+- Each waveform's **phase** is controlled by adding to the time.
 
 ## Sine wave
 Add 0.25 to time to get a cosine wave.
@@ -97,14 +97,16 @@ float waveCosine(float freq; float time) {
 ```
 
 ## Square wave
+I used `ceil()` instead of `sign()` since it seems more accurate.
 
 ```js
 float waveSquare(float freq; float time) {
-	return ceil(0.5 - fract(freq * time)) * 2.0 - 1.0;
+	return ceil(0.5 - frac(freq * time)) * 2.0 - 1.0;
 }
 ```
 
 ## Triangle wave
+I used `fract()` since it's faster than modulo.
 
 ```js
 float waveTriangle(float freq; float time) {
@@ -116,15 +118,15 @@ float waveTriangle(float freq; float time) {
 
 ```js
 float waveSaw(float freq; float time) {
-	return fract(freq * time + 0.5) * 2.0 - 1.0;
+	return frac(freq * time + 0.5) * 2.0 - 1.0;
 }
 ```
 
 ## Pulse wave
-Duty cycle is between 0 and 1.
+The duty cycle argument should be between 0 and 1.
 
 ```js
 float wavePulse(float freq; float time; float duty) {
-	return step(fract(freq * time), duty) * 2.0 - 1.0;
+	return (frac(freq * time) < duty) * 2.0 - 1.0;
 }
 ```
