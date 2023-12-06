@@ -14,7 +14,7 @@ Traditionally, geometry is made up of thousands of little triangles. Triangles a
 
 If only there was a better way. Turns out there is! With SDFs, you get a [perfect circle out of the box](https://www.shadertoy.com/view/3ltSW2).
 
-How is this possible? Simple! We don't use triangles. Instead we use distances, more exactly the distance from us to the nearest object.
+How is this possible? Simple! We don't use triangles. Instead we use distances, more precisely the distance from us to the nearest object.
 
 <img src="./images/vexemberd.png" width="400">
 
