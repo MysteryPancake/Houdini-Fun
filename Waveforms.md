@@ -6,7 +6,7 @@ I made these waveforms on [ShaderToy](https://www.shadertoy.com/view/clXSR7) for
 - Each have samples are between -1 and 1 (maximum volume). Multiply to reduce the volume.
 - Each can be adjusted in phase by adding to the time.
 
-<img src="./images/waveforms.png" width="600">
+[<img src="./images/waveforms.png" width="600">](https://www.shadertoy.com/view/clXSR7)
 
 ## Sine Wave
 Add 0.25 to time to get a cosine wave.
