@@ -11,6 +11,8 @@ Waveforms have 3 main parameters we can mess with: the [amplitude](https://en.wi
 <img src="./images/vexemberwave.png" width="500">
 
 ### Amplitude
+<img src="./images/amplitude.gif" width="500">
+
 [Amplitude](https://en.wikipedia.org/wiki/Amplitude) is the height of the wave. It controls the **volume** if the sound is heard.
 
 An amplitude of 0 means you can't hear the sound at all, while 1 means it plays at full blast.
@@ -26,6 +28,8 @@ float wave = sin(time) * amplitude;
 ```
 
 ### Frequency
+<img src="./images/frequency.gif" width="500">
+
 [Frequency](https://en.wikipedia.org/wiki/Frequency) is how often the wave repeats. It controls the **pitch** if the sound is heard.
 
 Each repeat is called a **cycle**. Sine and cosine waves complete a full **cycle** every `2*PI` radians (360 degrees):
@@ -47,6 +51,8 @@ float wave = sin(time * frequency * 2 * PI);
 <img src="./images/vexembersine3.png" width="400">
 
 ### Phase
+<img src="./images/phase.gif" width="500">
+
 [Phase](https://en.wikipedia.org/wiki/Phase_(waves)) is how far along we are in the wave's cycle. It controls the **time offset** if the sound is heard.
 
 You control the phase by adding to the time:
