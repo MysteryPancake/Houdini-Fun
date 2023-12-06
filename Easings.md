@@ -3,7 +3,7 @@ Easings are the foundation of motion graphics, and great for adding flair to you
 
 I ported them on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
 
-<img src="./images/EasingDemo.gif" width="500">
+<img src="./images/EasingDemo.gif" width="600">
 
 ## Ease In Sine
 ```js
