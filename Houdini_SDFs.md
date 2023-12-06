@@ -699,6 +699,8 @@ f@surface = sdHorseshoe(v@P, set(cos(1.3), sin(1.3)), 1.0, 1.0, {0.1, 0.5});
 
 ## Infinite Cone - exact
 
+<img align="left" src="./images/sdConeInf.png" width="200">
+
 ```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCone( vector p; vector2 c ) {
@@ -715,6 +717,8 @@ f@surface = sdCone(v@P, {0.5, 1.0});
 
 ## Infinite Cylinder - exact
 
+<img align="left" src="./images/sdCylinderInf.png" width="200">
+
 ```js
 // From https://iquilezles.org/articles/distfunctions
 float sdCylinder( vector p; vector c ) {
@@ -727,6 +731,8 @@ f@surface = sdCylinder(v@P, {0.0, 0.0, 0.5});
 <br clear="left"/>
 
 ## Cone - bound (not exact)
+
+<img align="left" src="./images/sdConeBound.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -742,6 +748,8 @@ f@surface = sdCone(v@P, {0.5, 0.25}, 2.0);
 
 ## Triangular Prism - bound (not exact)
 
+<img align="left" src="./images/sdTriPrism.png" width="200">
+
 ```js
 // From https://iquilezles.org/articles/distfunctions
 float sdTriPrism( vector p; vector2 h ) {
@@ -755,6 +763,8 @@ f@surface = sdTriPrism(v@P, {1.0, 1.0});
 <br clear="left"/>
 
 ## Ellipsoid - bound (not exact)
+
+<img align="left" src="./images/sdEllipsoid.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -771,6 +781,8 @@ f@surface = sdEllipsoid(v@P, {0.5, 1.0, 0.5});
 
 ## Octahedron - bound (not exact)
 
+<img align="left" src="./images/sdOctahedron.png" width="200">
+
 ```js
 // From https://iquilezles.org/articles/distfunctions
 float sdOctahedron( vector p; float s ) {
@@ -784,6 +796,8 @@ f@surface = sdOctahedron(v@P, 1.0);
 <br clear="left"/>
 
 ## Helix - bound (not exact)
+
+<img align="left" src="./images/sdHelix.png" width="200">
 
 ```js
 // From https://www.shadertoy.com/view/ftyBRd
