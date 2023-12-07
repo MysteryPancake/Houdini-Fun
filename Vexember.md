@@ -296,7 +296,7 @@ I did this for every SDF I could find. [You can find them all here!](./Houdini_S
 <img src="./images/sdf_volumes.png?raw=true">
 
 ## Day 2: Voronoi
-TODO
+TODO (mention circular scatter and generalised SDF formula)
 
 ## Day 3: Lerp and easings
 TODO
@@ -306,3 +306,6 @@ TODO
 
 ## Day 5: Braids and coils
 TODO
+
+## Day 6: Quantizing
+TODO (mention custom scatter + fuse)
