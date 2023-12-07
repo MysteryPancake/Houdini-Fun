@@ -123,6 +123,8 @@ int nearest_id = pcfind(0, attrib, target, 99999.9, 1)[0];
 
 Another option is using Attribute Swap to move the attribute to `@P`. Keep in mind this only works for certain types of attributes.
 
+To find an exact match, use `findattribval()` instead.
+
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
 
