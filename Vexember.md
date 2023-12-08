@@ -309,3 +309,5 @@ TODO
 
 ## Day 6: Quantizing
 TODO (mention custom scatter + fuse)
+
+## Day 7: Matrices and centroids
