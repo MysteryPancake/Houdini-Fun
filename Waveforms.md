@@ -137,11 +137,11 @@ float waveSquare(float freq; float time) {
 ## Triangle wave
 <img align="right" src="./images/triwave.png" width="400">
 
-I used `fract()` since it's faster than modulo.
+I used `frac()` since it's faster than modulo.
 
 ```js
 float waveTriangle(float freq; float time) {
-	return abs(fract(freq * time - 0.25) - 0.5) * 4.0 - 1.0;
+	return abs(frac(freq * time - 0.25) - 0.5) * 4.0 - 1.0;
 }
 ```
 
