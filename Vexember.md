@@ -313,4 +313,5 @@ TODO (mention custom scatter + fuse)
 ## Day 7: Matrices and HSV
 TODO
 
-## Day 8: Noise layers
+## Day 8: Noise octaves
+TODO
