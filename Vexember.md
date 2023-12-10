@@ -315,3 +315,6 @@ TODO
 
 ## Day 8: Noise octaves
 TODO
+
+## Day 9
+TODO
