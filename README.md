@@ -249,7 +249,7 @@ Use Houdini's [performance monitor](https://www.sidefx.com/docs/houdini/ref/pane
 ## Be careful with velocity
 Velocity is easy to overlook and hard to get right. I've rendered full shots before realising I forgot to put velocity on deforming geo, transfer it to packed geo, or it doesn't line up.
 
-A good tip from Lewis Taylor is double check velocity coming out of POP sims. It sometimes ignores POP forces and calculates an incorrect result.
+A great tip from Lewis Taylor is to double check velocities from POP sims. It sometimes ignores POP forces and calculates an incorrect result.
 
 For checking velocities, a tip from Ben Anderson is Time Shift a frame backward, template it and display velocity. You should see a line between the past and present position.
 
@@ -259,7 +259,7 @@ Combining multiple pairs of VDBs is often unpredictable, for example combining t
 Make sure to combine each VDB pair separately, then feed all pairs into a merge node.
 
 ## Be careful with typecasting
-I used to do this to generate random velocities between -1 and 1. See if you can spot the problem.
+I used to do this to generate random velocities between -0.5 and 0.5. See if you can spot the problem.
 
 ```js
 v@v = rand(i@ptnum) - 0.5;
@@ -290,7 +290,7 @@ v@v = x - 0.5;
 This happens a lot, so always explicitly declare types to be safe!
 
 ## Be careful with random
-Sometimes silly people use `rand()` to generate velocities between -1 and 1. See if you can spot the problem.
+Even with fixed typecasting, there's still a problem. See if you can spot it:
 
 ```js
 v@v = rand(i@ptnum) - vector(0.5);
@@ -350,7 +350,7 @@ v@v = dir * mag;
 ## POP: Make particles look like fluid
 A key characteristic of fluid is how it sticks together, forming clumps and strands. POP Fluid tries to emulate this, but it doesn't look as good as FLIP.
 
-To get nicer clumps, a tip from Raphael Gadot is to use Attribute Blur set to "Proximity". Though it won't affect the motion, it looks incredibly realistic on single frames.
+To get nicer clumps, a tip from Raphael Gadot is to use Attribute Blur set to "Proximity". Though it won't affect the motion, it looks incredible on still frames.
 
 ## Smoke / Fluids: Fix moving colliders
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
