@@ -334,7 +334,7 @@ TODO
 ## Day 14
 TODO
 
-## Day 15
+## Day 15: Ray and intersect
 TODO
 
 ## Day 16
