@@ -318,3 +318,24 @@ TODO
 
 ## Day 9
 TODO
+
+## Day 10
+TODO
+
+## Day 11
+TODO
+
+## Day 12
+TODO
+
+## Day 13
+TODO
+
+## Day 14
+TODO
+
+## Day 15
+TODO
+
+## Day 16
+TODO
