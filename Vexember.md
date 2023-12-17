@@ -316,7 +316,7 @@ TODO
 ## Day 8: Noise octaves
 TODO
 
-## Day 9
+## Day 9: Quaternions
 TODO
 
 ## Day 10
@@ -331,11 +331,11 @@ TODO
 ## Day 13
 TODO
 
-## Day 14
+## Day 14: Matrices again
 TODO
 
 ## Day 15: Ray and intersect
 TODO
 
-## Day 16
+## Day 16: Coils again
 TODO
