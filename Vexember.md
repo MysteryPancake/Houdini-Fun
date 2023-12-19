@@ -339,3 +339,12 @@ TODO
 
 ## Day 16: Coils again
 TODO
+
+## Day 17
+TODO
+
+## Day 18
+TODO
+
+## Day 19: NDC coordinates
+TODO
