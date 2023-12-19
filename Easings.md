@@ -17,6 +17,8 @@ float x = clamp(f@Time, 0, 1);
 v@P.x += outCubic(x);
 ```
 
+Also be sure to check out easings by [Tackyflea](https://github.com/Tackyflea/Houdini-Eases) and [Lucky Dee](https://luckydee.gumroad.com/l/elTween?layout=profile)!
+
 ## Ease In Sine
 
 <img src="./images/inSine.gif" width="200" align="left">
