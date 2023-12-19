@@ -3,12 +3,12 @@
 
 If you've ever wondered how they work, look no further! I remade them on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
 
-For a great resource on deriving them yourself, check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://www.youtube.com/watch?v=aVwxzDHniEw) videos!
+For a great resource on deriving them yourself, check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://www.youtube.com/watch?v=aVwxzDHniEw) videos.
 
 ## `lerp()`
 Lerp takes two values and performs a weighted sum based on a factor.
 
-For example, to get 50% between two values, you'd add half of each:
+For example to get halfway between two values, you'd add half of each:
 
 ```js
 0.5 * value1 + 0.5 * value2
@@ -20,7 +20,7 @@ To get 75% between two values, you'd add 1/4 of the first and 3/4 of the second:
 0.25 * value1 + 0.75 * value2
 ```
 
-Generalising this idea gives us the formula for lerp:
+Generalizing this gives the formula for lerp:
 
 ```js
 float lerp_diy(float value1; float value2; float amount) {
@@ -31,7 +31,7 @@ float lerp_diy(float value1; float value2; float amount) {
 ## `invlerp()`
 Inverse lerp takes a value and a range, then normalizes the value so it lies between 0 and 1.
 
-Given a minimum and maximum value, the range is `max - min`. To normalize a value we can divide it by the range.
+Given a minimum and maximum, the range is `max - min`. To normalize a value we can divide it by the range.
 
 ```js
 float invlerp_diy(float a; float min; float max) {
@@ -46,8 +46,7 @@ It can interpolate but can't extrapolate, because `value` is clamped between `om
 
 ```js
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	value = clamp(value, omin, omax);
-	float normal = (value - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (cannot exceed)
+	float normal = (clamp(value, omin, omax) - omin) / (omax - omin); // Inverse Lerp: Normalize between 0 and 1 (cannot exceed)
 	return (1 - normal) * nmin + normal * nmax; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
 }
 ```
