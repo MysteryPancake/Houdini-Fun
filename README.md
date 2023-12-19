@@ -13,8 +13,6 @@ These articles grew too long to fit on the main page. Be sure to check them out!
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
 
-<img src="./images/springsolver.gif?raw=true" height="320">
-
 I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next you apply damping to stop it going too crazy.
 
 First add a target position to your geometry:
@@ -41,12 +39,14 @@ v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
 
-To smooth motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
+To smooth (or overshoot) motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
 
 ```js
 // Find direction towards target
 vector dir = v@opinput1_P - v@P;
 ```
+
+<img src="./images/springsolver.gif?raw=true" height="320">
 
 **UPDATE:** The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
 
