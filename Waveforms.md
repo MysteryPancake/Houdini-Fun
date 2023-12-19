@@ -124,7 +124,7 @@ float waveCosine(float freq; float time) {
 ## Square wave
 <img align="right" src="./images/squarewave.png" width="400">
 
-I used `ceil()` instead of `sign()` since it seems more accurate.
+I used `ceil()` since it seems less error prone than `sign()`.
 
 ```js
 float waveSquare(float freq; float time) {
@@ -161,7 +161,7 @@ float waveSaw(float freq; float time) {
 ## Pulse wave
 <img align="right" src="./images/pulsewave.png" width="400">
 
-The duty cycle argument should be between 0 and 1.
+`duty` controls how much of the wave is positive. It should be between 0 and 1.
 
 ```js
 float wavePulse(float freq; float time; float duty) {
