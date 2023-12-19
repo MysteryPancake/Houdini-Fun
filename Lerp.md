@@ -29,7 +29,7 @@ float lerp_diy(float value1; float value2; float amount) {
 }
 ```
 
-Or the imprecise version, which is shorter but may have floating point error:
+Or the imprecise version, which is shorter but suffers from floating point error:
 
 ```js
 // Imprecise version
