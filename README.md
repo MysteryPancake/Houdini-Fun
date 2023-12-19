@@ -140,6 +140,8 @@ vector uv = set(atan2(-r.z, -r.x) / PI + 0.5, r.y * 0.5 + 0.5, 0);
 v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.y);
 ```
 
+[Click here to download the HIP file!](./hips/hdrisample.hipnc?raw=true)
+
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
 
