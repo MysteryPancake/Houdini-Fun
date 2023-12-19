@@ -6,7 +6,7 @@ If you've ever wondered how they work, look no further. I remade them on my [Aft
 For a great resource on deriving them yourself, check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://www.youtube.com/watch?v=aVwxzDHniEw) videos!
 
 ## `lerp()`
-Lerp takes two values and performs a weighted sum based on a factor.
+[Lerp](https://en.wikipedia.org/wiki/Linear_interpolation) takes two values and performs a weighted sum based on a factor.
 
 For example to get halfway between two values, you'd add half of each:
 
@@ -25,6 +25,14 @@ Generalizing this gives the formula for lerp:
 ```js
 float lerp_diy(float value1; float value2; float amount) {
 	return (1 - amount) * value1 + amount * value2; // Lerp: Weighted sum (e.g. 25% of value 1, 75% of value 2)
+}
+```
+
+Or the imprecise version, which is shorter but may have floating point error:
+
+```js
+float lerp_diy(float value1; float value2; float amount) {
+	return value1 + amount * (value2 - value1); // Imprecise version
 }
 ```
 
