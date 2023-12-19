@@ -32,7 +32,7 @@ float wave = sin(time) * amplitude;
 
 <img src="./images/frequency.gif" width="500">
 
-Each repeat is called a **cycle**. Sine and cosine waves complete a full **cycle** every `2*PI` radians (360 degrees):
+Each repeat is called a **cycle**. Sine and cosine waves complete a full **cycle** every `2*PI` radians (360 degrees).
 
 <img src="./images/vexembersine2.png" width="500">
 
