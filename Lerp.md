@@ -56,7 +56,7 @@ It can interpolate but can't extrapolate, because `value` is clamped between `om
 
 ```js
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	float normal = (clamp(value, omin, omax) - omin) / (omax - omin); // Inverse Lerp
+	float normal = clamp((value - omin) / (omax - omin), 0, 1); // Inverse Lerp
 	return (1 - normal) * nmin + normal * nmax; // Lerp
 }
 ```
@@ -64,7 +64,7 @@ float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 ```js
 // Lerp version
 float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
-	return lerp(nmin, nmax, invlerp(clamp(value, omin, omax), omin, omax));
+	return lerp(nmin, nmax, clamp(invlerp(value, omin, omax), 0, 1));
 }
 ```
 
