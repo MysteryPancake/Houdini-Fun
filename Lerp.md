@@ -1,9 +1,9 @@
 # Houdini Lerp and Fit
-`lerp()` and `fit()` are two functions you'll use constantly. They let you remap a value linearly, great for interpolation and extrapolation.
+`lerp()` and `fit()` are two functions you'll use constantly. They let you remap linearly, great for interpolation and extrapolation.
 
-If you've ever wondered how they work, look no further! I remade them on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
+If you've ever wondered how they work, look no further. I remade them on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
 
-For a great resource on deriving them yourself, check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://www.youtube.com/watch?v=aVwxzDHniEw) videos.
+For a great resource on deriving them yourself, check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://www.youtube.com/watch?v=aVwxzDHniEw) videos!
 
 ## `lerp()`
 Lerp takes two values and performs a weighted sum based on a factor.
