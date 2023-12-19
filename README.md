@@ -430,6 +430,10 @@ Cloth sims work best with preroll starting in a neutral rest pose. For example, 
 4. Use the Time Shift node to move the animation forward so it doesn't bleed into the preroll. This can also be done in the "Timing" menu of FBX Character Import.
 5. Use Bone Deform to animate the skin based on Skeleton Blend.
 
+<img src="./images/fbxtransition.gif?raw=true" height="320">
+
+[Click here to download the HIP file!](./hips/fbxtransition.hipnc?raw=true)
+
 ### Without FBX
 One option is using a Blend Shapes node, but you'll find the limbs usually clip through the body as it swaps from the T-pose to the animated pose. My sketchy method of improving this is using Extract Transform and Transform Pieces.
 
