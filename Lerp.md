@@ -153,7 +153,7 @@ float fit10_diy(float value; float nmin; float nmax) {
 `fit11()` is the same as `fit()` except the range is hardcoded as -1 to 1.
 
 ```js
-float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
+float fit11_diy(float value; float omin; float omax; float nmin; float nmax) {
 	float normal = clamp(value * 0.5 + 0.5, 0, 1);
 	return (1 - normal) * nmin + normal * nmax; // Lerp
 }
@@ -161,14 +161,14 @@ float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
 
 ```js
 // Lerp version
-float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
+float fit11_diy(float value; float omin; float omax; float nmin; float nmax) {
 	return lerp(nmin, nmax, clamp(value * 0.5 + 0.5, 0, 1));
 }
 ```
 
 ```js
 // Imprecise version
-float fit_diy(float value; float omin; float omax; float nmin; float nmax) {
+float fit11_diy(float value; float omin; float omax; float nmin; float nmax) {
 	return nmin + clamp(value * 0.5 + 0.5, 0, 1) * (nmax - nmin);
 }
 ```
