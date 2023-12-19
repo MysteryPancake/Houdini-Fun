@@ -420,7 +420,7 @@ If you want to deal with open containers, the easiest way is to do a separate si
 
 Another tip is use "Central Difference" when calculating the velocity. This gives the fluid more time to move away from the collider.
 
-## Cloth: Fix preroll with FBX
+## Cloth: Fix missing preroll
 Cloth sims work best with preroll starting in a neutral rest pose. For example, the character starts in an A-pose or T-pose before transitioning into the animation. If anim screwed you over, never fear! Preroll can be added in Houdini.
 
 ### With FBX
