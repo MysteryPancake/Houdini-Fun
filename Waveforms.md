@@ -75,7 +75,7 @@ float wave = amplitude * sin(time * frequency * 2 * PI + phase);
 ```
 
 ## Common waveforms
-Here's a collection of common waveforms. I originally made these for music production on [ShaderToy](https://www.shadertoy.com/view/clXSR7), but they're great for Houdini too.
+Here's a bunch of common waveforms. I originally made them for music on [ShaderToy](https://www.shadertoy.com/view/clXSR7), but they're great for Houdini too.
 
 [<img src="./images/waveforms.png" width="600">](https://www.shadertoy.com/view/clXSR7)
 
