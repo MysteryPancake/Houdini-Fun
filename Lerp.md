@@ -130,7 +130,7 @@ float fit01_diy(float value; float nmin; float nmax) {
 
 ```js
 float fit10_diy(float value; float nmin; float nmax) {
-	float normal = clamp(1 - value, 0, 1)
+	float normal = clamp(1 - value, 0, 1);
 	return (1 - normal) * nmin + normal * nmax; // Lerp
 }
 ```
