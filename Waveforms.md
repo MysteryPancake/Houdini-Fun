@@ -98,20 +98,18 @@ v@P.x += waveSine(1, f@Time);
 ## Sine wave
 <img align="right" src="./images/sinewave.png" width="400">
 
-Add 0.25 to time to get a cosine wave.
-
 ```js
 float waveSine(float freq; float time) {
 	return sin(2 * PI * freq * time);
 }
 ```
 
+Add 0.25 to `time` to get a cosine wave.
+
 <br clear="right"/>
 
 ## Cosine wave
 <img align="right" src="./images/coswave.png" width="400">
-
-Subtract 0.25 from time to get a sine wave.
 
 ```js
 float waveCosine(float freq; float time) {
@@ -119,12 +117,12 @@ float waveCosine(float freq; float time) {
 }
 ```
 
+Subtract 0.25 from `time` to get a sine wave.
+
 <br clear="right"/>
 
 ## Square wave
 <img align="right" src="./images/squarewave.png" width="400">
-
-I used `ceil()` since it seems less error prone than `sign()`.
 
 ```js
 float waveSquare(float freq; float time) {
@@ -132,18 +130,20 @@ float waveSquare(float freq; float time) {
 }
 ```
 
+I used `ceil()` since it seems error prone than `sign()`.
+
 <br clear="right"/>
 
 ## Triangle wave
 <img align="right" src="./images/triwave.png" width="400">
-
-I used `frac()` since it's faster than modulo.
 
 ```js
 float waveTriangle(float freq; float time) {
 	return abs(frac(freq * time - 0.25) - 0.5) * 4.0 - 1.0;
 }
 ```
+
+I used `frac()` since it's faster than modulo.
 
 <br clear="right"/>
 
@@ -161,12 +161,14 @@ float waveSaw(float freq; float time) {
 ## Pulse wave
 <img align="right" src="./images/pulsewave.png" width="400">
 
-`duty` controls how much of the wave is positive. It should be between 0 and 1.
-
 ```js
 float wavePulse(float freq; float time; float duty) {
 	return (frac(freq * time) < duty) * 2.0 - 1.0;
 }
 ```
+
+`duty` controls how much of the wave is positive. It should be between 0 and 1.
+
+Set `duty` to 0.5 to get a square wave.
 
 <br clear="right"/>
