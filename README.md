@@ -125,6 +125,21 @@ Another option is using Attribute Swap to move the attribute to `@P`. Keep in mi
 
 To find an exact match, use `findattribval()` instead.
 
+## Sampling environment maps
+A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI using VEX. It's a cheap way to get environment mapping without leaving the viewport.
+
+<img src="./images/hdrisample.png?raw=true" height="320">
+
+```js
+// Insert your camera position here
+vector cam_pos = fromNDC("/obj/cam1", {0, 0, 0});
+
+// John Kunz magic
+vector r = normalize(reflect(normalize(v@P - cam_pos), v@N));
+vector uv = set(atan2(-r.z, -r.x) / PI + 0.5, r.y * 0.5 + 0.5, 0);
+v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.y);
+```
+
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
 
