@@ -44,7 +44,7 @@ v@v /= 1.0 + damping * f@TimeInc;
 v@P += v@v;
 ```
 
-To smooth (or overshoot) motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
+To adjust motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
 
 ```js
 // Find direction towards target
