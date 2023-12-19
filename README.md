@@ -14,8 +14,8 @@ These articles grew too long to fit on the main page. Be sure to check them out!
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
 
 <p align="left">
-  <img src="./images/springsolver2.gif?raw=true" height="320">
-  <img src="./images/springsolver.gif?raw=true" height="320">
+  <img src="./images/springsolver2.gif?raw=true" height="300">
+  <img src="./images/springsolver.gif?raw=true" height="300">
 </p>
 
 I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next you apply damping to stop it going too crazy.
