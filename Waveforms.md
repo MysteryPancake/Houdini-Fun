@@ -51,9 +51,13 @@ float wave = sin(time * frequency * 2 * PI);
 <img src="./images/vexembersine3.png" width="400">
 
 ### Phase
-[Phase](https://en.wikipedia.org/wiki/Phase_(waves)) is how far along we are in the wave's cycle. It controls the **time offset** if the sound is heard.
+[Phase](https://en.wikipedia.org/wiki/Phase_(waves)) is how far along we are in the wave's cycle. Visually it looks like a **time offset**.
 
 <img src="./images/phase.gif" width="500">
+
+Conceptually it's more like a **rotation**.
+
+<img src="./images/phase2.gif" width="500">
 
 You control the phase by adding to the time:
 
