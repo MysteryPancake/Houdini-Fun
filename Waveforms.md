@@ -72,12 +72,6 @@ Putting it all together, you can use the following formula to control **amplitud
 float wave = amplitude * sin(time * frequency + phase);
 ```
 
-Or this formula if you want to avoid working in radians (0 to `2*PI`):
-
-```js
-float wave = amplitude * sin(time * frequency * 2 * PI + phase);
-```
-
 ## Common waveforms
 Here's a bunch of common waveforms. I originally made them for music on [ShaderToy](https://www.shadertoy.com/view/clXSR7), but they're great for Houdini too.
 
