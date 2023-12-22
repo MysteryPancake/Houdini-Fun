@@ -72,7 +72,7 @@ v@P += v@v;
 ```
 
 ## Smoothed steps
-Not smoothstep, smooth steps. Smooth steps are good for staggered animations, like points moving between locations.
+Not smoothstep, smooth steps. This is useful for staggering animations, like points moving along lines.
 
 <img src="./images/vexemberhilbert.gif?raw=true" width="500">
 
