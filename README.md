@@ -72,7 +72,7 @@ v@P += v@v;
 ```
 
 ## Smoothed steps
-Not smoothstep, smooth steps. This is useful for staggering animations, like points moving along lines.
+Smoothstep's evil uncle. Smoothed steps help for staggering animations, like points moving along lines.
 
 <img src="./images/vexemberhilbert.gif?raw=true" width="500">
 
@@ -93,8 +93,8 @@ float x = f@Time; // Replace with whatever you want to step
 float width = 2; // Size of each step
 float steepness = 1; // Gradient of each step
 
-int intStep = floor(x / width); // Integer component, plain steps
-float fracStep = min(1, x % width * steepness); // Fractional component, smoothing
+int intStep = floor(x / width); // Integer component, steps
+float fracStep = min(1, x % width * steepness); // Fractional component, lines
 float smoothSteps = intStep + fracStep; // Both combined, smooth steps
 ```
 
