@@ -71,8 +71,8 @@ v@v *= damping;
 v@P += v@v;
 ```
 
-## Smoothed steps
-Smoothstep's evil uncle, smoothed steps. This helps for staggering animations, like points moving along lines.
+## Smooth steps
+Smoothstep's evil uncle, smooth steps. This helps for staggering animations, like points moving along lines.
 
 <img src="./images/vexemberhilbert.gif?raw=true" width="500">
 
