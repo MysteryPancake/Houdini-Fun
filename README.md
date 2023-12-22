@@ -71,6 +71,33 @@ v@v *= damping;
 v@P += v@v;
 ```
 
+## Smoothed steps
+Not smoothstep, smooth steps. Smooth steps are good for staggered animations, like points moving between locations.
+
+<img src="./images/vexemberhilbert.gif?raw=true" width="500">
+
+Start with regular steps. This is the integer component:
+
+<img src="./images/steps.png?raw=true" width="600">
+
+Use modulo to form a line per step, then clamp it below 1. This is the fractional component:
+
+<img src="./images/stepclamp.png?raw=true" width="600">
+
+Add them together to achieve smooth steps:
+
+<img src="./images/linearsteps.png?raw=true" width="600">
+
+```js
+float x = f@Time; // Replace with whatever you want to step
+float width = 2; // Size of each step
+float steepness = 1; // Gradient of each step
+
+int intStep = floor(x / width); // Integer component, plain steps
+float fracStep = min(1, x % width * steepness); // Fractional component, smoothing
+float smoothSteps = intStep + fracStep; // Both combined, smooth steps
+```
+
 ## RBDs: Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
