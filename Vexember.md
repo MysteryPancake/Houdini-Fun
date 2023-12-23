@@ -319,10 +319,10 @@ TODO
 ## Day 9: Quaternions
 TODO
 
-## Day 10
+## Day 10: Insets
 TODO
 
-## Day 11
+## Day 11: Rolling
 TODO
 
 ## Day 12
@@ -347,4 +347,19 @@ TODO
 TODO
 
 ## Day 19: NDC coordinates
+TODO
+
+## Day 20: Lerp to lerp
+TODO
+
+## Day 21
+TODO
+
+## Day 22: Curl noise and trails
+TODO
+
+## Day 23
+TODO
+
+## Day 24
 TODO
