@@ -343,13 +343,13 @@ TODO
 ## Day 17
 TODO
 
-## Day 18
+## Day 18: Edge lerping
 TODO
 
 ## Day 19: NDC coordinates
 TODO
 
-## Day 20: Lerp to lerp
+## Day 20: Lerp sequences
 TODO
 
 ## Day 21
