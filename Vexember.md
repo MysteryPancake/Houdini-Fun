@@ -358,7 +358,7 @@ TODO
 ## Day 22: Curl noise and trails
 TODO
 
-## Day 23
+## Day 23: Arctan and spirals
 TODO
 
 ## Day 24
