@@ -99,7 +99,9 @@ float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
 ## Generating circles
-Circles often come in handy, and are super easy to make. You just need `sin()` on one axis and `cos()` on another.
+Circles often come in handy, and are super easy to make. You just need `sin()` on one axis and `cos()` on another:
+
+<img src="./images/pointcircle.png?raw=true" width="200" align="left">
 
 ```js
 int num_points = chi("point_count");
@@ -113,11 +115,11 @@ for (int i = 0; i < num_points; ++i) {
 }
 ```
 
-<img src="./images/pointcircle.png?raw=true" width="300">
+<br clear="left" />
 
-I learnt this from [Garry's Mod wiki](https://wiki.facepunch.com/gmod/surface.DrawPoly) back in the day.
+To connect the points, you can use `addprim()`:
 
-To connect the points, you can use `addprim()`.
+<img src="./images/circleconnected.png?raw=true" width="200" align="left">
 
 ```js
 int num_points = chi("point_count");
@@ -136,9 +138,11 @@ for (int i = 0; i < num_points; ++i) {
 addprim(0, "poly", points);
 ```
 
-<img src="./images/circleconnected.png?raw=true" width="300">
+<br clear="left" />
 
-[Download the HIP file](./hips/circle.hipnc?raw=true)
+Thanks to [Garry's Mod wiki](https://wiki.facepunch.com/gmod/surface.DrawPoly) for teaching me this back in the day.
+
+[Download the HIP file!](./hips/circle.hipnc?raw=true)
 
 ## RBDs: Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
@@ -175,7 +179,7 @@ Use the same method as before, but sample the target's position forwards in time
 
 <img src="./images/aimbot_moving.gif?raw=true" height="320">
 
-[Download the HIP file](./hips/aimbot.hipnc?raw=true)
+[Download the HIP file!](./hips/aimbot.hipnc?raw=true)
 
 ### Hit multiple targets
 If your "Life" is the same for all projectiles, extract multiple centroids and transfer velocities from the first point of each arc based on connectivity. Try enabling "Path Point Index" on Ballistic Path and blasting all non-zero indices.
@@ -214,7 +218,7 @@ vector uv = set(atan2(-r.z, -r.x) / PI + 0.5, r.y * 0.5 + 0.5, 0);
 v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.y);
 ```
 
-[Click here to download the HIP file!](./hips/hdrisample.hipnc?raw=true)
+[Download the HIP file!](./hips/hdrisample.hipnc?raw=true)
 
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
@@ -316,7 +320,7 @@ float correlation = dot(dir, v@N);
 
 <img src="./images/inside.png?raw=true" height="320">
 
-[Click here to download the HIP file!](./hips/inside.hipnc?raw=true)
+[Download the HIP file!](./hips/inside.hipnc?raw=true)
 
 ## Fluids: Fix gap between surfaces
 Usually liquids resting on a surface have a small gap due to the collision geometry, easier to see once rendered.
@@ -506,7 +510,7 @@ Cloth sims work best with preroll starting in a neutral rest pose. For example, 
 
 <img src="./images/fbxtransition.gif?raw=true" height="320">
 
-[Click here to download the HIP file!](./hips/fbxtransition.hipnc?raw=true)
+[Download the HIP file!](./hips/fbxtransition.hipnc?raw=true)
 
 ### Without FBX
 One option is using a Blend Shapes node, but you'll find the limbs usually clip through the body as it swaps from the T-pose to the animated pose. My sketchy method of improving this is using Extract Transform and Transform Pieces.
