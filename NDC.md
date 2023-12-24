@@ -44,7 +44,7 @@ addpoint(0, camPos);
 
 <br clear="left"/>
 
-## Draw a ray coming from the camera
+## Draw a ray from the camera
 
 The Z axis aligns with the camera direction, so move along it to draw a ray.
 
