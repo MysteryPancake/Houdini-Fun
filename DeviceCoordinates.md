@@ -1,6 +1,6 @@
 # Houdini Normalized Device Coordinates
 NDC is a screen space coordinate system, great for perspective illusions and raycasting tricks.
 
-The X and Y coordinates are the 2D screen coordinates as seen from a camera.
+X and Y represent the 2D screen coordinates, while Z represents the distance from the camera.
 
-While the Z coordinate is the depth.
+<img src="./images/ndccoordinates.png" width="800">
