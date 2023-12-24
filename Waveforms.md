@@ -72,6 +72,18 @@ Putting it all together, you can use the following formula to control **amplitud
 float wave = amplitude * sin(time * frequency + phase);
 ```
 
+### Sine vs cosine
+Sine and cosine are identical, except for a **phase difference** of `PI/2`.
+
+<img src="./images/sinevscosine.png" width="500">
+
+You can swap sine and cos by changing the **phase**:
+
+```js
+float cos = sin(time + PI / 2);
+float sin = cos(time - PI / 2);
+```
+
 ## Common waveforms
 Here's a bunch of common waveforms. I originally made them for music on [ShaderToy](https://www.shadertoy.com/view/clXSR7), but they're great for Houdini too.
 
