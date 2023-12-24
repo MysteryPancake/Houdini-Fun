@@ -13,7 +13,7 @@ The Z coordinates are 0 at the camera, negative in front and positive behind the
 
 <img src="./images/ndczaxis.png" width="800">
 
-## Converting to and from NDC
+## Converting NDC
 You can convert a world space coordinate to NDC using `toNDC()`:
 
 ```js
