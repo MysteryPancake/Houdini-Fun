@@ -102,8 +102,9 @@ float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 Circles often come in handy, and luckily are easy to make. Just use `sin()` on one axis and `cos()` on the other:
 
 ```js
-float theta = f@Time;
-v@P = set(cos(theta), 0, sin(theta));
+float theta = chf("theta");
+float radius = chf("radius");
+v@P = set(cos(theta), 0, sin(theta)) * radius;
 ```
 
 See [Waveforms](./Waveforms.md) for more on this topic.
@@ -114,12 +115,13 @@ To draw a circle, add points while moving between 0 and `2*PI`:
 
 ```js
 int num_points = chi("point_count");
+float radius = chf("radius");
 
 for (int i = 0; i < num_points; ++i) {
     // Sin/cos range from 0 to 2*PI, so remap from 0-1 to 0-2*PI
     float theta = float(i) / num_points * 2 * PI;
     // Use sin and cos on either axis to form a circle
-    vector pos = set(cos(theta), 0, sin(theta));
+    vector pos = set(cos(theta), 0, sin(theta)) * radius;
     addpoint(0, pos);
 }
 ```
@@ -132,13 +134,14 @@ To connect the points, you can use `addprim()`:
 
 ```js
 int num_points = chi("point_count");
+float radius = chf("radius");
 int points[];
 
 for (int i = 0; i < num_points; ++i) {
     // Sin/cos range from 0 to 2*PI, so remap from 0-1 to 0-2*PI
     float theta = float(i) / num_points * 2 * PI;
     // Use sin and cos on either axis to form a circle
-    vector pos = set(cos(theta), 0, sin(theta));
+    vector pos = set(cos(theta), 0, sin(theta)) * radius;
     // Add the point to the array for polyline
     int id = addpoint(0, pos);
     append(points, id);
