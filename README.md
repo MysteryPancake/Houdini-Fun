@@ -106,7 +106,7 @@ float theta = f@Time;
 v@P = set(cos(theta), 0, sin(theta));
 ```
 
-See [Waveforms](./Waveforms.md) for more on how sine and cosine work.
+See [Waveforms](./Waveforms.md) for more on this topic.
 
 To draw a circle, add points while moving between 0 and `2*PI`:
 
