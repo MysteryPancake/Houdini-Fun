@@ -13,7 +13,7 @@ float sdSphere(vector p; float s) {
 f@surface = sdSphere(v@P, 0.5);
 ```
 
-I did this for [a ton of SDFs](https://iquilezles.org/articles/distfunctions/) by Inigo Quilez. [Click here to download the HIP file!](hips/sdf_volumes.hipnc?raw=true)
+I did this for [a ton of SDFs](https://iquilezles.org/articles/distfunctions/) by Inigo Quilez. [Download the HIP file!](hips/sdf_volumes.hipnc?raw=true)
 
 [<img src="./images/sdf_volumes.png?raw=true">](hips/sdf_volumes.hipnc?raw=true)
 
