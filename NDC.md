@@ -40,4 +40,6 @@ vector camPos = fromNDC(cam, {0, 0, 0});
 addpoint(0, camPos);
 ```
 
+Use `{0.5, 0.5, 0}` if you're pedantic, but it has the same result.
+
 <br clear="left"/>
