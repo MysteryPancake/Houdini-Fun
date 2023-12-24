@@ -26,13 +26,13 @@ Then convert it back to world space using `fromNDC()`:
 vector worldPos = fromNDC("/obj/cam1", ndcPos);
 ```
 
-Here's some fun stuff you can try. [Download the HIP file!](./hips/ndcfun.hipnc?raw=true)
+Here's some fun NDC tricks you can play with. [Download the HIP file!](./hips/ndcfun.hipnc?raw=true)
 
 ## Get the camera position
 
 The origin of NDC space is the camera, so just convert `{0, 0, 0}` to world space.
 
-<img src="./images/ndccampos.png" width="200" align="left">
+<img src="./images/ndccampos.png" width="250" align="left">
 
 ```js
 string cam = "/obj/cam1";
@@ -40,6 +40,28 @@ vector camPos = fromNDC(cam, {0, 0, 0});
 addpoint(0, camPos);
 ```
 
-Use `{0.5, 0.5, 0}` if you're pedantic, but it has the same result.
+`{0.5, 0.5, 0}` is technically more correct, but it gives the same result.
+
+<br clear="left"/>
+
+## Draw a ray coming from the camera
+
+The Z axis aligns with the camera direction, so move along it to draw a ray.
+
+<img src="./images/ndccamline.gif" width="250" align="left">
+
+```js
+string cam = chs("cam");
+float offset = chf("raylength");
+
+// Sample two positions along the Z axis in NDC space to draw a ray
+vector camPos = fromNDC(cam, {0.5, 0.5, 0});
+vector camPos2 = fromNDC(cam, set(0.5, 0.5, -offset));
+
+int a = addpoint(0, camPos);
+int b = addpoint(0, camPos2);
+
+addprim(0, "polyline", a, b);
+```
 
 <br clear="left"/>
