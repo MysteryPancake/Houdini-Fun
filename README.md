@@ -108,7 +108,7 @@ v@P = set(cos(theta), 0, sin(theta));
 
 See [Waveforms](./Waveforms.md) for more on how sine and cosine work.
 
-To draw a circle, use a for loop and move between 0 and 2 * PI:
+To draw a circle, add points while moving between 0 and `2*PI`:
 
 <img src="./images/pointcircle.png?raw=true" width="200" align="left">
 
