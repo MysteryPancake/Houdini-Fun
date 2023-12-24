@@ -99,7 +99,16 @@ float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
 ## Generating circles
-Circles often come in handy, and are super easy to make. Just use `sin()` on one axis and `cos()` on the other:
+Circles often come in handy, and luckily are easy to make. Just use `sin()` on one axis and `cos()` on the other:
+
+```js
+float theta = f@Time;
+v@P = set(cos(theta), 0, sin(theta));
+```
+
+See [Waveforms](./Waveforms.md) for more on how sine and cosine work.
+
+To draw a circle, use a for loop and move between 0 and 2 * PI:
 
 <img src="./images/pointcircle.png?raw=true" width="200" align="left">
 
