@@ -79,3 +79,9 @@ string cam = chs("cam");
 v@P = toNDC(cam, v@P);
 v@P.z = 0;
 ```
+
+<br clear="left"/>
+
+<img src="./images/ndcsilouette.png" width="250" align="left">
+
+You can make a silhouette from this pretty easily. TODO
