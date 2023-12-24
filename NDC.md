@@ -65,3 +65,17 @@ addprim(0, "polyline", a, b);
 ```
 
 <br clear="left"/>
+
+## Flatten to the XY plane
+
+Using NDC coordinates directly in world space distorts the geometry to how it looks on screen, like a printed photo.
+
+<img src="./images/ndcflat.png" width="250" align="left">
+
+```js
+string cam = chs("cam");
+
+// Flatten by setting Z to a constant value
+v@P = toNDC(cam, v@P);
+v@P.z = 0;
+```
