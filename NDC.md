@@ -40,7 +40,7 @@ vector camPos = fromNDC(cam, {0, 0, 0});
 addpoint(0, camPos);
 ```
 
-`{0.5, 0.5, 0}` is technically more correct, but it gives the same result.
+`{0.5, 0.5, 0}` is technically more correct, but gives the same result.
 
 <br clear="left"/>
 
