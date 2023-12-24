@@ -341,9 +341,9 @@ TODO
 TODO
 
 ## Day 17
-TODO
+TODO (mention https://www.tokeru.com/cgwiki/HoudiniDops.html#pops_and_grid_noise)
 
-## Day 18: Edge lerping
+## Day 18: Lerp along edges
 TODO
 
 ## Day 19: NDC coordinates
