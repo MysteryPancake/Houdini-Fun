@@ -107,7 +107,7 @@ float radius = chf("radius");
 v@P = set(cos(theta), 0, sin(theta)) * radius;
 ```
 
-See [Waveforms](./Waveforms.md) for more on this topic.
+See [Waveforms](./Waveforms.md) for more about sine and cosine.
 
 To draw a circle, add points while moving between 0 and `2*PI`:
 
@@ -151,8 +151,6 @@ addprim(0, "poly", points);
 ```
 
 <br clear="left" />
-
-Thanks to [Garry's Mod wiki](https://wiki.facepunch.com/gmod/surface.DrawPoly) for teaching me this back in the day.
 
 [Download the HIP file!](./hips/circle.hipnc?raw=true)
 
