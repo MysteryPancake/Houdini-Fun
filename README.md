@@ -98,6 +98,48 @@ float frac_step = min(1, x % width * steepness); // Fractional component, lines
 float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
+## Generating circles
+Circles often come in handy, and are super easy to make. You just need `sin()` on one axis and `cos()` on another.
+
+```js
+int num_points = chi("point_count");
+
+for (int i = 0; i < num_points; ++i) {
+    // Sin/cos range from 0 to 2*PI, so remap from 0-1 to 0-2*PI
+    float theta = float(i) / num_points * 2 * PI;
+    // Use sin and cos on either axis to form a circle
+    vector pos = set(cos(theta), 0, sin(theta));
+    addpoint(0, pos);
+}
+```
+
+<img src="./images/pointcircle.png?raw=true" width="300">
+
+I learnt this from [Garry's Mod wiki](https://wiki.facepunch.com/gmod/surface.DrawPoly) back in the day.
+
+To connect the points, you can use `addprim()`.
+
+```js
+int num_points = chi("point_count");
+int points[];
+
+for (int i = 0; i < num_points; ++i) {
+    // Sin/cos range from 0 to 2*PI, so remap from 0-1 to 0-2*PI
+    float theta = float(i) / num_points * 2 * PI;
+    // Use sin and cos on either axis to form a circle
+    vector pos = set(cos(theta), 0, sin(theta));
+    // Add the point to the array for polyline
+    int id = addpoint(0, pos);
+    append(points, id);
+}
+// Connect all the points with a polygon
+addprim(0, "poly", points);
+```
+
+<img src="./images/circleconnected.png?raw=true" width="300">
+
+[Download the HIP file](./hips/circle.hipnc?raw=true)
+
 ## RBDs: Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
@@ -133,7 +175,7 @@ Use the same method as before, but sample the target's position forwards in time
 
 <img src="./images/aimbot_moving.gif?raw=true" height="320">
 
-[Click here to download the HIP file!](./hips/aimbot.hipnc?raw=true)
+[Download the HIP file](./hips/aimbot.hipnc?raw=true)
 
 ### Hit multiple targets
 If your "Life" is the same for all projectiles, extract multiple centroids and transfer velocities from the first point of each arc based on connectivity. Try enabling "Path Point Index" on Ballistic Path and blasting all non-zero indices.
