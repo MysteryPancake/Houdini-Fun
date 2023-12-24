@@ -9,7 +9,7 @@ The X and Y coordinates are normalized between 0 and 1, with 0.5 in the middle.
 
 <img src="./images/ndcscreen.png" width="700">
 
-The Z coordinates are 0 at the camera, negative in front and positive behind the camera. Why negative? No idea, it confuses me too.
+The Z coordinates are 0 at the camera, negative in front and positive behind the camera. Why negative? No idea!
 
 <img src="./images/ndczaxis.png" width="700">
 
