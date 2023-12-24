@@ -93,9 +93,9 @@ float x = f@Time; // Replace with whatever you want to step
 float width = 2; // Size of each step
 float steepness = 1; // Gradient of each step
 
-int intStep = floor(x / width); // Integer component, steps
-float fracStep = min(1, x % width * steepness); // Fractional component, lines
-float smoothSteps = intStep + fracStep; // Both combined, smooth steps
+int int_step = floor(x / width); // Integer component, steps
+float frac_step = min(1, x % width * steepness); // Fractional component, lines
+float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
 ## RBDs: Make an aimbot (find velocity to hit a target)
