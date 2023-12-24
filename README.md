@@ -71,6 +71,50 @@ v@v *= damping;
 v@P += v@v;
 ```
 
+## RBDs: Make an aimbot (find velocity to hit a target)
+Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
+
+[![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
+
+### Hit a static target
+1. Connect your projectile to a Ballistic Path node.
+2. Set the Launch Method to "Targeted" and disable drag.
+3. Add a `@targetP` attribute to your projectile. Set it to the centroid of the target object.
+
+```js
+v@targetP = getbbox_center(1);
+```
+
+4. You should see an arc. Transfer the velocity of the first point of the arc to your projectile.
+
+```js
+v@v = point(1, "v", 0);
+```
+
+5. Connect everything to a RBD Solver.
+
+6. Use "Life" to set the height of the path, and lower the "FPS" to reduce unneeded points.
+
+<img src="./images/aimbot_static.gif?raw=true" height="320">
+
+### Hit a moving target
+Use the same method as before, but sample the target's position forwards in time.
+
+1. On the Ballistic Path node, set the Targeting Method to "Life".
+2. Copy the "Life" attribute. It's the number of seconds until we hit the target. We need to find where the target is at that time.
+3. Add a Time Shift node to the target (before the centroid is calculated). Set it to the current time plus the "Life" attribute.
+
+<img src="./images/aimbot_moving.gif?raw=true" height="320">
+
+[Download the HIP file!](./hips/aimbot.hipnc?raw=true)
+
+### Hit multiple targets
+If your "Life" is the same for all projectiles, extract multiple centroids and transfer velocities from the first point of each arc based on connectivity. Try enabling "Path Point Index" on Ballistic Path and blasting all non-zero indices.
+
+If your "Life" changes per target, use a for loop instead.
+
+<img src="./images/aimbot.gif?raw=true" height="320">
+
 ## Smooth steps
 Smoothstep's evil uncle, smooth steps. This helps for staggering animations, like points moving along lines.
 
@@ -101,6 +145,8 @@ float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ## Generating circles
 Circles often come in handy, and luckily are easy to make. Just use `sin()` on one axis and `cos()` on the other:
 
+<img src="./images/movecircle.gif?raw=true" width="200" align="left">
+
 ```js
 float theta = chf("theta");
 float radius = chf("radius");
@@ -108,6 +154,8 @@ v@P = set(cos(theta), 0, sin(theta)) * radius;
 ```
 
 See [Waveforms](./Waveforms.md) for more about sine and cosine.
+
+<br clear="left" />
 
 To draw a circle, add points while moving between 0 and `2*PI`:
 
@@ -153,50 +201,6 @@ addprim(0, "poly", points);
 <br clear="left" />
 
 [Download the HIP file!](./hips/circle.hipnc?raw=true)
-
-## RBDs: Make an aimbot (find velocity to hit a target)
-Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
-
-[![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
-
-### Hit a static target
-1. Connect your projectile to a Ballistic Path node.
-2. Set the Launch Method to "Targeted" and disable drag.
-3. Add a `@targetP` attribute to your projectile. Set it to the centroid of the target object.
-
-```js
-v@targetP = getbbox_center(1);
-```
-
-4. You should see an arc. Transfer the velocity of the first point of the arc to your projectile.
-
-```js
-v@v = point(1, "v", 0);
-```
-
-5. Connect everything to a RBD Solver.
-
-6. Use "Life" to set the height of the path, and lower the "FPS" to reduce unneeded points.
-
-<img src="./images/aimbot_static.gif?raw=true" height="320">
-
-### Hit a moving target
-Use the same method as before, but sample the target's position forwards in time.
-
-1. On the Ballistic Path node, set the Targeting Method to "Life".
-2. Copy the "Life" attribute. It's the number of seconds until we hit the target. We need to find where the target is at that time.
-3. Add a Time Shift node to the target (before the centroid is calculated). Set it to the current time plus the "Life" attribute.
-
-<img src="./images/aimbot_moving.gif?raw=true" height="320">
-
-[Download the HIP file!](./hips/aimbot.hipnc?raw=true)
-
-### Hit multiple targets
-If your "Life" is the same for all projectiles, extract multiple centroids and transfer velocities from the first point of each arc based on connectivity. Try enabling "Path Point Index" on Ballistic Path and blasting all non-zero indices.
-
-If your "Life" changes per target, use a for loop instead.
-
-<img src="./images/aimbot.gif?raw=true" height="320">
 
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
