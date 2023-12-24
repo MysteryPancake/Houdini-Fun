@@ -99,7 +99,7 @@ float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
 ## Generating circles
-Circles often come in handy, and are super easy to make. You just need `sin()` on one axis and `cos()` on another:
+Circles often come in handy, and are super easy to make. Just use `sin()` on one axis and `cos()` on the other:
 
 <img src="./images/pointcircle.png?raw=true" width="200" align="left">
 
