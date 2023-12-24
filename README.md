@@ -9,6 +9,7 @@ These articles grew too long to fit on the main page. Be sure to check them out!
 - [Lerp and Fit](Lerp.md)
 - [Waveforms](./Waveforms.md)
 - [Easings](./Easings.md)
+- [Normalized Device Coordinates](./NDC.md)
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
