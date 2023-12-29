@@ -32,7 +32,7 @@ Here's some fun NDC tricks you can play with. [Download the HIP file!](./hips/nd
 
 The origin of NDC space is the camera, so just convert `{0, 0, 0}` to world space.
 
-<img src="./images/ndccampos.png" width="250" align="left">
+<img src="./images/ndccampos.png" width="300" align="left">
 
 ```js
 // Run this in a detail wrangle
@@ -49,7 +49,7 @@ addpoint(0, camPos);
 
 The Z axis aligns with the camera direction, so move along it to draw a ray.
 
-<img src="./images/ndccamline.gif" width="250" align="left">
+<img src="./images/ndccamline.gif" width="300" align="left">
 
 ```js
 // Run this in a detail wrangle
@@ -72,7 +72,7 @@ addprim(0, "polyline", a, b);
 
 Using NDC coordinates directly in world space flattens the geometry to how it looks on screen, like a printed photo.
 
-<img src="./images/ndcflat.png" width="250" align="left">
+<img src="./images/ndcflat.png" width="300" align="left">
 
 ```js
 string cam = chs("cam");
@@ -93,3 +93,22 @@ Another trick is turning this into an outline, much like Labs Extract Silouette.
 2. Add a Divide node set to "Remove Shared Edges". This wipes the interior triangles and produces a clean outline.
 
 |<img src="./images/ndcremoveshared.png" height="300">|<img src="./images/ndcsilouette.png" height="300">|
+
+## Flatten to the camera plane
+
+Using NDC coordinates in camera space lets you flatten geometry while keeping it identical from the camera perspective.
+
+<img src="./images/ndccampov.gif" width="300" align="left">
+
+```js
+string cam = chs("cam");
+float offset = ch("distance");
+
+// Flatten to camera by setting Z to a constant value
+vector p = toNDC(cam, v@P);
+p.z = -offset;
+
+v@P = fromNDC(cam, p);
+```
+
+<br clear="left" />
