@@ -117,7 +117,7 @@ v@P = fromNDC(cam, p);
 
 ## Move along the Z axis
 
-Same as before, except subtracting the Z coordinate. Again the geometry is identical from the camera perspective.
+Same as above, except subtracting the Z coordinate. Again the geometry is identical from the camera perspective.
 
 <img src="./images/ndc/ndccampov2.gif" width="300" align="left">
 
@@ -135,6 +135,8 @@ v@P = fromNDC(cam, p);
 <br clear="left" />
 
 ## Frustrum box
+
+The VEX equivalent of Camera Frustrum qL.
 
 1. Add a box. The X and Y coordinates range from 0 to 1. The Z coordinates are negative from 0 to the depth you want.
 
@@ -157,7 +159,9 @@ v@P = fromNDC(cam, v@P);
 
 ## Frustrum plane
 
-1. Same as above, except add a grid instead. The X and Y coordinates range from 0 to 1.
+The VEX equivalent of Camera Plane qL.
+
+1. Same as above, but add a grid instead. The X and Y coordinates range from 0 to 1.
 
 |<img src="./images/ndc/ndcgrid.png" height="300">|<img src="./images/ndc/ndcplane.png" height="300">|
 
@@ -178,12 +182,12 @@ v@P = fromNDC(cam, v@P);
 
 ## Project onto geometry
 
-Here's a great technique for holograms. I first saw [Entagma use it for a raytracer](https://www.youtube.com/watch?v=JmgSq_xdkcs).
+This technique is great for holograms. I first saw [Entagma use it for a raytracer](https://www.youtube.com/watch?v=JmgSq_xdkcs).
 
 1. Take the frustrum plane above and subdivide it a bunch.
 2. Find the projection direction per point.
 
-Since the plane is flat along Z in NDC space, this is easy. Just take the position and subtract the camera position.
+Since the plane is flattened on Z in NDC space, this is easy. Just subtract the camera position from the current position.
 
 ```js
 string cam = chs("cam");
@@ -199,7 +203,7 @@ v@N = normalize(v@P - camPos);
 
 <img src="./images/ndc/ndcproject2.png" width="500">
 
-To find the direction for arbitary geometry, convert to NDC space, flatten Z and convert back to world space.
+For arbitrary geometry, the same idea applies. Convert to NDC space, flatten Z and convert back to world space.
 
 ```js
 string cam = chs("cam");
@@ -212,4 +216,35 @@ vector worldPos = fromNDC(cam, ndcPos);
 
 // Projection direction
 v@N = normalize(worldPos - camPos);
+```
+
+## Cull offscreen geometry
+
+Commonly NDC space is used to remove offscreen geometry. Offscreen means coordinates outside 0 to 1 for X and Y, or positive for Z.
+
+```js
+string cam = chs("cam");
+vector ndcPos = toNDC(cam, v@P);
+
+if (ndcPos.x < 0 || ndcPos.x > 1 // Remove outside 0-1 on X
+ || ndcPos.y < 0 || ndcPos.y > 1 // Remove outside 0-1 on Y
+ || ndcPos.z > 0) { // Remove behind camera (positive Z)
+    removepoint(0, i@ptnum);
+}
+```
+
+<img src="./images/ndc/ndccull.png" width="400">
+
+It helps to add a bit of padding to avoid issues with motion blur or shadows near the edges.
+
+```js
+float padding = chf("padding");
+string cam = chs("cam");
+vector ndcPos = toNDC(cam, v@P);
+
+if (ndcPos.x < -padding || ndcPos.x > 1 + padding // Remove outside 0-1 on X
+ || ndcPos.y < -padding || ndcPos.y > 1 + padding // Remove outside 0-1 on Y
+ || ndcPos.z > 0) { // Remove behind camera (positive Z)
+    removepoint(0, i@ptnum);
+}
 ```
