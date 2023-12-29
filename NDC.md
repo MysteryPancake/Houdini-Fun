@@ -133,3 +133,9 @@ v@P = fromNDC(cam, p);
 ```
 
 <br clear="left" />
+
+## Make a frustrum box
+
+1. Add a box. Make sure the X and Y coordinates range from 0 to 1, and the Z coordinates range from 0 to the depth you want.
+
+|<img src="./images/ndcbox.png" height="300">|<img src="./images/ndccube.png" height="300">|
