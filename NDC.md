@@ -1,4 +1,5 @@
 # Houdini Normalized Device Coordinates
+
 NDC is a screen space coordinate system, great for perspective illusions and raycasting tricks.
 
 X and Y represent the 2D screen coordinates, while Z represents the distance to the camera.
@@ -14,6 +15,7 @@ The Z coordinates are 0 at the camera, negative in front and positive behind the
 <img src="./images/ndczaxis.png" width="700">
 
 ## Converting NDC
+
 You can convert a world space coordinate to NDC using `toNDC()`:
 
 ```js
@@ -96,7 +98,7 @@ Another trick is turning this into an outline, much like Labs Extract Silouette.
 
 ## Flatten to the camera plane
 
-Using NDC coordinates in camera space lets you flatten geometry while keeping it identical from the camera perspective.
+Using NDC coordinates in camera space lets you flatten geometry but keep it identical from the camera perspective.
 
 <img src="./images/ndccampov.gif" width="300" align="left">
 
@@ -107,6 +109,25 @@ float offset = ch("distance");
 // Flatten to camera by setting Z to a constant value
 vector p = toNDC(cam, v@P);
 p.z = -offset;
+
+v@P = fromNDC(cam, p);
+```
+
+<br clear="left" />
+
+## Move along the Z axis
+
+Same as before, except subtracting the Z coordinate. Again the geometry is identical from the camera perspective.
+
+<img src="./images/ndccampov2.gif" width="300" align="left">
+
+```js
+string cam = chs("cam");
+float offset = ch("distance");
+
+// Distort relative to camera by adding or multiplying the Z value
+vector p = toNDC(cam, v@P);
+p.z -= offset;
 
 v@P = fromNDC(cam, p);
 ```
