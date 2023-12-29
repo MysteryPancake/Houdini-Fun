@@ -119,19 +119,19 @@ If your "Life" changes per target, use a for loop instead.
 ## Smooth steps
 Smoothstep's evil uncle, smooth steps. This helps for staggering animations, like points moving along lines.
 
-<img src="./images/vexemberhilbert.gif?raw=true" width="500">
+<img src="./images/vexember/vexemberhilbert.gif?raw=true" width="500">
 
 Start with regular steps. This is the integer component:
 
-<img src="./images/steps.png?raw=true" width="600">
+<img src="./images/waveforms/steps.png?raw=true" width="600">
 
 Use modulo to form a line per step, then clamp it below 1. This is the fractional component:
 
-<img src="./images/stepclamp.png?raw=true" width="600">
+<img src="./images/waveforms/stepclamp.png?raw=true" width="600">
 
 Add them together to achieve smooth steps:
 
-<img src="./images/linearsteps.png?raw=true" width="600">
+<img src="./images/waveforms/linearsteps.png?raw=true" width="600">
 
 ```js
 float x = f@Time; // Replace with whatever you want to step
