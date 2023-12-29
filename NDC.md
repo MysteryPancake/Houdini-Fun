@@ -239,7 +239,7 @@ if (ndcPos.x < 0 || ndcPos.x > 1 // Remove outside 0-1 on X
 
 <br clear="left" />
 
-It helps to include some wiggle room near the edges to avoid issues like glitchy motion blur or flickering shadows.
+It helps to add some wiggle room near the edges to avoid issues like glitchy motion blur or flickering shadows.
 
 <img src="./images/ndc/ndccull2.png" width="300" align="left">
 
