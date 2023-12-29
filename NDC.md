@@ -72,6 +72,8 @@ addprim(0, "polyline", a, b);
 
 Using NDC coordinates directly in world space flattens the geometry to how it looks on screen, like a printed photo.
 
+<img src="./images/ndcflat.png" width="250" align="left">
+
 ```js
 string cam = chs("cam");
 
@@ -80,7 +82,7 @@ v@P = toNDC(cam, v@P);
 v@P.z = 0;
 ```
 
-<img src="./images/ndcflat.png" width="250">
+<br clear="left" />
 
 Another trick is turning this into an outline, much like Labs Extract Silouette.
 
