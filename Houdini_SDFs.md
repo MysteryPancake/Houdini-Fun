@@ -15,11 +15,11 @@ f@surface = sdSphere(v@P, 0.5);
 
 I did this for [a ton of SDFs](https://iquilezles.org/articles/distfunctions/) by Inigo Quilez. [Download the HIP file!](hips/sdf_volumes.hipnc?raw=true)
 
-[<img src="./images/sdf_volumes.png?raw=true">](hips/sdf_volumes.hipnc?raw=true)
+[<img src="./images/sdfs/sdf_volumes.png?raw=true">](hips/sdf_volumes.hipnc?raw=true)
 
 ## Sphere - exact
 
-<img align="left" src="./images/sdSphere.png" width="200">
+<img align="left" src="./images/sdfs/sdSphere.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -34,7 +34,7 @@ f@surface = sdSphere(v@P, 1.0);
 
 ## Box - exact
 
-<img align="left" src="./images/sdBox.png" width="200">
+<img align="left" src="./images/sdfs/sdBox.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -50,7 +50,7 @@ f@surface = sdBox(v@P, {1.0, 1.0, 1.0});
 
 ## Round Box - exact
 
-<img align="left" src="./images/sdRoundBox.png" width="200">
+<img align="left" src="./images/sdfs/sdRoundBox.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -66,7 +66,7 @@ f@surface = sdRoundBox(v@P, {0.5, 0.5, 0.5}, 0.5);
 
 ## Box Frame - exact
 
-<img align="left" src="./images/sdBoxFrame.png" width="200">
+<img align="left" src="./images/sdfs/sdBoxFrame.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -86,7 +86,7 @@ f@surface = sdBoxFrame(v@P, {1.0, 1.0, 1.0}, 0.2);
 
 ## Torus - exact
 
-<img align="left" src="./images/sdTorus.png" width="200">
+<img align="left" src="./images/sdfs/sdTorus.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -102,7 +102,7 @@ f@surface = sdTorus(v@P, {1.0, 0.2});
 
 ## Capped Torus - exact
 
-<img align="left" src="./images/sdCappedTorus.png" width="200">
+<img align="left" src="./images/sdfs/sdCappedTorus.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -119,7 +119,7 @@ f@surface = sdCappedTorus(v@P, set(sin(2.0), cos(2.0)), 1.0, 0.2);
 
 ## Link - exact
 
-<img align="left" src="./images/sdLink.png" width="200">
+<img align="left" src="./images/sdfs/sdLink.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -135,7 +135,7 @@ f@surface = sdLink(v@P, 1.0, 0.5, 0.2);
 
 ## Cone - exact
 
-<img align="left" src="./images/sdCone.png" width="200">
+<img align="left" src="./images/sdfs/sdCone.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -161,7 +161,7 @@ f@surface = sdCone(v@P, {0.5, 1.0}, 2.0);
 
 ## Plane - exact
 
-<img align="left" src="./images/sdPlane.png" width="200">
+<img align="left" src="./images/sdfs/sdPlane.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -177,7 +177,7 @@ f@surface = sdPlane(v@P, normalize({0.0, 1.0, 0.0}), 0.0);
 
 ## Hexagonal Prism - exact
 
-<img align="left" src="./images/sdHexPrism.png" width="200">
+<img align="left" src="./images/sdfs/sdHexPrism.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -198,7 +198,7 @@ f@surface = sdHexPrism(v@P, {1.0, 1.0});
 
 ## Vertical Capsule / Line - exact
 
-<img align="left" src="./images/sdVerticalCapsule.png" width="200">
+<img align="left" src="./images/sdfs/sdVerticalCapsule.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -214,7 +214,7 @@ f@surface = sdVerticalCapsule(v@P, 1.0, 0.5);
 
 ## Arbitrary Capsule / Line - exact
 
-<img align="left" src="./images/sdCapsule.png" width="200">
+<img align="left" src="./images/sdfs/sdCapsule.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -231,7 +231,7 @@ f@surface = sdCapsule(v@P, {-0.5, -0.5, 0.0}, {0.5, 0.5, 0.0}, 0.5);
 
 ## Vertical Capped Cylinder - exact
 
-<img align="left" src="./images/sdCappedCylinder.png" width="200">
+<img align="left" src="./images/sdfs/sdCappedCylinder.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -247,7 +247,7 @@ f@surface = sdCappedCylinder(v@P, 1.0, 0.5);
 
 ## Arbitrary Capped Cylinder - exact
 
-<img align="left" src="./images/sdCappedCylinder2.png" width="200">
+<img align="left" src="./images/sdfs/sdCappedCylinder2.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -271,7 +271,7 @@ f@surface = sdCappedCylinder(v@P, {-1.0, -1.0, 0.0}, {1.0, 1.0, 0.0}, 0.5);
 
 ## Rounded Cylinder - exact
 
-<img align="left" src="./images/sdRoundedCylinder.png" width="200">
+<img align="left" src="./images/sdfs/sdRoundedCylinder.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -287,7 +287,7 @@ f@surface = sdRoundedCylinder(v@P, 0.3, 0.2, 1.0);
 
 ## Vertical Capped Cone - exact
 
-<img align="left" src="./images/sdCappedCone.png" width="200">
+<img align="left" src="./images/sdfs/sdCappedCone.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -308,7 +308,7 @@ f@surface = sdCappedCone(v@P, 1.0, 1.0, 0.5);
 
 ## Arbitrary Capped Cone - exact
 
-<img align="left" src="./images/sdCappedCone2.png" width="200">
+<img align="left" src="./images/sdfs/sdCappedCone2.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -336,7 +336,7 @@ f@surface = sdCappedCone(v@P, {-0.5, -0.5, 0.0}, {0.5, 0.5, 0.0}, 1.0, 0.5);
 
 ## Solid Angle - exact
 
-<img align="left" src="./images/sdSolidAngle.png" width="200">
+<img align="left" src="./images/sdfs/sdSolidAngle.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -355,7 +355,7 @@ f@surface = sdSolidAngle(v@P, {1.0, 1.0}, 1.5);
 
 ## Cut Sphere - exact
 
-<img align="left" src="./images/sdCutSphere.png" width="200">
+<img align="left" src="./images/sdfs/sdCutSphere.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -378,7 +378,7 @@ f@surface = sdCutSphere(v@P, 1.0, 0.0);
 
 ## Cut Hollow Sphere - exact
 
-<img align="left" src="./images/sdCutHollowSphere.png" width="200">
+<img align="left" src="./images/sdfs/sdCutHollowSphere.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -399,7 +399,7 @@ f@surface = sdCutHollowSphere(v@P, 1.0, 0.0, 0.1);
 
 ## Death Star - exact
 
-<img align="left" src="./images/sdDeathStar.png" width="200">
+<img align="left" src="./images/sdfs/sdDeathStar.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -424,7 +424,7 @@ f@surface = sdDeathStar(v@P, 1.0, 1.0, 1.0);
 
 ## Vertical Round Cone - exact
 
-<img align="left" src="./images/sdRoundCone.png" width="200">
+<img align="left" src="./images/sdfs/sdRoundCone.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -448,7 +448,7 @@ f@surface = sdRoundCone(v@P, 1.0, 0.5, 1.5);
 
 ## Arbitrary Round Cone - exact
 
-<img align="left" src="./images/sdRoundCone2.png" width="200">
+<img align="left" src="./images/sdfs/sdRoundCone2.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -483,7 +483,7 @@ f@surface = sdRoundCone(v@P, {-1.0, -1.0, 0.0}, {0.5, 0.5, 0.0}, 0.5, 1.0);
 
 ## Revolved Vesica - exact
 
-<img align="left" src="./images/sdVesicaSegment.png" width="200">
+<img align="left" src="./images/sdfs/sdVesicaSegment.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -508,7 +508,7 @@ f@surface = sdVesicaSegment(v@P, {-1.0, -1.0, 0.0}, {1.0, 1.0, 0.0}, 0.5);
 
 ## Rhombus - exact
 
-<img align="left" src="./images/sdRhombus.png" width="200">
+<img align="left" src="./images/sdfs/sdRhombus.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -531,7 +531,7 @@ f@surface = sdRhombus(v@P, 1.0, 0.5, 0.5, 0.5);
 
 ## Octahedron - exact
 
-<img align="left" src="./images/sdOctahedron.png" width="200">
+<img align="left" src="./images/sdfs/sdOctahedron.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -555,7 +555,7 @@ f@surface = sdOctahedron(v@P, 1.0);
 
 ## Pyramid - exact
 
-<img align="left" src="./images/sdPyramid.png" width="200">
+<img align="left" src="./images/sdfs/sdPyramid.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -588,7 +588,7 @@ f@surface = sdPyramid(v@P, 2.0);
 
 ## Triangle - exact
 
-<img align="left" src="./images/udTriangle.png" width="200">
+<img align="left" src="./images/sdfs/udTriangle.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -623,7 +623,7 @@ f@surface = udTriangle(v@P, {1.0, 1.0, 0.0}, {-1.0, -1.0, 0.0}, {-1.0, 1.0, -1.0
 
 ## Quad - exact
 
-<img align="left" src="./images/udQuad.png" width="200">
+<img align="left" src="./images/sdfs/udQuad.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -661,7 +661,7 @@ f@surface = udQuad(v@P, {1.0, 0.0, -1.0}, {0.0, 1.0, -1.0}, {-1.0, 0.0, 1.0}, {0
 
 ## Chain - exact
 
-<img align="left" src="./images/sdChain.png" width="200">
+<img align="left" src="./images/sdfs/sdChain.png" width="200">
 
 ```js
 // From https://www.shadertoy.com/view/wlXSD7
@@ -683,7 +683,7 @@ f@surface = sdChain(v@P, 0.1, 0.3, 0.1);
 
 ## Octagonal Prism - exact
 
-<img align="left" src="./images/sdOctagonPrism.png" width="200">
+<img align="left" src="./images/sdfs/sdOctagonPrism.png" width="200">
 
 ```js
 // From https://www.shadertoy.com/view/Xds3zN
@@ -714,7 +714,7 @@ f@surface = sdOctagonPrism(v@P, 1.0, 1.0);
 
 ## Horseshoe - exact
 
-<img align="left" src="./images/sdHorseshoe.png" width="200">
+<img align="left" src="./images/sdfs/sdHorseshoe.png" width="200">
 
 ```js
 // From https://www.shadertoy.com/view/Xds3zN
@@ -741,7 +741,7 @@ f@surface = sdHorseshoe(v@P, set(cos(1.3), sin(1.3)), 1.0, 1.0, {0.1, 0.5});
 
 ## Infinite Cone - exact
 
-<img align="left" src="./images/sdConeInf.png" width="200">
+<img align="left" src="./images/sdfs/sdConeInf.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -759,7 +759,7 @@ f@surface = sdCone(v@P, {0.5, 1.0});
 
 ## Infinite Cylinder - exact
 
-<img align="left" src="./images/sdCylinderInf.png" width="200">
+<img align="left" src="./images/sdfs/sdCylinderInf.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -774,7 +774,7 @@ f@surface = sdCylinder(v@P, {0.0, 0.0, 0.5});
 
 ## Cone - bound (not exact)
 
-<img align="left" src="./images/sdConeBound.png" width="200">
+<img align="left" src="./images/sdfs/sdConeBound.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -790,7 +790,7 @@ f@surface = sdCone(v@P, {0.5, 0.25}, 2.0);
 
 ## Triangular Prism - bound (not exact)
 
-<img align="left" src="./images/sdTriPrism.png" width="200">
+<img align="left" src="./images/sdfs/sdTriPrism.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -806,7 +806,7 @@ f@surface = sdTriPrism(v@P, {1.0, 1.0});
 
 ## Ellipsoid - bound (not exact)
 
-<img align="left" src="./images/sdEllipsoid.png" width="200">
+<img align="left" src="./images/sdfs/sdEllipsoid.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -823,7 +823,7 @@ f@surface = sdEllipsoid(v@P, {0.5, 1.0, 0.5});
 
 ## Octahedron - bound (not exact)
 
-<img align="left" src="./images/sdOctahedronBound.png" width="200">
+<img align="left" src="./images/sdfs/sdOctahedronBound.png" width="200">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -839,7 +839,7 @@ f@surface = sdOctahedron(v@P, 1.0);
 
 ## Helix - bound (not exact)
 
-<img align="left" src="./images/sdHelix.png" width="200">
+<img align="left" src="./images/sdfs/sdHelix.png" width="200">
 
 ```js
 // From https://www.shadertoy.com/view/ftyBRd
