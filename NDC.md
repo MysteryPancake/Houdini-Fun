@@ -183,11 +183,13 @@ This is a useful technique I first saw [Entagma use for a raytracer](https://www
 1. Take the frustrum plane above and subdivide it a bunch.
 2. Find the projection direction per point.
 
-Since the plane is flat along NDC Z, this is easy. Just take the position and subtract the camera position.
+Since the plane is flat along Z in NDC space, this is easy. Just take the position and subtract the camera position.
 
 ```js
 string cam = chs("cam");
 vector camPos = fromNDC(cam, {0, 0, 0});
+
+// Projection direction
 v@N = normalize(v@P - camPos);
 ```
 
@@ -197,7 +199,7 @@ v@N = normalize(v@P - camPos);
 
 <img src="./images/ndc/ndcproject2.png" width="500">
 
-For arbitary geometry, you need to convert to NDC space, flatten Z and convert back to world space.
+To find the direction for arbitary geometry, convert to NDC space, flatten Z and convert back to world space.
 
 ```js
 string cam = chs("cam");
