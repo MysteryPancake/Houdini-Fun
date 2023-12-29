@@ -3,7 +3,7 @@ Easings are the foundation of motion graphics, and great for adding flair to you
 
 I ported them to JavaScript on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
 
-<img src="./images/EasingDemo.gif" width="500">
+<img src="./images/easings/EasingDemo.gif" width="500">
 
 To use one, copy paste it into a wrangle and call it like so:
 
@@ -21,7 +21,7 @@ Also be sure to check out easings by [Tackyflea](https://github.com/Tackyflea/Ho
 
 ## Ease In Sine
 
-<img src="./images/inSine.gif" width="200" align="left">
+<img src="./images/easings/inSine.gif" width="200" align="left">
 
 ```js
 float inSine(float x) {
@@ -33,7 +33,7 @@ float inSine(float x) {
 
 ## Ease Out Sine
 
-<img src="./images/outSine.gif" width="200" align="left">
+<img src="./images/easings/outSine.gif" width="200" align="left">
 
 ```js
 float outSine(float x) {
@@ -45,7 +45,7 @@ float outSine(float x) {
 
 ## Ease In/Out Sine
 
-<img src="./images/inOutSine.gif" width="200" align="left">
+<img src="./images/easings/inOutSine.gif" width="200" align="left">
 
 ```js
 float inOutSine(float x) {
@@ -57,7 +57,7 @@ float inOutSine(float x) {
 
 ## Ease In Quad
 
-<img src="./images/inQuad.gif" width="200" align="left">
+<img src="./images/easings/inQuad.gif" width="200" align="left">
 
 ```js
 float inQuad(float x) {
@@ -69,7 +69,7 @@ float inQuad(float x) {
 
 ## Ease Out Quad
 
-<img src="./images/outQuad.gif" width="200" align="left">
+<img src="./images/easings/outQuad.gif" width="200" align="left">
 
 ```js
 float outQuad(float x) {
@@ -81,7 +81,7 @@ float outQuad(float x) {
 
 ## Ease In/Out Quad
 
-<img src="./images/inOutQuad.gif" width="200" align="left">
+<img src="./images/easings/inOutQuad.gif" width="200" align="left">
 
 ```js
 float inOutQuad(float x) {
@@ -93,7 +93,7 @@ float inOutQuad(float x) {
 
 ## Ease In Cubic
 
-<img src="./images/inCubic.gif" width="200" align="left">
+<img src="./images/easings/inCubic.gif" width="200" align="left">
 
 ```js
 float inCubic(float x) {
@@ -105,7 +105,7 @@ float inCubic(float x) {
 
 ## Ease Out Cubic
 
-<img src="./images/outCubic.gif" width="200" align="left">
+<img src="./images/easings/outCubic.gif" width="200" align="left">
 
 ```js
 float outCubic(float x) {
@@ -117,7 +117,7 @@ float outCubic(float x) {
 
 ## Ease In/Out Cubic
 
-<img src="./images/inOutCubic.gif" width="200" align="left">
+<img src="./images/easings/inOutCubic.gif" width="200" align="left">
 
 ```js
 float inOutCubic(float x) {
@@ -129,7 +129,7 @@ float inOutCubic(float x) {
 
 ## Ease In Quartic
 
-<img src="./images/inQuartic.gif" width="200" align="left">
+<img src="./images/easings/inQuartic.gif" width="200" align="left">
 
 ```js
 float inQuart(float x) {
@@ -141,7 +141,7 @@ float inQuart(float x) {
 
 ## Ease Out Quartic
 
-<img src="./images/outQuartic.gif" width="200" align="left">
+<img src="./images/easings/outQuartic.gif" width="200" align="left">
 
 ```js
 float outQuart(float x) {
@@ -153,7 +153,7 @@ float outQuart(float x) {
 
 ## Ease In/Out Quartic
 
-<img src="./images/inOutQuartic.gif" width="200" align="left">
+<img src="./images/easings/inOutQuartic.gif" width="200" align="left">
 
 ```js
 float inOutQuart(float x) {
@@ -165,7 +165,7 @@ float inOutQuart(float x) {
 
 ## Ease In Quintic
 
-<img src="./images/inQuintic.gif" width="200" align="left">
+<img src="./images/easings/inQuintic.gif" width="200" align="left">
 
 ```js
 float inQuint(float x) {
@@ -177,7 +177,7 @@ float inQuint(float x) {
 
 ## Ease Out Quintic
 
-<img src="./images/outQuintic.gif" width="200" align="left">
+<img src="./images/easings/outQuintic.gif" width="200" align="left">
 
 ```js
 float outQuint(float x) {
@@ -189,7 +189,7 @@ float outQuint(float x) {
 
 ## Ease In/Out Quintic
 
-<img src="./images/inOutQuintic.gif" width="200" align="left">
+<img src="./images/easings/inOutQuintic.gif" width="200" align="left">
 
 ```js
 float inOutQuint(float x) {
@@ -201,7 +201,7 @@ float inOutQuint(float x) {
 
 ## Ease In Exponential
 
-<img src="./images/inExpo.gif" width="200" align="left">
+<img src="./images/easings/inExpo.gif" width="200" align="left">
 
 ```js
 float inExpo(float x) {
@@ -213,7 +213,7 @@ float inExpo(float x) {
 
 ## Ease Out Exponential
 
-<img src="./images/outExpo.gif" width="200" align="left">
+<img src="./images/easings/outExpo.gif" width="200" align="left">
 
 ```js
 float outExpo(float x) {
@@ -225,7 +225,7 @@ float outExpo(float x) {
 
 ## Ease In/Out Exponential
 
-<img src="./images/inOutExpo.gif" width="200" align="left">
+<img src="./images/easings/inOutExpo.gif" width="200" align="left">
 
 ```js
 float inOutExpo(float x) {
@@ -242,7 +242,7 @@ float inOutExpo(float x) {
 
 ## Ease In Circular
 
-<img src="./images/inCirc.gif" width="200" align="left">
+<img src="./images/easings/inCirc.gif" width="200" align="left">
 
 ```js
 float inCirc(float x) {
@@ -254,7 +254,7 @@ float inCirc(float x) {
 
 ## Ease Out Circular
 
-<img src="./images/outCirc.gif" width="200" align="left">
+<img src="./images/easings/outCirc.gif" width="200" align="left">
 
 ```js
 float outCirc(float x) {
@@ -266,7 +266,7 @@ float outCirc(float x) {
 
 ## Ease In/Out Circular
 
-<img src="./images/inOutCirc.gif" width="200" align="left">
+<img src="./images/easings/inOutCirc.gif" width="200" align="left">
 
 ```js
 float inOutCirc(float x) {
@@ -280,7 +280,7 @@ float inOutCirc(float x) {
 
 ## Ease In Back
 
-<img src="./images/inBack.gif" width="200" align="left">
+<img src="./images/easings/inBack.gif" width="200" align="left">
 
 ```js
 float inBack(float x) {
@@ -294,7 +294,7 @@ float inBack(float x) {
 
 ## Ease Out Back
 
-<img src="./images/outBack.gif" width="200" align="left">
+<img src="./images/easings/outBack.gif" width="200" align="left">
 
 ```js
 float outBack(float x) {
@@ -308,7 +308,7 @@ float outBack(float x) {
 
 ## Ease In/Out Back
 
-<img src="./images/inOutBack.gif" width="200" align="left">
+<img src="./images/easings/inOutBack.gif" width="200" align="left">
 
 ```js
 float inOutBack(float x) {
@@ -324,7 +324,7 @@ float inOutBack(float x) {
 
 ## Ease In Elastic
 
-<img src="./images/inElastic.gif" width="200" align="left">
+<img src="./images/easings/inElastic.gif" width="200" align="left">
 
 ```js
 float inElastic(float x) {
@@ -341,7 +341,7 @@ float inElastic(float x) {
 
 ## Ease Out Elastic
 
-<img src="./images/outElastic.gif" width="200" align="left">
+<img src="./images/easings/outElastic.gif" width="200" align="left">
 
 ```js
 float outElastic(float x) {
@@ -358,7 +358,7 @@ float outElastic(float x) {
 
 ## Ease In/Out Elastic
 
-<img src="./images/inOutElastic.gif" width="200" align="left">
+<img src="./images/easings/inOutElastic.gif" width="200" align="left">
 
 ```js
 float inOutElastic(float x) {
@@ -377,7 +377,7 @@ float inOutElastic(float x) {
 
 ## Ease In Bounce
 
-<img src="./images/inBounce.gif" width="200" align="left">
+<img src="./images/easings/inBounce.gif" width="200" align="left">
 
 ```js
 float inBounce(float x) {
@@ -389,7 +389,7 @@ float inBounce(float x) {
 
 ## Ease Out Bounce
 
-<img src="./images/outBounce.gif" width="200" align="left">
+<img src="./images/easings/outBounce.gif" width="200" align="left">
 
 ```js
 float outBounce(float x) {
@@ -414,7 +414,7 @@ float outBounce(float x) {
 
 ## Ease In/Out Bounce
 
-<img src="./images/inOutBounce.gif" width="200" align="left">
+<img src="./images/easings/inOutBounce.gif" width="200" align="left">
 
 ```js
 float inOutBounce(float x) {
