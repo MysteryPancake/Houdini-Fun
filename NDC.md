@@ -136,21 +136,65 @@ v@P = fromNDC(cam, p);
 
 ## Frustrum box
 
-1. Add a box. The X and Y coordinates should range from 0 to 1, and the Z coordinates range from 0 to the depth you want.
+1. Add a box. The X and Y coordinates range from 0 to 1, and the Z coordinates range from 0 to the depth you want.
 
 |<img src="./images/ndc/ndcbox.png" height="300">|<img src="./images/ndc/ndccube.png" height="300">|
 
-2. Convert directly from NDC space to world coordinates.
+2. Convert from NDC to world coordinates.
 
 <img src="./images/ndc/ndcfrustrum.gif" width="300" align="left">
 
 ```js
 string cam = chs("cam");
 
-// Optionally move it along the Z axis
+// Optionally animate it along the Z axis
 v@P.z -= chf("distance");
 
 v@P = fromNDC(cam, v@P);
 ```
 
 <br clear="left" />
+
+## Frustrum plane
+
+1. The same as above, except using a grid. The X and Y coordinates range from 0 to 1.
+
+|<img src="./images/ndc/ndcgrid.png" height="300">|<img src="./images/ndc/ndcplane.png" height="300">|
+
+2. Convert from NDC to world coordinates.
+
+<img src="./images/ndc/ndcplane.gif" width="300" align="left">
+
+```js
+string cam = chs("cam");
+
+// Optionally animate it along the Z axis
+v@P.z = -chf("distance");
+
+v@P = fromNDC(cam, v@P);
+```
+
+<br clear="left" />
+
+## Project onto geometry
+
+This is a useful technique I first saw [Entagma use for a raytracer](https://www.youtube.com/watch?v=JmgSq_xdkcs).
+
+1. Take the frustrum plane above, and subdivide it a bunch.
+2. We need to find the projection direction per point.
+
+Since the frustrum plane is already camera aligned, this is easy. Just take our position and subtract the camera position.
+
+```js
+string cam = chs("cam");
+
+// Projection direction can be found by comparing points in NDC space
+vector camPos = fromNDC(cam, {0, 0, 0});
+v@N = normalize(v@P - camPos);
+```
+
+<img src="./images/ndc/ndcproject.png" width="500">
+
+3. Ray onto the target geometry.
+
+<img src="./images/ndc/ndcproject2.png" width="500">
