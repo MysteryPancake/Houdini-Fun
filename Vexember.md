@@ -131,7 +131,7 @@ v@Cd = sin(sdf * 10);
 
 Very trippy! Seems a bit dark though? It's because we're writing to `@Cd` which usually ranges from 0 to 1, but sine waves range from -1 to 1.
 
-<img src="./images/vexember/vexembersine4.png" width="500">
+<img src="./images/waveforms/vexembersine4.png" width="500">
 
 We can fix it by remapping the range to 0 to 1, either manually or with `fit11()`.
 
@@ -171,7 +171,7 @@ Looking good! Now I'll admit, I had to modify the code to get a seamless loop.
 
 Sine waves are awkward to work with since they repeat every 2*PI units:
 
-<img src="./images/vexember/vexembersine2.png" width="500">
+<img src="./images/waveforms/vexembersine2.png" width="500">
 
 For a seamless loop, we need to remap from 0 to 2*PI to 0 to 1. This can be done with multiplication:
 
@@ -293,7 +293,7 @@ Finally, add a VDB Convert node to turn it from a volume into polygons.
 
 I did this for every SDF I could find. [You can find them all here!](./Houdini_SDFs.md)
 
-<img src="./images/vexember/sdf_volumes.png?raw=true">
+<img src="./images/sdfs/sdf_volumes.png?raw=true">
 
 ## Day 2: Voronoi
 TODO (mention circular scatter and generalised SDF formula)
