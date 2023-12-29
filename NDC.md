@@ -178,7 +178,7 @@ v@P = fromNDC(cam, v@P);
 
 ## Project onto geometry
 
-This is a useful technique I first saw [Entagma use for a raytracer](https://www.youtube.com/watch?v=JmgSq_xdkcs).
+Here's a great technique for holograms. I first saw [Entagma use it for a raytracer](https://www.youtube.com/watch?v=JmgSq_xdkcs).
 
 1. Take the frustrum plane above and subdivide it a bunch.
 2. Find the projection direction per point.
