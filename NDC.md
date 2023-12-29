@@ -157,7 +157,7 @@ v@P = fromNDC(cam, v@P);
 
 ## Frustrum plane
 
-1. The same as above, except using a grid. The X and Y coordinates range from 0 to 1.
+1. Same as above, except add a grid instead. The X and Y coordinates range from 0 to 1.
 
 |<img src="./images/ndc/ndcgrid.png" height="300">|<img src="./images/ndc/ndcplane.png" height="300">|
 
