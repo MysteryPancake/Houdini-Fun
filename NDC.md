@@ -220,9 +220,9 @@ v@N = normalize(worldPos - camPos);
 
 ## Cull offscreen geometry
 
-Commonly NDC space is used to remove offscreen geometry.
+Maybe the most common use of NDC space is to remove offscreen geometry.
 
-So what is offscreen? For X and Y it's anything outside 0 to 1, and for Z it's anything positive.
+So what is offscreen? For X and Y it's anything outside the 0 to 1 range, and for Z it's anything positive.
 
 <img src="./images/ndc/ndccull.png" width="300" align="left">
 
@@ -239,7 +239,7 @@ if (ndcPos.x < 0 || ndcPos.x > 1 // Remove outside 0-1 on X
 
 <br clear="left" />
 
-It helps to add some wiggle room near the edges to avoid issues like glitchy motion blur or flickering shadows.
+It helps to include some wiggle room near the edges to avoid issues like glitchy motion blur or flickering shadows.
 
 <img src="./images/ndc/ndccull2.png" width="300" align="left">
 
