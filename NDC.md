@@ -68,9 +68,7 @@ addprim(0, "polyline", a, b);
 
 ## Flatten to the XY plane
 
-Using NDC coordinates directly in world space distorts the geometry to how it looks on screen, like a printed photo.
-
-<img src="./images/ndcflat.png" width="250" align="left">
+Using NDC coordinates directly in world space flattens the geometry to how it looks on screen, like a printed photo.
 
 ```js
 string cam = chs("cam");
@@ -80,8 +78,14 @@ v@P = toNDC(cam, v@P);
 v@P.z = 0;
 ```
 
-<br clear="left"/>
+<img src="./images/ndcflat.png" width="250">
 
-<img src="./images/ndcsilouette.png" width="250" align="left">
+Another trick is turning this into an outline, much like Labs Extract Silouette.
 
-You can make a silhouette from this pretty easily. TODO
+1. Add a Triangulate2D node. Set "Silhouette" to `*` and enable outside removal. This triangulates the mesh.
+
+|<img src="./images/ndctriangulate.png" height="300">|<img src="./images/ndctriangulated.png" height="300">|
+
+2. Add a Divide node set to "Remove Shared Edges". This wipes the interior triangles and produces a clean outline.
+
+|<img src="./images/ndcremoveshared.png" height="300">|<img src="./images/ndcsilouette.png" height="300">|
