@@ -220,7 +220,7 @@ v@N = normalize(worldPos - camPos);
 
 ## Cull offscreen geometry
 
-Maybe the most common use of NDC space is to remove offscreen geometry.
+Perhaps the most common use of NDC space is removing offscreen geometry.
 
 So what is offscreen? For X and Y it's anything outside the 0 to 1 range, and for Z it's anything positive.
 
