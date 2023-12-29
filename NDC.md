@@ -35,6 +35,7 @@ The origin of NDC space is the camera, so just convert `{0, 0, 0}` to world spac
 <img src="./images/ndccampos.png" width="250" align="left">
 
 ```js
+// Run this in a detail wrangle
 string cam = "/obj/cam1";
 vector camPos = fromNDC(cam, {0, 0, 0});
 addpoint(0, camPos);
@@ -51,6 +52,7 @@ The Z axis aligns with the camera direction, so move along it to draw a ray.
 <img src="./images/ndccamline.gif" width="250" align="left">
 
 ```js
+// Run this in a detail wrangle
 string cam = chs("cam");
 float offset = chf("raylength");
 
