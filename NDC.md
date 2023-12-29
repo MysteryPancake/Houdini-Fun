@@ -210,5 +210,6 @@ vector ndcPos = toNDC(cam, v@P);
 ndcPos.z = -1;
 vector worldPos = fromNDC(cam, ndcPos);
 
+// Projection direction
 v@N = normalize(worldPos - camPos);
 ```
