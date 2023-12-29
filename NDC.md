@@ -187,8 +187,6 @@ Since the plane is flat along NDC Z, this is easy. Just take the position and su
 
 ```js
 string cam = chs("cam");
-
-// Projection direction can be found by comparing points in NDC space
 vector camPos = fromNDC(cam, {0, 0, 0});
 v@N = normalize(v@P - camPos);
 ```
@@ -198,3 +196,17 @@ v@N = normalize(v@P - camPos);
 3. Ray onto the target geometry.
 
 <img src="./images/ndc/ndcproject2.png" width="500">
+
+For arbitary geometry, you need to convert to NDC space, flatten Z and convert back to world space.
+
+```js
+string cam = chs("cam");
+vector camPos = fromNDC(cam, {0, 0, 0});
+
+// Flatten Z axis in NDC space
+vector ndcPos = toNDC(cam, v@P);
+ndcPos.z = -1;
+vector worldPos = fromNDC(cam, ndcPos);
+
+v@N = normalize(worldPos - camPos);
+```
