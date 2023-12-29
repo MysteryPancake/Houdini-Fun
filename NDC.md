@@ -136,6 +136,18 @@ v@P = fromNDC(cam, p);
 
 ## Make a frustrum box
 
-1. Add a box. Make sure the X and Y coordinates range from 0 to 1, and the Z coordinates range from 0 to the depth you want.
+1. Add a box. The X and Y coordinates should range from 0 to 1, and the Z coordinates range from 0 to the depth you want.
 
 |<img src="./images/ndcbox.png" height="300">|<img src="./images/ndccube.png" height="300">|
+
+2. Convert it from NDC space to world coordinates.
+
+<img src="./images/ndcfrustrum.gif" width="300" align="left">
+
+```js
+string cam = chs("cam");
+v@P.z -= chf("distance");
+v@P = fromNDC(cam, v@P);
+```
+
+<br clear="left" />
