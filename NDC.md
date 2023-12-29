@@ -220,7 +220,11 @@ v@N = normalize(worldPos - camPos);
 
 ## Cull offscreen geometry
 
-Commonly NDC space is used to remove offscreen geometry. Offscreen means coordinates outside 0 to 1 for X and Y, or positive for Z.
+Commonly NDC space is used to remove offscreen geometry.
+
+So what is offscreen? For X and Y it's anything outside 0 to 1, and for Z it's anything positive.
+
+<img src="./images/ndc/ndccull.png" width="300" align="left">
 
 ```js
 string cam = chs("cam");
@@ -233,18 +237,22 @@ if (ndcPos.x < 0 || ndcPos.x > 1 // Remove outside 0-1 on X
 }
 ```
 
-<img src="./images/ndc/ndccull.png" width="400">
+<br clear="left" />
 
-It helps to add a bit of padding to avoid issues with motion blur or shadows near the edges.
+It helps to add some wiggle room near the edges to avoid issues like glitchy motion blur or flickering shadows.
+
+<img src="./images/ndc/ndccull2.png" width="300" align="left">
 
 ```js
 float padding = chf("padding");
 string cam = chs("cam");
 vector ndcPos = toNDC(cam, v@P);
 
-if (ndcPos.x < -padding || ndcPos.x > 1 + padding // Remove outside 0-1 on X
- || ndcPos.y < -padding || ndcPos.y > 1 + padding // Remove outside 0-1 on Y
+if (ndcPos.x < -padding || ndcPos.x > 1 + padding // Remove outside 0-1 on X (with padding)
+ || ndcPos.y < -padding || ndcPos.y > 1 + padding // Remove outside 0-1 on Y (with padding)
  || ndcPos.z > 0) { // Remove behind camera (positive Z)
     removepoint(0, i@ptnum);
 }
 ```
+
+<br clear="left" />
