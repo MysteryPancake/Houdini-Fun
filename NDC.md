@@ -28,7 +28,7 @@ Then convert it back to world space using `fromNDC()`:
 vector worldPos = fromNDC("/obj/cam1", ndcPos);
 ```
 
-Here's some fun NDC tricks you can play with. [Download the HIP file!](./hips/ndcfun.hipnc?raw=true)
+Here's some NDC tricks you can play with. [Download the HIP file!](./hips/ndcfun.hipnc?raw=true)
 
 ## Get the camera position
 
