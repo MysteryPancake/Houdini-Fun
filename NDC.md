@@ -181,9 +181,9 @@ v@P = fromNDC(cam, v@P);
 This is a useful technique I first saw [Entagma use for a raytracer](https://www.youtube.com/watch?v=JmgSq_xdkcs).
 
 1. Take the frustrum plane above, and subdivide it a bunch.
-2. We need to find the projection direction per point.
+2. Find the projection direction per point.
 
-Since the frustrum plane is already camera aligned, this is easy. Just take our position and subtract the camera position.
+Since the frustrum plane is flattened along Z, this is easy. Just take our position and subtract the camera position.
 
 ```js
 string cam = chs("cam");
