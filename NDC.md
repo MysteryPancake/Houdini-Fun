@@ -136,7 +136,7 @@ v@P = fromNDC(cam, p);
 
 ## Frustrum box
 
-1. Add a box. The X and Y coordinates range from 0 to 1, and the Z coordinates range from 0 to the depth you want.
+1. Add a box. The X and Y coordinates range from 0 to 1. The Z coordinates are negative from 0 to the depth you want.
 
 |<img src="./images/ndc/ndcbox.png" height="300">|<img src="./images/ndc/ndccube.png" height="300">|
 
