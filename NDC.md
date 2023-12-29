@@ -4,15 +4,15 @@ NDC is a screen space coordinate system, great for perspective illusions and ray
 
 X and Y represent the 2D screen coordinates, while Z represents the distance to the camera.
 
-<img src="./images/ndccoordinates.png" width="700">
+<img src="./images/ndc/ndccoordinates.png" width="700">
 
 The X and Y coordinates are normalized between 0 and 1, with 0.5 in the middle.
 
-<img src="./images/ndcscreen.png" width="700">
+<img src="./images/ndc/ndcscreen.png" width="700">
 
 The Z coordinates are 0 at the camera, negative in front and positive behind the camera. Why negative? No idea!
 
-<img src="./images/ndczaxis.png" width="700">
+<img src="./images/ndc/ndczaxis.png" width="700">
 
 ## Converting NDC
 
@@ -34,7 +34,7 @@ Here's some fun NDC tricks you can play with. [Download the HIP file!](./hips/nd
 
 The origin of NDC space is the camera, so just convert `{0, 0, 0}` to world space.
 
-<img src="./images/ndccampos.png" width="300" align="left">
+<img src="./images/ndc/ndccampos.png" width="300" align="left">
 
 ```js
 // Run this in a detail wrangle
@@ -51,7 +51,7 @@ addpoint(0, camPos);
 
 The Z axis aligns with the camera direction, so move along it to draw a ray.
 
-<img src="./images/ndccamline.gif" width="300" align="left">
+<img src="./images/ndc/ndccamline.gif" width="300" align="left">
 
 ```js
 // Run this in a detail wrangle
@@ -74,7 +74,7 @@ addprim(0, "polyline", a, b);
 
 Using NDC coordinates directly in world space flattens the geometry to how it looks on screen, like a printed photo.
 
-<img src="./images/ndcflat.png" width="300" align="left">
+<img src="./images/ndc/ndcflat.png" width="300" align="left">
 
 ```js
 string cam = chs("cam");
@@ -90,17 +90,17 @@ Another trick is turning this into an outline, much like Labs Extract Silouette.
 
 1. Add a Triangulate2D node. Set "Silhouette" to `*` and enable outside removal. This triangulates the mesh.
 
-|<img src="./images/ndctriangulate.png" height="300">|<img src="./images/ndctriangulated.png" height="300">|
+|<img src="./images/ndc/ndctriangulate.png" height="300">|<img src="./images/ndc/ndctriangulated.png" height="300">|
 
 2. Add a Divide node set to "Remove Shared Edges". This wipes the interior triangles and produces a clean outline.
 
-|<img src="./images/ndcremoveshared.png" height="300">|<img src="./images/ndcsilouette.png" height="300">|
+|<img src="./images/ndc/ndcremoveshared.png" height="300">|<img src="./images/ndc/ndcsilouette.png" height="300">|
 
 ## Flatten to the camera plane
 
 Using NDC coordinates in camera space lets you flatten geometry but keep it identical from the camera perspective.
 
-<img src="./images/ndccampov.gif" width="300" align="left">
+<img src="./images/ndc/ndccampov.gif" width="300" align="left">
 
 ```js
 string cam = chs("cam");
@@ -119,7 +119,7 @@ v@P = fromNDC(cam, p);
 
 Same as before, except subtracting the Z coordinate. Again the geometry is identical from the camera perspective.
 
-<img src="./images/ndccampov2.gif" width="300" align="left">
+<img src="./images/ndc/ndccampov2.gif" width="300" align="left">
 
 ```js
 string cam = chs("cam");
@@ -138,11 +138,11 @@ v@P = fromNDC(cam, p);
 
 1. Add a box. The X and Y coordinates should range from 0 to 1, and the Z coordinates range from 0 to the depth you want.
 
-|<img src="./images/ndcbox.png" height="300">|<img src="./images/ndccube.png" height="300">|
+|<img src="./images/ndc/ndcbox.png" height="300">|<img src="./images/ndc/ndccube.png" height="300">|
 
 2. Convert directly from NDC space to world coordinates.
 
-<img src="./images/ndcfrustrum.gif" width="300" align="left">
+<img src="./images/ndc/ndcfrustrum.gif" width="300" align="left">
 
 ```js
 string cam = chs("cam");
