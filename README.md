@@ -10,6 +10,7 @@ These articles grew too long to fit on the main page. Be sure to check them out!
 - [Waveforms](./Waveforms.md)
 - [Easings](./Easings.md)
 - [Normalized Device Coordinates](./NDC.md)
+- [4D Shapes](./4D.md)
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
