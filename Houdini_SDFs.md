@@ -1,11 +1,11 @@
 # Houdini SDFs
 Most SDFs are written directly, like [the classics from Inigo Quilez](https://iquilezles.org/articles/distfunctions/). Luckily they're easy to port to Houdini:
 
-1. Add a VDB node. Set the class to 'Level Set' and the name to 'surface'. 'Voxel Size' controls the quality.
+1. Add a VDB node. Set the class to 'Level Set' and the name to `surface`. 'Voxel Size' controls the quality.
 
 <img src="./images/sdfs/vdblevelset.png" width="500">
 
-2. Add a VDB Activate node. Set the size of the VDB to something above 0.
+2. Add a VDB Activate node. Set the size of the VDB to anything above 0.
 
 <img src="./images/sdfs/vdbactivate.png" width="500">
 
