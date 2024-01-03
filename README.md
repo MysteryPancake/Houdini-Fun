@@ -5,12 +5,12 @@ Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 These articles grew too long to fit on the main page. Be sure to check them out!
 
 - [Vexember 2023](Vexember.md)
-- [Volumes from SDFs](./Houdini_SDFs.md)
+- [Volumes from Signed Distance Functions](./Houdini_SDFs.md)
 - [Lerp and Fit](Lerp.md)
 - [Waveforms](./Waveforms.md)
 - [Easings](./Easings.md)
 - [Normalized Device Coordinates](./NDC.md)
-- [4D Shapes](./4D.md)
+- [4D Geometry](./4D.md)
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
