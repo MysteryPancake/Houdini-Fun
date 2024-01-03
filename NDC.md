@@ -134,6 +134,26 @@ v@P = fromNDC(cam, p);
 
 <br clear="left" />
 
+## Perspective illusion
+
+Same as above, except using another camera as reference. The Z coordinates are flipped as the cameras cross paths.
+
+<img src="./images/ndc/cubeillusion.gif" width="300" align="left">
+
+```js
+string cam = chs("cam");
+float mult = ch("multiply");
+float add = ch("add");
+
+// Distort relative to camera by adding or multiplying the Z value
+vector p = toNDC(cam, v@P);
+p.z = p.z * mult + add;
+
+v@P = fromNDC(cam, p);
+```
+
+<br clear="left" />
+
 ## Frustrum box
 
 The VEX equivalent of Camera Frustrum qL.
