@@ -50,7 +50,7 @@ f@surface = sdSphere(v@P, 1.0);
 // From https://iquilezles.org/articles/distfunctions
 float sdBox( vector p; vector b ) {
 	vector q = abs(p) - b;
-	return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
+	return length(max(q,0.0)) + min(max(q.x,q.y,q.z),0.0);
 }
 
 f@surface = sdBox(v@P, {1.0, 1.0, 1.0});
