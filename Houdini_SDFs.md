@@ -377,9 +377,7 @@ float sdCutSphere( vector p; float r; float h ) {
 	// sampling dependant computations
 	vector2 q = set( length(set(p.x,p.z)), p.y );
 	float s = max( (h-r)*q.x*q.x+w*w*(h+r-2.0*q.y), h*q.x-w*q.y );
-	return (s<0.0) ? length(q)-r :
-		   (q.x<w) ? h - q.y     :
-					length(q-set(w,h));
+	return (s<0.0) ? length(q)-r : (q.x<w) ? h - q.y : length(q-set(w,h));
 }
 
 f@surface = sdCutSphere(v@P, 1.0, 0.0);
@@ -399,8 +397,7 @@ float sdCutHollowSphere( vector p; float r; float h; float t ) {
 	
 	// sampling dependant computations
 	vector2 q = set( length(set(p.x,p.z)), p.y );
-	return ((h*q.x<w*q.y) ? length(q-set(w,h)) : 
-							abs(length(q)-r) ) - t;
+	return ((h*q.x<w*q.y) ? length(q-set(w,h)) : abs(length(q)-r) ) - t;
 }
 
 f@surface = sdCutHollowSphere(v@P, 1.0, 0.0, 0.1);
@@ -424,8 +421,7 @@ float sdDeathStar( vector p2; float ra; float rb; float d ) {
 	if( p.x*b-p.y*a > d*max(b-p.y,0.0) )
 		return length(p-set(a,b));
 	else
-		return max( (length(p           )-ra),
-				   -(length(p-set(d,0.0))-rb));
+		return max(length(p)-ra,-(length(p-set(d,0.0))-rb));
 }
 
 f@surface = sdDeathStar(v@P, 1.0, 1.0, 1.0);
@@ -482,9 +478,9 @@ float sdRoundCone( vector p; vector a; vector b; float r1; float r2 ) {
 	
 	// single square root!
 	float k = sign(rr)*rr*rr*x2;
-	if( sign(z)*a2*z2>k ) return  sqrt(x2 + z2)        *il2 - r2;
-	if( sign(y)*a2*y2<k ) return  sqrt(x2 + y2)        *il2 - r1;
-						  return (sqrt(x2*a2*il2)+y*rr)*il2 - r1;
+	if( sign(z)*a2*z2>k ) return  sqrt(x2 + z2) * il2 - r2;
+	if( sign(y)*a2*y2<k ) return  sqrt(x2 + y2) * il2 - r1;
+	return (sqrt(x2*a2*il2)+y*rr)*il2 - r1;
 }
 
 f@surface = sdRoundCone(v@P, {-1.0, -1.0, 0.0}, {0.5, 0.5, 0.0}, 0.5, 1.0);
@@ -550,7 +546,7 @@ float sdOctahedron( vector p; float s ) {
 	p = abs(p);
 	float m = p.x+p.y+p.z-s;
 	vector q;
-		 if( 3.0*p.x < m ) q = p.xyz;
+	if( 3.0*p.x < m ) q = p.xyz;
 	else if( 3.0*p.y < m ) q = p.yzx;
 	else if( 3.0*p.z < m ) q = p.zxy;
 	else return m*0.57735027;
@@ -618,9 +614,9 @@ float udTriangle( vector p; vector a; vector b; vector c ) {
 		sign(dot(cross(cb,nor),pb)) +
 		sign(dot(cross(ac,nor),pc))<2.0)
 		?
-		min( min(
+		min(
 		dot2(ba*clamp(dot(ba,pa)/dot2(ba),0.0,1.0)-pa),
-		dot2(cb*clamp(dot(cb,pb)/dot2(cb),0.0,1.0)-pb) ),
+		dot2(cb*clamp(dot(cb,pb)/dot2(cb),0.0,1.0)-pb),
 		dot2(ac*clamp(dot(ac,pc)/dot2(ac),0.0,1.0)-pc) )
 		:
 		dot(nor,pa)*dot(nor,pa)/dot2(nor) );
@@ -655,11 +651,11 @@ float udQuad( vector p; vector a; vector b; vector c; vector d ) {
 		sign(dot(cross(dc,nor),pc)) +
 		sign(dot(cross(ad,nor),pd))<3.0)
 		?
-		min( min( min(
-		dot2(ba*clamp(dot(ba,pa)/dot2(ba),0.0,1.0)-pa),
-		dot2(cb*clamp(dot(cb,pb)/dot2(cb),0.0,1.0)-pb) ),
-		dot2(dc*clamp(dot(dc,pc)/dot2(dc),0.0,1.0)-pc) ),
-		dot2(ad*clamp(dot(ad,pd)/dot2(ad),0.0,1.0)-pd) )
+	        min(
+	        dot2(ba*clamp(dot(ba,pa)/dot2(ba),0.0,1.0)-pa),
+	        dot2(cb*clamp(dot(cb,pb)/dot2(cb),0.0,1.0)-pb),
+	        dot2(dc*clamp(dot(dc,pc)/dot2(dc),0.0,1.0)-pc),
+	        dot2(ad*clamp(dot(ad,pd)/dot2(ad),0.0,1.0)-pd) )
 		:
 		dot(nor,pa)*dot(nor,pa)/dot2(nor) );
 }
