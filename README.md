@@ -145,7 +145,9 @@ float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
 ## Generating circles
-Circles often come in handy, and luckily are easy to make. Just use `sin()` on one axis and `cos()` on the other:
+Sometimes you need to generate circles without relying on built-in nodes, like to know the phase.
+
+Luckily it's easy, just use `sin()` on one axis and `cos()` on the other:
 
 <img src="./images/movecircle.gif?raw=true" width="200" align="left">
 
