@@ -66,7 +66,7 @@ f@surface = sdBox(v@P, {1.0, 1.0, 1.0});
 // From https://iquilezles.org/articles/distfunctions
 float sdRoundBox( vector p; vector b; float r ) {
 	vector q = abs(p) - b;
-	return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0) - r;
+	return length(max(q,0.0)) + min(max(q.x,q.y,q.z),0.0) - r;
 }
 
 f@surface = sdRoundBox(v@P, {0.5, 0.5, 0.5}, 0.5);
