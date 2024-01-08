@@ -83,10 +83,11 @@ f@surface = sdRoundBox(v@P, {0.5, 0.5, 0.5}, 0.5);
 float sdBoxFrame( vector p; vector b; float e ) {
 	p = abs(p)-b;
 	vector q = abs(p+e)-e;
-	return min(min(
-		length(max(set(p.x,q.y,q.z),0.0))+min(max(p.x,max(q.y,q.z)),0.0),
-		length(max(set(q.x,p.y,q.z),0.0))+min(max(q.x,max(p.y,q.z)),0.0)),
-		length(max(set(q.x,q.y,p.z),0.0))+min(max(q.x,max(q.y,p.z)),0.0));
+	return min(
+		length(max(set(p.x,q.y,q.z),0.0))+min(max(p.x,q.y,q.z),0.0),
+		length(max(set(q.x,p.y,q.z),0.0))+min(max(q.x,p.y,q.z),0.0),
+		length(max(set(q.x,q.y,p.z),0.0))+min(max(q.x,q.y,p.z),0.0)
+	);
 }
 
 f@surface = sdBoxFrame(v@P, {1.0, 1.0, 1.0}, 0.2);
