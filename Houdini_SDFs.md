@@ -336,8 +336,7 @@ float sdCappedCone( vector p; vector a; vector b; float ra; float rb ) {
 	float cbx = x-ra - f*rba;
 	float cby = paba - f;
 	float s = (cbx<0.0 && cay<0.0) ? -1.0 : 1.0;
-	return s*sqrt( min(cax*cax + cay*cay*baba,
-					   cbx*cbx + cby*cby*baba) );
+	return s*sqrt( min(cax*cax + cay*cay*baba, cbx*cbx + cby*cby*baba) );
 }
 
 f@surface = sdCappedCone(v@P, {-0.5, -0.5, 0.0}, {0.5, 0.5, 0.0}, 1.0, 0.5);
