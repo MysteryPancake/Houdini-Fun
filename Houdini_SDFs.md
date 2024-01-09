@@ -19,7 +19,7 @@ float sdSphere(vector p; float s) {
 f@surface = sdSphere(v@P, 0.5);
 ```
 
-4. Add a VDB Convert node set to 'Polygons' to convert it from a volume into geometry.
+4. Add a VDB Convert node set to 'Polygons' to convert it from a volume into geometry:
 
 <img src="./images/sdfs/vdbconvert.png" width="500">
 
