@@ -221,6 +221,30 @@ Another option is using Attribute Swap to move the attribute to `@P`. Keep in mi
 
 To find an exact match, use `findattribval()` instead.
 
+## Unwrap
+Swalsch told us about a top secret alternative to the above, known as [unwrap](https://www.sidefx.com/docs/houdini/vex/functions/geounwrap.html).
+
+It changes the context of any VEX function, allowing you to override functions to work with any attribute.
+
+For example, `nearpoint()` uses `@P`. Normally you have to round trip to use another attribute like `@uv`:
+
+```js
+// Get the geometry position closest to a UV coordinate
+vector world_pos = uvsample(0, "P", "uv", chv("uv_coordinate"));
+
+// Find the nearest point to that position
+i@near_id = nearpoint(0, world_pos);
+```
+
+The direct way is using unwrap to replace the context:
+
+```js
+// All in one, thanks @swalsch!
+i@near_id = nearpoint("unwrap:uv opinput:0", chv("uv_coordinate"));
+```
+
+[Download the HIP file!](./hips/geounwrap.hipnc?raw=true)
+
 ## Sampling environment maps
 A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI using VEX. It's a cheap way to get environment mapping without leaving the viewport.
 
@@ -267,6 +291,7 @@ Extract Transform and Transform Pieces are your best friends.
 7. Use Transform Pieces to move the geometry back to the animated pose.
 
 As well as Transform Pieces, you can set Extract Transform to output a matrix and transform manually in VEX:
+
 ```js
 // Extract Transform matrix from input 1
 matrix mat = point(1, "transform", 0);
