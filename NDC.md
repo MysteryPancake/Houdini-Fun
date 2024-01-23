@@ -154,9 +154,9 @@ v@P = fromNDC(cam, p);
 
 <br clear="left" />
 
-## Frustrum box
+## Frustum box
 
-The VEX equivalent of Camera Frustrum qL.
+The VEX equivalent of Camera Frustum qL.
 
 1. Add a box. The X and Y coordinates range from 0 to 1. The Z coordinates are negative from 0 to the depth you want.
 
@@ -177,7 +177,7 @@ v@P = fromNDC(cam, v@P);
 
 <br clear="left" />
 
-## Frustrum plane
+## Frustum plane
 
 The VEX equivalent of Camera Plane qL.
 
@@ -204,7 +204,7 @@ v@P = fromNDC(cam, v@P);
 
 This technique is great for holograms. I first saw [Entagma use it for a raytracer](https://www.youtube.com/watch?v=JmgSq_xdkcs).
 
-1. Take the frustrum plane above and subdivide it a bunch.
+1. Take the frustum plane above and subdivide it a bunch.
 2. Find the projection direction per point.
 
 Since the plane is flattened on Z in NDC space, this is easy. Just subtract the camera position from the current position.
