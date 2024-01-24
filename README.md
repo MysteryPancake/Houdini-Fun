@@ -301,6 +301,14 @@ v@P *= mat;
 v@P *= invert(mat);
 ```
 
+<img src="./images/extracttransform.gif?raw=true" width="500">
+
+[Download the HIP file!](./hips/extracttransform.hipnc?raw=true)
+
+<img src="./images/inverttransform.gif?raw=true" width="500">
+
+[Download the HIP file!](./hips/inverttransform.hipnc?raw=true)
+
 ### Bendy geometry
 For simple cases, Point Deform is your best friend.
 
