@@ -45,11 +45,6 @@
 			return data;
 		}
 		</script>
-		<style>
-		pre {
-			white-space: normal;
-		}
-		</style>
 	</head>
 	<body>
 		<div class="container mt-5">
@@ -63,9 +58,7 @@
 			<h2 class="mb-3">Basic method: Lerp</h2>
 			<p>The easiest way to smooth stuff is with lerp, <a href="https://github.com/MysteryPancake/Houdini-Fun/blob/main/Lerp.md" target="_blank">which I wrote about here</a>. This is really popular on gamedev forums, especially Unity. It's not the best method, but it's a nice intro to the topic.</p>
 			<p>The idea is you start at some value, then pick a target value. Each frame you move a little bit closer to the target by some percentage. The slower you move, the smoother your path becomes.</p>
-			<pre>
-				<code class="language-js">current = lerp(current, target, factor);</code>
-			</pre>
+			<pre><code class="language-js">current = lerp(current, target, factor);</code></pre>
 			<p>Here's a demo with the smooth version in white. Click and drag to draw your own data.</p>
 			<canvas id="lerpCanvas" width="640" height="256"></canvas>
 			<div class="mb-3">
@@ -242,21 +235,39 @@
 			<p>To smooth stuff over time in Houdini, we need a way to access the previous frame. Luckily there's many ways to do this.</p>
 			<h4 class="mb-3">Option 1: Solver</h4>
 			<p>I prefer using a Solver since it's the most robust. It runs in sequence so it's guaranteed not to skip any frames, so if you had a huge jolt it continues smoothing out the impact a thousand frames later. Audio plugins also run in sequence, so we can steal their code and be sure the result is the same. This comes in handy later!</p>
-			<p>First add a Solver node, then add a Point Wrangle inside. Connect the second input to the current animation like below.</p>
+			<p>First add a Solver node, then add a Point Wrangle inside. Plug the the current animation (Input_1) into the second wrangle input.</p>
 			<img src="./images/smoothing/lerpwrangle.PNG" width="512" class="mb-3">
-			<p>Now we can write our formula in VEX. In solvers, @P is the current position. The second input we connected is the latest animation, which is our target position. The factor controls how quickly we move to the target.</p>
-			<pre>
-				<code class="language-js">v@P = lerp(v@P, v@opinput1_P, chf("factor"));</code>
-			</pre>
+			<p>Now we can write our formula in VEX. In solvers, <code>@P</code> is the current position. The second input <code>@opinput1_P</code> is the latest animation, which is our target position.</p>
+			<pre><code class="language-js">v@P = lerp(v@P, v@opinput1_P, chf("factor"));</code></pre>
 			<p>TODO: ADD DEMO VIDEO AND FILE</p>
 			<p>To get less smudgy results, you'd need to chain a bunch of solvers in a row. I don't recommend it.</p>
 			<h4 class="mb-3">Option 2: Trail</h4>
 			<p>The Trail node can be used to smooth a handful of frames, which Catherine used for her demo. It's better for production since it can be batch processed and run in parallel. However it's inaccurate for this type of filter, since it ignores jolts if it has no idea they happened.</p>
-			<p>It's worth showing anyway to get an idea of how to do it.</p>
-			<p>TODO</p>
-			<h2 class="mb-3">Fancy method: Convolution</h2>
+			<p>So how do you do it? First add a Trail node and a Point Wrangle. Plug the trail into the second wrangle input.</p>
+			<img src="./images/smoothing/trailwrangle.PNG" width="512" class="mb-3">
+			<p>Now we need a way to extract positions from different frames. This is done using <code>point()</code>. It has 3 arguments, but we only care about the last one.</p>
+			<pre><code class="language-js">vector pos = point(0, "P", point_number);</code></pre>
+			<p>Given the current point number <code>@ptnum</code>, we need to find the matching point number on the previous frame. Assuming the topology stays the same, you'll find a pattern. Let's say you're point number 0. If the mesh has 5 points, your number on the previous frame is 5, 10, 15, 20 and so on.</p>
+			<p>Using <code>npoints(0)</code> to get the number of points in the mesh, the general formula is <code>@ptnum + npoints(0) * frame</code></p>
+			<img src="./images/smoothing/trailframes.png" width="860" class="mb-3">
+			<p>Using this idea we can lerp through the positions from past to present, just like with the solver. No need for any dictionaries or maps!</p>
+			<pre><code class="language-js">int point_count = npoints(0);
+// Make sure this matches your trail node
+int trail_length = 128;
+
+// Start at the last frame's position, the oldest frame
+v@P = point(1, "P", i@ptnum + point_count * (trail_length - 1));
+
+// Lerp from the past to the present, like what the solver does except manually
+for (int frame = 1; frame < trail_length; ++frame) {
+	vector target_pos = point(1, "P", i@ptnum + point_count * (trail_length - 1 - frame));
+	// The magic formula
+	v@P = lerp(v@P, target_pos, chf("factor"));
+}</code></pre>
+			<p>Though it reduces jitter overall, it's much more shaky than the solver, and not a good use case for the trail approach. Let's try a better method.</p>
+			<h2 class="mb-3">Better method: Convolution</h2>
 			<p>TODO: gaussian blur kernels</p>
-			<h2 class="mb-3">Fancy method: Lowpasses and highpasses</h2>
+			<h2 class="mb-3">Cool method: Biquad filters</h2>
 			<p>TODO: biquad filters</p>
 		</div>
 		<script>hljs.highlightAll();</script>
