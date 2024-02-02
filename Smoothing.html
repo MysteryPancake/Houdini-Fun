@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Smoothing and Sharpening</title>
+		<meta name="description" content="Various ways to smooth and sharpen in Houdini.">
+		<meta name="keywords" content="Lerp, Interpolation, Convolution, Kernel, Lowpass, Highpass, Bandpass, Allpass, Biquad, Filter, Smooth, Sharp">
+		<meta property="og:title" content="Smoothing and Sharpening">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://mysterypancake.github.io/Houdini-Fun/Smoothing">
+		<meta property="og:site_name" content="Smoothing and Sharpening">
+		<meta property="og:description" content="Various ways to smooth and sharpen in Houdini.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+		<script>
+		// This uses requestFrame(), some browsers name it differently so this finds the best alternative
+		const requestFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(e) { return window.setTimeout(e, 1000 / 60); };
+		
+		function lerp(a, b, factor) {
+			return (1 - factor) * a + factor * b;
+		}
+		
+		function drawData(e, canv, data) {
+			if (e.which !== 1) return;
+			const lastKey = Math.floor((e.offsetX - e.movementX) / canv.width * data.length);
+			const currentKey = Math.floor(e.offsetX / canv.width * data.length);
+			const start = Math.min(lastKey, currentKey);
+			const end = Math.max(lastKey, currentKey);
+			for (let i = start; i < end; ++i) {
+				data[i] = e.offsetY / canv.height;
+			}
+		}
+		
+		function generateData(numPoints) {
+			const data = Array(numPoints);
+			for (let i = 0; i < numPoints; ++i) {
+				const factor = i / numPoints;
+				const sin = Math.sin(factor*10)*0.3+0.5;
+				const noiseAmount = (Math.cos(factor*15)+1)*0.2;
+				const rand = Math.random()-0.5;
+				data[i] = sin + rand * noiseAmount;
+			}
+			return data;
+		}
+		</script>
+		<style>
+		pre {
+			white-space: normal;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="container mt-5">
+			<h1 class="mb-3">Smoothing and Sharpening</h1>
+			<p>This was inspired by a talk Catherine Williams did at SydHUG. She looked into a bunch of equations to smooth data, and used them to smooth jittery cloth sims over time.</p>
+			<p>Smoothing and sharpening is a pretty cool topic I've dipped into into a few times, so I wanted to gather some classic methods and dump them into Houdini in case it helps someone. If you're Catherine you can probably skip 90% of this, but hopefully it's fun anyway!</p>
+			<p>As usual everything's open source, so you can download this website to see how the demos work.</p>
+			<h2 class="mb-3">Smoothing in Houdini</h2>
+			<p>For some reason Houdini doesn't really have built-in nodes for time smoothing. Unreal Engine, Blender and Maya have plenty of ways, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky and needs tons of smoothing.</p>
+			<p>Since Houdini doesn't have much to work with, let's make it from scratch!</p>
+			<h2 class="mb-3">Basic method: Lerp</h2>
+			<p>The easiest way to smooth stuff is with lerp, <a href="https://github.com/MysteryPancake/Houdini-Fun/blob/main/Lerp.md" target="_blank">which I wrote about here</a>. This is really popular on gamedev forums, especially Unity. It's not the best method, but it's a nice intro to the topic.</p>
+			<p>The idea is you start at some value, then pick a target value. Each frame you move a little bit closer to the target by some percentage. The slower you move, the smoother your path becomes.</p>
+			<pre>
+				<code class="language-js">current = lerp(current, target, factor);</code>
+			</pre>
+			<p>Here's a demo with the smooth version in white. Click and drag to draw your own data.</p>
+			<canvas id="lerpCanvas" width="640" height="256"></canvas>
+			<div class="mb-3">
+				<label for="lerpFactor">Factor</label>
+				<input id="lerpFactor" type="range" min="0" max="1" step="0.01" value="0.2">
+			</div>
+			<script>
+			(function(){
+				const canv = document.getElementById("lerpCanvas");
+				const ctx = canv.getContext("2d", { alpha: false });
+				const lerpSlider = document.getElementById("lerpFactor");
+				let lerpFac = parseFloat(lerpSlider.value);
+				const data = generateData(canv.width);
+				
+				function drawLerp() {
+					ctx.fillStyle = "#404040";
+					ctx.fillRect(0, 0, canv.width, canv.height);
+					
+					ctx.lineWidth = 2;
+					ctx.strokeStyle = "#FF0000";
+					ctx.beginPath();
+					for (let i = 0; i < data.length; ++i) {
+						ctx.lineTo(i / data.length * canv.width, data[i] * canv.height);
+					}
+					ctx.stroke();
+					
+					ctx.strokeStyle = "white";
+					ctx.beginPath();
+					let current = data[0];
+					for (let i = 0; i < data.length; ++i) {
+						// The magic formula
+						current = lerp(current, data[i], lerpFac);
+						ctx.lineTo(i / data.length * canv.width, current * canv.height);
+					}
+					ctx.stroke();
+				}
+				
+				drawLerp();
+				
+				lerpSlider.addEventListener("input", function(e) {
+					lerpFac = parseFloat(e.target.value);
+					drawLerp();
+				});
+				
+				canv.addEventListener("mousemove", function(e) {
+					drawData(e, canv, data);
+					drawLerp();
+				});
+			})();
+			</script>
+			<p>There's 3 big problems with this method, which all smoothing methods suffer from.</p>
+			<h3 class="mb-3">Problem 1. Phase shift</h3>
+			<p>If you set the slider really low, it looks like the graph moves to the right. This is called <b>phase shift</b>.</p>
+			<p>It happens since the value is too lazy in moving to the target, so it sticks near the previous value and smears out the graph.</p>
+			<p>Phase shift is a popular topic in music, and you'll find many audio engineers rambling about it online (<a href="https://www.youtube.com/@DanWorrall" target="_blank">Dan Worrall</a> is my favourite). When you use an equalizer on music (for example to boost the bass), it usually adds a bit of phase shift. Some plugins (like <a href="https://ddmf.eu/plugindoctor/" target="_blank">Plugindoctor</a>) even show you the exact phase shift you'll get. This is called the <b>phase response</b>.</p>
+			<p>Phase shift is a natural part of the universe so there's nothing wrong with it, but it's annoying if you want stuff to line up. The lazy way is shifting over the graph. The proper way is using <b>linear phase</b> filters. I don't understand them, but feel free to look them up.</p>
+			<h3 class="mb-3">Problem 2. Undershooting</h3>
+			<p>When the slider is below 1, it never actually reaches the target.</p>
+			<p>You can tell from the formula. Lerp takes a percentage of two values and adds them together <a href="https://github.com/MysteryPancake/Houdini-Fun/blob/main/Lerp.md" target="_blank">as described here</a>. For example if the factor is 0.9, it takes 10% of the current value and adds on 90% of the target value. That means you never get 100% of the target.</p>
+			<p>Here's a demo where the white line targets the red line. Though it may appear to, it always lies below the red line until the factor is 1.</p>
+			<canvas id="undershootCanvas" width="640" height="256"></canvas>
+			<div class="mb-3">
+				<label for="undershootFactor">Factor</label>
+				<input id="undershootFactor" type="range" min="0" max="1" step="0.01" value="0.1">
+			</div>
+			<script>
+			(function(){
+				const canv = document.getElementById("undershootCanvas");
+				const ctx = canv.getContext("2d", { alpha: false });
+				const lerpSlider = document.getElementById("undershootFactor");
+				let lerpFac = parseFloat(lerpSlider.value);
+				
+				function drawLerp() {
+					ctx.fillStyle = "#404040";
+					ctx.fillRect(0, 0, canv.width, canv.height);
+					
+					ctx.lineWidth = 2;
+					ctx.strokeStyle = "#FF0000";
+					ctx.beginPath();
+					ctx.moveTo(0, canv.height * 0.2);
+					ctx.lineTo(canv.width, canv.height * 0.2);
+					ctx.stroke();
+					
+					ctx.strokeStyle = "white";
+					ctx.beginPath();
+					let current = 0.8;
+					for (let i = 0; i <= canv.width; i += 8) {
+						// The magic formula
+						current = lerp(current, 0.2, lerpFac);
+						ctx.lineTo(i, current * canv.height);
+					}
+					ctx.stroke();
+				}
+				
+				drawLerp();
+				
+				lerpSlider.addEventListener("input", function(e) {
+					lerpFac = parseFloat(e.target.value);
+					drawLerp();
+				});
+			})();
+			</script>
+			<h3 class="mb-3">Problem 3. Oversmoothing</h3>
+			<p>You'll find this method is hard to control. It tends to smooth everything too much or not enough.</p>
+			<p>This is because of the <b>order</b> of the filter. The order basically means how sharp and precise a filter is. Here's a nice diagram from <a href="https://www.electronics-tutorials.ws/filter/filter_8.html" target="_blank">Electronics Tutorials</a>. You can see as the order increases the curve gets steeper, meaning it cuts precisely and doesn't smudge everything.</p>
+			<img src="./images/smoothing/filterorder.gif" width="320" class="mb-3">
+			<p>The lerp method is similar to a <b>first-order lowpass</b>. This means it's pretty blunt and smudges everything out.</p>
+			<p>Turns out there's a cool trick to improve it. If you run a crappy order filter a bunch of times in series, you approximate a good order filter. This works surprisingly well, though it's much slower than using a high order filter directly.</p>
+			<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
+			<canvas id="lerp2Canvas" width="640" height="256"></canvas>
+			<div class="mb-3">
+				<label for="lerp2Factor">Factor</label>
+				<input id="lerp2Factor" type="range" min="0" max="1" step="0.01" value="0.1">
+				<label for="lerp2Layers">Layers</label>
+				<input id="lerp2Layers" type="range" min="1" max="50" step="1" value="10">
+			</div>
+			<script>
+			(function(){
+				const canv = document.getElementById("lerp2Canvas");
+				const ctx = canv.getContext("2d", { alpha: false });
+				const lerpSlider = document.getElementById("lerp2Factor");
+				let lerpFac = parseFloat(lerpSlider.value);
+				const layersSlider = document.getElementById("lerp2Layers");
+				let lerpLayers = parseFloat(layersSlider.value);
+				const data = generateData(canv.width);
+				
+				function drawLerp() {
+					ctx.fillStyle = "#404040";
+					ctx.fillRect(0, 0, canv.width, canv.height);
+					
+					ctx.lineWidth = 2;
+					ctx.strokeStyle = "#808080";
+					ctx.beginPath();
+					for (let i = 0; i < data.length; ++i) {
+						ctx.lineTo(i / data.length * canv.width, data[i] * canv.height);
+					}
+					ctx.stroke();
+					
+					// Chain the crappy lowpass filter to approximate a higher order lowpass filter
+					const dataCopy = data.slice();
+					for (let j = 0; j < lerpLayers; ++j) {
+						ctx.strokeStyle = `hsl(${j / lerpLayers * 360}, 100%, 70%)`;
+						ctx.beginPath();
+						let current = dataCopy[0];
+						for (let i = 0; i < dataCopy.length; ++i) {
+							// The magic formula
+							current = lerp(current, dataCopy[i], lerpFac);
+							ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
+							dataCopy[i] = current;
+						}
+						ctx.stroke();
+					}
+				}
+				
+				drawLerp();
+				
+				lerpSlider.addEventListener("input", function(e) {
+					lerpFac = parseFloat(e.target.value);
+					drawLerp();
+				});
+				
+				layersSlider.addEventListener("input", function(e) {
+					lerpLayers = parseFloat(e.target.value);
+					drawLerp();
+				});
+				
+				canv.addEventListener("mousemove", function(e) {
+					drawData(e, canv, data);
+					drawLerp();
+				});
+			})();
+			</script>
+			<h3 class="mb-3">Running this in Houdini</h3>
+			<p>To smooth stuff over time in Houdini, we need a way to access the previous frame. Luckily there's many ways to do this.</p>
+			<h4 class="mb-3">Option 1: Solver</h4>
+			<p>I prefer using a Solver since it's the most robust. It runs in sequence so it's guaranteed not to skip any frames, so if you had a huge jolt it continues smoothing out the impact a thousand frames later. Audio plugins also run in sequence, so we can steal their code and be sure the result is the same. This comes in handy later!</p>
+			<p>First add a Solver node, then add a Point Wrangle inside. Connect the second input to the current animation like below.</p>
+			<img src="./images/smoothing/lerpwrangle.png" width="512" class="mb-3">
+			<p>Now we can write our formula in VEX. In solvers, @P is the current position. The second input we connected is the latest animation, which is our target position. The factor controls how quickly we move to the target.</p>
+			<pre>
+				<code class="language-js">v@P = lerp(v@P, v@opinput1_P, chf("factor"));</code>
+			</pre>
+			<p>TODO: ADD DEMO VIDEO AND FILE</p>
+			<p>To get less smudgy results, you'd need to chain a bunch of solvers in a row. I don't recommend it.</p>
+			<h4 class="mb-3">Option 2: Trail</h4>
+			<p>The Trail node can be used to smooth a handful of frames, which Catherine used for her demo. It's better for production since it can be batch processed and run in parallel. However it's inaccurate for this type of filter, since it ignores jolts if it has no idea they happened.</p>
+			<p>It's worth showing anyway to get an idea of how to do it.</p>
+			<p>TODO</p>
+			<h2 class="mb-3">Fancy method: Convolution</h2>
+			<p>TODO: gaussian blur kernels</p>
+			<h2 class="mb-3">Fancy method: Lowpasses and highpasses</h2>
+			<p>TODO: biquad filters</p>
+		</div>
+		<script>hljs.highlightAll();</script>
+	</body>
+</html>
