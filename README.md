@@ -11,6 +11,7 @@ These articles grew too long to fit on the main page. Be sure to check them out!
 - [Easings](./Easings.md)
 - [Normalized Device Coordinates](./NDC.md)
 - [4D Geometry](./4D.md)
+- [Smoothing and sharpening](https://mysterypancake.github.io/Houdini-Fun/Smoothing) (interactive!)
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
