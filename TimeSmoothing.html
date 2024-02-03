@@ -182,7 +182,7 @@
 			<p>If you set the slider really low, it looks like the graph moves to the right. This is called <b>phase shift</b>.</p>
 			<p>It happens since the value is too lazy in moving to the target, so it sticks near the previous value and smears out the graph.</p>
 			<p>Phase shift is a popular topic in music, and you'll find many audio engineers rambling about it online (<a href="https://www.youtube.com/@DanWorrall" target="_blank">Dan Worrall</a> is my favourite). When you use an equalizer on music (for example to boost the bass), it usually adds a bit of phase shift. Some plugins (like <a href="https://ddmf.eu/plugindoctor/" target="_blank">Plugindoctor</a>) even show you the exact phase shift you'll get. This is called the <b>phase response</b>.</p>
-			<p>Phase shift is a natural part of the universe so there's nothing wrong with it, but it's annoying if you want stuff to line up. The lazy way is shifting over the graph. The proper way is using <b>linear phase</b> filters. This adds latency since it needs values forwards in time as well as backwards.</p>
+			<p>Phase shift is a natural part of the universe so there's nothing wrong with it, but it's annoying if you want stuff to line up. The lazy way is shifting over the graph. The proper way is using <b>linear phase</b> filters. Linear phase filters always need values forwards in time as well as backwards.</p>
 			<p>Apparently if you <a href="https://www.youtube.com/watch?v=eSyCuuSzuE4" target="_blank">smooth forwards then again in reverse</a>, it cancels out the phase shift and makes a linear phase filter. Here's a demo with the linear version in green.</p>
 			<div>
 				<canvas id="lerp3Canvas" width="640" height="256"></canvas>
@@ -217,10 +217,11 @@
 					}
 					ctx.stroke();
 					
-					const dataCopy = data.slice();
-
 					ctx.strokeStyle = "#FF0000";
 					ctx.beginPath();
+
+					// Time foward pass
+					const dataCopy = data.slice();
 					let current = dataCopy[0];
 					for (let i = 0; i < dataCopy.length; ++i) {
 						// The magic formula
@@ -228,16 +229,20 @@
 						ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
 						dataCopy[i] = current;
 					}
+
 					ctx.stroke();
 
 					ctx.strokeStyle = "#00FF00";
 					ctx.beginPath();
+
+					// Time reversed pass
 					current = dataCopy[dataCopy.length - 1];
 					for (let i = dataCopy.length - 1; i >= 0; --i) {
 						// The magic formula
 						current = lerp(current, dataCopy[i], lerpFac);
 						ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
 					}
+
 					ctx.stroke();
 				}
 				
@@ -274,10 +279,14 @@
 				<input id="lerp2Factor" type="range" min="0" max="1" step="0.01" value="0.1">
 				<span id="lerp2FactorValue"></span>
 			</div>
-			<div class="mb-3">
+			<div>
 				<label for="lerp2Layers">Layers</label>
 				<input id="lerp2Layers" type="range" min="1" max="50" step="1" value="10">
 				<span id="lerp2LayersValue"></span>
+			</div>
+			<div class="mb-3">
+				<input id="lerp2Linear" type="checkbox" value="false">
+				<label for="lerp2Linear">Linear Phase</label>
 			</div>
 			<script>
 			(function(){
@@ -296,6 +305,9 @@
 				const layersValue = document.getElementById("lerp2LayersValue");
 				layersValue.textContent = lerpLayers;
 
+				const linearToggle = document.getElementById("lerp2Linear");
+				let linearPhase = linearToggle.checked;
+
 				const data = generateData(canv.width);
 				
 				function draw() {
@@ -309,18 +321,34 @@
 						ctx.lineTo(i / data.length * canv.width, data[i] * canv.height);
 					}
 					ctx.stroke();
-					
+
 					// Chain the crappy lowpass filter to approximate a higher order lowpass filter
 					const dataCopy = data.slice();
 					for (let j = 0; j < lerpLayers; ++j) {
+
 						ctx.strokeStyle = `hsl(${j / lerpLayers * 360}, 100%, 70%)`;
 						ctx.beginPath();
+
+						// Time forward pass
 						let current = dataCopy[0];
 						for (let i = 0; i < dataCopy.length; ++i) {
 							// The magic formula
 							current = lerp(current, dataCopy[i], lerpFac);
-							ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
+							if (!linearPhase) {
+								ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
+							}
 							dataCopy[i] = current;
+						}
+
+						// Time reversed pass
+						if (linearPhase) {
+							current = dataCopy[dataCopy.length - 1];
+							for (let i = dataCopy.length - 1; i >= 0; --i) {
+								// The magic formula
+								current = lerp(current, dataCopy[i], lerpFac);
+								ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
+								dataCopy[i] = current;
+							}
 						}
 						ctx.stroke();
 					}
@@ -337,6 +365,11 @@
 				layersSlider.addEventListener("input", function(e) {
 					lerpLayers = parseFloat(e.target.value);
 					layersValue.textContent = lerpLayers;
+					draw();
+				});
+
+				linearToggle.addEventListener("input", function(e) {
+					linearPhase = e.target.checked;
 					draw();
 				});
 
