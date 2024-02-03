@@ -55,7 +55,7 @@
 		<div class="container mt-5">
 			<h1 class="mb-3"><span style="filter: blur(3px);">Smoothing</span> <span style="filter: blur(1.5px);">and</span> Sharpening</h1>
 			<p>This was inspired by a talk <a href="https://www.linkedin.com/feed/update/urn:li:activity:7159079030745452544/" target="_blank">Catherine Williams did at SydHUG</a>. She looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
-			<p>Smoothing and sharpening is a pretty cool topic I've dipped into into a few times, so I wanted to gather some classic methods and dump them into Houdini in case it helps someone. If you're Catherine you can probably skip 90% of this, but hopefully it's fun anyway!</p>
+			<p>Smoothing and sharpening is a pretty cool topic I've dipped into into a few times, so I wanted to gather some popular methods and dump them into Houdini in case it helps someone. If you're Catherine you can probably skip 90% of this, but hopefully it's fun anyway!</p>
 			<h2 class="mb-3">Smoothing in Houdini</h2>
 			<p>For some reason Houdini doesn't really have built-in nodes for time smoothing. Unreal Engine, Blender and Maya have plenty of ways, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky and needs tons of smoothing.</p>
 			<p>Since Houdini doesn't have much to work with, let's make it from scratch!</p>
@@ -145,7 +145,7 @@
 				<span id="lerp2FactorValue"></span>
 			</div>
 			<div class="mb-3">
-				<label for="lerp2Layers">Layers</label>
+				<label for="lerp2Layers">Filters</label>
 				<input id="lerp2Layers" type="range" min="1" max="50" step="1" value="10">
 				<span id="lerp2LayersValue"></span>
 			</div>
