@@ -64,7 +64,12 @@
 			<p>The idea is you start at some value, then pick a target value. Each frame you move a little bit closer to the target by some percentage. The slower you move, the smoother your path becomes.</p>
 			<pre><code class="language-js">current = lerp(current, target, factor);</code></pre>
 			<p>Here's a demo with the smooth version in white. Click and drag to draw your own data.</p>
-			<canvas id="lerpCanvas" width="640" height="256"></canvas>
+			<div>
+				<canvas id="lerpCanvas" width="640" height="256"></canvas>
+			</div>
+			<div>
+				<canvas id="lerpLiveCanvas" width="640" height="32"></canvas>
+			</div>
 			<div class="mb-3">
 				<label for="lerpFactor">Factor</label>
 				<input id="lerpFactor" type="range" min="0" max="1" step="0.01" value="0.2">
@@ -83,7 +88,7 @@
 
 				const data = generateData(canv.width);
 				
-				function drawLerp() {
+				function draw() {
 					ctx.fillStyle = "#404040";
 					ctx.fillRect(0, 0, canv.width, canv.height);
 					
@@ -106,22 +111,70 @@
 					ctx.stroke();
 				}
 				
-				drawLerp();
+				draw();
+
+				const canv2 = document.getElementById("lerpLiveCanvas");
+				const ctx2 = canv2.getContext("2d", { alpha: false });
+
+				let target = Math.random() * (canv2.width - canv2.height);
+				let current = 0;
+
+				function drawLive() {
+					ctx2.fillStyle = "#404040";
+					ctx2.fillRect(0, 0, canv2.width, canv2.height);
+
+					const blockSize = canv2.height * 0.5;
+
+					// Draw target value
+					ctx2.fillStyle = "#FF0000";
+					ctx2.fillRect(target, blockSize * 0.5, blockSize, blockSize);
+
+					// Draw current value
+					ctx2.fillStyle = "white";
+					ctx2.fillRect(current, blockSize * 0.5, blockSize, blockSize);
+
+					// The magic formula
+					current = lerp(current, target, lerpFac);
+
+					requestFrame(drawLive);
+				}
+
+				requestFrame(drawLive);
 				
 				lerpSlider.addEventListener("input", function(e) {
 					lerpFac = parseFloat(e.target.value);
 					lerpValue.textContent = lerpFac;
-					drawLerp();
+					draw();
 				});
 
 				canv.addEventListener("click", function(e) {
 					mouseClickData(e, canv, data);
-					drawLerp();
+					draw();
 				});
 				
 				canv.addEventListener("mousemove", function(e) {
 					mouseMoveData(e, canv, data);
-					drawLerp();
+					draw();
+				});
+
+				let hovering = false;
+
+				canv2.addEventListener("mouseenter", function(e) {
+					hovering = true;
+				});
+
+				canv2.addEventListener("mouseleave", function(e) {
+					hovering = false;
+				});
+
+				// Move target to new position
+				window.setInterval(function() {
+					if (hovering) return;
+					target = Math.random() * (canv2.width - canv2.height);
+				}, 1000);
+
+				canv2.addEventListener("mousemove", function(e) {
+					target = e.offsetX;
 				});
 			})();
 			</script>
@@ -168,7 +221,7 @@
 
 				const data = generateData(canv.width);
 				
-				function drawLerp() {
+				function draw() {
 					ctx.fillStyle = "#404040";
 					ctx.fillRect(0, 0, canv.width, canv.height);
 					
@@ -196,28 +249,28 @@
 					}
 				}
 				
-				drawLerp();
+				draw();
 				
 				lerpSlider.addEventListener("input", function(e) {
 					lerpFac = parseFloat(e.target.value);
 					lerpValue.textContent = lerpFac;
-					drawLerp();
+					draw();
 				});
 				
 				layersSlider.addEventListener("input", function(e) {
 					lerpLayers = parseFloat(e.target.value);
 					layersValue.textContent = lerpLayers;
-					drawLerp();
+					draw();
 				});
 
 				canv.addEventListener("click", function(e) {
 					mouseClickData(e, canv, data);
-					drawLerp();
+					draw();
 				});
 				
 				canv.addEventListener("mousemove", function(e) {
 					mouseMoveData(e, canv, data);
-					drawLerp();
+					draw();
 				});
 			})();
 			</script>
@@ -242,7 +295,7 @@
 				const lerpValue = document.getElementById("undershootFactorValue");
 				lerpValue.textContent = lerpFac;
 				
-				function drawLerp() {
+				function draw() {
 					ctx.fillStyle = "#404040";
 					ctx.fillRect(0, 0, canv.width, canv.height);
 					
@@ -264,12 +317,12 @@
 					ctx.stroke();
 				}
 				
-				drawLerp();
+				draw();
 				
 				lerpSlider.addEventListener("input", function(e) {
 					lerpFac = parseFloat(e.target.value);
 					lerpValue.textContent = lerpFac;
-					drawLerp();
+					draw();
 				});
 			})();
 			</script>
