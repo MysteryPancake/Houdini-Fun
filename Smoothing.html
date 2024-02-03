@@ -49,9 +49,8 @@
 	<body>
 		<div class="container mt-5">
 			<h1 class="mb-3"><span style="filter: blur(3px);">Smoothing</span> <span style="filter: blur(1.5px);">and</span> Sharpening</h1>
-			<p>This was inspired by a talk <a href="https://www.linkedin.com/feed/update/urn:li:activity:7159079030745452544/" target="_blank">Catherine Williams did at SydHUG</a>. She looked into a bunch of equations to smooth data, and used them to smooth jittery cloth sims over time.</p>
+			<p>This was inspired by a talk <a href="https://www.linkedin.com/feed/update/urn:li:activity:7159079030745452544/" target="_blank">Catherine Williams did at SydHUG</a>. She looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
 			<p>Smoothing and sharpening is a pretty cool topic I've dipped into into a few times, so I wanted to gather some classic methods and dump them into Houdini in case it helps someone. If you're Catherine you can probably skip 90% of this, but hopefully it's fun anyway!</p>
-			<p>As usual everything's open source, so you can download this website to see how the demos work.</p>
 			<h2 class="mb-3">Smoothing in Houdini</h2>
 			<p>For some reason Houdini doesn't really have built-in nodes for time smoothing. Unreal Engine, Blender and Maya have plenty of ways, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky and needs tons of smoothing.</p>
 			<p>Since Houdini doesn't have much to work with, let's make it from scratch!</p>
@@ -64,13 +63,19 @@
 			<div class="mb-3">
 				<label for="lerpFactor">Factor</label>
 				<input id="lerpFactor" type="range" min="0" max="1" step="0.01" value="0.2">
+				<span id="lerpFactorValue"></span>
 			</div>
 			<script>
 			(function(){
 				const canv = document.getElementById("lerpCanvas");
 				const ctx = canv.getContext("2d", { alpha: false });
+
 				const lerpSlider = document.getElementById("lerpFactor");
 				let lerpFac = parseFloat(lerpSlider.value);
+
+				const lerpValue = document.getElementById("lerpFactorValue");
+				lerpValue.textContent = lerpFac;
+
 				const data = generateData(canv.width);
 				
 				function drawLerp() {
@@ -100,6 +105,7 @@
 				
 				lerpSlider.addEventListener("input", function(e) {
 					lerpFac = parseFloat(e.target.value);
+					lerpValue.textContent = lerpFac;
 					drawLerp();
 				});
 				
@@ -123,20 +129,33 @@
 			<p>Turns out there's a cool trick to improve it. If you run a crappy order filter a bunch of times in series, you approximate a good order filter. This works surprisingly well, though it's much slower than using a high order filter directly.</p>
 			<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
 			<canvas id="lerp2Canvas" width="640" height="256"></canvas>
-			<div class="mb-3">
+			<div>
 				<label for="lerp2Factor">Factor</label>
 				<input id="lerp2Factor" type="range" min="0" max="1" step="0.01" value="0.1">
+				<span id="lerp2FactorValue"></span>
+			</div>
+			<div class="mb-3">
 				<label for="lerp2Layers">Layers</label>
 				<input id="lerp2Layers" type="range" min="1" max="50" step="1" value="10">
+				<span id="lerp2LayersValue"></span>
 			</div>
 			<script>
 			(function(){
 				const canv = document.getElementById("lerp2Canvas");
 				const ctx = canv.getContext("2d", { alpha: false });
+
 				const lerpSlider = document.getElementById("lerp2Factor");
 				let lerpFac = parseFloat(lerpSlider.value);
+
+				const lerpValue = document.getElementById("lerp2FactorValue");
+				lerpValue.textContent = lerpFac;
+
 				const layersSlider = document.getElementById("lerp2Layers");
 				let lerpLayers = parseFloat(layersSlider.value);
+
+				const layersValue = document.getElementById("lerp2LayersValue");
+				layersValue.textContent = lerpLayers;
+
 				const data = generateData(canv.width);
 				
 				function drawLerp() {
@@ -171,11 +190,13 @@
 				
 				lerpSlider.addEventListener("input", function(e) {
 					lerpFac = parseFloat(e.target.value);
+					lerpValue.textContent = lerpFac;
 					drawLerp();
 				});
 				
 				layersSlider.addEventListener("input", function(e) {
 					lerpLayers = parseFloat(e.target.value);
+					layersValue.textContent = lerpLayers;
 					drawLerp();
 				});
 				
@@ -193,13 +214,18 @@
 			<div class="mb-3">
 				<label for="undershootFactor">Factor</label>
 				<input id="undershootFactor" type="range" min="0" max="1" step="0.01" value="0.1">
+				<span id="undershootFactorValue"></span>
 			</div>
 			<script>
 			(function(){
 				const canv = document.getElementById("undershootCanvas");
 				const ctx = canv.getContext("2d", { alpha: false });
+
 				const lerpSlider = document.getElementById("undershootFactor");
 				let lerpFac = parseFloat(lerpSlider.value);
+
+				const lerpValue = document.getElementById("undershootFactorValue");
+				lerpValue.textContent = lerpFac;
 				
 				function drawLerp() {
 					ctx.fillStyle = "#404040";
@@ -227,6 +253,7 @@
 				
 				lerpSlider.addEventListener("input", function(e) {
 					lerpFac = parseFloat(e.target.value);
+					lerpValue.textContent = lerpFac;
 					drawLerp();
 				});
 			})();
