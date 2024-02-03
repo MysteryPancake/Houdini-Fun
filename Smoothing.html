@@ -88,7 +88,7 @@
 					ctx.fillRect(0, 0, canv.width, canv.height);
 					
 					ctx.lineWidth = 2;
-					ctx.strokeStyle = "#FF0000";
+					ctx.strokeStyle = "#DD2020";
 					ctx.beginPath();
 					for (let i = 0; i < data.length; ++i) {
 						ctx.lineTo(i / data.length * canv.width, data[i] * canv.height);
@@ -145,7 +145,7 @@
 				<span id="lerp2FactorValue"></span>
 			</div>
 			<div class="mb-3">
-				<label for="lerp2Layers">Filters</label>
+				<label for="lerp2Layers">Layers</label>
 				<input id="lerp2Layers" type="range" min="1" max="50" step="1" value="10">
 				<span id="lerp2LayersValue"></span>
 			</div>
