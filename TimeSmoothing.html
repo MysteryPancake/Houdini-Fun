@@ -270,7 +270,7 @@
 			<p>You'll find this method is hard to control. It tends to smooth everything too much or not enough.</p>
 			<p>This is because of the <b>order</b> of the filter. The order basically means how sharp and precise a filter is. Here's a nice diagram from <a href="https://www.electronics-tutorials.ws/filter/filter_8.html" target="_blank">Electronics Tutorials</a>. You can see as the order increases the curve gets steeper, meaning it cuts precisely and doesn't smudge everything.</p>
 			<img src="./images/smoothing/filterorder.gif" width="320" class="mb-3">
-			<p>The lerp method is basically a <a href="https://ccrma.stanford.edu/~jos/fp/Definition_Simplest_Low_Pass.html" target="_blank">first order lowpass</a>, meaning it's pretty blunt and smudges everything out.</p>
+			<p>The lerp method is a <a href="https://ccrma.stanford.edu/~jos/fp/Definition_Simplest_Low_Pass.html" target="_blank">first order lowpass</a>, meaning it's pretty blunt and smudges everything out.</p>
 			<p>Turns out there's a cool trick to improve it. If you run a crappy order filter a bunch of times in series, you approximate a high order filter. This works surprisingly well, though it's slower than using a high order filter directly.</p>
 			<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
 			<canvas id="lerp2Canvas" width="640" height="256"></canvas>
