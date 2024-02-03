@@ -22,7 +22,12 @@
 			return (1 - factor) * a + factor * b;
 		}
 		
-		function drawData(e, canv, data) {
+		function mouseClickData(e, canv, data) {
+			const key = Math.min(data.length - 1, e.offsetX / canv.width * data.length);
+			data[key] = e.offsetY / canv.height;
+		}
+
+		function mouseMoveData(e, canv, data) {
 			if (e.which !== 1) return;
 			const lastKey = Math.floor((e.offsetX - e.movementX) / canv.width * data.length);
 			const currentKey = Math.floor(e.offsetX / canv.width * data.length);
@@ -108,9 +113,14 @@
 					lerpValue.textContent = lerpFac;
 					drawLerp();
 				});
+
+				canv.addEventListener("click", function(e) {
+					mouseClickData(e, canv, data);
+					drawLerp();
+				});
 				
 				canv.addEventListener("mousemove", function(e) {
-					drawData(e, canv, data);
+					mouseMoveData(e, canv, data);
 					drawLerp();
 				});
 			})();
@@ -199,9 +209,14 @@
 					layersValue.textContent = lerpLayers;
 					drawLerp();
 				});
+
+				canv.addEventListener("click", function(e) {
+					mouseClickData(e, canv, data);
+					drawLerp();
+				});
 				
 				canv.addEventListener("mousemove", function(e) {
-					drawData(e, canv, data);
+					mouseMoveData(e, canv, data);
 					drawLerp();
 				});
 			})();
