@@ -2,13 +2,13 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Smoothing and Sharpening in time</title>
+		<title>Time Smoothing</title>
 		<meta name="description" content="Various ways to smooth and sharpen in Houdini.">
 		<meta name="keywords" content="Lerp, Interpolation, Convolution, Kernel, Lowpass, Highpass, Bandpass, Allpass, Biquad, Filter, Smooth, Sharp">
-		<meta property="og:title" content="Smoothing and Sharpening in time">
+		<meta property="og:title" content="Time Smoothing">
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="https://mysterypancake.github.io/Houdini-Fun/TimeSmoothing">
-		<meta property="og:site_name" content="Smoothing and Sharpening in time">
+		<meta property="og:site_name" content="Time Smoothing">
 		<meta property="og:description" content="Various ways to smooth and sharpen in Houdini.">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="./scripts/highlight.min.css">
@@ -71,7 +71,7 @@
 			</div>
 			<div class="mb-3">
 				<label for="lerpFactor">Factor</label>
-				<input id="lerpFactor" type="range" min="0" max="1" step="0.01" value="0.2">
+				<input id="lerpFactor" type="range" min="0" max="1" step="0.01" value="0.1">
 				<span id="lerpFactorValue"></span>
 			</div>
 			<script>
@@ -112,6 +112,22 @@
 				
 				draw();
 
+				lerpSlider.addEventListener("input", function(e) {
+					lerpFac = parseFloat(e.target.value);
+					lerpValue.textContent = lerpFac;
+					draw();
+				});
+
+				canv.addEventListener("click", function(e) {
+					mouseClickData(e, canv, data);
+					draw();
+				});
+				
+				canv.addEventListener("mousemove", function(e) {
+					mouseMoveData(e, canv, data);
+					draw();
+				});
+
 				const canv2 = document.getElementById("lerpLiveCanvas");
 				const ctx2 = canv2.getContext("2d", { alpha: false });
 
@@ -139,22 +155,6 @@
 				}
 
 				requestFrame(drawLive);
-				
-				lerpSlider.addEventListener("input", function(e) {
-					lerpFac = parseFloat(e.target.value);
-					lerpValue.textContent = lerpFac;
-					draw();
-				});
-
-				canv.addEventListener("click", function(e) {
-					mouseClickData(e, canv, data);
-					draw();
-				});
-				
-				canv.addEventListener("mousemove", function(e) {
-					mouseMoveData(e, canv, data);
-					draw();
-				});
 
 				let hovering = false;
 
@@ -182,7 +182,85 @@
 			<p>If you set the slider really low, it looks like the graph moves to the right. This is called <b>phase shift</b>.</p>
 			<p>It happens since the value is too lazy in moving to the target, so it sticks near the previous value and smears out the graph.</p>
 			<p>Phase shift is a popular topic in music, and you'll find many audio engineers rambling about it online (<a href="https://www.youtube.com/@DanWorrall" target="_blank">Dan Worrall</a> is my favourite). When you use an equalizer on music (for example to boost the bass), it usually adds a bit of phase shift. Some plugins (like <a href="https://ddmf.eu/plugindoctor/" target="_blank">Plugindoctor</a>) even show you the exact phase shift you'll get. This is called the <b>phase response</b>.</p>
-			<p>Phase shift is a natural part of the universe so there's nothing wrong with it, but it's annoying if you want stuff to line up. The lazy way is shifting over the graph. The proper way is using <b>linear phase</b> filters. I don't understand them, but feel free to look them up.</p>
+			<p>Phase shift is a natural part of the universe so there's nothing wrong with it, but it's annoying if you want stuff to line up. The lazy way is shifting over the graph. The proper way is using <b>linear phase</b> filters. This adds latency since it needs values forwards in time as well as backwards.</p>
+			<p>Apparently if you <a href="https://www.youtube.com/watch?v=eSyCuuSzuE4" target="_blank">smooth forwards then again in reverse</a>, it cancels out the phase shift and makes a linear phase filter. Here's a demo with the linear version in green.</p>
+			<div>
+				<canvas id="lerp3Canvas" width="640" height="256"></canvas>
+			</div>
+			<div class="mb-3">
+				<label for="lerp3Factor">Factor</label>
+				<input id="lerp3Factor" type="range" min="0" max="1" step="0.01" value="0.02">
+				<span id="lerp3FactorValue"></span>
+			</div>
+			<script>
+			(function(){
+				const canv = document.getElementById("lerp3Canvas");
+				const ctx = canv.getContext("2d", { alpha: false });
+
+				const lerpSlider = document.getElementById("lerp3Factor");
+				let lerpFac = parseFloat(lerpSlider.value);
+
+				const lerpValue = document.getElementById("lerp3FactorValue");
+				lerpValue.textContent = lerpFac;
+
+				const data = generateData(canv.width);
+				
+				function draw() {
+					ctx.fillStyle = "#404040";
+					ctx.fillRect(0, 0, canv.width, canv.height);
+					
+					ctx.lineWidth = 2;
+					ctx.strokeStyle = "#808080";
+					ctx.beginPath();
+					for (let i = 0; i < data.length; ++i) {
+						ctx.lineTo(i / data.length * canv.width, data[i] * canv.height);
+					}
+					ctx.stroke();
+					
+					const dataCopy = data.slice();
+
+					ctx.strokeStyle = "#FF0000";
+					ctx.beginPath();
+					let current = dataCopy[0];
+					for (let i = 0; i < dataCopy.length; ++i) {
+						// The magic formula
+						current = lerp(current, dataCopy[i], lerpFac);
+						ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
+						dataCopy[i] = current;
+					}
+					ctx.stroke();
+
+					ctx.strokeStyle = "#00FF00";
+					ctx.beginPath();
+					current = dataCopy[dataCopy.length - 1];
+					for (let i = dataCopy.length - 1; i >= 0; --i) {
+						// The magic formula
+						current = lerp(current, dataCopy[i], lerpFac);
+						ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
+					}
+					ctx.stroke();
+				}
+				
+				draw();
+
+				lerpSlider.addEventListener("input", function(e) {
+					lerpFac = parseFloat(e.target.value);
+					lerpValue.textContent = lerpFac;
+					draw();
+				});
+
+				canv.addEventListener("click", function(e) {
+					mouseClickData(e, canv, data);
+					draw();
+				});
+				
+				canv.addEventListener("mousemove", function(e) {
+					mouseMoveData(e, canv, data);
+					draw();
+				});
+			})();
+			</script>
+
 			<h3 class="mb-3">Problem 2. Oversmoothing</h3>
 			<p>You'll find this method is hard to control. It tends to smooth everything too much or not enough.</p>
 			<p>This is because of the <b>order</b> of the filter. The order basically means how sharp and precise a filter is. Here's a nice diagram from <a href="https://www.electronics-tutorials.ws/filter/filter_8.html" target="_blank">Electronics Tutorials</a>. You can see as the order increases the curve gets steeper, meaning it cuts precisely and doesn't smudge everything.</p>
