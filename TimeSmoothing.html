@@ -455,7 +455,7 @@
 			<pre><code class="language-js">vector pos = point(0, "P", point_number);</code></pre>
 			<p>Given the current point number <code>@ptnum</code>, we need to find the matching point number on the previous frame. Assuming the topology stays the same, you'll find a pattern. Let's say your <code>@ptnum</code> is 0. If the mesh has 5 points, your <code>@ptnum</code> on the previous frame will be 5, 10, 15, 20 and so on. This happens since the Trail node merges batches of 5 points per frame.</p>
 			<p>Using <code>npoints(0)</code> to get the number of points in the mesh, the general formula is <code>@ptnum + npoints(0) * frame</code></p>
-			<img src="./images/smoothing/trailframes.png" width="1280" class="mb-3">
+			<img src="./images/smoothing/trailframes.png" class="mb-3 w-100">
 			<p>Using this idea we can lerp through the positions from past to present, just like with the solver. No dictionaries or maps required!</p>
 			<pre><code class="language-js">int point_count = npoints(0);
 // Make sure this matches your trail node
