@@ -65,18 +65,23 @@
 			return data;
 		}
 
+		// Gaussian kernel, not optimized for symmetry
 		function gaussianKernel(numPoints) {
+			// Dividing by 3 seems to scale the kernel the best
 			let sigma = numPoints / 3;
 			sigma *= sigma;
+
 			let sum = 0;
 			const kernel = new Float32Array(numPoints);
 			const center = Math.floor(numPoints * 0.5);
-			for (let i = 0; i < kernel.length; i++) {
+
+			for (let i = 0; i < numPoints; i++) {
 				const x = i - center;
 				kernel[i] = Math.exp(-x * x / sigma);
 				sum += kernel[i];
 			}
-			// Normalize values
+
+			// Normalize manually, no need for sqrt
 			for (let i = 0; i < numPoints; i++) {
 				kernel[i] /= sum;
 			}
@@ -102,8 +107,6 @@
 			<p>Here's a demo with the smooth version in white. Click and drag to draw your own data.</p>
 			<div>
 				<canvas id="lerpCanvas" width="640" height="256" style="cursor: pointer;"></canvas>
-			</div>
-			<div>
 				<canvas id="lerpLiveCanvas" width="640" height="32"></canvas>
 			</div>
 			<div class="mb-3">
@@ -313,7 +316,9 @@
 			<p>The lerp method is a <a href="https://ccrma.stanford.edu/~jos/fp/Definition_Simplest_Low_Pass.html" target="_blank">first order lowpass</a>, so it's pretty blunt and tends to smudge everything out.</p>
 			<p>Turns out there's a cool trick to improve it. If you stack a bunch of low order filters, you approximate a high order filter. This works surprisingly well, though it's much slower and smudgier than doing it properly.</p>
 			<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
-			<canvas id="lerp2Canvas" width="640" height="256" style="cursor: pointer;"></canvas>
+			<div>
+				<canvas id="lerp2Canvas" width="640" height="256" style="cursor: pointer;"></canvas>
+			</div>
 			<table class="mb-3">
 				<tr>
 					<td style="width: 220px;">
@@ -433,7 +438,9 @@
 			<p>When the slider is below 1, it never actually reaches the target.</p>
 			<p>You can tell from the formula. Lerp takes a percentage of two values and adds them together <a href="./Lerp" target="_blank">as described here</a>. For example if the factor is 0.9, it takes 10% of the current value and adds on 90% of the target value. That means you never get 100% of the target.</p>
 			<p>Here's a demo where the white line targets the red line. Though it may appear to, it always lies below the red line until the factor is 1.</p>
-			<canvas id="undershootCanvas" width="640" height="256"></canvas>
+			<div>
+				<canvas id="undershootCanvas" width="640" height="256"></canvas>
+			</div>
 			<div class="mb-3">
 				<label for="undershootFactor">Factor</label>
 				<input id="undershootFactor" type="range" min="0" max="1" step="0.01" value="0.1">
@@ -597,9 +604,9 @@ v@P = pos[trail_length / 2];</code></pre>
 						<input id="convZWeight" type="range" min="0" max="1" step="0.1" value="0.5">
 						<span id="convZWeightValue"></span>
 					</td>
-					<td style="width: 180px;">
+					<td>
 						<input id="convAll" type="checkbox">
-				<label for="convAll">Convolve All</label>
+						<label for="convAll">Convolve All</label>
 					</td>
 				</tr>
 			</table>
@@ -642,7 +649,7 @@ v@P = pos[trail_length / 2];</code></pre>
 					const heightSplit = canv.height / 3;
 
 					ctx.fillStyle = "#606060";
-					ctx.fillRect(kernelPos / (data.length - 1) * canv.width, 0, columnWidth * 3, canv.height)
+					ctx.fillRect(kernelPos / (data.length - 1) * canv.width, 0, columnWidth * weights.length, canv.height)
 
 					for (let i = 0; i < data.length; ++i) {
 
@@ -650,21 +657,27 @@ v@P = pos[trail_length / 2];</code></pre>
 						const height = data[i] * heightSplit * 0.5;
 
 						// Draw top bars
-						ctx.fillStyle = `hsl(${i * 64}, 100%, 70%)`;
+						const topColor = `hsl(${i * 64}, 100%, 70%)`;
+						ctx.fillStyle = topColor;
 						ctx.fillRect(xPos, canv.height - heightSplit * 2 - height, columnWidth, height);
 
 						// Draw middle bars
-						const offset = i - kernelPos - 1;
-						if (Math.abs(offset) <= 1) {
-							const height2 = data[i] * weights[offset + 1] * heightSplit * 0.5;
+						const offset = i - kernelPos;
+						if (offset >= 0 && offset < weights.length) {
+							ctx.fillStyle = "#808080";
+							const height2 = weights[offset] * heightSplit * 0.5;
 							ctx.fillRect(xPos, canv.height - heightSplit - height2, columnWidth, height2);
+
+							ctx.fillStyle = topColor;
+							const height3 = height2 * data[i];
+							ctx.fillRect(xPos, canv.height - heightSplit - height3, columnWidth, height3);
 						}
 
 						// Draw bottom bars
 						if (convAll || kernelPos + 1 === i) {
 							let heightSum = canv.height;
 							for (let j = 0; j < weights.length; ++j) {
-								const height = data[clamp(i + j - 1, 0, data.length)] * weights[j] * heightSplit * 0.5;
+								const height = data[clamp(i + j - 1, 0, data.length - 1)] * weights[j] * heightSplit * 0.5;
 								heightSum -= height;
 								ctx.fillStyle = `hsl(${(i + j - 1) * 64}, 100%, 70%)`;
 								ctx.fillRect(xPos, heightSum, columnWidth, height);
@@ -699,7 +712,7 @@ v@P = pos[trail_length / 2];</code></pre>
 				});
 
 				function moveKernel(e) {
-					kernelPos = Math.floor(e.offsetX / canv.width * (data.length - 1)) - 1;
+					kernelPos = Math.floor(e.offsetX / canv.width * (data.length - 1) - 1);
 					draw();
 				}
 
@@ -710,7 +723,7 @@ v@P = pos[trail_length / 2];</code></pre>
 				});
 			})();
 			</script>
-			<p>Tick "Convolve All" to see a full convolution, then mess with the kernel weights to see what you find! Here's a few you can try:</p>
+			<p>Tick "Convolve All" to see the full convolution, then mess with the weights to see what you find! Here's a few you can try:</p>
 			<ul>
 				<li>The kernel <code>[1, 0, 0]</code> shifts everything 1 unit to the right.</li>
 				<li>The kernel <code>[0, 0, 1]</code> shifts everything 1 unit to the left.</li>
@@ -724,10 +737,117 @@ v@P = pos[trail_length / 2];</code></pre>
 				<li>The kernel <code>[0, 0.5, 0.5]</code> averages the current and next value.</li>
 			</ul>
 			<p>With a tiny size 3 kernel, we can already do so many things. Hopefully this gives you an idea of how powerful and versatile convolution is.</p>
-			<p>TODO: GAUSSIAN BLUR</p>
+			<p>Gaussian blur is one of the many things we can do with convolution. We just need to replace our kernel with a gaussian kernel. It looks like this.</p>
+			<img src="./images/smoothing/gaussiankernel.png" width="512" class="mb-3">
+			<p>And just like that we have gaussian blur! Change the kernel size to set the intensity.</p>
 			<div>
 				<canvas id="gaussianCanvas" width="640" height="256" style="cursor: pointer;"></canvas>
 			</div>
+			<table class="mb-3">
+				<tr>
+					<td style="width: 250px;">
+						<label for="gaussSize">Kernel Size</label>
+						<input id="gaussSize" type="range" min="1" max="65" step="2" value="5">
+						<span id="gaussSizeValue"></span>
+					</td>
+					<td>
+						<input id="gaussConvAll" type="checkbox" checked>
+						<label for="gaussConvAll">Convolve All</label>
+					</td>
+				</tr>
+			</table>
+			<script>
+			(function(){
+				const canv = document.getElementById("gaussianCanvas");
+				const ctx = canv.getContext("2d", { alpha: false });
+				resizeCanvasWidth(canv);
+
+				const convToggle = document.getElementById("gaussConvAll");
+				let convAll = convToggle.checked;
+
+				const sizeSlider = document.getElementById("gaussSize");
+				let gaussSize = parseInt(sizeSlider.value);
+
+				const sizeValue = document.getElementById("gaussSizeValue");
+				sizeValue.textContent = gaussSize;
+
+				const data = generateRandomData(Math.floor(canv.width / 16));
+				let kernelPos = Math.floor(data.length * 0.5);
+				let weights = gaussianKernel(5);
+
+				function draw() {
+					ctx.fillStyle = "#404040";
+					ctx.fillRect(0, 0, canv.width, canv.height);
+					
+					const columnWidth = canv.width / (data.length - 1);
+					const heightSplit = canv.height / 3;
+					const middleWeight = Math.floor(weights.length * 0.5);
+
+					ctx.fillStyle = "#505050";
+					ctx.fillRect(kernelPos / (data.length - 1) * canv.width, 0, columnWidth * weights.length, canv.height)
+
+					for (let i = 0; i < data.length; ++i) {
+
+						const xPos = i / (data.length - 1) * canv.width;
+						const height = data[i] * heightSplit * 0.5;
+
+						// Draw top bars
+						const topColor = `hsl(${i * 64}, 100%, 70%)`;
+						ctx.fillStyle = topColor;
+						ctx.fillRect(xPos, canv.height - heightSplit * 2 - height, columnWidth, height);
+
+						// Draw middle bars
+						ctx.fillStyle = "white";
+						const offset = i - kernelPos;
+						if (offset >= 0 && offset < weights.length) {
+							ctx.fillStyle = "#808080";
+							const height2 = weights[offset] * heightSplit * 0.5;
+							ctx.fillRect(xPos, canv.height - heightSplit - height2, columnWidth, height2);
+
+							ctx.fillStyle = topColor;
+							const height3 = height2 * data[i];
+							ctx.fillRect(xPos, canv.height - heightSplit - height3, columnWidth, height3);
+						}
+
+						// Draw bottom bars
+						if (convAll || kernelPos + middleWeight === i) {
+							let heightSum = canv.height;
+							for (let j = 0; j < weights.length; ++j) {
+								const height = data[clamp(i + j - middleWeight, 0, data.length - 1)] * weights[j] * heightSplit * 0.5;
+								heightSum -= height;
+								ctx.fillStyle = `hsl(${(i + j - middleWeight) * 64}, 100%, 70%)`;
+								ctx.fillRect(xPos, heightSum, columnWidth, height);
+							}
+						}
+					}
+				}
+
+				draw();
+
+				convToggle.addEventListener("input", function(e) {
+					convAll = e.target.checked;
+					draw();
+				});
+
+				sizeSlider.addEventListener("input", function(e) {
+					gaussSize = parseInt(e.target.value);
+					sizeValue.textContent = gaussSize;
+					weights = gaussianKernel(gaussSize);
+					draw();
+				});
+
+				function moveKernel(e) {
+					kernelPos = Math.floor(e.offsetX / canv.width * (data.length - 1) - weights.length * 0.5);
+					draw();
+				}
+
+				canv.addEventListener("click", moveKernel);
+				canv.addEventListener("mousemove", function(e) {
+					if (e.which !== 1) return;
+					moveKernel(e);
+				});
+			})();
+			</script>
 			<h2 class="mb-3">Cool method: Biquad filters</h2>
 			<p>TODO: biquad filters</p>
 		</div>
