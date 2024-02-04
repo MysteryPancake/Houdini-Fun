@@ -220,7 +220,7 @@
 					ctx.strokeStyle = "#FF0000";
 					ctx.beginPath();
 
-					// Time foward pass
+					// Smooth forwards in time
 					const dataCopy = data.slice();
 					let current = dataCopy[0];
 					for (let i = 0; i < dataCopy.length; ++i) {
@@ -235,7 +235,7 @@
 					ctx.strokeStyle = "#00FF00";
 					ctx.beginPath();
 
-					// Time reversed pass
+					// Smooth backwards in time
 					current = dataCopy[dataCopy.length - 1];
 					for (let i = dataCopy.length - 1; i >= 0; --i) {
 						// The magic formula
@@ -271,7 +271,7 @@
 			<p>This is because of the <b>order</b> of the filter. The order basically means how sharp and precise a filter is. Here's a nice diagram from <a href="https://www.electronics-tutorials.ws/filter/filter_8.html" target="_blank">Electronics Tutorials</a>. You can see as the order increases the curve gets steeper, meaning it cuts precisely and doesn't smudge everything.</p>
 			<img src="./images/smoothing/filterorder.gif" width="320" class="mb-3">
 			<p>The lerp method is a <a href="https://ccrma.stanford.edu/~jos/fp/Definition_Simplest_Low_Pass.html" target="_blank">first order lowpass</a>, meaning it's pretty blunt and smudges everything out.</p>
-			<p>Turns out there's a cool trick to improve it. If you chain a low order filter a bunch of times, you approximate a high order filter. This works surprisingly well, though it's slower and smudgier than doing it properly.</p>
+			<p>Turns out there's a cool trick to improve it. If you stack a bunch of low order filters, you approximate a high order filter. This works surprisingly well, though it's slower and smudgier than doing it properly.</p>
 			<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
 			<canvas id="lerp2Canvas" width="640" height="256"></canvas>
 			<div>
@@ -329,7 +329,7 @@
 						ctx.strokeStyle = `hsl(${j / lerpLayers * 360}, 100%, 70%)`;
 						ctx.beginPath();
 
-						// Time forward pass
+						// Lerp forwards in time
 						let current = dataCopy[0];
 						for (let i = 0; i < dataCopy.length; ++i) {
 							// The magic formula
@@ -340,7 +340,7 @@
 							dataCopy[i] = current;
 						}
 
-						// Time reversed pass
+						// Lerp backwards in time
 						if (linearPhase) {
 							current = dataCopy[dataCopy.length - 1];
 							for (let i = dataCopy.length - 1; i >= 0; --i) {
@@ -460,9 +460,9 @@
 			<p>Using <code>npoints(0)</code> to get the number of points in the mesh, the general formula is <code>@ptnum + npoints(0) * frame</code></p>
 			<img src="./images/smoothing/trailframes.png" class="mb-3 w-100">
 			<p>Using this idea we can lerp through the positions from past to present, just like with the solver. No dictionaries or maps required!</p>
-			<pre><code class="language-js">int point_count = npoints(0);
-// Make sure this matches your trail node
+			<pre><code class="language-js">// Make sure this matches your trail node
 int trail_length = chi("../trail1/length");
+int point_count = npoints(0);
 
 // Start at the last frame's position (the oldest frame)
 v@P = point(1, "P", i@ptnum + point_count * (trail_length - 1));
@@ -478,6 +478,54 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 			<p>
 				<a href="./hips/smoothing/lerpsmoothtrail.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
+			<p>Sadly this version suffers from phase shift, just like the solver. The great thing with Trail is it doesn't have to. We can make linear phase filters and stack them too!</p>
+			<p>First we need a way to get frames forwards in time as well as backwards. This is as easy as adding a Time Shift node after Trail.</p>
+			<img src="./images/smoothing/trailtimeshift.png" width="512" class="mb-3">
+			<p>Set the frame offset to <code>$F + ch("../trail1/length") / 2 - 1</code>. This centers the current frame, so we have the same number of frames forwards and backwards in time.</p>
+			<img src="./images/smoothing/trailframeoffset.png" width="720" class="mb-3">
+			<p>Next we can reuse the same frame offset idea from before, except this time filtering in both directions.</p>
+			<pre><code class="language-js">// Make sure this matches your trail node
+int trail_length = chi("../trail1/length");
+int point_count = npoints(0);
+float factor = chf("factor");
+int layers = chi("layers");
+
+// Make an array of all positions on all frames
+// For optimization, you could do a forward lerp in here
+vector pos[];
+resize(pos, trail_length);
+for (int frame = 0; frame < trail_length; ++frame) {
+	pos[frame] = point(1, "P", i@ptnum + point_count * (trail_length - 1 - frame));
+}
+
+// Smooth a bunch of times in a row (if you want)
+for (int i = 0; i < layers; ++i) {
+
+	// Smooth forwards in time
+	vector current_pos = pos[0];
+	for (int frame = 1; frame < trail_length; ++frame) {
+		// The magic formula
+		pos[frame] = lerp(current_pos, pos[frame], factor);
+		current_pos = pos[frame];
+	}
+
+	// Smooth backwards in time
+	current_pos = pos[trail_length - 1];
+	for (int frame = trail_length - 2; frame >= 0; --frame) {
+		// The magic formula
+		pos[frame] = lerp(current_pos, pos[frame], factor);
+		current_pos = pos[frame];
+	}
+}
+
+// Get the center frame, which is our frame
+v@P = pos[trail_length / 2];</code></pre>
+			<p>Thanks to looking into the future, we can anticipate motion before it even happens. Here's a demo with the linear phase version in green and the original version in red.</p>
+			<img src="./images/smoothing/lerpsmoothtraillinear.gif" width="540">
+			<p>
+				<a href="./hips/smoothing/lerpsmoothtraillinear.hipnc?raw=true" target="_blank">Download the HIP file!</a>
+			</p>
+			<p>Now let's look at some fancier methods of smoothing out stuff.</p>
 			<h2 class="mb-3">Fancier method: Convolution</h2>
 			<p>Convolution solves many problems we were having before. It barely has phase shift and only needs a handful of frames, making it perfect for batch processing.</p>
 			<p>Convolution is when you sample a couple of neighbouring values, multiply them by weights and add them together. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
