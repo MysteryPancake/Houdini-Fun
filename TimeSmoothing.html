@@ -559,7 +559,7 @@ v@P = pos[trail_length / 2];</code></pre>
 			<p>It works by picking a value, sampling the neighbours around it, multiplying them and adding them together. It's just like what we did before, except now we have precise control over how much each neighbour contributes to the final result. We can totally ignore neighbours or even flip their influence.</p>
 			<p>For example, say you want each value to be the average of its 2 neighbours. For that you can use the kernel <code>[0.5, 0, 0.5]</code>.</p>
 			<img src="./images/smoothing/convolution.png" width="640" class="mb-3">
-			<p>Here we sample 9's neighbours (4 and 5), then calculate <code>4 * 0.5 + 9 * 0 + 6 * 0.5 = 5</code>. In other words, ignore 9 and average 4 and 6 together.</p>
+			<p>Here we sample 9's neighbours (4 and 6), then calculate <code>4 * 0.5 + 9 * 0 + 6 * 0.5 = 5</code>. In other words, ignore 9 and average 4 and 6 together.</p>
 			<p>The key idea of convolution is you can slide the kernel up and down. Click and drag to see what I mean!</p>
 			<div>
 				<canvas id="convCanvas" width="720" height="360"></canvas>
