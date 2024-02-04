@@ -21,23 +21,29 @@
 		function lerp(a, b, factor) {
 			return (1 - factor) * a + factor * b;
 		}
+
+		function clamp(x, min, max) {
+			return Math.min(Math.max(x, min), max);
+		}
 		
 		function mouseClickData(e, canv, data) {
 			const key = Math.min(data.length - 1, e.offsetX / canv.width * data.length);
 			data[key] = e.offsetY / canv.height;
 		}
 
+		// When drawing, replace entries which were drawn over between frames
 		function mouseMoveData(e, canv, data) {
 			if (e.which !== 1) return;
 			const lastKey = Math.floor((e.offsetX - e.movementX) / canv.width * data.length);
 			const currentKey = Math.floor(e.offsetX / canv.width * data.length);
 			const start = Math.min(lastKey, currentKey);
-			const end = Math.min(data.length - 1, Math.max(lastKey, currentKey));
+			const end = clamp(currentKey, lastKey, data.length - 1);
 			for (let i = start; i <= end; ++i) {
 				data[i] = e.offsetY / canv.height;
 			}
 		}
 		
+		// Structured sine wave data
 		function generateData(numPoints) {
 			const data = Array(numPoints);
 			for (let i = 0; i < numPoints; ++i) {
@@ -48,6 +54,19 @@
 				data[i] = sin + rand * noiseAmount;
 			}
 			return data;
+		}
+
+		// Completely random data
+		function generateRandomData(numPoints) {
+			const data = Array(numPoints);
+			for (let i = 0; i < numPoints; ++i) {
+				data[i] = Math.random();
+			}
+			return data;
+		}
+
+		function resizeCanvasWidth(elem) {
+			elem.width = elem.parentElement.clientWidth;
 		}
 		</script>
 	</head>
@@ -78,6 +97,7 @@
 			(function(){
 				const canv = document.getElementById("lerpCanvas");
 				const ctx = canv.getContext("2d", { alpha: false });
+				resizeCanvasWidth(canv);
 
 				const lerpSlider = document.getElementById("lerpFactor");
 				let lerpFac = parseFloat(lerpSlider.value);
@@ -85,7 +105,7 @@
 				const lerpValue = document.getElementById("lerpFactorValue");
 				lerpValue.textContent = lerpFac;
 
-				const data = generateData(canv.width);
+				const data = generateData(Math.floor(canv.width / 2));
 				
 				function draw() {
 					ctx.fillStyle = "#404040";
@@ -130,6 +150,7 @@
 
 				const canv2 = document.getElementById("lerpLiveCanvas");
 				const ctx2 = canv2.getContext("2d", { alpha: false });
+				resizeCanvasWidth(canv2);
 
 				let target = Math.random() * (canv2.width - canv2.height);
 				let current = 0;
@@ -196,6 +217,7 @@
 			(function(){
 				const canv = document.getElementById("lerp3Canvas");
 				const ctx = canv.getContext("2d", { alpha: false });
+				resizeCanvasWidth(canv);
 
 				const lerpSlider = document.getElementById("lerp3Factor");
 				let lerpFac = parseFloat(lerpSlider.value);
@@ -203,7 +225,7 @@
 				const lerpValue = document.getElementById("lerp3FactorValue");
 				lerpValue.textContent = lerpFac;
 
-				const data = generateData(canv.width);
+				const data = generateData(Math.floor(canv.width / 2));
 				
 				function draw() {
 					ctx.fillStyle = "#404040";
@@ -269,29 +291,34 @@
 			<h3 class="mb-3">Problem 2. Oversmoothing</h3>
 			<p>You'll find this method is hard to control. It tends to smooth everything too much or not enough.</p>
 			<p>This is because of the <b>order</b> of the filter. The order basically means how sharp and precise a filter is. Here's a nice diagram from <a href="https://www.electronics-tutorials.ws/filter/filter_8.html" target="_blank">Electronics Tutorials</a>. You can see as the order increases the curve gets steeper, meaning it cuts precisely and doesn't smudge everything.</p>
-			<img src="./images/smoothing/filterorder.gif" width="320" class="mb-3">
+			<img src="./images/smoothing/filterorder.gif" class="mb-3">
 			<p>The lerp method is a <a href="https://ccrma.stanford.edu/~jos/fp/Definition_Simplest_Low_Pass.html" target="_blank">first order lowpass</a>, so it's pretty blunt and tends to smudge everything out.</p>
 			<p>Turns out there's a cool trick to improve it. If you stack a bunch of low order filters, you approximate a high order filter. This works surprisingly well, though it's much slower and smudgier than doing it properly.</p>
 			<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
 			<canvas id="lerp2Canvas" width="640" height="256"></canvas>
-			<div>
-				<label for="lerp2Factor">Factor</label>
-				<input id="lerp2Factor" type="range" min="0" max="1" step="0.01" value="0.1">
-				<span id="lerp2FactorValue"></span>
-			</div>
-			<div>
-				<label for="lerp2Layers">Layers</label>
-				<input id="lerp2Layers" type="range" min="1" max="50" step="1" value="10">
-				<span id="lerp2LayersValue"></span>
-			</div>
-			<div class="mb-3">
-				<input id="lerp2Linear" type="checkbox" value="false">
-				<label for="lerp2Linear">Linear Phase</label>
-			</div>
+			<table class="mb-3">
+				<tr>
+					<td style="width: 220px;">
+						<label for="lerp2Factor">Factor</label>
+						<input id="lerp2Factor" type="range" min="0" max="1" step="0.01" value="0.1">
+						<span id="lerp2FactorValue"></span>
+					</td>
+					<td style="width: 220px;">
+						<label for="lerp2Layers">Layers</label>
+						<input id="lerp2Layers" type="range" min="1" max="50" step="1" value="10">
+						<span id="lerp2LayersValue"></span>
+					</td>
+					<td style="width: 220px;">
+						<input id="lerp2Linear" type="checkbox">
+						<label for="lerp2Linear">Linear Phase</label>
+					</td>
+				</tr>
+			</table>
 			<script>
 			(function(){
 				const canv = document.getElementById("lerp2Canvas");
 				const ctx = canv.getContext("2d", { alpha: false });
+				resizeCanvasWidth(canv);
 
 				const lerpSlider = document.getElementById("lerp2Factor");
 				let lerpFac = parseFloat(lerpSlider.value);
@@ -308,7 +335,7 @@
 				const linearToggle = document.getElementById("lerp2Linear");
 				let linearPhase = linearToggle.checked;
 
-				const data = generateData(canv.width);
+				const data = generateData(Math.floor(canv.width / 2));
 				
 				function draw() {
 					ctx.fillStyle = "#404040";
@@ -398,6 +425,7 @@
 			(function(){
 				const canv = document.getElementById("undershootCanvas");
 				const ctx = canv.getContext("2d", { alpha: false });
+				resizeCanvasWidth(canv);
 
 				const lerpSlider = document.getElementById("undershootFactor");
 				let lerpFac = parseFloat(lerpSlider.value);
@@ -442,18 +470,18 @@
 			<h4 class="mb-3">Option 1: Solver</h4>
 			<p>I prefer using a Solver since it's the most robust. It runs in sequence so it's guaranteed not to skip any frames, so if you had a huge jolt it continues smoothing out the impact 1000 frames later. Audio plugins also run in sequence, so we can steal their code and be sure the result is the same. This comes in handy later!</p>
 			<p>First add a Solver node, then a Point Wrangle inside. Plug the the current animation (Input_1) into the second wrangle input.</p>
-			<img src="./images/smoothing/lerpwrangle.PNG" width="512" class="mb-3">
+			<img src="./images/smoothing/lerpwrangle.PNG" width="640" class="mb-3">
 			<p>Now we can write the formula in VEX. In solvers, <code>@P</code> is the current position. The second input we connected <code>@opinput1_P</code> is the latest animation, which is our target position.</p>
 			<pre><code class="language-js">v@P = lerp(v@P, v@opinput1_P, chf("factor"));</code></pre>
-			<img src="./images/smoothing/lerpsmoothsolver.gif" width="540">
+			<img src="./images/smoothing/lerpsmoothsolver.gif" width="640">
 			<p>
 				<a href="./hips/smoothing/lerpsmoothsolver.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
 			<p>Although solvers are more robust, to get linear phase or stack filters you have to chain a bunch of solvers in a row. We can avoid this with Trail.</p>
 			<h4 class="mb-3">Option 2: Trail</h4>
 			<p>Instead of sampling all past frames, it's faster to sample a handful of past frames and try to guess the future from them. This is called a <b>sliding window</b> technique, which Catherine used for her demo. It's good for production since it can be batch processed and run in parallel. <a href="https://www.shadertoy.com/view/dtlSWH" target="_blank">I used it to make a GPU equalizer</a>. However it's inaccurate for lerp-based smoothing, since it ignores jolts if it has no idea they happened.</p>
-			<p>To try it, add a Trail node and a Point Wrangle. Plug the trail into the second wrangle input.</p>
-			<img src="./images/smoothing/trailwrangle.PNG" width="512" class="mb-3">
+			<p>To use it, add a Trail node and a Point Wrangle. Plug the trail into the second wrangle input.</p>
+			<img src="./images/smoothing/trailwrangle.PNG" width="640" class="mb-3">
 			<p>Now we need to extract positions from different frames. This is done using <code>point()</code>. It has 3 arguments, but we only care about the last one.</p>
 			<pre><code class="language-js">vector pos = point(0, "P", point_number);</code></pre>
 			<p>Given the current point number <code>@ptnum</code>, we need to find the matching point number on the previous frame. Assuming the topology stays the same, you'll find a pattern. Let's say your <code>@ptnum</code> is 0. If the mesh has 5 points, your <code>@ptnum</code> on the previous frame will be 5, 10, 15, 20 and so on. This happens since the Trail node merges batches of 5 points per frame.</p>
@@ -474,15 +502,15 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 	// The magic formula
 	v@P = lerp(v@P, target_pos, chf("factor"));
 }</code></pre>
-			<img src="./images/smoothing/lerpsmoothtrail.gif" width="540">
+			<img src="./images/smoothing/lerpsmoothtrail.gif" width="640">
 			<p>
 				<a href="./hips/smoothing/lerpsmoothtrail.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
 			<p>Sadly this version suffers from phase shift, just like the solver. The great thing with Trail is it doesn't have to. We can make linear phase filters and stack them too!</p>
 			<p>First we need a way to get frames forwards in time as well as backwards. This is as easy as adding a Time Shift node after Trail.</p>
-			<img src="./images/smoothing/trailtimeshift.png" width="512" class="mb-3">
+			<img src="./images/smoothing/trailtimeshift.png" width="640" class="mb-3">
 			<p>Set the frame offset to <code>$F + ch("../trail1/length") / 2 - 1</code>. This centers the current frame, so we have the same number of frames forwards and backwards in time.</p>
-			<img src="./images/smoothing/trailframeoffset.png" width="720" class="mb-3">
+			<img src="./images/smoothing/trailframeoffset.png" width="860" class="mb-3">
 			<p>Next we can reuse the same frame offset idea from before, except this time filtering in both directions.</p>
 			<pre><code class="language-js">// Make sure this matches your trail node
 int trail_length = chi("../trail1/length");
@@ -525,18 +553,156 @@ v@P = pos[trail_length / 2];</code></pre>
 			<p>
 				<a href="./hips/smoothing/lerpsmoothtraillinear.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
-			<p>While lerp works OK, there's plenty of fancier methods of smoothing out stuff. Let's look into gaussian blur with convolution!</p>
+			<p>While lerp works OK, there's plenty of fancier methods of smoothing out stuff. Let's try gaussian blur with convolution!</p>
 			<h2 class="mb-3">Fancier method: Convolution</h2>
-			<p>Convolution solves many problems we were having before. It barely has phase shift and only needs a handful of frames, making it perfect for batch processing.</p>
-			<p>Convolution is when you sample a couple of neighbouring values, multiply them by weights and add them together. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
-			<p>Let's start with an example. Say you have two values, <code>x</code> and <code>z</code>. To find the average, you'd add 50% of <code>x</code> to 50% of <code>z</code>.</p>
-			<pre><code class="language-js">x * 0.5 + z * 0.5</code></pre>
-			<p>You can think of this as smearing two neighbouring values together to find a new middle value.</p>
-			<p>Let's say the original middle value was <code>y</code>, so we have 3 values <code>[x, y, z]</code>. Let's include <code>y</code> in the equation as well.</p>
-			<pre><code class="language-js">x * 0.5 + y * 0 + z * 0.5</code></pre>
-			<p>In other words, ignore <code>y</code> and average <code>x</code> and <code>z</code> together. This is an example of a convolution on <code>y</code> with a size 3 kernel. The kernel is <code>[0.5, 0, 0.5]</code>.</p>
-			<p>We can get all kinds of results just by multiplying 3 values together.</p>
-			<p>TODO: ADD DEMO</p>
+			<p>Convolution solves many problems we were having before. It's practically linear phase and only needs a handful of frames, making it perfect for batch processing. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
+			<p>It works by picking a value, sampling the neighbours around it, multiplying them and adding them together. It's just like what we did before, except now we have precise control over how much each neighbour contributes to the final result. We can totally ignore neighbours or even flip their influence.</p>
+			<p>For example, say you want each value to be the average of its 2 neighbours. For that you can use the kernel <code>[0.5, 0, 0.5]</code>.</p>
+			<img src="./images/smoothing/convolution.png" width="640" class="mb-3">
+			<p>Here we sample 9's neighbours (4 and 5), then calculate <code>4 * 0.5 + 9 * 0 + 6 * 0.5 = 5</code>. In other words, ignore 9 and average 4 and 6 together.</p>
+			<p>The key idea of convolution is you can slide the kernel up and down. Click and drag to see what I mean!</p>
+			<div>
+				<canvas id="convCanvas" width="720" height="360"></canvas>
+			</div>
+			<b>Kernel weights</b>
+			<table class="mb-3">
+				<tr>
+					<td style="width: 180px;">
+						<input id="convXWeight" type="range" min="0" max="1" step="0.1" value="0.5">
+						<span id="convXWeightValue"></span>
+					</td>
+					<td style="width: 180px;">
+						<input id="convYWeight" type="range" min="0" max="1" step="0.1" value="0">
+						<span id="convYWeightValue"></span>
+					</td>
+					<td style="width: 180px;">
+						<input id="convZWeight" type="range" min="0" max="1" step="0.1" value="0.5">
+						<span id="convZWeightValue"></span>
+					</td>
+					<td style="width: 180px;">
+						<input id="convAll" type="checkbox">
+				<label for="convAll">Convolve All</label>
+					</td>
+				</tr>
+			</table>
+			<script>
+			(function(){
+				const canv = document.getElementById("convCanvas");
+				const ctx = canv.getContext("2d", { alpha: false });
+				resizeCanvasWidth(canv);
+
+				const xSlider = document.getElementById("convXWeight");
+				let xWeight = parseFloat(xSlider.value);
+
+				const xValue = document.getElementById("convXWeightValue");
+				xValue.textContent = xWeight;
+
+				const ySlider = document.getElementById("convYWeight");
+				let yWeight = parseFloat(ySlider.value);
+
+				const yValue = document.getElementById("convYWeightValue");
+				yValue.textContent = yWeight;
+
+				const zSlider = document.getElementById("convZWeight");
+				let zWeight = parseFloat(zSlider.value);
+
+				const zValue = document.getElementById("convZWeightValue");
+				zValue.textContent = zWeight;
+
+				const convToggle = document.getElementById("convAll");
+				let convAll = convToggle.checked;
+
+				const data = generateRandomData(Math.floor(canv.width / 16));
+				let kernelPos = Math.floor(data.length / 2);
+
+				function draw() {
+					ctx.fillStyle = "#404040";
+					ctx.fillRect(0, 0, canv.width, canv.height);
+
+					const weights = [xWeight, yWeight, zWeight];
+					const columnWidth = canv.width / (data.length - 1);
+					const heightSplit = canv.height / 3;
+
+					ctx.fillStyle = "#606060";
+					ctx.fillRect((kernelPos - 1) / (data.length - 1) * canv.width, 0, columnWidth * 3, canv.height)
+
+					for (let i = 0; i < data.length; ++i) {
+						const xPos = i / (data.length - 1) * canv.width;
+
+						if (convAll || kernelPos === i) {
+							let heightSum = canv.height;
+							for (let j = 0; j < weights.length; ++j) {
+								const height = data[clamp(i - j + 1, 0, data.length)] * weights[j] * heightSplit * 0.5;
+								heightSum -= height;
+								ctx.fillStyle = `hsl(${(i - j + 1) * 64}, 100%, 70%)`;
+								ctx.fillRect(xPos, heightSum, columnWidth, height);
+							}
+						}
+
+						const height = data[i] * heightSplit * 0.5;
+						ctx.fillStyle = `hsl(${i * 64}, 100%, 70%)`;
+						ctx.fillRect(xPos, canv.height - heightSplit * 2 - height, columnWidth, height);
+
+						const offset = kernelPos - i;
+						if (Math.abs(offset) <= 1) {
+							const height2 = data[i] * weights[offset + 1] * heightSplit * 0.5;
+							ctx.fillRect(xPos, canv.height - heightSplit - height2, columnWidth, height2);
+						}
+					}
+				}
+
+				draw();
+
+				xSlider.addEventListener("input", function(e) {
+					xWeight = parseFloat(e.target.value);
+					xValue.textContent = xWeight;
+					draw();
+				});
+
+				ySlider.addEventListener("input", function(e) {
+					yWeight = parseFloat(e.target.value);
+					yValue.textContent = yWeight;
+					draw();
+				});
+
+				zSlider.addEventListener("input", function(e) {
+					zWeight = parseFloat(e.target.value);
+					zValue.textContent = zWeight;
+					draw();
+				});
+
+				convToggle.addEventListener("input", function(e) {
+					convAll = e.target.checked;
+					draw();
+				});
+
+				function moveKernel(e) {
+					kernelPos = Math.floor(e.offsetX / canv.width * (data.length - 1));
+					draw();
+				}
+
+				canv.addEventListener("click", moveKernel);
+				canv.addEventListener("mousemove", function(e) {
+					if (e.which !== 1) return;
+					moveKernel(e);
+				});
+			})();
+			</script>
+			<p>Tick "Convolve All" to see a full convolution, then mess with the kernel weights to see what you find! Here's a few you can try:</p>
+			<ul>
+				<li>The kernel <code>[1, 0, 0]</code> shifts everything 1 unit to the left.</li>
+				<li>The kernel <code>[0, 0, 1]</code> shifts everything 1 unit to the right.</li>
+				<li>The kernel <code>[0, 1, 0]</code> keeps everything the same.</li>
+				<li>The kernel <code>[1, 1, 1]</code> sums all 3 values together.</li>
+				<li>The kernel <code>[1, 1, 0]</code> sums the previous and current value.</li>
+				<li>The kernel <code>[0, 1, 1]</code> sums the current and next value.</li>
+				<li>The kernel <code>[1, 0, 1]</code> sums both neighbours.</li>
+				<li>The kernel <code>[0.5, 0, 0.5]</code> averages the two neighbours together.</li>
+				<li>The kernel <code>[0.5, 0.5, 0]</code> averages the previous and current value.</li>
+				<li>The kernel <code>[0, 0.5, 0.5]</code> averages the current and next value.</li>
+			</ul>
+			<p>With such a small kernel, we can already do so many things. Hopefully this gives an idea of how powerful and versatile convolution can be.</p>
+			<p>TODO: GAUSSIAN BLUR</p>
 			<h2 class="mb-3">Cool method: Biquad filters</h2>
 			<p>TODO: biquad filters</p>
 		</div>
