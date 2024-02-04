@@ -45,7 +45,7 @@
 		
 		// Structured sine wave data
 		function generateData(numPoints) {
-			const data = Array(numPoints);
+			const data = new Float32Array(numPoints);
 			for (let i = 0; i < numPoints; ++i) {
 				const factor = i / numPoints;
 				const sin = Math.sin(factor*10)*0.3+0.5;
@@ -58,11 +58,29 @@
 
 		// Completely random data
 		function generateRandomData(numPoints) {
-			const data = Array(numPoints);
+			const data = new Float32Array(numPoints);
 			for (let i = 0; i < numPoints; ++i) {
 				data[i] = Math.random();
 			}
 			return data;
+		}
+
+		function gaussianKernel(numPoints) {
+			let sigma = numPoints / 3;
+			sigma *= sigma;
+			let sum = 0;
+			const kernel = new Float32Array(numPoints);
+			const center = Math.floor(numPoints * 0.5);
+			for (let i = 0; i < kernel.length; i++) {
+				const x = i - center;
+				kernel[i] = Math.exp(-x * x / sigma);
+				sum += kernel[i];
+			}
+			// Normalize values
+			for (let i = 0; i < numPoints; i++) {
+				kernel[i] /= sum;
+			}
+			return kernel;
 		}
 
 		function resizeCanvasWidth(elem) {
@@ -105,7 +123,7 @@
 				const lerpValue = document.getElementById("lerpFactorValue");
 				lerpValue.textContent = lerpFac;
 
-				const data = generateData(Math.floor(canv.width / 2));
+				const data = generateData(Math.floor(canv.width * 0.5));
 				
 				function draw() {
 					ctx.fillStyle = "#404040";
@@ -225,7 +243,7 @@
 				const lerpValue = document.getElementById("lerp3FactorValue");
 				lerpValue.textContent = lerpFac;
 
-				const data = generateData(Math.floor(canv.width / 2));
+				const data = generateData(Math.floor(canv.width * 0.5));
 				
 				function draw() {
 					ctx.fillStyle = "#404040";
@@ -335,7 +353,7 @@
 				const linearToggle = document.getElementById("lerp2Linear");
 				let linearPhase = linearToggle.checked;
 
-				const data = generateData(Math.floor(canv.width / 2));
+				const data = generateData(Math.floor(canv.width * 0.5));
 				
 				function draw() {
 					ctx.fillStyle = "#404040";
@@ -613,7 +631,7 @@ v@P = pos[trail_length / 2];</code></pre>
 				let convAll = convToggle.checked;
 
 				const data = generateRandomData(Math.floor(canv.width / 16));
-				let kernelPos = Math.floor(data.length / 2);
+				let kernelPos = Math.floor(data.length * 0.5);
 
 				function draw() {
 					ctx.fillStyle = "#404040";
@@ -624,29 +642,33 @@ v@P = pos[trail_length / 2];</code></pre>
 					const heightSplit = canv.height / 3;
 
 					ctx.fillStyle = "#606060";
-					ctx.fillRect((kernelPos - 1) / (data.length - 1) * canv.width, 0, columnWidth * 3, canv.height)
+					ctx.fillRect(kernelPos / (data.length - 1) * canv.width, 0, columnWidth * 3, canv.height)
 
 					for (let i = 0; i < data.length; ++i) {
+
 						const xPos = i / (data.length - 1) * canv.width;
-
-						if (convAll || kernelPos === i) {
-							let heightSum = canv.height;
-							for (let j = 0; j < weights.length; ++j) {
-								const height = data[clamp(i - j + 1, 0, data.length)] * weights[j] * heightSplit * 0.5;
-								heightSum -= height;
-								ctx.fillStyle = `hsl(${(i - j + 1) * 64}, 100%, 70%)`;
-								ctx.fillRect(xPos, heightSum, columnWidth, height);
-							}
-						}
-
 						const height = data[i] * heightSplit * 0.5;
+
+						// Draw top bars
 						ctx.fillStyle = `hsl(${i * 64}, 100%, 70%)`;
 						ctx.fillRect(xPos, canv.height - heightSplit * 2 - height, columnWidth, height);
 
-						const offset = kernelPos - i;
+						// Draw middle bars
+						const offset = i - kernelPos - 1;
 						if (Math.abs(offset) <= 1) {
 							const height2 = data[i] * weights[offset + 1] * heightSplit * 0.5;
 							ctx.fillRect(xPos, canv.height - heightSplit - height2, columnWidth, height2);
+						}
+
+						// Draw bottom bars
+						if (convAll || kernelPos + 1 === i) {
+							let heightSum = canv.height;
+							for (let j = 0; j < weights.length; ++j) {
+								const height = data[clamp(i + j - 1, 0, data.length)] * weights[j] * heightSplit * 0.5;
+								heightSum -= height;
+								ctx.fillStyle = `hsl(${(i + j - 1) * 64}, 100%, 70%)`;
+								ctx.fillRect(xPos, heightSum, columnWidth, height);
+							}
 						}
 					}
 				}
@@ -677,7 +699,7 @@ v@P = pos[trail_length / 2];</code></pre>
 				});
 
 				function moveKernel(e) {
-					kernelPos = Math.floor(e.offsetX / canv.width * (data.length - 1));
+					kernelPos = Math.floor(e.offsetX / canv.width * (data.length - 1)) - 1;
 					draw();
 				}
 
@@ -690,8 +712,8 @@ v@P = pos[trail_length / 2];</code></pre>
 			</script>
 			<p>Tick "Convolve All" to see a full convolution, then mess with the kernel weights to see what you find! Here's a few you can try:</p>
 			<ul>
-				<li>The kernel <code>[1, 0, 0]</code> shifts everything 1 unit to the left.</li>
-				<li>The kernel <code>[0, 0, 1]</code> shifts everything 1 unit to the right.</li>
+				<li>The kernel <code>[1, 0, 0]</code> shifts everything 1 unit to the right.</li>
+				<li>The kernel <code>[0, 0, 1]</code> shifts everything 1 unit to the left.</li>
 				<li>The kernel <code>[0, 1, 0]</code> keeps everything the same.</li>
 				<li>The kernel <code>[1, 1, 1]</code> sums all 3 values together.</li>
 				<li>The kernel <code>[1, 1, 0]</code> sums the previous and current value.</li>
@@ -703,6 +725,9 @@ v@P = pos[trail_length / 2];</code></pre>
 			</ul>
 			<p>With a tiny size 3 kernel, we can already do so many things. Hopefully this gives you an idea of how powerful and versatile convolution is.</p>
 			<p>TODO: GAUSSIAN BLUR</p>
+			<div>
+				<canvas id="gaussianCanvas" width="640" height="256" style="cursor: pointer;"></canvas>
+			</div>
 			<h2 class="mb-3">Cool method: Biquad filters</h2>
 			<p>TODO: biquad filters</p>
 		</div>
