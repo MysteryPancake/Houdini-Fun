@@ -443,7 +443,7 @@
 			<p>I prefer using a Solver since it's the most robust. It runs in sequence so it's guaranteed not to skip any frames, so if you had a huge jolt it continues smoothing out the impact 1000 frames later. Audio plugins also run in sequence, so we can steal their code and be sure the result is the same. This comes in handy later!</p>
 			<p>First add a Solver node, then a Point Wrangle inside. Plug the the current animation (Input_1) into the second wrangle input.</p>
 			<img src="./images/smoothing/lerpwrangle.PNG" width="512" class="mb-3">
-			<p>Now we can write our formula in VEX. In solvers, <code>@P</code> is the current position. The second input <code>@opinput1_P</code> is the latest animation, which is our target position.</p>
+			<p>Now we can write the formula in VEX. In solvers, <code>@P</code> is the current position. The second input we connected <code>@opinput1_P</code> is the latest animation, which is our target position.</p>
 			<pre><code class="language-js">v@P = lerp(v@P, v@opinput1_P, chf("factor"));</code></pre>
 			<img src="./images/smoothing/lerpsmoothsolver.gif" width="540">
 			<p>
@@ -531,7 +531,7 @@ v@P = pos[trail_length / 2];</code></pre>
 			<p>Convolution is when you sample a couple of neighbouring values, multiply them by weights and add them together. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
 			<p>Let's start with an example. Say you have two values, <code>x</code> and <code>z</code>. To find the average, you'd add 50% of <code>x</code> to 50% of <code>z</code>.</p>
 			<pre><code class="language-js">x * 0.5 + z * 0.5</code></pre>
-			<p>You can think of this as smoothing two neighbouring values together to find a new middle value.</p>
+			<p>You can think of this as smearing two neighbouring values together to find a new middle value.</p>
 			<p>Let's say the original middle value was <code>y</code>, so we have 3 values <code>[x, y, z]</code>. Let's include <code>y</code> in the equation as well.</p>
 			<pre><code class="language-js">x * 0.5 + y * 0 + z * 0.5</code></pre>
 			<p>In other words, ignore <code>y</code> and average <code>x</code> and <code>z</code> together. This is an example of a convolution on <code>y</code> with a size 3 kernel. The kernel is <code>[0.5, 0, 0.5]</code>.</p>
