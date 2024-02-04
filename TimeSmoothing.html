@@ -83,7 +83,7 @@
 			<pre><code class="language-js">current = lerp(current, target, factor);</code></pre>
 			<p>Here's a demo with the smooth version in white. Click and drag to draw your own data.</p>
 			<div>
-				<canvas id="lerpCanvas" width="640" height="256"></canvas>
+				<canvas id="lerpCanvas" width="640" height="256" style="cursor: pointer;"></canvas>
 			</div>
 			<div>
 				<canvas id="lerpLiveCanvas" width="640" height="32"></canvas>
@@ -206,7 +206,7 @@
 			<p>Phase shift is a natural part of the universe so there's nothing wrong with it, but it's annoying if you want stuff to line up. The lazy way is shifting over the graph. The proper way is using <b>linear phase</b> filters. Linear phase filters always need values forwards in time as well as backwards.</p>
 			<p>Apparently if you <a href="https://www.youtube.com/watch?v=eSyCuuSzuE4" target="_blank">smooth forwards then again in reverse</a>, it cancels out the phase shift and makes a linear phase filter. Here's a demo with the linear version in green.</p>
 			<div>
-				<canvas id="lerp3Canvas" width="640" height="256"></canvas>
+				<canvas id="lerp3Canvas" width="640" height="256" style="cursor: pointer;"></canvas>
 			</div>
 			<div class="mb-3">
 				<label for="lerp3Factor">Factor</label>
@@ -295,7 +295,7 @@
 			<p>The lerp method is a <a href="https://ccrma.stanford.edu/~jos/fp/Definition_Simplest_Low_Pass.html" target="_blank">first order lowpass</a>, so it's pretty blunt and tends to smudge everything out.</p>
 			<p>Turns out there's a cool trick to improve it. If you stack a bunch of low order filters, you approximate a high order filter. This works surprisingly well, though it's much slower and smudgier than doing it properly.</p>
 			<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
-			<canvas id="lerp2Canvas" width="640" height="256"></canvas>
+			<canvas id="lerp2Canvas" width="640" height="256" style="cursor: pointer;"></canvas>
 			<table class="mb-3">
 				<tr>
 					<td style="width: 220px;">
@@ -562,7 +562,7 @@ v@P = pos[trail_length / 2];</code></pre>
 			<p>Here we sample 9's neighbours (4 and 6), then calculate <code>4 * 0.5 + 9 * 0 + 6 * 0.5 = 5</code>. In other words, ignore 9 and average 4 and 6 together.</p>
 			<p>The key idea of convolution is you can slide the kernel up and down. Click and drag to see what I mean!</p>
 			<div>
-				<canvas id="convCanvas" width="720" height="360"></canvas>
+				<canvas id="convCanvas" width="720" height="360" style="cursor: pointer;"></canvas>
 			</div>
 			<b>Kernel weights</b>
 			<table class="mb-3">
