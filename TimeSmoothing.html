@@ -27,15 +27,15 @@
 		}
 		
 		function mouseClickData(e, canv, data) {
-			const key = Math.min(data.length - 1, e.offsetX / canv.width * data.length);
+			const key = Math.floor(e.offsetX / canv.width * (data.length - 1));
 			data[key] = e.offsetY / canv.height;
 		}
 
 		// When drawing, replace entries which were drawn over between frames
 		function mouseMoveData(e, canv, data) {
 			if (e.which !== 1) return;
-			const lastKey = Math.floor((e.offsetX - e.movementX) / canv.width * data.length);
-			const currentKey = Math.floor(e.offsetX / canv.width * data.length);
+			const lastKey = Math.floor((e.offsetX - e.movementX) / canv.width * (data.length - 1));
+			const currentKey = Math.floor(e.offsetX / canv.width * (data.length - 1));
 			const start = Math.min(lastKey, currentKey);
 			const end = clamp(currentKey, lastKey, data.length - 1);
 			for (let i = start; i <= end; ++i) {
@@ -68,16 +68,16 @@
 		// Gaussian kernel, not optimized for symmetry
 		function gaussianKernel(numPoints) {
 			// Dividing by 3 seems to scale the kernel the best
-			let sigma = numPoints / 3;
-			sigma *= sigma;
+			let size = numPoints / 3;
+			size *= size;
 
 			let sum = 0;
 			const kernel = new Float32Array(numPoints);
-			const center = Math.floor(numPoints * 0.5);
+			const center = numPoints * 0.5 - 0.5;
 
 			for (let i = 0; i < numPoints; i++) {
 				const x = i - center;
-				kernel[i] = Math.exp(-x * x / sigma);
+				kernel[i] = Math.exp(-x * x / size);
 				sum += kernel[i];
 			}
 
@@ -90,6 +90,63 @@
 
 		function resizeCanvasWidth(elem) {
 			elem.width = elem.parentElement.clientWidth;
+		}
+
+		function drawBackground(canv, ctx) {
+			ctx.fillStyle = "#404040";
+			ctx.fillRect(0, 0, canv.width, canv.height);
+		}
+
+		function drawConvolution(canv, ctx, data, kernelPos, weights, convAll) {
+			const columnWidth = canv.width / (data.length - 1);
+			const heightSplit = canv.height / 3;
+			const middleWeight = Math.floor(weights.length * 0.5);
+
+			ctx.fillStyle = "#505050";
+			ctx.fillRect(kernelPos / (data.length - 1) * canv.width, 0, columnWidth * weights.length, canv.height)
+
+			for (let i = 0; i < data.length; ++i) {
+
+				const xPos = i / (data.length - 1) * canv.width;
+				const height = data[i] * heightSplit * 0.5;
+
+				// Draw top bars
+				const topColor = `hsl(${i * 64}, 100%, 70%)`;
+				ctx.fillStyle = topColor;
+				ctx.fillRect(xPos, canv.height - heightSplit * 2 - height, columnWidth, height);
+
+				// Draw middle bars
+				ctx.fillStyle = "white";
+				const offset = i - kernelPos;
+				if (offset >= 0 && offset < weights.length) {
+					ctx.fillStyle = "#808080";
+					const height2 = weights[offset] * heightSplit * 0.5;
+					ctx.fillRect(xPos, canv.height - heightSplit - height2, columnWidth, height2);
+
+					ctx.fillStyle = topColor;
+					const height3 = height2 * data[i];
+					ctx.fillRect(xPos, canv.height - heightSplit - height3, columnWidth, height3);
+				}
+
+				// Draw bottom bars
+				if (convAll || kernelPos + middleWeight === i) {
+					let heightSum = canv.height;
+					for (let j = 0; j < weights.length; ++j) {
+						const height = data[clamp(i + j - middleWeight, 0, data.length - 1)] * weights[j] * heightSplit * 0.5;
+						heightSum -= height;
+						ctx.fillStyle = `hsl(${(i + j - middleWeight) * 64}, 100%, 70%)`;
+						ctx.fillRect(xPos, heightSum, columnWidth, height);
+					}
+				}
+			}
+		}
+
+		function drawData(canv, ctx, data) {
+			ctx.beginPath();
+			for (let i = 0; i < data.length; ++i) {
+				ctx.lineTo(i / (data.length - 1) * canv.width, data[i] * canv.height);
+			}
+			ctx.stroke();
 		}
 		</script>
 	</head>
@@ -129,16 +186,11 @@
 				const data = generateData(Math.floor(canv.width * 0.5));
 				
 				function draw() {
-					ctx.fillStyle = "#404040";
-					ctx.fillRect(0, 0, canv.width, canv.height);
+					drawBackground(canv, ctx);
 					
 					ctx.lineWidth = 2;
 					ctx.strokeStyle = "#DD2020";
-					ctx.beginPath();
-					for (let i = 0; i < data.length; ++i) {
-						ctx.lineTo(i / data.length * canv.width, data[i] * canv.height);
-					}
-					ctx.stroke();
+					drawData(canv, ctx, data);
 					
 					ctx.strokeStyle = "white";
 					ctx.beginPath();
@@ -146,7 +198,7 @@
 					for (let i = 0; i < data.length; ++i) {
 						// The magic formula
 						current = lerp(current, data[i], lerpFac);
-						ctx.lineTo(i / data.length * canv.width, current * canv.height);
+						ctx.lineTo(i / (data.length - 1) * canv.width, current * canv.height);
 					}
 					ctx.stroke();
 				}
@@ -177,8 +229,7 @@
 				let current = 0;
 
 				function drawLive() {
-					ctx2.fillStyle = "#404040";
-					ctx2.fillRect(0, 0, canv2.width, canv2.height);
+					drawBackground(canv2, ctx2);
 
 					const blockSize = canv2.height * 0.5;
 
@@ -249,27 +300,22 @@
 				const data = generateData(Math.floor(canv.width * 0.5));
 				
 				function draw() {
-					ctx.fillStyle = "#404040";
-					ctx.fillRect(0, 0, canv.width, canv.height);
+					drawBackground(canv, ctx);
 					
 					ctx.lineWidth = 2;
 					ctx.strokeStyle = "#808080";
-					ctx.beginPath();
-					for (let i = 0; i < data.length; ++i) {
-						ctx.lineTo(i / data.length * canv.width, data[i] * canv.height);
-					}
-					ctx.stroke();
+					drawData(canv, ctx, data);
 					
 					ctx.strokeStyle = "#FF0000";
 					ctx.beginPath();
 
-					// Smooth forwards in time
+					// Lerp forwards in time
 					const dataCopy = data.slice();
 					let current = dataCopy[0];
 					for (let i = 0; i < dataCopy.length; ++i) {
 						// The magic formula
 						current = lerp(current, dataCopy[i], lerpFac);
-						ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
+						ctx.lineTo(i / (dataCopy.length - 1) * canv.width, current * canv.height);
 						dataCopy[i] = current;
 					}
 
@@ -278,12 +324,12 @@
 					ctx.strokeStyle = "#00FF00";
 					ctx.beginPath();
 
-					// Smooth backwards in time
+					// Lerp backwards in time
 					current = dataCopy[dataCopy.length - 1];
 					for (let i = dataCopy.length - 1; i >= 0; --i) {
 						// The magic formula
 						current = lerp(current, dataCopy[i], lerpFac);
-						ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
+						ctx.lineTo(i / (dataCopy.length - 1) * canv.width, current * canv.height);
 					}
 
 					ctx.stroke();
@@ -331,7 +377,7 @@
 						<input id="lerp2Layers" type="range" min="1" max="50" step="1" value="10">
 						<span id="lerp2LayersValue"></span>
 					</td>
-					<td style="width: 220px;">
+					<td>
 						<input id="lerp2Linear" type="checkbox">
 						<label for="lerp2Linear">Linear Phase</label>
 					</td>
@@ -361,16 +407,11 @@
 				const data = generateData(Math.floor(canv.width * 0.5));
 				
 				function draw() {
-					ctx.fillStyle = "#404040";
-					ctx.fillRect(0, 0, canv.width, canv.height);
+					drawBackground(canv, ctx);
 					
 					ctx.lineWidth = 2;
 					ctx.strokeStyle = "#808080";
-					ctx.beginPath();
-					for (let i = 0; i < data.length; ++i) {
-						ctx.lineTo(i / data.length * canv.width, data[i] * canv.height);
-					}
-					ctx.stroke();
+					drawData(canv, ctx, data);
 
 					// Chain the crappy lowpass filter to approximate a higher order lowpass filter
 					const dataCopy = data.slice();
@@ -385,7 +426,7 @@
 							// The magic formula
 							current = lerp(current, dataCopy[i], lerpFac);
 							if (!linearPhase) {
-								ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
+								ctx.lineTo(i / (dataCopy.length - 1) * canv.width, current * canv.height);
 							}
 							dataCopy[i] = current;
 						}
@@ -396,7 +437,7 @@
 							for (let i = dataCopy.length - 1; i >= 0; --i) {
 								// The magic formula
 								current = lerp(current, dataCopy[i], lerpFac);
-								ctx.lineTo(i / dataCopy.length * canv.width, current * canv.height);
+								ctx.lineTo(i / (dataCopy.length - 1) * canv.width, current * canv.height);
 								dataCopy[i] = current;
 							}
 						}
@@ -459,8 +500,7 @@
 				lerpValue.textContent = lerpFac;
 				
 				function draw() {
-					ctx.fillStyle = "#404040";
-					ctx.fillRect(0, 0, canv.width, canv.height);
+					drawBackground(canv, ctx);
 					
 					ctx.lineWidth = 2;
 					ctx.strokeStyle = "#FF0000";
@@ -581,7 +621,7 @@ v@P = pos[trail_length / 2];</code></pre>
 			<p>While lerp works OK, there's plenty of fancier methods of smoothing out stuff. Let's try gaussian blur with convolution!</p>
 			<h2 class="mb-3">Fancier method: Convolution</h2>
 			<p>Convolution solves many problems we were having before. It's practically linear phase and only needs a handful of frames, making it perfect for batch processing. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
-			<p>It works by picking a value, sampling the neighbours around it, multiplying them and adding them together. It's just like what we did before, except now we have precise control over how much each neighbour contributes to the final result. We can totally ignore neighbours or even flip their influence.</p>
+			<p>It works by picking a value, sampling the neighbours around it, multiplying them and adding them together. It's like what we did with lerp, except now we have precise control over how much each neighbour contributes to the final result. We can totally ignore neighbours or even flip their influence.</p>
 			<p>For example, say you want each value to be the average of its 2 neighbours. For that you can use the kernel <code>[0.5, 0, 0.5]</code>.</p>
 			<img src="./images/smoothing/convolution.png" width="640" class="mb-3">
 			<p>Here we sample 9's neighbours (4 and 6), then calculate <code>4 * 0.5 + 9 * 0 + 6 * 0.5 = 5</code>. In other words, ignore 9 and average 4 and 6 together.</p>
@@ -640,50 +680,15 @@ v@P = pos[trail_length / 2];</code></pre>
 				const data = generateRandomData(Math.floor(canv.width / 16));
 				let kernelPos = Math.floor(data.length * 0.5);
 
+				let weights;
+				function updateWeights() {
+					weights = [xWeight, yWeight, zWeight];
+				}
+				updateWeights();
+
 				function draw() {
-					ctx.fillStyle = "#404040";
-					ctx.fillRect(0, 0, canv.width, canv.height);
-
-					const weights = [xWeight, yWeight, zWeight];
-					const columnWidth = canv.width / (data.length - 1);
-					const heightSplit = canv.height / 3;
-
-					ctx.fillStyle = "#606060";
-					ctx.fillRect(kernelPos / (data.length - 1) * canv.width, 0, columnWidth * weights.length, canv.height)
-
-					for (let i = 0; i < data.length; ++i) {
-
-						const xPos = i / (data.length - 1) * canv.width;
-						const height = data[i] * heightSplit * 0.5;
-
-						// Draw top bars
-						const topColor = `hsl(${i * 64}, 100%, 70%)`;
-						ctx.fillStyle = topColor;
-						ctx.fillRect(xPos, canv.height - heightSplit * 2 - height, columnWidth, height);
-
-						// Draw middle bars
-						const offset = i - kernelPos;
-						if (offset >= 0 && offset < weights.length) {
-							ctx.fillStyle = "#808080";
-							const height2 = weights[offset] * heightSplit * 0.5;
-							ctx.fillRect(xPos, canv.height - heightSplit - height2, columnWidth, height2);
-
-							ctx.fillStyle = topColor;
-							const height3 = height2 * data[i];
-							ctx.fillRect(xPos, canv.height - heightSplit - height3, columnWidth, height3);
-						}
-
-						// Draw bottom bars
-						if (convAll || kernelPos + 1 === i) {
-							let heightSum = canv.height;
-							for (let j = 0; j < weights.length; ++j) {
-								const height = data[clamp(i + j - 1, 0, data.length - 1)] * weights[j] * heightSplit * 0.5;
-								heightSum -= height;
-								ctx.fillStyle = `hsl(${(i + j - 1) * 64}, 100%, 70%)`;
-								ctx.fillRect(xPos, heightSum, columnWidth, height);
-							}
-						}
-					}
+					drawBackground(canv, ctx);
+					drawConvolution(canv, ctx, data, kernelPos, weights, convAll);
 				}
 
 				draw();
@@ -691,18 +696,21 @@ v@P = pos[trail_length / 2];</code></pre>
 				xSlider.addEventListener("input", function(e) {
 					xWeight = parseFloat(e.target.value);
 					xValue.textContent = xWeight;
+					updateWeights();
 					draw();
 				});
 
 				ySlider.addEventListener("input", function(e) {
 					yWeight = parseFloat(e.target.value);
 					yValue.textContent = yWeight;
+					updateWeights();
 					draw();
 				});
 
 				zSlider.addEventListener("input", function(e) {
 					zWeight = parseFloat(e.target.value);
 					zValue.textContent = zWeight;
+					updateWeights();
 					draw();
 				});
 
@@ -712,7 +720,7 @@ v@P = pos[trail_length / 2];</code></pre>
 				});
 
 				function moveKernel(e) {
-					kernelPos = Math.floor(e.offsetX / canv.width * (data.length - 1) - 1);
+					kernelPos = Math.round(e.offsetX / canv.width * (data.length - 1) - weights.length * 0.5);
 					draw();
 				}
 
@@ -737,8 +745,10 @@ v@P = pos[trail_length / 2];</code></pre>
 				<li>The kernel <code>[0, 0.5, 0.5]</code> averages the current and next value.</li>
 			</ul>
 			<p>With a tiny size 3 kernel, we can already do so many things. Hopefully this gives you an idea of how powerful and versatile convolution is.</p>
+			<h3 class="mb-3">Gaussian blur</h3>
 			<p>Gaussian blur is one of the many things we can do with convolution. We just need to replace our kernel with a gaussian kernel. It looks like this.</p>
 			<img src="./images/smoothing/gaussiankernel.png" width="512" class="mb-3">
+			<p>Stripping the formula to the bones, you can write it as <code>exp(-x * x / (size * size))</code>, where <code>x</code> is the value and <code>size</code> is the kernel size. It extends infinitely, so we need to pick a size that fits most of it between -1 and 1. I found dividing <code>size</code> by 3 works pretty well, or in other words <code>exp(-9 * x * x / (size * size))</code>. Then we normalize it so all values add to 1.</p>
 			<p>And just like that we have gaussian blur! Change the kernel size to set the intensity.</p>
 			<div>
 				<canvas id="gaussianCanvas" width="640" height="256" style="cursor: pointer;"></canvas>
@@ -776,50 +786,8 @@ v@P = pos[trail_length / 2];</code></pre>
 				let weights = gaussianKernel(5);
 
 				function draw() {
-					ctx.fillStyle = "#404040";
-					ctx.fillRect(0, 0, canv.width, canv.height);
-					
-					const columnWidth = canv.width / (data.length - 1);
-					const heightSplit = canv.height / 3;
-					const middleWeight = Math.floor(weights.length * 0.5);
-
-					ctx.fillStyle = "#505050";
-					ctx.fillRect(kernelPos / (data.length - 1) * canv.width, 0, columnWidth * weights.length, canv.height)
-
-					for (let i = 0; i < data.length; ++i) {
-
-						const xPos = i / (data.length - 1) * canv.width;
-						const height = data[i] * heightSplit * 0.5;
-
-						// Draw top bars
-						const topColor = `hsl(${i * 64}, 100%, 70%)`;
-						ctx.fillStyle = topColor;
-						ctx.fillRect(xPos, canv.height - heightSplit * 2 - height, columnWidth, height);
-
-						// Draw middle bars
-						ctx.fillStyle = "white";
-						const offset = i - kernelPos;
-						if (offset >= 0 && offset < weights.length) {
-							ctx.fillStyle = "#808080";
-							const height2 = weights[offset] * heightSplit * 0.5;
-							ctx.fillRect(xPos, canv.height - heightSplit - height2, columnWidth, height2);
-
-							ctx.fillStyle = topColor;
-							const height3 = height2 * data[i];
-							ctx.fillRect(xPos, canv.height - heightSplit - height3, columnWidth, height3);
-						}
-
-						// Draw bottom bars
-						if (convAll || kernelPos + middleWeight === i) {
-							let heightSum = canv.height;
-							for (let j = 0; j < weights.length; ++j) {
-								const height = data[clamp(i + j - middleWeight, 0, data.length - 1)] * weights[j] * heightSplit * 0.5;
-								heightSum -= height;
-								ctx.fillStyle = `hsl(${(i + j - middleWeight) * 64}, 100%, 70%)`;
-								ctx.fillRect(xPos, heightSum, columnWidth, height);
-							}
-						}
-					}
+					drawBackground(canv, ctx);
+					drawConvolution(canv, ctx, data, kernelPos, weights, convAll);
 				}
 
 				draw();
@@ -837,7 +805,7 @@ v@P = pos[trail_length / 2];</code></pre>
 				});
 
 				function moveKernel(e) {
-					kernelPos = Math.floor(e.offsetX / canv.width * (data.length - 1) - weights.length * 0.5);
+					kernelPos = Math.round(e.offsetX / canv.width * (data.length - 1) - weights.length * 0.5);
 					draw();
 				}
 
