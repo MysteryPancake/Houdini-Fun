@@ -525,7 +525,7 @@ v@P = pos[trail_length / 2];</code></pre>
 			<p>
 				<a href="./hips/smoothing/lerpsmoothtraillinear.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
-			<p>Now let's look at some fancier methods of smoothing out stuff.</p>
+			<p>While lerp works OK, there's plenty of fancier methods of smoothing out stuff. Let's look into gaussian blur with convolution!</p>
 			<h2 class="mb-3">Fancier method: Convolution</h2>
 			<p>Convolution solves many problems we were having before. It barely has phase shift and only needs a handful of frames, making it perfect for batch processing.</p>
 			<p>Convolution is when you sample a couple of neighbouring values, multiply them by weights and add them together. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
