@@ -462,7 +462,7 @@
 			<p>Using this idea we can lerp through the positions from past to present, just like with the solver. No dictionaries or maps required!</p>
 			<pre><code class="language-js">int point_count = npoints(0);
 // Make sure this matches your trail node
-int trail_length = 128;
+int trail_length = chi("../trail1/length");
 
 // Start at the last frame's position (the oldest frame)
 v@P = point(1, "P", i@ptnum + point_count * (trail_length - 1));
@@ -474,10 +474,12 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 	// The magic formula
 	v@P = lerp(v@P, target_pos, chf("factor"));
 }</code></pre>
-			<p>TODO: ADD DEMO AND FILE</p>
-			<p>Though it reduces jitter overall, it's much shakier than the solver and not a good use case for the trail approach. Let's try a fancier method.</p>
+			<img src="./images/smoothing/lerpsmoothtrail.gif" width="540">
+			<p>
+				<a href="./hips/smoothing/lerpsmoothtrail.hipnc?raw=true" target="_blank">Download the HIP file!</a>
+			</p>
 			<h2 class="mb-3">Fancier method: Convolution</h2>
-			<p>Convolution solves many problems we were having before. It doesn't have as much phase shift and only needs a handful of frames, making it perfect for batch processing.</p>
+			<p>Convolution solves many problems we were having before. It barely has phase shift and only needs a handful of frames, making it perfect for batch processing.</p>
 			<p>Convolution is when you sample a couple of neighbouring values, multiply them by weights and add them together. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
 			<p>Let's start with an example. Say you have two values, <code>x</code> and <code>z</code>. To find the average, you'd add 50% of <code>x</code> to 50% of <code>z</code>.</p>
 			<pre><code class="language-js">x * 0.5 + z * 0.5</code></pre>
