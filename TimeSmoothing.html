@@ -361,7 +361,7 @@
 			<p>You'll find this method is hard to control. It tends to smooth everything too much or not enough.</p>
 			<p>This is because of the <b>order</b> of the filter. The order basically means how sharp and precise a filter is. Here's a nice diagram from <a href="https://www.electronics-tutorials.ws/filter/filter_8.html" target="_blank">Electronics Tutorials</a>. You can see as the order increases the curve gets steeper, meaning it cuts precisely and doesn't smudge everything.</p>
 			<img src="./images/smoothing/filterorder.gif" class="mb-3 mw-100">
-			<p>The lerp method is a <a href="https://ccrma.stanford.edu/~jos/fp/Definition_Simplest_Low_Pass.html" target="_blank">first order lowpass</a>, so it's pretty blunt and tends to smudge everything out.</p>
+			<p>The lerp method is a <a href="https://tomroelandts.com/articles/low-pass-single-pole-iir-filter" target="_blank">first order IIR lowpass</a>, so it's pretty blunt and tends to smudge everything out.</p>
 			<p>Turns out there's a cool trick to improve it. If you stack a bunch of low order filters, you approximate a high order filter. This works surprisingly well, though it's much slower and smudgier than doing it properly.</p>
 			<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
 			<div>
