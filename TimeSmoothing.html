@@ -531,9 +531,8 @@
 				});
 			})();
 			</script>
-			<p>After writing this I realise undershooting isn't a huge issue, but I'll keep this section anyway.</p>
 			<h3 class="mb-3">Running this in Houdini</h3>
-			<p>To use this method in Houdini, we need a way to access the previous frame. Luckily there's many ways to do this.</p>
+			<p>To get this into Houdini, we need a way to access the previous frame. Luckily there's many ways to do this.</p>
 			<h4 class="mb-3">Option 1: Solver</h4>
 			<p>I prefer using a Solver since it's the most robust. It runs in sequence so it's guaranteed not to skip any frames, so if you had a huge jolt it continues smoothing out the impact 1000 frames later. Audio plugins also run in sequence, so we can steal their code and be sure the result is the same. This comes in handy later!</p>
 			<p>First add a Solver node, then a Point Wrangle inside. Plug the the current animation (Input_1) into the second wrangle input.</p>
@@ -542,7 +541,7 @@
 			<pre><code class="language-js">v@P = lerp(v@P, v@opinput1_P, chf("factor"));</code></pre>
 			<img src="./images/smoothing/lerpsmoothsolver.gif" width="640" class="mw-100">
 			<p>
-				<a href="./hips/smoothing/lerpsmoothsolver.hipnc?raw=true" target="_blank">Download the HIP file!</a>
+				<a href="./hips/smoothing/lerp_smooth_solver.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
 			<p>Although solvers are more robust, to get linear phase or stack filters you have to chain a bunch of solvers in a row. We can avoid this with Trail.</p>
 			<h4 class="mb-3">Option 2: Trail</h4>
@@ -571,7 +570,7 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 }</code></pre>
 			<img src="./images/smoothing/lerpsmoothtrail.gif" width="640" class="mw-100">
 			<p>
-				<a href="./hips/smoothing/lerpsmoothtrail.hipnc?raw=true" target="_blank">Download the HIP file!</a>
+				<a href="./hips/smoothing/lerp_smooth_trail.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
 			<p>Sadly this version suffers from phase shift, just like the solver. The great thing with Trail is it doesn't have to. We can make linear phase filters and stack them too!</p>
 			<p>First we need a way to get frames forwards in time as well as backwards. This is as easy as adding a Time Shift node after Trail.</p>
@@ -585,7 +584,7 @@ int point_count = npoints(0);
 float factor = chf("factor");
 int layers = chi("layers");
 
-// Make an array of all positions on all frames
+// Build an array of all positions on all frames
 // For optimization, you could do a forward lerp in here
 vector pos[];
 resize(pos, trail_length);
@@ -618,7 +617,7 @@ v@P = pos[trail_length / 2];</code></pre>
 			<p>Thanks to looking into the future, we can anticipate motion before it even happens. Here's a demo with the linear phase version in green and the original version in red.</p>
 			<img src="./images/smoothing/lerpsmoothtraillinear.gif" width="540" class="mw-100">
 			<p>
-				<a href="./hips/smoothing/lerpsmoothtraillinear.hipnc?raw=true" target="_blank">Download the HIP file!</a>
+				<a href="./hips/smoothing/lerp_smooth_trail_linear.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
 			<p>While lerp works OK, there's plenty of fancier methods of smoothing out stuff. Let's try gaussian blur with convolution!</p>
 			<h2 class="mb-3">Fancier method: Convolution</h2>
@@ -818,6 +817,88 @@ v@P = pos[trail_length / 2];</code></pre>
 				});
 			})();
 			</script>
+			<h3 class="mb-3">Running this in Houdini</h3>
+			<p>To get this into Houdini, we can reuse the trail setup from the lerp section with a few minor changes.</p>
+			<p>First we need to make the kernel. We can do it in a Detail Wrangle since it never changes and only needs to be built once.</p>
+			<img src="./images/smoothing/detailwrangle.png" width="640" class="mb-3 mw-100">
+			<p>Let's store the kernel in a detail attribute. The syntax is pretty ugly, <code>f[]@kernel</code> just means an array of floats.</p>
+			<pre><code language="js">// Make sure this matches your trail node
+int trail_length = chi("../trail1/length");
+
+// Kernel size, divided by 3 so it fits snugly between -1 and 1
+float size = trail_length / 3.0;
+float sum = 0;
+
+// Preallocate array size
+resize(f[]@kernel, trail_length);
+
+// Build guassian kernel (array of floats)
+for (int i = 0; i < trail_length; ++i) {
+	// Center it on the middle value (or right value when even)
+	int x = i - trail_length / 2;
+	f[]@kernel[i] = exp(-x * x / (size * size));
+	sum += f[]@kernel[i];
+}
+
+// Normalize the kernel so it adds to 1
+for (int i = 0; i < trail_length; ++i) {
+	f[]@kernel[i] /= sum;
+}</code></pre>
+			<p>Now we dump in the Trail, Time Shift and Point Wrangle from the lerp section. Like before, the frame offset is <code>$F + ch("../trail1/length") / 2 - 1</code>.</p>
+			<img src="./images/smoothing/detailwrangle2.png" width="640" class="mb-3 mw-100">
+			<p>Now onto the convolution. It's surprisingly easy since Trail and Time Shift did the hard work for us. We just need to add up all the values multiplied by their respective weights.</p>
+			<pre><code language="js">// Make sure this matches your trail node
+int trail_length = chi("../trail1/length");
+int point_count = npoints(0);
+
+// Convolve all frames to get the current frame
+vector pos_total = 0;
+for (int frame = 0; frame < trail_length; ++frame) {
+	vector pos = point(1, "P", i@ptnum + point_count * (trail_length - 1 - frame));
+	pos_total += pos * f[]@kernel[frame];
+}
+v@P = pos_total;</code></pre>
+			<p>The trail length directly controls the amount of blur. The more frames we sample, the more we can blur.</p>
+			<table class="text-center">
+				<tr>
+					<th>23 frames</th>
+					<th>61 frames</th>
+				</tr>
+				<tr>
+					<td>
+						<img src="./images/smoothing/convolutiontrail.gif" width="640" class="mw-100">
+					</td>
+					<td>
+						<img src="./images/smoothing/convolutiontrail2.gif" width="640" class="mw-100">
+					</td>
+				</tr>
+			</table>
+			<p>
+				<a href="./hips/smoothing/convolution_smoothing.hipnc?raw=true" target="_blank">Download the HIP file!</a>
+			</p>
+			<p>Now I know what you're thinking. This looks exactly like the lerp method from before! What's the point of going through all that effort?</p>
+			<p>Well firstly, it properly reaches the target unlike the lerp method. And secondly, you can swap out the kernel to get cool effects!</p>
+			<p>Here's a cool kernel I made by accident. It turns any animation into an incredible springy mess!</p>
+			<div>
+				<img src="./images/smoothing/springykernel.png" width="960" class="mb-3 mw-100">
+			</div>
+			<pre><code language="js">// Build insane kernel
+float insanity = 2;
+for (int i = 0; i < trail_length; ++i) {
+	// Center it on the middle value (or right value when even)
+	float x = i - trail_length / 2;
+	// Normalize the range
+	x /= trail_length;
+	// Invoke madness
+	f[]@kernel[i] = cos(2 * PI * x) * (insanity - abs(x));
+	sum += f[]@kernel[i];
+}</code></pre>
+			<div>
+				<img src="./images/smoothing/convolutionspringy.gif" width="640" class="mw-100">
+			</div>
+			<p>
+				<a href="./hips/smoothing/convolution_springy.hipnc?raw=true" target="_blank">Download the HIP file!</a>
+			</p>
 			<h2 class="mb-3">Cool method: Biquad filters</h2>
 			<p>TODO: biquad filters</p>
 		</div>
