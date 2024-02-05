@@ -156,7 +156,11 @@
 			<p>This was inspired by a talk <a href="https://www.linkedin.com/feed/update/urn:li:activity:7159079030745452544/" target="_blank">Catherine Williams did at SydHUG</a>. She looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
 			<p>Smoothing and sharpening is a pretty cool topic I've dipped into into a few times, so I wanted to gather some popular methods and dump them into Houdini in case it helps someone. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
 			<p>For some reason Houdini doesn't really have built-in nodes for time smoothing. Unreal Engine, Blender and Maya have plenty of ways, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky and needs tons of smoothing.</p>
-			<p>Since Houdini doesn't have much to work with, let's make it from scratch!</p>
+			<p>
+				<b>EDIT:</b> Matt mentioned the <a href="https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--smoothmotion.html" target="_blank">Smooth Motion</a> node, which it turns out runs on points too. It works as a built-in a Butterworth filter. Pretty handy!
+			</p>
+			<p>Still, there's plenty of other filters we might find useful. Let's start with lerp!</p>
+			<p></p>
 			<h2 class="mb-3">Basic method: Lerp</h2>
 			<p>The easiest way to smooth stuff is with lerp, <a href="./Lerp" target="_blank">which I wrote about here</a>. It's really popular for games, especially in Unity. It's not a good method, but it's a nice intro to the topic.</p>
 			<p>The idea is you start at some value, then pick a target value. Each frame you move a little bit closer to the target by some percentage. The slower you move, the smoother your path becomes.</p>
