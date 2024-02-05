@@ -751,7 +751,7 @@ v@P = pos[trail_length / 2];</code></pre>
 			<p>Stripping the formula to the bones, you can write it as <code>exp(-x * x / (size * size))</code>, where <code>x</code> is the value and <code>size</code> is the kernel size. It extends infinitely, so we need to pick a size that fits most of it between -1 and 1. I found dividing <code>size</code> by 3 works pretty well, or in other words <code>exp(-9 * x * x / (size * size))</code>. Then we normalize it so all values add to 1.</p>
 			<p>And just like that we have gaussian blur! Change the kernel size to set the intensity.</p>
 			<div>
-				<canvas id="gaussianCanvas" width="640" height="256" style="cursor: pointer;"></canvas>
+				<canvas id="gaussianCanvas" width="720" height="360" style="cursor: pointer;"></canvas>
 			</div>
 			<table class="mb-3">
 				<tr>
