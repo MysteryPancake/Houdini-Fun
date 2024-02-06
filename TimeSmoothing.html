@@ -834,18 +834,14 @@ float sum = 0;
 
 // Preallocate array size
 resize(f[]@kernel, trail_length);
+f@kernel_sum = 0;
 
 // Build guassian kernel (array of floats)
 for (int i = 0; i < trail_length; ++i) {
 	// Center it on the middle value (or right value when even)
 	int x = i - trail_length / 2;
 	f[]@kernel[i] = exp(-x * x / (size * size));
-	sum += f[]@kernel[i];
-}
-
-// Normalize the kernel so it adds to 1
-for (int i = 0; i < trail_length; ++i) {
-	f[]@kernel[i] /= sum;
+	f@kernel_sum += f[]@kernel[i];
 }</code></pre>
 			<p>Now we dump in the Trail, Time Shift and Point Wrangle from the lerp section. Like before, the frame offset is <code>$F + ch("../trail1/length") / 2 - 1</code>.</p>
 			<img src="./images/smoothing/detailwrangle2.png" width="640" class="mb-3 mw-100">
@@ -860,7 +856,9 @@ for (int frame = 0; frame < trail_length; ++frame) {
 	vector pos = point(1, "P", i@ptnum + point_count * (trail_length - 1 - frame));
 	pos_total += pos * f[]@kernel[frame];
 }
-v@P = pos_total;</code></pre>
+
+// Normalize so it adds to 1
+v@P = pos_total / f@kernel_sum;</code></pre>
 			<p>The trail length directly controls the amount of blur. The more frames we sample, the more we can blur.</p>
 			<table class="text-center">
 				<tr>
@@ -894,7 +892,7 @@ for (int i = 0; i < trail_length; ++i) {
 	x /= trail_length;
 	// Invoke madness
 	f[]@kernel[i] = cos(2 * PI * x) * (insanity - abs(x));
-	sum += f[]@kernel[i];
+	f@kernel_sum += f[]@kernel[i];
 }</code></pre>
 			<div>
 				<img src="./images/smoothing/convolutionspringy.gif" width="640" class="mw-100">
