@@ -578,7 +578,7 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 			<p>Sadly this version suffers from phase shift, just like the solver. The great thing with Trail is it doesn't have to. We can make linear phase filters and stack them too!</p>
 			<p>First we need a way to get frames forwards in time as well as backwards. This is as easy as adding a Time Shift node after Trail.</p>
 			<img src="./images/smoothing/trailtimeshift.png" width="640" class="mb-3 mw-100">
-			<p>Set the frame offset to <code>$F + ch("../trail1/length") / 2 - 1</code>. This centers the current frame, so we have the same number of frames forwards and backwards in time.</p>
+			<p>Set the frame offset to <code>$F + (ch("../trail1/length") - 1) / 2</code>. This centers the current frame, so we have the same number of frames forwards and backwards in time.</p>
 			<img src="./images/smoothing/trailframeoffset.png" width="860" class="mb-3 mw-100">
 			<p>Next we can reuse the same frame offset idea from before, except this time filtering in both directions.</p>
 			<pre><code class="language-js">// Make sure this matches your trail node
@@ -837,12 +837,12 @@ f@kernel_sum = 0;
 
 // Build guassian kernel (array of floats)
 for (int i = 0; i < trail_length; ++i) {
-	// Center it on the middle value (or right value when even)
-	int x = i - trail_length / 2;
+	// Center it on the middle value
+	float x = i - (trail_length - 1) / 2.0;
 	f[]@kernel[i] = exp(-x * x / (size * size));
 	f@kernel_sum += f[]@kernel[i];
 }</code></pre>
-			<p>Now we dump in the Trail, Time Shift and Point Wrangle from the lerp section. Like before, the frame offset is <code>$F + ch("../trail1/length") / 2 - 1</code>.</p>
+			<p>Now we dump in the Trail, Time Shift and Point Wrangle from the lerp section. Like before, the frame offset is <code>$F + (ch("../trail1/length") - 1) / 2</code>.</p>
 			<img src="./images/smoothing/detailwrangle2.png" width="640" class="mb-3 mw-100">
 			<p>Now onto the convolution. It's surprisingly easy since Trail and Time Shift did the hard work for us. We just need to add up all the values multiplied by their respective weights.</p>
 			<pre><code language="js">// Make sure this matches your trail node
@@ -890,8 +890,8 @@ f@kernel_sum = 0;
 // Build insane kernel
 float insanity = 2;
 for (int i = 0; i < trail_length; ++i) {
-	// Center it on the middle value (or right value when even)
-	float x = i - trail_length / 2;
+	// Center it on the middle value
+	float x = i - (trail_length - 1) / 2.0;
 	// Normalize the range
 	x /= trail_length;
 	// Invoke madness
