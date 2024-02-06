@@ -73,7 +73,7 @@
 
 			let sum = 0;
 			const kernel = new Float32Array(numPoints);
-			const center = numPoints * 0.5 - 0.5;
+			const center = (numPoints - 1) * 0.5;
 
 			for (let i = 0; i < numPoints; i++) {
 				const x = i - center;
