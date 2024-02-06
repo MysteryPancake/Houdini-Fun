@@ -830,7 +830,6 @@ int trail_length = chi("../trail1/length");
 
 // Kernel size, divided by 3 so it fits snugly between -1 and 1
 float size = trail_length / 3.0;
-float sum = 0;
 
 // Preallocate array size
 resize(f[]@kernel, trail_length);
@@ -883,7 +882,14 @@ v@P = pos_total / f@kernel_sum;</code></pre>
 			<div>
 				<img src="./images/smoothing/springykernel.png" width="960" class="mb-3 mw-100">
 			</div>
-			<pre><code language="js">// Build insane kernel
+			<pre><code language="js">// Make sure this matches your trail node
+int trail_length = chi("../trail1/length");
+
+// Preallocate array size
+resize(f[]@kernel, trail_length);
+f@kernel_sum = 0;
+
+// Build insane kernel
 float insanity = 2;
 for (int i = 0; i < trail_length; ++i) {
 	// Center it on the middle value (or right value when even)
