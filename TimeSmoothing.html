@@ -157,7 +157,7 @@
 			<p>Smoothing and sharpening is a pretty cool topic I've dipped into into a few times, so I wanted to gather some popular methods and dump them into Houdini in case it helps someone. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
 			<p>For some reason Houdini doesn't really have built-in nodes for time smoothing. Unreal Engine, Blender and Maya have plenty of ways, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky and needs tons of smoothing.</p>
 			<p><b>EDIT:</b> Matt Estela mentioned the <a href="https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--smoothmotion.html" target="_blank">Smooth Motion</a> node, which it turns out runs on points too. It works as a built-in a Butterworth filter. Pretty handy!</p>
-			<p>As well as butterworth, there's plenty of other filters we might find useful.</p>
+			<p>As well as Butterworth, there's plenty of other filters we might find useful.</p>
 			<p></p>
 			<h2 class="mb-3">Basic method: Lerp</h2>
 			<p>The easiest way to smooth stuff is with lerp, <a href="./Lerp" target="_blank">which I wrote about here</a>. It's really popular for games, especially in Unity. It's not a good method, but it's a nice intro to the topic.</p>
@@ -752,7 +752,7 @@ v@P = pos[trail_length / 2];</code></pre>
 			<h3 class="mb-3">Gaussian blur</h3>
 			<p>Gaussian blur is one of the many things we can do with convolution. We just need to replace our kernel with a gaussian kernel. It looks like this.</p>
 			<img src="./images/smoothing/gaussiankernel.png" width="512" class="mb-3 mw-100">
-			<p>Stripping the formula to the bones, you can write it as <code>exp(-x * x / (size * size))</code>, where <code>x</code> is the value and <code>size</code> is the kernel size. It extends infinitely, so we need to pick a size that fits most of it between -1 and 1. I found dividing <code>size</code> by 3 works pretty well, or in other words <code>exp(-9 * x * x / (size * size))</code>. Then we normalize it so all values add to 1.</p>
+			<p>Stripping the formula to the bones, you can write it as <code>exp(-x * x / (size * size))</code>, where <code>x</code> is the value and <code>size</code> is the kernel size. It extends infinitely, so you need to pick a size that fits most of it between -1 and 1. I found dividing <code>size</code> by 3 works pretty well, or in other words <code>exp(-9 * x * x / (size * size))</code>. Then we normalize it so all values add to 1.</p>
 			<p>And just like that we have gaussian blur! Change the kernel size to set the intensity.</p>
 			<div>
 				<canvas id="gaussianCanvas" width="720" height="360" style="cursor: pointer;"></canvas>
@@ -879,9 +879,7 @@ v@P = pos_total / f@kernel_sum;</code></pre>
 			<p>Now I know what you're thinking. This looks exactly like the lerp method from before! What's the point of going through all that effort?</p>
 			<p>Well firstly, it properly reaches the target unlike the lerp method. And secondly, you can swap out the kernel to get cool effects!</p>
 			<p>Here's a cool kernel I made by accident. It turns any animation into an incredible springy mess!</p>
-			<div>
-				<img src="./images/smoothing/springykernel.png" width="960" class="mb-3 mw-100">
-			</div>
+			<img src="./images/smoothing/springykernel.png" width="960" class="mb-3 mw-100">
 			<pre><code language="js">// Make sure this matches your trail node
 int trail_length = chi("../trail1/length");
 
@@ -900,11 +898,51 @@ for (int i = 0; i < trail_length; ++i) {
 	f[]@kernel[i] = cos(2 * PI * x) * (insanity - abs(x));
 	f@kernel_sum += f[]@kernel[i];
 }</code></pre>
-			<div>
-				<img src="./images/smoothing/convolutionspringy.gif" width="640" class="mw-100">
-			</div>
+			<img src="./images/smoothing/convolutionspringy.gif" width="640" class="mw-100">
 			<p>
 				<a href="./hips/smoothing/convolution_springy.hipnc?raw=true" target="_blank">Download the HIP file!</a>
+			</p>
+			<p>These formulas are a pain to set up though. It'd be nice if we could control the kernel visually, maybe with a ramp.</p>
+			<p>Since the ramp stores the kernel for us, we can delete the Detail Wrangle and just use the Point Wrangle.</p>
+			<pre><code language="js">// Make sure this matches your trail node
+int trail_length = chi("../trail1/length");
+int point_count = npoints(0);
+
+// Convolve all frames to get the current frame
+vector pos_total = 0;
+float kernel_sum = 0;
+
+for (int frame = 0; frame < trail_length; ++frame) {
+    vector pos = point(1, "P", i@ptnum + point_count * (trail_length - 1 - frame));
+    float weight = chramp("kernel", float(frame) / (trail_length - 1));
+    pos_total += pos * weight;
+    kernel_sum += weight;
+}
+
+// Normalize so it adds to 1
+if (chi("normalize_kernel")) {
+    pos_total /= kernel_sum;
+}
+
+v@P = pos_total;</code></pre>
+			<p>I made this kernel to exaggerate the motion. It's a basic sharpening kernel, positive in the middle and negative on the sides.</p>
+			<img src="./images/smoothing/sharpenramp.png" width="860" class="mb-3 mw-100">
+			<table class="text-center">
+				<tr>
+					<th>15 frames</th>
+					<th>35 frames</th>
+				</tr>
+				<tr>
+					<td>
+						<img src="./images/smoothing/convolutioncustom.gif" width="640" class="mw-100">
+					</td>
+					<td>
+						<img src="./images/smoothing/convolutioncustom2.gif" width="640" class="mw-100">
+					</td>
+				</tr>
+			</table>
+			<p>
+				<a href="./hips/smoothing/convolution_custom.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
 			<h2 class="mb-3">Cool method: Biquad filters</h2>
 			<p>TODO: biquad filters</p>
