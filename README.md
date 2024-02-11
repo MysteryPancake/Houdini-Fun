@@ -263,6 +263,62 @@ v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.
 
 [Download the HIP file!](./hips/hdrisample.hipnc?raw=true)
 
+## Snapping to the floor
+Often it's nice to organise geometry by snapping it to the floor. Here's a few ways you can do it!
+
+[Download the HIP file!](./hips/snaptofloor.hipnc?raw=true)
+
+### Match Size
+The easiest way is using a Match Size node with "Justify Y" set to "Min". It snaps the position only, and won't affect the rotation.
+
+<img src="./images/centersnap.png?raw=true" height="320">
+
+### Dihedral
+To affect the rotation too, swalsch suggested using `dihedral()`. You can use it to rotate the normal towards a down vector.
+
+First the object needs prim normals, which you can add with a Normal node set to "Primitives".
+
+<img src="./images/primnormals.png?raw=true" height="320">
+
+Next use `dihedral()` to build the rotation matrix. Here's an example which only considers a single prim.
+
+```js
+int primIndex = 2670;
+
+// Snap object to prim center
+vector centroid = prim(0, "P", primIndex);
+vector baseN = prim(0, "N", primIndex);
+@P -= centroid;
+
+// Rotate normal vector towards down vector
+matrix3 rotMat = dihedral(baseN, {0, -1, 0});
+@P *= rotMat;
+```
+
+<img src="./images/floorsnapsingle.png?raw=true" height="480">
+
+To consider multiple prims, make a prim group and average out the normals within that group.
+
+```js
+// Get prims in a prim group called "bottom"
+int prims[] = expandprimgroup(0, "bottom");
+int primCount = len(prims);
+
+// Find average position and normal
+vector posSum = 0, normalSum = 0;
+foreach (int prim; prims) {
+    posSum += prim(0, "P", prim);
+    normalSum += prim(0, "N", prim);
+}
+
+// Snap object to average position (same as getbbox_center(0, "bottom"))
+v@P -= posSum / primCount;
+
+// Rotate average normal towards down vector
+matrix3 rotMat = dihedral(normalSum / primCount, {0, -1, 0});
+v@P *= rotMat;
+```
+
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
 
