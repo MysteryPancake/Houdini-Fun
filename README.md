@@ -306,9 +306,9 @@ int primCount = len(prims);
 
 // Find average position and normal
 vector posSum = 0, normalSum = 0;
-foreach (int prim; prims) {
-    posSum += prim(0, "P", prim);
-    normalSum += prim(0, "N", prim);
+foreach (int primIndex; prims) {
+    posSum += prim(0, "P", primIndex);
+    normalSum += prim(0, "N", primIndex);
 }
 
 // Snap object to average position (same as getbbox_center(0, "bottom"))
