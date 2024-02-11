@@ -925,6 +925,7 @@ if (chi("normalize_kernel")) {
 }
 
 v@P = pos_total;</code></pre>
+			<h4 class="mb-3">Sharpening motion</h4>
 			<p>I drew this kernel to exaggerate the motion. It's a type of sharpening kernel, positive in the middle and negative on the sides.</p>
 			<img src="./images/smoothing/sharpenramp.png" width="860" class="mb-3 mw-100">
 			<table class="text-center">
@@ -944,10 +945,16 @@ v@P = pos_total;</code></pre>
 			<p>
 				<a href="./hips/smoothing/convolution_custom.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
+			<h4 class="mb-3">Blurring motion</h4>
 			<p>We can make blurry kernels too, just like before. To make box blur (also called a moving average), just draw a flat line.</p>
 			<img src="./images/smoothing/boxblur.png" width="860" class="mb-3 mw-100">
 			<p>To approximate gaussian blur, draw a bell curve centered at 0.5.</p>
 			<img src="./images/smoothing/gaussianblur.png" width="860" class="mb-3 mw-100">
+			<p>Here's a demo with gaussian blur in blue and box blur in green. Box blur tends to blur more aggressively since it weights all samples evenly.</p>
+			<img src="./images/smoothing/convolutionblurs.gif" width="640" class="mw-100">
+			<p>
+				<a href="./hips/smoothing/convolution_blurs.hipnc?raw=true" target="_blank">Download the HIP file!</a>
+			</p>
 			<p>For another type of exaggeration, draw a ramp from negative to positive or vice-versa.</p>
 			<img src="./images/smoothing/rampkernel.png" width="860" class="mb-3 mw-100">
 			<h2 class="mb-3">Cool method: Biquad filters</h2>
