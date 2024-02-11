@@ -264,7 +264,7 @@ v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.
 [Download the HIP file!](./hips/hdrisample.hipnc?raw=true)
 
 ## Snapping to the floor
-Often it's nice to organise geometry by snapping it to the floor. Here's a few ways you can do it!
+Often it's nice to organise geometry by snapping it to the floor. Here's a few ways to do it!
 
 [Download the HIP file!](./hips/snaptofloor.hipnc?raw=true)
 
@@ -318,6 +318,20 @@ v@P -= posSum / primCount;
 matrix3 rotMat = dihedral(normalSum / primCount, {0, -1, 0});
 v@P *= rotMat;
 ```
+
+### Extract Transform
+The hackiest way is abusing Extract Transform. You flatten the prims to the floor, then approximate the transform for it.
+
+This affects position and rotation, but isn't as good as `dihedral()` since it won't flip the object past 180 degrees.
+
+1. Blast all the prims except the ones you want to snap. Use a Transform node to center them and scale them to 0 on the Y axis.
+
+<img src="./images/floorflattenprims.png?raw=true" height="480">
+
+2. Use Extract Transform to find the transform. Make sure "Extraction Method" is "Translation and Rotation" to avoid scaling and skewing!
+3. Use Transform Pieces to apply the transform, forcing the prims to the floor as much as possible.
+
+<img src="./images/floorextracttransform.png?raw=true" height="480">
 
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
