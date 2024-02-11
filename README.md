@@ -280,7 +280,7 @@ First the object needs prim normals, which you can add with a Normal node set to
 
 <img src="./images/primnormals.png?raw=true" height="320">
 
-Next use `dihedral()` to build the rotation matrix. Here's an example which only considers a single prim.
+Next pick a prim to snap to the floor, get its normal and use `dihedral()` to build the rotation matrix.
 
 ```js
 int primIndex = 2670;
@@ -297,7 +297,7 @@ matrix3 rotMat = dihedral(baseN, {0, -1, 0});
 
 <img src="./images/floorsnapsingle.png?raw=true" height="480">
 
-To consider multiple prims, make a prim group and average out the normals within that group.
+To use multiple prims, make a prim group and average out the normals within that group.
 
 ```js
 // Get prims in a prim group called "bottom"
