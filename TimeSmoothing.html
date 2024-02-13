@@ -155,10 +155,11 @@
 			<h1 class="mb-3"><span style="filter: blur(3px);">Smoothing</span> <span style="filter: blur(1.5px);">and</span> Sharpening in time</h1>
 			<p>This was inspired by a talk <a href="https://www.linkedin.com/feed/update/urn:li:activity:7159079030745452544/" target="_blank">Catherine Williams did at SydHUG</a>. She looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
 			<p>Smoothing and sharpening is a pretty cool topic I've dipped into into a few times, so I wanted to gather some popular methods and dump them into Houdini in case it helps someone. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
-			<p>For some reason Houdini doesn't really have built-in nodes for time smoothing. Unreal Engine, Blender and Maya have plenty of ways, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky and needs tons of smoothing.</p>
-			<p><b>EDIT:</b> Matt Estela mentioned the <a href="https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--smoothmotion.html" target="_blank">Smooth Motion</a> node, which it turns out runs on points too. It works as a built-in a Butterworth filter. Pretty handy!</p>
-			<p>As well as Butterworth, there's plenty of other filters we might find useful.</p>
-			<p></p>
+			<p>For some reason Houdini doesn't have many built-in nodes for time smoothing. Unreal Engine, Blender and Maya have plenty of ways, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky.</p>
+			<p><b>EDIT:</b> Matt Estela mentioned the <a href="https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--smoothmotion.html" target="_blank">Smooth Motion</a> node, which it turns out runs on points too. It works as a built-in Butterworth filter. Pretty handy!</p>
+			<p><b>EDIT 2:</b> Harrison Molling mentioned CHOPs, which have <a href="https://www.sidefx.com/docs/houdini/nodes/chop/filter.html" target="_blank">Filter</a> and <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter</a> nodes. Seems I'll need to redact my statement.</p>
+			<p>Still, there's many filters we can't get in SOPs (like convolution), and it's good to learn for customization. Let's start with the simplest filter, lerp!</p>
+			<hr>
 			<h2 class="mb-3">Basic method: Lerp</h2>
 			<p>The easiest way to smooth stuff is with lerp, <a href="./Lerp" target="_blank">which I wrote about here</a>. It's really popular for games, especially in Unity. It's not a good method, but it's a nice intro to the topic.</p>
 			<p>The idea is you start at some value, then pick a target value. Each frame you move a little bit closer to the target by some percentage. The slower you move, the smoother your path becomes.</p>
@@ -623,6 +624,7 @@ v@P = pos[trail_length / 2];</code></pre>
 				<a href="./hips/smoothing/lerp_smooth_trail_linear.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 			</p>
 			<p>While lerp works OK, there's plenty of fancier methods of smoothing out stuff. Let's try gaussian blur with convolution!</p>
+			<hr>
 			<h2 class="mb-3">Fancier method: Convolution</h2>
 			<p>Convolution solves many problems we were having before. It's practically linear phase and only needs a handful of frames, making it perfect for batch processing. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
 			<p>It works by picking a value, sampling the neighbours around it, multiplying them and adding them together. It's like what we did with lerp, except now we have precise control over how much each neighbour contributes to the final result. We can totally ignore neighbours or even flip their influence.</p>
@@ -957,6 +959,7 @@ v@P = pos_total;</code></pre>
 			</p>
 			<p>For another type of exaggeration, draw a ramp from negative to positive or vice-versa.</p>
 			<img src="./images/smoothing/rampkernel.png" width="860" class="mb-3 mw-100">
+			<hr>
 			<h2 class="mb-3">Cool method: Biquad filters</h2>
 			<p>TODO: biquad filters</p>
 		</div>
