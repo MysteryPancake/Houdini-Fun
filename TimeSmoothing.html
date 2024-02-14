@@ -284,7 +284,7 @@
 				</div>
 				<div class="col-md-9">
 					<section id="intro">
-						<h1 id="blurryTitle" class="mb-4">Smoothing and Sharpening in time</h1>
+						<h1 id="blurryTitle" class="mb-4">Smoothing and sharpening in time</h1>
 						<p>This was inspired by a talk <a href="https://www.linkedin.com/feed/update/urn:li:activity:7159079030745452544/" target="_blank">Catherine Williams did at SydHUG</a>. She looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
 						<p>Smoothing and sharpening is a pretty cool topic I've dipped into into a few times, so I wanted to gather some popular methods and dump them into Houdini in case it helps someone. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
 						<p>For some reason Houdini doesn't have many built-in nodes for time smoothing. Unreal Engine, Blender and Maya have plenty of ways, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky.</p>
@@ -711,6 +711,7 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 						<p>
 							<a href="./hips/smoothing/lerp_smooth_trail.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 						</p>
+						<h5>Linear phase version</h5>
 						<p>Sadly this version suffers from phase shift, just like the solver. The great thing with Trail is it doesn't have to. We can make linear phase filters and stack them too!</p>
 						<p>First we need a way to get frames forwards in time as well as backwards. This is as easy as adding a Time Shift node after Trail.</p>
 						<img src="./images/smoothing/trailtimeshift.png" width="640" class="mb-3 mw-100">
@@ -1014,6 +1015,7 @@ v@P = pos_total / f@kernel_sum;</code></pre>
 						</p>
 						<p>Now I know what you're thinking. This looks exactly like the lerp method from before! What's the point of going through all that effort?</p>
 						<p>Well firstly, it properly reaches the target unlike the lerp method. And secondly, you can swap out the kernel to get cool effects!</p>
+						<h4>Cool kernels</h4>
 						<p>Here's a cool kernel I made by accident. It turns any animation into an incredible springy mess!</p>
 						<img src="./images/smoothing/springykernel.png" width="960" class="mb-3 mw-100">
 						<pre><code language="js">// Make sure this matches your trail node
@@ -1061,7 +1063,7 @@ if (chi("normalize_kernel")) {
 }
 
 v@P = pos_total;</code></pre>
-						<h3>Sharp kernels</h3>
+						<h4>Sharp kernels</h4>
 						<p>Sharpening kernels are usually positive in the middle and negative on the sides. Here's one I drew to exaggerate the motion.</p>
 						<img src="./images/smoothing/sharpenramp.png" width="860" class="mb-3 mw-100">
 						<table class="text-center">
@@ -1081,7 +1083,7 @@ v@P = pos_total;</code></pre>
 						<p>
 							<a href="./hips/smoothing/convolution_custom.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 						</p>
-						<h3>Blurry kernels</h3>
+						<h4>Blurry kernels</h4>
 						<p>We can make blurry kernels too, just like before. To make box blur (also called a moving average), just draw a flat line.</p>
 						<img src="./images/smoothing/boxblur.png" width="860" class="mb-3 mw-100">
 						<p>To approximate gaussian blur, draw a bell curve centered at 0.5.</p>
