@@ -711,8 +711,8 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 						<p>
 							<a href="./hips/smoothing/lerp_smooth_trail.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 						</p>
-						<h5>Linear phase version</h5>
 						<p>Sadly this version suffers from phase shift, just like the solver. The great thing with Trail is it doesn't have to. We can make linear phase filters and stack them too!</p>
+						<h5>Linear phase version</h5>
 						<p>First we need a way to get frames forwards in time as well as backwards. This is as easy as adding a Time Shift node after Trail.</p>
 						<img src="./images/smoothing/trailtimeshift.png" width="640" class="mb-3 mw-100">
 						<p>Set the frame offset to <code>$F + (ch("../trail1/length") - 1) / 2</code>. This centers the current frame, so we have the same number of frames forwards and backwards in time.</p>
