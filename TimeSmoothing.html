@@ -251,8 +251,10 @@
 				}
 			}
 			
-			window.addEventListener("scroll", updateNavigation);
-			updateNavigation();
+			if (window.innerWidth >= 768) {
+				window.addEventListener("scroll", updateNavigation);
+				updateNavigation();
+			}
 			
 			hljs.highlightAll();
 		}
@@ -1183,8 +1185,8 @@ v@P = pos_total;</code></pre>
 						<div id="filterList"></div>
 						<script>
 						(function(){
-							// Scale down amplitude so -32dB fits on canvas
-							const dbScale = 32;
+							// Scale down amplitude so -36dB fits on canvas
+							const dbScale = 36;
 							// Scale down waveform so full amplitude fits on canvas
 							const ampScale = 0.3;
 							
@@ -1492,7 +1494,7 @@ v@P = pos_total;</code></pre>
 								addSelect(row1, row2);
 								addSlider(row1, row2, "Frequency: ", 0, Math.floor(nyquist * 0.5), 1, filter, "freq", " Hz");
 								addSlider(row1, row2, "Q: ", 0, 2, 0.001, filter, "Q");
-								addSlider(row1, row2, "Gain: ", -64, 64, 0.1, filter, "dbGain", " dB");
+								addSlider(row1, row2, "Gain: ", -dbScale, dbScale, 0.1, filter, "dbGain", " dB");
 								
 								elem.appendChild(table);
 								filterListElem.appendChild(elem);
