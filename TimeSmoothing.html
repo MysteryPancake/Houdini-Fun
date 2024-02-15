@@ -21,25 +21,36 @@
 		function lerp(a, b, factor) {
 			return (1 - factor) * a + factor * b;
 		}
+		
+		function invlerp(a, min, max) {
+			return (a - min) / (max - min);
+		}
 
 		function clamp(x, min, max) {
 			return Math.min(Math.max(x, min), max);
 		}
 		
-		function mouseClickData(e, canv, data) {
+		function gainTodB(gain) {
+			return 20.0 * Math.log10(gain);
+		}
+		
+		function mouseClickData(e, canv, data, scale) {
 			const key = Math.floor(e.offsetX / canv.width * (data.length - 1));
-			data[key] = e.offsetY / canv.height;
+			data[key] = (0.5 - e.offsetY / canv.height) / scale;
 		}
 
 		// When drawing, replace entries which were drawn over between frames
-		function mouseMoveData(e, canv, data) {
-			if (e.which !== 1) return;
+		function mouseMoveData(e, canv, data, scale) {
 			const lastKey = Math.floor((e.offsetX - e.movementX) / canv.width * (data.length - 1));
 			const currentKey = Math.floor(e.offsetX / canv.width * (data.length - 1));
+			
 			const start = Math.min(lastKey, currentKey);
 			const end = clamp(currentKey, lastKey, data.length - 1);
+			
 			for (let i = start; i <= end; ++i) {
-				data[i] = e.offsetY / canv.height;
+				const pastValue = (e.offsetY + e.movementY * Math.sign(e.movementX));
+				const line = start === end ? e.offsetY : lerp(e.offsetY, pastValue, invlerp(i, start, end));
+				data[i] = (0.5 - line / canv.height) / scale;
 			}
 		}
 		
@@ -48,14 +59,14 @@
 			const data = new Float32Array(numPoints);
 			for (let i = 0; i < numPoints; ++i) {
 				const factor = i / numPoints;
-				const sin = Math.sin(factor*10)*0.3+0.5;
-				const noiseAmount = (Math.cos(factor*15)+1)*0.2;
-				const rand = Math.random()-0.5;
+				const sin = Math.sin(factor * 10) * 0.3;
+				const noiseAmount = (Math.cos(factor * 15) + 1) * 0.2;
+				const rand = Math.random() - 0.5;
 				data[i] = sin + rand * noiseAmount;
 			}
 			return data;
 		}
-
+		
 		// Completely random data
 		function generateRandomData(numPoints) {
 			const data = new Float32Array(numPoints);
@@ -96,6 +107,13 @@
 			ctx.fillStyle = "#404040";
 			ctx.fillRect(0, 0, canv.width, canv.height);
 		}
+		
+		function drawLine(canv, ctx, x1, y1, x2, y2) {
+			ctx.beginPath();
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.stroke();
+		}
 
 		function drawConvolution(canv, ctx, data, kernelPos, weights, convAll) {
 			const columnWidth = canv.width / (data.length - 1);
@@ -119,7 +137,7 @@
 				ctx.fillStyle = "white";
 				const offset = i - kernelPos;
 				if (offset >= 0 && offset < weights.length) {
-					ctx.fillStyle = "#808080";
+					ctx.fillStyle = "#707070";
 					const height2 = weights[offset] * heightSplit * 0.5;
 					ctx.fillRect(xPos, canv.height - heightSplit - height2, columnWidth, height2);
 
@@ -141,10 +159,10 @@
 			}
 		}
 
-		function drawData(canv, ctx, data) {
+		function drawData(canv, ctx, data, scale) {
 			ctx.beginPath();
 			for (let i = 0; i < data.length; ++i) {
-				ctx.lineTo(i / (data.length - 1) * canv.width, data[i] * canv.height);
+				ctx.lineTo(i / (data.length - 1) * canv.width, (0.5 - data[i] * scale) * canv.height);
 			}
 			ctx.stroke();
 		}
@@ -274,6 +292,20 @@
 			margin-top: 1.5rem;
 			margin-bottom: 1rem;
 		}
+		
+		.biquad-filter select, .biquad-filter input {
+			width: 100%;
+		}
+
+		.biquad-filter {
+			background-color: #404040;
+			border-radius: 0.5rem;
+			color: white;
+			display: flex;
+			flex-direction: column;
+			padding: 1.2rem;
+			margin-bottom: 0.5rem;
+		}
 		</style>
 	</head>
 	<body onload="setup();">
@@ -299,7 +331,7 @@
 						<pre><code class="language-js">current = lerp(current, target, factor);</code></pre>
 						<p>Here's a demo with the smooth version in white. Click and drag to draw your own data.</p>
 						<div>
-							<canvas id="lerpCanvas" width="640" height="256" style="cursor: pointer;"></canvas>
+							<canvas id="lerpCanvas" width="640" height="200" style="cursor: pointer;"></canvas>
 						</div>
 						<div>
 							<canvas id="lerpLiveCanvas" width="640" height="32"></canvas>
@@ -328,7 +360,7 @@
 								
 								ctx.lineWidth = 2;
 								ctx.strokeStyle = "#DD2020";
-								drawData(canv, ctx, data);
+								drawData(canv, ctx, data, 1);
 								
 								ctx.strokeStyle = "white";
 								ctx.beginPath();
@@ -336,7 +368,7 @@
 								for (let i = 0; i < data.length; ++i) {
 									// The magic formula
 									current = lerp(current, data[i], lerpFac);
-									ctx.lineTo(i / (data.length - 1) * canv.width, current * canv.height);
+									ctx.lineTo(i / (data.length - 1) * canv.width, (0.5 - current) * canv.height);
 								}
 								ctx.stroke();
 							}
@@ -350,12 +382,13 @@
 							});
 
 							canv.addEventListener("click", function(e) {
-								mouseClickData(e, canv, data);
+								mouseClickData(e, canv, data, 1);
 								draw();
 							});
 							
 							canv.addEventListener("mousemove", function(e) {
-								mouseMoveData(e, canv, data);
+								if (e.which !== 1) return;
+								mouseMoveData(e, canv, data, 1);
 								draw();
 							});
 
@@ -416,7 +449,7 @@
 						<p>Phase shift is a natural part of the universe so there's nothing wrong with it, but it's annoying if you want stuff to line up. The lazy way is shifting over the graph. The proper way is using <b>linear phase</b> filters. Linear phase filters always need values forwards in time as well as backwards.</p>
 						<p>Apparently if you <a href="https://www.youtube.com/watch?v=eSyCuuSzuE4" target="_blank">smooth forwards then again in reverse</a>, it cancels out the phase shift and makes a linear phase filter. Here's a demo with the linear version in green.</p>
 						<div>
-							<canvas id="lerp3Canvas" width="640" height="256" style="cursor: pointer;"></canvas>
+							<canvas id="lerp3Canvas" width="640" height="200" style="cursor: pointer;"></canvas>
 						</div>
 						<div class="mb-3">
 							<label for="lerp3Factor">Factor</label>
@@ -442,7 +475,7 @@
 								
 								ctx.lineWidth = 2;
 								ctx.strokeStyle = "#808080";
-								drawData(canv, ctx, data);
+								drawData(canv, ctx, data, 1);
 								
 								ctx.strokeStyle = "#FF0000";
 								ctx.beginPath();
@@ -453,7 +486,7 @@
 								for (let i = 0; i < dataCopy.length; ++i) {
 									// The magic formula
 									current = lerp(current, dataCopy[i], lerpFac);
-									ctx.lineTo(i / (dataCopy.length - 1) * canv.width, current * canv.height);
+									ctx.lineTo(i / (dataCopy.length - 1) * canv.width, (0.5 - current) * canv.height);
 									dataCopy[i] = current;
 								}
 
@@ -467,7 +500,7 @@
 								for (let i = dataCopy.length - 1; i >= 0; --i) {
 									// The magic formula
 									current = lerp(current, dataCopy[i], lerpFac);
-									ctx.lineTo(i / (dataCopy.length - 1) * canv.width, current * canv.height);
+									ctx.lineTo(i / (dataCopy.length - 1) * canv.width, (0.5 - current) * canv.height);
 								}
 
 								ctx.stroke();
@@ -482,12 +515,13 @@
 							});
 
 							canv.addEventListener("click", function(e) {
-								mouseClickData(e, canv, data);
+								mouseClickData(e, canv, data, 1);
 								draw();
 							});
 							
 							canv.addEventListener("mousemove", function(e) {
-								mouseMoveData(e, canv, data);
+								if (e.which !== 1) return;
+								mouseMoveData(e, canv, data, 1);
 								draw();
 							});
 						})();
@@ -501,23 +535,29 @@
 						<p>Turns out there's a cool trick to improve it. If you stack a bunch of low order filters, you approximate a high order filter. This works surprisingly well, though it's much slower and smudgier than doing it properly.</p>
 						<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
 						<div>
-							<canvas id="lerp2Canvas" width="640" height="256" style="cursor: pointer;"></canvas>
+							<canvas id="lerp2Canvas" width="640" height="200" style="cursor: pointer;"></canvas>
 						</div>
 						<table class="mb-3">
 							<tr>
-								<td style="width: 220px;">
-									<label for="lerp2Factor">Factor</label>
-									<input id="lerp2Factor" type="range" min="0" max="1" step="0.01" value="0.1">
+								<td class="pe-3">
+									<label for="lerp2Factor">Factor:</label>
 									<span id="lerp2FactorValue"></span>
 								</td>
-								<td style="width: 220px;">
-									<label for="lerp2Layers">Layers</label>
-									<input id="lerp2Layers" type="range" min="1" max="50" step="1" value="10">
+								<td class="pe-3">
+									<label for="lerp2Layers">Layers:</label>
 									<span id="lerp2LayersValue"></span>
 								</td>
 								<td>
 									<input id="lerp2Linear" type="checkbox">
 									<label for="lerp2Linear">Linear Phase</label>
+								</td>
+							</tr>
+							<tr>
+								<td class="pe-3">
+									<input id="lerp2Factor" type="range" min="0" max="1" step="0.01" value="0.1">
+								</td>
+								<td class="pe-3">
+									<input id="lerp2Layers" type="range" min="1" max="50" step="1" value="10">
 								</td>
 							</tr>
 						</table>
@@ -549,7 +589,7 @@
 								
 								ctx.lineWidth = 2;
 								ctx.strokeStyle = "#808080";
-								drawData(canv, ctx, data);
+								drawData(canv, ctx, data, 1);
 
 								// Chain the crappy lowpass filter to approximate a higher order lowpass filter
 								const dataCopy = data.slice();
@@ -564,7 +604,7 @@
 										// The magic formula
 										current = lerp(current, dataCopy[i], lerpFac);
 										if (!linearPhase) {
-											ctx.lineTo(i / (dataCopy.length - 1) * canv.width, current * canv.height);
+											ctx.lineTo(i / (dataCopy.length - 1) * canv.width, (0.5 - current) * canv.height);
 										}
 										dataCopy[i] = current;
 									}
@@ -575,7 +615,7 @@
 										for (let i = dataCopy.length - 1; i >= 0; --i) {
 											// The magic formula
 											current = lerp(current, dataCopy[i], lerpFac);
-											ctx.lineTo(i / (dataCopy.length - 1) * canv.width, current * canv.height);
+											ctx.lineTo(i / (dataCopy.length - 1) * canv.width, (0.5 - current) * canv.height);
 											dataCopy[i] = current;
 										}
 									}
@@ -603,12 +643,13 @@
 							});
 
 							canv.addEventListener("click", function(e) {
-								mouseClickData(e, canv, data);
+								mouseClickData(e, canv, data, 1);
 								draw();
 							});
 							
 							canv.addEventListener("mousemove", function(e) {
-								mouseMoveData(e, canv, data);
+								if (e.which !== 1) return;
+								mouseMoveData(e, canv, data, 1);
 								draw();
 							});
 						})();
@@ -618,7 +659,7 @@
 						<p>You can tell from the formula. Lerp takes a percentage of two values and adds them together <a href="./Lerp" target="_blank">as described here</a>. For example if the factor is 0.9, it takes 10% of the current value and adds on 90% of the target value. That means you never get 100% of the target.</p>
 						<p>Here's a demo where the white line targets the red line. Though it may appear to, it always lies below the red line until the factor is 1.</p>
 						<div>
-							<canvas id="undershootCanvas" width="640" height="256"></canvas>
+							<canvas id="undershootCanvas" width="640" height="200"></canvas>
 						</div>
 						<div class="mb-3">
 							<label for="undershootFactor">Factor</label>
@@ -642,10 +683,7 @@
 								
 								ctx.lineWidth = 2;
 								ctx.strokeStyle = "#FF0000";
-								ctx.beginPath();
-								ctx.moveTo(0, canv.height * 0.2);
-								ctx.lineTo(canv.width, canv.height * 0.2);
-								ctx.stroke();
+								drawLine(canv, ctx, 0, canv.height * 0.2, canv.width, canv.height * 0.2);
 								
 								ctx.strokeStyle = "white";
 								ctx.beginPath();
@@ -770,24 +808,31 @@ v@P = pos[trail_length / 2];</code></pre>
 						<div>
 							<canvas id="convCanvas" width="720" height="360" style="cursor: pointer;"></canvas>
 						</div>
-						<b>Kernel weights</b>
 						<table class="mb-3">
-							<tr>
-								<td style="width: 180px;">
-									<input id="convXWeight" type="range" min="0" max="1" step="0.1" value="0.5">
+							<tr class="text-center">
+								<td class="pe-3">
 									<span id="convXWeightValue"></span>
 								</td>
-								<td style="width: 180px;">
-									<input id="convYWeight" type="range" min="0" max="1" step="0.1" value="0">
+								<td class="pe-3">
 									<span id="convYWeightValue"></span>
 								</td>
-								<td style="width: 180px;">
-									<input id="convZWeight" type="range" min="0" max="1" step="0.1" value="0.5">
+								<td class="pe-3">
 									<span id="convZWeightValue"></span>
 								</td>
 								<td>
 									<input id="convAll" type="checkbox">
 									<label for="convAll">Convolve All</label>
+								</td>
+							</tr>
+							<tr>
+								<td class="pe-3">
+									<input id="convXWeight" type="range" min="0" max="1" step="0.1" value="0.5">
+								</td>
+								<td class="pe-3">
+									<input id="convYWeight" type="range" min="0" max="1" step="0.1" value="0">
+								</td>
+								<td class="pe-3">
+									<input id="convZWeight" type="range" min="0" max="1" step="0.1" value="0.5">
 								</td>
 							</tr>
 						</table>
@@ -889,21 +934,25 @@ v@P = pos[trail_length / 2];</code></pre>
 						<h3>Gaussian blur</h3>
 						<p>Gaussian blur is one of the many things we can do with convolution. We just need to replace our kernel with a gaussian kernel. It looks like this.</p>
 						<img src="./images/smoothing/gaussiankernel.png" width="512" class="mb-3 mw-100">
-						<p>Stripping the formula to the bones, you can write it as <code>exp(-x * x / (size * size))</code>, where <code>x</code> is the value and <code>size</code> is the kernel size. It extends infinitely, so you need to pick a size that fits most of it between -1 and 1. I found dividing <code>size</code> by 3 works pretty well, or in other words <code>exp(-9 * x * x / (size * size))</code>. Then we normalize it so all values add to 1.</p>
+						<p>Stripping the formula to the bones, you can write it as <code>exp(-x * x / (size * size))</code>, where <code>x</code> is the value and <code>size</code> is the width of the shape. It extends infinitely, so you need to pick a size that fits most of it between -1 and 1. I found dividing <code>size</code> by 3 works pretty well, or in other words <code>exp(-9 * x * x / (size * size))</code>. Then we normalize it so all values add to 1.</p>
 						<p>And just like that we have gaussian blur! Change the kernel size to set the intensity.</p>
 						<div>
 							<canvas id="gaussianCanvas" width="720" height="360" style="cursor: pointer;"></canvas>
 						</div>
 						<table class="mb-3">
 							<tr>
-								<td style="width: 250px;">
-									<label for="gaussSize">Kernel Size</label>
-									<input id="gaussSize" type="range" min="1" max="65" step="2" value="5">
+								<td class="pe-3">
+									<label for="gaussSize">Kernel Size:</label>
 									<span id="gaussSizeValue"></span>
 								</td>
 								<td>
 									<input id="gaussConvAll" type="checkbox" checked>
 									<label for="gaussConvAll">Convolve All</label>
+								</td>
+							</tr>
+							<tr>
+								<td class="pe-3">
+									<input id="gaussSize" type="range" min="1" max="65" step="2" value="5">
 								</td>
 							</tr>
 						</table>
@@ -965,7 +1014,7 @@ v@P = pos[trail_length / 2];</code></pre>
 						<pre><code language="js">// Make sure this matches your trail node
 int trail_length = chi("../trail1/length");
 
-// Kernel size, divided by 3 so it fits snugly between -1 and 1
+// Width of shape, divided by 3 so it fits snugly between -1 and 1
 float size = trail_length / 3.0;
 
 // Preallocate array size
@@ -1114,7 +1163,377 @@ v@P = pos_total;</code></pre>
 						<h2>Method 3: Biquad filters</h2>
 						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter.</p>
 						<p>It gives you full control over the frequency response, so you can make precise changes without affecting other frequencies.</p>
-						<p>TODO: add demo</p>
+						<p class="mb-2">
+							<b>Time Domain</b>
+						</p>
+						<div>
+							<canvas id="biquadCanvas" width="720" height="256" style="cursor: pointer;"></canvas>
+						</div>
+						<p class="mb-2">
+							<b>Frequency Domain</b>
+						</p>
+						<div>
+							<canvas id="biquadCanvas2" width="720" height="256" style="cursor: pointer;"></canvas>
+						</div>
+						<div class="mb-2">
+							<button id="addFilter" class="btn btn-primary me-3">Add filter</button>
+							<input id="useDecibels" type="checkbox" checked>
+							<label for="useDecibels">Decibel Scale</label>
+						</div>
+						<div id="filterList"></div>
+						<script>
+						(function(){
+							// Scale down amplitude so -32dB fits on canvas
+							const dbScale = 32;
+							// Scale down waveform so full amplitude fits on canvas
+							const ampScale = 0.3;
+							
+							const addFilterElem = document.getElementById("addFilter");
+							const filterListElem = document.getElementById("filterList");
+							let filters = [];
+							
+							const canv = document.getElementById("biquadCanvas");
+							const ctx = canv.getContext("2d", { alpha: false });
+							resizeCanvasWidth(canv);
+							
+							const useDecibelsToggle = document.getElementById("useDecibels");
+							let useDecibels = useDecibelsToggle.checked;
+							
+							const sampleRate = Math.floor(canv.width * 0.5);
+
+							// We can't measure anything above half the sample rate
+							const nyquist = Math.floor(sampleRate * 0.5);
+							
+							const timeData = new Float32Array(sampleRate);
+							const timeFiltered = new Float32Array(sampleRate);
+
+							const freqData = new Float32Array(nyquist);
+							const freqFiltered = new Float32Array(nyquist);
+
+							// Generate a couple of layered sine waves
+							for (let i = 0; i < sampleRate; ++i) {
+								const factor = i / sampleRate;
+
+								// Waves complete a cycle after PI * sampleRate (nyquist * 2)
+								const lowFreq = Math.sin(factor * Math.PI * nyquist * 0.1);
+								const noiseAmount = (Math.cos(factor * 15) + 1) * 0.5;
+								const rand = Math.random() - 0.5;
+								
+								timeData[i] = lowFreq * 0.8 + noiseAmount * rand;
+							}		
+							
+							const filterSelect = ["Low Pass", "High Pass", "Band Pass", "Notch", "Peaking", "Low Shelf", "High Shelf"];
+							
+							function getCoefficients(filter) {
+								const A = Math.pow(10, filter.dbGain / 40);
+								const omega = 2 * Math.PI * filter.freq / sampleRate;
+								const sn = Math.sin(omega);
+								const cs = Math.cos(omega);
+
+								// Using Q alpha to make it easier to visualize
+								const alpha = sn / (2 * filter.Q);
+								const beta = Math.sqrt(A + A);
+								
+								// From "Simple implementation of Biquad filters" by Tom St Denis
+								let a0, a1, a2, b0, b1, b2;
+								switch (filter.type) {
+								case 0:
+									// Low pass
+									b0 = (1 - cs) * 0.5;
+									b1 = 1 - cs;
+									b2 = (1 - cs) * 0.5;
+									a0 = 1 + alpha;
+									a1 = -2 * cs;
+									a2 = 1 - alpha;
+									break;
+								case 1:
+									// High pass
+									b0 = (1 + cs) * 0.5;
+									b1 = -(1 + cs);
+									b2 = (1 + cs) * 0.5;
+									a0 = 1 + alpha;
+									a1 = -2 * cs;
+									a2 = 1 - alpha;
+									break;
+								case 2:
+									// Band pass
+									b0 = alpha;
+									b1 = 0;
+									b2 = -alpha;
+									a0 = 1 + alpha;
+									a1 = -2 * cs;
+									a2 = 1 - alpha;
+									break;
+								case 3:
+									// Notch
+									b0 = 1;
+									b1 = -2 * cs;
+									b2 = 1;
+									a0 = 1 + alpha;
+									a1 = -2 * cs;
+									a2 = 1 - alpha;
+									break;
+								case 4:
+									// Peaking
+									b0 = 1 + (alpha * A);
+									b1 = -2 * cs;
+									b2 = 1 - (alpha * A);
+									a0 = 1 + (alpha / A);
+									a1 = -2 * cs;
+									a2 = 1 - (alpha / A);
+									break;
+								case 5:
+									// Low shelf
+									b0 = A * ((A + 1) - (A - 1) * cs + beta * sn);
+									b1 = 2 * A * ((A - 1) - (A + 1) * cs);
+									b2 = A * ((A + 1) - (A - 1) * cs - beta * sn);
+									a0 = (A + 1) + (A - 1) * cs + beta * sn;
+									a1 = -2 * ((A - 1) + (A + 1) * cs);
+									a2 = (A + 1) + (A - 1) * cs - beta * sn;
+									break;
+								case 6:
+									// High shelf
+									b0 = A * ((A + 1) + (A - 1) * cs + beta * sn);
+									b1 = -2 * A * ((A - 1) + (A + 1) * cs);
+									b2 = A * ((A + 1) + (A - 1) * cs - beta * sn);
+									a0 = (A + 1) - (A - 1) * cs + beta * sn;
+									a1 = 2 * ((A - 1) - (A + 1) * cs);
+									a2 = (A + 1) - (A - 1) * cs - beta * sn;
+									break;
+								}
+								
+								// Compute coefficients
+								const c0 = b0 / a0;
+								const c1 = b1 / a0;
+								const c2 = b2 / a0;
+								const c3 = a1 / a0;
+								const c4 = a2 / a0;
+								
+								return [a0, a1, a2, b0, b1, b2, c0, c1, c2, c3, c4];
+							}
+
+							// Discrete fourier transform from https://www.youtube.com/watch?v=ITnPS8HGqLo
+							function updateDFT(data) {
+								for (let k = 0; k < data.length; ++k) {
+									let real = 0;
+									let imag = 0;
+									for (let n = 0; n < timeData.length; ++n) {
+										const phase = (2 * Math.PI * k * n) / timeData.length;
+										real += Math.cos(phase) * timeData[n];
+										imag -= Math.sin(phase) * timeData[n];
+									}
+									data[k] = Math.sqrt(real * real + imag * imag) / data.length;
+								}
+							}
+
+							function updateTimeFilters() {
+								for (let i = 0; i < filters.length; ++i) {
+									const coeffs = getCoefficients(filters[i]);
+									const c0 = coeffs[6];
+									const c1 = coeffs[7];
+									const c2 = coeffs[8];
+									const c3 = coeffs[9];
+									const c4 = coeffs[10];
+
+									let x1 = x2 = y1 = y2 = 0;
+									for (let j = 0; j < timeData.length; ++j) {
+									
+										// Apply the filter
+										const sample = i === 0 ? timeData[j] : timeFiltered[j];
+										const result = c0 * sample + c1 * x1 + c2 * x2 - c3 * y1 - c4 * y2;
+										
+										// Shift x1 to x2, sample to x1
+										x2 = x1;
+										x1 = sample;
+										
+										// Shift y1 to y2, result to y1
+										y2 = y1;
+										y1 = result;
+										
+										timeFiltered[j] = result;
+									}
+								}
+							}
+							
+							function drawTime() {
+								drawBackground(canv, ctx);
+								
+								ctx.lineWidth = 2;
+								ctx.strokeStyle = "#707070";
+								
+								// Draw middle line
+								let yPos = 0.5 * canv.height;
+								drawLine(canv, ctx, 0, yPos, canv.width, yPos);
+								
+								ctx.strokeStyle = "#FF0000";
+								// Draw clipping top line
+								yPos = (0.5 - ampScale) * canv.height;
+								drawLine(canv, ctx, 0, yPos, canv.width, yPos);
+								
+								// Draw clipping bottom line
+								yPos = (0.5 + ampScale) * canv.height;
+								drawLine(canv, ctx, 0, yPos, canv.width, yPos);
+								
+								ctx.lineWidth = 1;
+								ctx.strokeStyle = "#808080";
+								drawData(canv, ctx, timeData, ampScale);
+								
+								ctx.strokeStyle = "white";
+								drawData(canv, ctx, timeFiltered, ampScale);
+							}
+							
+							const canv2 = document.getElementById("biquadCanvas2");
+							const ctx2 = canv2.getContext("2d", { alpha: false });
+							resizeCanvasWidth(canv2);
+							
+							function drawFreq() {
+								drawBackground(canv2, ctx2);
+								
+								// Draw volume divisions
+								let yPos;
+								ctx2.lineWidth = 2;
+								ctx2.strokeStyle = "#707070";
+								for (let i = 0; i <= 1; i += 0.1) {
+									if (useDecibels) {
+										yPos = canv2.height * 0.5 - (gainTodB(i) / dbScale * 0.5) * canv2.height;
+									} else {
+										yPos = canv2.height - i * canv2.height * 0.9;
+									}
+									drawLine(canv2, ctx2, 0, yPos, canv2.width, yPos);
+								}
+								
+								// Draw clipping line
+								ctx2.strokeStyle = "#FF0000";
+								if (useDecibels) {
+									yPos = canv2.height * 0.5;
+								} else {
+									yPos = canv2.height * 0.1;
+								}
+								drawLine(canv2, ctx2, 0, yPos, canv2.width, yPos);
+								
+								// Draw magnitude graph
+								ctx2.fillStyle = "#EEEEEE";
+								ctx2.beginPath();
+								ctx2.moveTo(0, canv2.height);
+								for (let i = 0; i < freqData.length; ++i) {
+									const mag = freqData[i];
+									if (useDecibels) {
+										yPos = canv2.height * 0.5 - (gainTodB(mag) / dbScale * 0.5) * canv.height;
+									} else {
+										yPos = canv2.height - mag * canv2.height * 0.9;
+									}
+									ctx2.lineTo(i / (freqData.length - 1) * canv2.width, yPos);
+								}
+								ctx2.lineTo(canv2.width, canv2.height);
+								ctx2.fill();
+							}
+							
+							function addSelect(row1, row2) {
+								row1.insertCell(-1).textContent = "Type";
+
+								const typeSelect = document.createElement("select");
+								for (let i = 0; i < filterSelect.length; ++i) {
+									const option = document.createElement("option");
+									option.text = filterSelect[i];
+									option.value = i;
+									typeSelect.add(option);
+								}
+								row2.insertCell(-1).appendChild(typeSelect);
+							}
+							
+							function addSlider(row1, row2, text, min, max, step, filterObj, key, units) {
+								const label = document.createElement("label");
+								label.textContent = text;
+								row1.insertCell(-1).appendChild(label);
+								
+								const val = document.createElement("span");
+								const value = filterObj[key];
+								val.textContent = value;
+								label.appendChild(val);
+								
+								if (units) {
+									const unit = document.createElement("span");
+									unit.textContent = units;
+									label.appendChild(unit);
+								}
+								
+								const slider = document.createElement("input");
+								slider.type = "range";
+								slider.min = min;
+								slider.max = max;
+								slider.value = value;
+								slider.step = step;
+								slider.addEventListener("input", function(e) {
+									val.textContent = e.target.value;
+									filterObj[key] = e.target.value;
+									updateTimeFilters();
+									drawTime();
+								});
+								
+								row2.insertCell(-1).appendChild(slider);
+							}
+							
+							function addFilter() {
+								const filter = {
+									"type": 0,
+									"freq": Math.floor(nyquist * 0.25),
+									"Q": 0.707,
+									"dbGain": 3
+								};
+							
+								// Add new element
+								const elem = document.createElement("div");
+								elem.className = "biquad-filter";
+								
+								const table = document.createElement("table");
+								const row1 = table.insertRow(-1);
+								const row2 = table.insertRow(-1);
+								
+								addSelect(row1, row2);
+								addSlider(row1, row2, "Frequency: ", 0, Math.floor(nyquist * 0.5), 1, filter, "freq", " Hz");
+								addSlider(row1, row2, "Q: ", 0, 2, 0.001, filter, "Q");
+								addSlider(row1, row2, "Gain: ", -64, 64, 0.1, filter, "dbGain", " dB");
+								
+								elem.appendChild(table);
+								filterListElem.appendChild(elem);
+								
+								// Add new entry
+								filters.push(filter);
+
+								updateTimeFilters();
+								drawTime();
+							}
+
+							canv.addEventListener("click", function(e) {
+								mouseClickData(e, canv, timeData, ampScale);
+								updateTimeFilters();
+								updateDFT(freqData);
+								drawTime();
+								drawFreq();
+							});
+							
+							canv.addEventListener("mousemove", function(e) {
+								if (e.which !== 1) return;
+								mouseMoveData(e, canv, timeData, ampScale);
+								updateTimeFilters();
+								updateDFT(freqData);
+								drawTime();
+								drawFreq();
+							});
+							
+							useDecibelsToggle.addEventListener("input", function(e) {
+								useDecibels = e.target.checked;
+								drawFreq();
+							});
+							
+							addFilterElem.addEventListener("click", addFilter);
+
+							updateDFT(freqData);
+							addFilter();
+							drawFreq();
+						})();
+						</script>
+						<p>TODO: finish this</p>
 						<p>
 							<a href="./hips/smoothing/biquad_equalizer.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 						</p>
