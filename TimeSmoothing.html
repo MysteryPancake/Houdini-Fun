@@ -1234,7 +1234,7 @@ v@P = pos_total;</code></pre>
 							const timeAfter = new Float32Array(numSamples); // After filtering
 							
 							// Storage for frequency response of all filters
-							const freqResponse = new Float32Array(nyquist);
+							const freqResponse = new Float32Array(numSamples);
 							
 							// Storage for frequency domain magnitudes
 							const freqBefore = new Float32Array(nyquist); // Before filtering
@@ -1415,19 +1415,22 @@ v@P = pos_total;</code></pre>
 							}
 							
 							function updateFreqResponse() {
-								for (let k = 0; k < freqResponse.length; k++) {
-									let pos = Math.sin(Math.PI * k / numSamples);
+								for (let i = 0; i < freqResponse.length; ++i) {
+									let pos = Math.sin(Math.PI * i / freqResponse.length * 0.5);
 									pos *= pos;
 									
 									// Apply each filter in series, multiply all magnitudes together
-									freqResponse[k] = 1;
-									for (let i = 0; i < filters.length; ++i) {
-										const co = filters[i].coefficients;
-										freqResponse[k] *= getFreqResponse(co, pos);
+									freqResponse[i] = 1;
+									for (let j = 0; j < filters.length; ++j) {
+										const co = filters[j].coefficients;
+										freqResponse[i] *= getFreqResponse(co, pos);
 									}
-									
-									// Update frequency spectrum
-									freqAfter[k] = freqBefore[k] * freqResponse[k];
+								}
+
+								// Update frequency spectrum
+								for (let i = 0; i < freqAfter.length; ++i) {
+									const nearest = Math.floor(i / freqAfter.length * freqResponse.length);
+									freqAfter[i] = freqBefore[i] * freqResponse[nearest];
 								}
 							}
 							
