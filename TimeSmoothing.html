@@ -172,6 +172,7 @@
 			let list = document.getElementById("toc");
 			const content = document.getElementById("content");
 			const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+			const hash = window.location.hash.slice(1);
 			let lastLevel = 0;
 			let headingItems = [];
 			
@@ -213,6 +214,11 @@
 				list.appendChild(item);
 				lastLevel = level;
 				headingItems.push({ "link": link, "header": heading });
+
+				// Scroll to linked heading
+				if (ref === hash) {
+					heading.scrollIntoView(true);
+				}
 			});
 			
 			const blurry = document.getElementById("blurryTitle");
