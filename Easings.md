@@ -1,5 +1,5 @@
 # Houdini Easings
-Easings are the foundation of motion graphics, and great for adding flair to your animations. [Easings.net](https://easings.net/) has a bunch of common easings.
+Easings are the foundation of motion graphics, and great for adding flair to animations. [Easings.net](https://easings.net/) has a bunch of common easings.
 
 I ported them to JavaScript on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
 
@@ -17,7 +17,7 @@ float x = clamp(f@Time, 0, 1);
 v@P.x += outCubic(x);
 ```
 
-Also be sure to check out easings by [Tackyflea](https://github.com/Tackyflea/Houdini-Eases) and [Lucky Dee](https://luckydee.gumroad.com/l/elTween?layout=profile)!
+Also check out easings by [Tackyflea](https://github.com/Tackyflea/Houdini-Eases) and [Lucky Dee](https://luckydee.gumroad.com/l/elTween?layout=profile)!
 
 ## Ease In Sine
 
