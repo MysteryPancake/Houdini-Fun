@@ -1233,8 +1233,10 @@ v@P = pos_total;</code></pre>
 						<div class="mb-2">
 							<button id="addFilter" class="btn btn-primary me-3"><i class="bi bi-plus-lg"></i> Add filter</button>
 							<div class="float-end">
-								<input id="useDecibels" type="checkbox" checked>
-								<label for="useDecibels">Decibel Scale</label>
+								<input id="biquadLinear" type="checkbox">
+								<label for="biquadLinear">Linear Phase</label>
+								<input id="biquadDecibels" type="checkbox" checked>
+								<label for="biquadDecibels">Decibel Scale</label>
 							</div>
 						</div>
 						<div id="filterList"></div>
@@ -1253,8 +1255,11 @@ v@P = pos_total;</code></pre>
 							const ctx = canv.getContext("2d", { alpha: false });
 							resizeCanvasWidth(canv);
 							
-							const useDecibelsToggle = document.getElementById("useDecibels");
+							const useDecibelsToggle = document.getElementById("biquadDecibels");
 							let useDecibels = useDecibelsToggle.checked;
+
+							const linearPhaseToggle = document.getElementById("biquadLinear");
+							let linearPhase = linearPhaseToggle.checked;
 							
 							const numSamples = Math.floor(canv.width * 0.5);
 							const sampleRate = numSamples;
@@ -1360,20 +1365,19 @@ v@P = pos_total;</code></pre>
 									break;
 								}
 								
-								// The most important coefficients
+								// These actually get used for filtering
 								const c0 = b0 / a0;
 								const c1 = b1 / a0;
 								const c2 = b2 / a0;
 								const c3 = a1 / a0;
 								const c4 = a2 / a0;
 								
-								return {
+								return new Float32Array([
 									// Coefficients used to display the frequency response
-									"a0": a0, "a1": a1, "a2": a2,
-									"b0": b0, "b1": b1, "b2": b2,
+									a0, a1, a2, b0, b1, b2,
 									// Coefficients used for actual filtering
-									"c0": c0, "c1": c1, "c2": c2, "c3": c3, "c4": c4
-								};
+									c0, c1, c2, c3, c4
+								]);
 							}
 
 							// Discrete fourier transform from https://www.youtube.com/watch?v=ITnPS8HGqLo
@@ -1391,60 +1395,99 @@ v@P = pos_total;</code></pre>
 							}
 
 							function updateTimeResponse() {
-								// Use the original signal when no filters are active
-								if (filters.length <= 0) {
-									timeAfter.set(timeBefore);
-									return;
-								}
-							
-								for (let i = 0; i < filters.length; ++i) {
-									const arr = i === 0 ? timeBefore : timeAfter;
-									const co = filters[i].coefficients;
-									let x1 = x2 = y1 = y2 = 0;
-									
-									for (let j = 0; j < arr.length; ++j) {
-										// Apply the filter
-										const sample = arr[j];
-										const result = co.c0 * sample + co.c1 * x1 + co.c2 * x2 - co.c3 * y1 - co.c4 * y2;
-										
-										// Shift x1 to x2, sample to x1
-										x2 = x1;
-										x1 = sample;
-										
-										// Shift y1 to y2, result to y1
-										y2 = y1;
-										y1 = result;
+								timeAfter.set(timeBefore);
 
-										timeAfter[j] = result;
+								// Use the original signal when no filters are active
+								if (filters.length <= 0) return;
+								
+								for (let i = 0; i < filters.length; ++i) {
+									const co = filters[i].coefficients;
+									for (let j = 0; j < co.length; j += 11) {
+										const c0 = co[j + 6];
+										const c1 = co[j + 7];
+										const c2 = co[j + 8];
+										const c3 = co[j + 9];
+										const c4 = co[j + 10];
+
+										// Forwards in time
+										let x1 = x2 = y1 = y2 = 0;
+										for (let k = 0; k < timeAfter.length; ++k) {
+											// Apply the filter
+											const sample = timeAfter[k];
+											const result = c0 * sample + c1 * x1 + c2 * x2 - c3 * y1 - c4 * y2;
+											
+											// Shift x1 to x2, sample to x1
+											x2 = x1;
+											x1 = sample;
+											
+											// Shift y1 to y2, result to y1
+											y2 = y1;
+											y1 = result;
+
+											timeAfter[k] = result;
+										}
+
+										if (linearPhase) {
+											// Backwards in time
+											x1 = x2 = y1 = y2 = 0;
+											for (let k = timeAfter.length - 1; k >= 0; --k) {
+												// Apply the filter
+												const sample = timeAfter[k];
+												const result = c0 * sample + c1 * x1 + c2 * x2 - c3 * y1 - c4 * y2;
+												
+												// Shift x1 to x2, sample to x1
+												x2 = x1;
+												x1 = sample;
+												
+												// Shift y1 to y2, result to y1
+												y2 = y1;
+												y1 = result;
+
+												timeAfter[k] = result;
+											}
+										}
 									}
 								}
 							}
 							
 							// From https://www.desmos.com/calculator/m1m7rhdpda
-							function getFreqResponse(co, pos) {
-								const fa = (co.b0 + co.b1 + co.b2) * 0.5;
-								const fb = (co.a0 + co.a1 + co.a2) * 0.5;
-								const fc = fa * fa - pos * (4 * co.b0 * co.b2 * (1 - pos) + co.b1 * (co.b0 + co.b2));
-								const fd = fb * fb - pos * (4 * co.a0 * co.a2 * (1 - pos) + co.a1 * (co.a0 + co.a2));
+							function getFreqResponse(co, i, pos) {
+								const a0 = co[i];
+								const a1 = co[i + 1];
+								const a2 = co[i + 2];
+								const b0 = co[i + 3];
+								const b1 = co[i + 4];
+								const b2 = co[i + 5];
+
+								const fa = (b0 + b1 + b2) * 0.5;
+								const fb = (a0 + a1 + a2) * 0.5;
+								const fc = fa * fa - pos * (4 * b0 * b2 * (1 - pos) + b1 * (b0 + b2));
+								const fd = fb * fb - pos * (4 * a0 * a2 * (1 - pos) + a1 * (a0 + a2));
+
 								return Math.sqrt(fc / fd);
 							}
 							
 							// From https://www.earlevel.com/main/2016/09/29/cascading-filters/
 							function getButterworthQs(order) {
-								const Q = [];
+								const oddPoles = order % 2 === 1;
+								const pairs = Math.floor(order * 0.5);
+								const Qs = new Float32Array(pairs + oddPoles);
 								const poleInc = Math.PI / order;
+								
+								// Odd order doesn't work since it requires first order filters
+								// I only bothered implementing second order biquad filters
 								let firstAngle = poleInc;
-								if (order % 2 == 0) {
-									firstAngle *= 0.5;
+								if (oddPoles) {
+									Qs[0] = 0.5;
 								} else {
-									Q.push(0.5);
+									firstAngle *= 0.5;
 								}
 								
-								const pairs = Math.floor(order * 0.5);
 								for (let i = 0; i < pairs; i++) {
-									Q.push(1 / (2 * Math.cos(firstAngle + i * poleInc)));
+									Qs[i + oddPoles] = 1 / (2 * Math.cos(firstAngle + i * poleInc));
 								}
-								return Q;
+
+								return Qs;
 							}
 							
 							function updateFreqResponse() {
@@ -1456,7 +1499,14 @@ v@P = pos_total;</code></pre>
 									freqResponse[i] = 1;
 									for (let j = 0; j < filters.length; ++j) {
 										const co = filters[j].coefficients;
-										freqResponse[i] *= getFreqResponse(co, pos);
+										for (let k = 0; k < co.length; k += 11) {
+											let response = getFreqResponse(co, k, pos);
+											// Since I used brute force linear phase by running the filter twice, the response is squared
+											if (linearPhase) {
+												response *= response;
+											}
+											freqResponse[i] *= response;
+										}
 									}
 								}
 
@@ -1563,7 +1613,20 @@ v@P = pos_total;</code></pre>
 							}
 							
 							function updateCoefficients(filter) {
-								filter.coefficients = getCoefficients(filter.type, filter.freq, filter.Q, filter.dbGain);
+								if (filter.type > 6) {
+									// Butterworth filter, made by stacking biquads. Merge all biquad coefficients into one giant list
+									// [a0, a1, a2, b0, b1, b2, c0, c1, c2, c3, c4, a0, a1, a2, b0, b1, b2...]
+									const Qs = getButterworthQs(filter.order);
+									filter.coefficients = new Float32Array(Qs.length * 11);
+									for (let i = 0; i < Qs.length; ++i) {
+										const co = getCoefficients(filter.type, filter.freq, Qs[i], filter.dbGain);
+										filter.coefficients.set(co, i * 11);
+									}
+								} else {
+									// Regular filter, store coefficients normally
+									// [a0, a1, a2, b0, b1, b2, c0, c1, c2, c3, c4]
+									filter.coefficients = getCoefficients(filter.type, filter.freq, filter.Q, filter.dbGain);
+								}
 							}
 							
 							const filterOptions = [
@@ -1670,7 +1733,7 @@ v@P = pos_total;</code></pre>
 								addSlider(elem, "Gain: ", -dbScale, dbScale, 0.1, filter, "dbGain", " dB");
 								
 								// Butterworth only
-								addSlider(elem, "Order: ", 2, 32, 2, filter, "order");
+								addSlider(elem, "Order: ", 2, 16, 2, filter, "order");
 								
 								disableElems(filter);
 								updateCoefficients(filter);
@@ -1724,6 +1787,14 @@ v@P = pos_total;</code></pre>
 							
 							useDecibelsToggle.addEventListener("input", function(e) {
 								useDecibels = e.target.checked;
+								drawFreq();
+							});
+
+							linearPhaseToggle.addEventListener("input", function(e) {
+								linearPhase = e.target.checked;
+								updateTimeResponse();
+								updateFreqResponse();
+								drawTime();
 								drawFreq();
 							});
 							
