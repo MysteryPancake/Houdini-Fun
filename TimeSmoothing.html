@@ -14,6 +14,7 @@
 		<link rel="stylesheet" href="./scripts/highlight.min.css">
 		<script src="./scripts/highlight.min.js"></script>
 		<link href="./scripts/bootstrap.min.css" rel="stylesheet">
+		<link href="./scripts/bootstrap-icons.min.css" rel="stylesheet">
 		<script>
 		// This uses requestFrame(), some browsers name it differently so this finds the best alternative
 		const requestFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(e) { return window.setTimeout(e, 1000 / 60); };
@@ -311,6 +312,11 @@
 			column-gap: 1rem;
 			row-gap: 0.5rem;
 			padding: 1.2rem;
+		}
+
+		.biquad-filter select {
+			border-radius: 0.5rem;
+			padding: 0.2rem;
 		}
 		</style>
 	</head>
@@ -748,10 +754,12 @@
 						<pre><code class="language-js">v@P = lerp(v@P, v@opinput1_P, chf("factor"));</code></pre>
 						<p>Here's before and after. It smooths out most of the noise, but reduces the range of motion too much.</p>
 						<img src="./images/smoothing/lerpsmoothsolver.gif" width="640" class="mw-100">
-						<p>
-							<a href="./hips/smoothing/lerp_smooth_solver.hipnc?raw=true" target="_blank">Download the HIP file!</a>
-						</p>
-						<p>Although solvers are more robust, to get linear phase we'd have to chain a bunch of solvers in a row. We can avoid this with Trail.</p>
+						<div class="my-2">
+							<a href="./hips/smoothing/lerp_smooth_solver.hipnc?raw=true" target="_blank">
+								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
+							</a>
+						</div>
+						<p>Although solvers are more robust and accurate, we can get a decent approximation with Trail.</p>
 						<h4>Option 2: Trail</h4>
 						<p>Instead of sampling all past frames, it's faster to sample a handful of past frames and try to guess the future from them. This is called a <b>sliding window</b> technique, which Catherine used for her demo. It's good for production since it can be batch processed and run in parallel. <a href="https://www.shadertoy.com/view/dtlSWH" target="_blank">I used it to make a GPU equalizer</a>. However it's inaccurate for lerp-based smoothing, since it ignores jolts if it has no idea they happened.</p>
 						<p>To try it, add a Trail node and a Point Wrangle. Plug the trail into the second wrangle input.</p>
@@ -779,9 +787,11 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 }</code></pre>
 						<p>Here's before and after. It looks pretty similar, but jitters more since it keeps forgetting past samples.</p>
 						<img src="./images/smoothing/lerpsmoothtrail.gif" width="640" class="mw-100">
-						<p>
-							<a href="./hips/smoothing/lerp_smooth_trail.hipnc?raw=true" target="_blank">Download the HIP file!</a>
-						</p>
+						<div class="my-2">
+							<a href="./hips/smoothing/lerp_smooth_trail.hipnc?raw=true" target="_blank">
+								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
+							</a>
+						</div>
 						<p>Sadly this version suffers from phase shift, just like the solver. The great thing with Trail is it doesn't have to. We can make linear phase filters and stack them too!</p>
 						<h5>Linear phase version</h5>
 						<p>First we need a way to get frames forwards in time as well as backwards. This is as easy as adding a Time Shift node after Trail.</p>
@@ -827,9 +837,11 @@ for (int i = 0; i < layers; ++i) {
 v@P = pos[trail_length / 2];</code></pre>
 						<p>Thanks to looking into the future, we can anticipate motion before it even happens. Here's a demo with the linear phase version in green and the original version in red.</p>
 						<img src="./images/smoothing/lerpsmoothtraillinear.gif" width="540" class="mw-100">
-						<p>
-							<a href="./hips/smoothing/lerp_smooth_trail_linear.hipnc?raw=true" target="_blank">Download the HIP file!</a>
-						</p>
+						<div class="my-2">
+							<a href="./hips/smoothing/lerp_smooth_trail_linear.hipnc?raw=true" target="_blank">
+								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
+							</a>
+						</div>
 						<p>While lerp works OK, there's plenty of fancier methods of smoothing out stuff. Let's learn about convolution!</p>
 						<h2 id="method-2-convolution">Method 2: Convolution</h2>
 						<p>Convolution solves many problems we were having before. It's practically linear phase and only needs a handful of frames, making it perfect for batch processing. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
@@ -1092,9 +1104,11 @@ v@P = pos_total / f@kernel_sum;</code></pre>
 								</td>
 							</tr>
 						</table>
-						<p>
-							<a href="./hips/smoothing/convolution_smoothing.hipnc?raw=true" target="_blank">Download the HIP file!</a>
-						</p>
+						<div class="my-2">
+							<a href="./hips/smoothing/convolution_smoothing.hipnc?raw=true" target="_blank">
+								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
+							</a>
+						</div>
 						<p>Now I know what you're thinking. This looks exactly like the lerp method from before! What's the point of going through all that effort?</p>
 						<p>Well firstly, it properly reaches the target unlike the lerp method. And secondly, you can swap out the kernel to get cool effects!</p>
 						<h4>Cool kernels</h4>
@@ -1119,9 +1133,11 @@ for (int i = 0; i < trail_length; ++i) {
 	f@kernel_sum += f[]@kernel[i];
 }</code></pre>
 						<img src="./images/smoothing/convolutionspringy.gif" width="640" class="mw-100">
-						<p>
-							<a href="./hips/smoothing/convolution_springy.hipnc?raw=true" target="_blank">Download the HIP file!</a>
-						</p>
+						<div class="my-2">
+							<a href="./hips/smoothing/convolution_springy.hipnc?raw=true" target="_blank">
+								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
+							</a>
+						</div>
 						<p>These formulas are a pain to set up though. It'd be nice if we could control the kernel visually, maybe with a ramp.</p>
 						<p>Since the ramp stores the kernel for us, we can delete the Detail Wrangle and just use the Point Wrangle.</p>
 						<pre><code language="js">// Make sure this matches your trail node
@@ -1162,9 +1178,11 @@ v@P = pos_total;</code></pre>
 								</td>
 							</tr>
 						</table>
-						<p>
-							<a href="./hips/smoothing/convolution_custom.hipnc?raw=true" target="_blank">Download the HIP file!</a>
-						</p>
+						<div class="my-2">
+							<a href="./hips/smoothing/convolution_custom.hipnc?raw=true" target="_blank">
+								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
+							</a>
+						</div>
 						<h4>Blurry kernels</h4>
 						<p>We can make blurry kernels too, just like before. To make box blur (also called a moving average), just draw a flat line.</p>
 						<img src="./images/smoothing/boxblur.png" width="860" class="mb-3 mw-100">
@@ -1172,18 +1190,22 @@ v@P = pos_total;</code></pre>
 						<img src="./images/smoothing/gaussianblur.png" width="860" class="mb-3 mw-100">
 						<p>Here's a demo with gaussian blur in blue and box blur in green. Box blur tends to blur more aggressively since it uses all samples equally.</p>
 						<img src="./images/smoothing/convolutionblurs.gif" width="640" class="mw-100">
-						<p>
-							<a href="./hips/smoothing/convolution_blurs.hipnc?raw=true" target="_blank">Download the HIP file!</a>
-						</p>
+						<div class="my-2">
+							<a href="./hips/smoothing/convolution_blurs.hipnc?raw=true" target="_blank">
+								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
+							</a>
+						</div>
 						<p>For another type of exaggeration, draw a ramp from negative to positive or vice-versa.</p>
 						<img src="./images/smoothing/rampkernel.png" width="860" class="mb-3 mw-100">
 						<p>TODO: ADD DEMO AND HIP FILE</p>
 						<h3>Topology convolution</h3>
 						<p>Going off track for a bit, I started wondering what happens if you convolve geometry instead of time.</p>
 						<p>Convolution just needs neighbours and weights. Let's sample a bunch of nearby points, multiply them by weights and add them together. Just like Attribute Blur, we could do it by connectivity or proximity.</p>
-						<p>
-							<a href="./hips/smoothing/convolution_topology.hipnc?raw=true" target="_blank">Download the HIP file!</a>
-						</p>
+						<div class="my-2">
+							<a href="./hips/smoothing/convolution_topology.hipnc?raw=true" target="_blank">
+								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
+							</a>
+						</div>
 						<h4>Option 1: Connectivity</h4>
 						<p>If the geometry is connected by edges, we can weigh each point by how many edges away it is from the current point.</p>
 						<p>For example, TODO: ADD LINE DIAGRAM HERE</p>
@@ -1209,7 +1231,7 @@ v@P = pos_total;</code></pre>
 							<canvas id="biquadCanvas2" width="720" height="256" style="cursor: pointer;"></canvas>
 						</div>
 						<div class="mb-2">
-							<button id="addFilter" class="btn btn-primary me-3">Add filter</button>
+							<button id="addFilter" class="btn btn-primary me-3"><i class="bi bi-plus-lg"></i> Add filter</button>
 							<div class="float-end">
 								<input id="useDecibels" type="checkbox" checked>
 								<label for="useDecibels">Decibel Scale</label>
@@ -1712,9 +1734,11 @@ v@P = pos_total;</code></pre>
 						})();
 						</script>
 						<p>TODO: finish this</p>
-						<p>
-							<a href="./hips/smoothing/biquad_equalizer.hipnc?raw=true" target="_blank">Download the HIP file!</a>
-						</p>
+						<div class="my-2">
+							<a href="./hips/smoothing/biquad_equalizer.hipnc?raw=true" target="_blank">
+								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
