@@ -1613,19 +1613,25 @@ v@P = pos_total;</code></pre>
 							}
 							
 							function updateCoefficients(filter) {
+								let dbGain = filter.dbGain;
+								// Try to match frequency response with linear phase enabled
+								// Ideally the magnitude would be exactly sqrt but I don't know how to achieve that
+								if (linearPhase) {
+									dbGain *= 0.5;
+								}
 								if (filter.type > 6) {
 									// Butterworth filter, made by stacking biquads. Merge all biquad coefficients into one giant list
 									// [a0, a1, a2, b0, b1, b2, c0, c1, c2, c3, c4, a0, a1, a2, b0, b1, b2...]
 									const Qs = getButterworthQs(filter.order);
 									filter.coefficients = new Float32Array(Qs.length * 11);
 									for (let i = 0; i < Qs.length; ++i) {
-										const co = getCoefficients(filter.type, filter.freq, Qs[i], filter.dbGain);
+										const co = getCoefficients(filter.type, filter.freq, Qs[i], dbGain);
 										filter.coefficients.set(co, i * 11);
 									}
 								} else {
 									// Regular filter, store coefficients normally
 									// [a0, a1, a2, b0, b1, b2, c0, c1, c2, c3, c4]
-									filter.coefficients = getCoefficients(filter.type, filter.freq, filter.Q, filter.dbGain);
+									filter.coefficients = getCoefficients(filter.type, filter.freq, filter.Q, dbGain);
 								}
 							}
 							
@@ -1792,6 +1798,7 @@ v@P = pos_total;</code></pre>
 
 							linearPhaseToggle.addEventListener("input", function(e) {
 								linearPhase = e.target.checked;
+								filters.forEach((filter) => updateCoefficients(filter));
 								updateTimeResponse();
 								updateFreqResponse();
 								drawTime();
