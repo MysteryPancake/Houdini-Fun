@@ -1798,7 +1798,7 @@ v@P = pos_total;</code></pre>
 
 							linearPhaseToggle.addEventListener("input", function(e) {
 								linearPhase = e.target.checked;
-								filters.forEach((filter) => updateCoefficients(filter));
+								filters.forEach(updateCoefficients);
 								updateTimeResponse();
 								updateFreqResponse();
 								drawTime();
