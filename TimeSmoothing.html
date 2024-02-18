@@ -332,7 +332,7 @@
 						<p>This was inspired by a talk <a href="https://www.linkedin.com/feed/update/urn:li:activity:7159079030745452544/" target="_blank">Catherine Williams did at SydHUG</a>. Catherine looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
 						<p>Smoothing and sharpening is a cool topic I've dipped into into a few times, so I wanted to gather some popular methods and dump them into Houdini in case it helps someone. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
 						<p>Unreal Engine, Blender and Maya have plenty of smoothing tools, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky. Houdini has tools as well, but they're harder to find. Matt Estela mentioned the <a href="https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--smoothmotion.html" target="_blank">Smooth Motion</a> node, which it turns out runs on points too. Harrison Molling mentioned CHOPs, which have <a href="https://www.sidefx.com/docs/houdini/nodes/chop/filter.html" target="_blank">Filter</a> and <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter</a> nodes.</p>
-						<p>I didn't know these existed, so I made 3 methods myself. Lots of this is new to Houdini, so stick around!</p>
+						<p>I didn't know these existed until recently, so I made 3 methods myself. Lots of this is new to Houdini, so stick around!</p>
 						<ol>
 							<li>
 								<a href="#method-1-lerp">Lerp</a> (simplest lowpass, used for games)
@@ -1066,7 +1066,7 @@ float size = trail_length / 3.0;
 resize(f[]@kernel, trail_length);
 f@kernel_sum = 0;
 
-// Build guassian kernel (array of floats)
+// Build gaussian kernel (array of floats)
 for (int i = 0; i < trail_length; ++i) {
 	// Center it on the middle value
 	float x = i - (trail_length - 1) / 2.0;
@@ -1138,8 +1138,8 @@ for (int i = 0; i < trail_length; ++i) {
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
-						<p>These formulas are a pain to set up though. It'd be nice if we could control the kernel visually, maybe with a ramp.</p>
-						<p>Since the ramp stores the kernel for us, we can delete the Detail Wrangle and just use the Point Wrangle.</p>
+						<p>This way of building kernels is ugly and hard. It'd be nicer if we could draw kernels visually with a ramp.</p>
+						<p>We can delete the Detail Wrangle and just use the Point Wrangle, since the ramp stores the kernel for us.</p>
 						<pre><code language="js">// Make sure this matches your trail node
 int trail_length = chi("../trail1/length");
 int point_count = npoints(0);
@@ -1161,6 +1161,9 @@ if (chi("normalize_kernel")) {
 }
 
 v@P = pos_total;</code></pre>
+						<p>Now we can easily experiment with different shapes! I found this one also has a crazy effect on the motion.</p>
+						<img src="./images/smoothing/rampkernel.png" width="860" class="mb-3 mw-100">
+						<p>TODO: ADD DEMO AND HIP FILE</p>
 						<h4>Sharp kernels</h4>
 						<p>Sharpening kernels are usually positive in the middle and negative on the sides. Here's one I drew to exaggerate the motion.</p>
 						<img src="./images/smoothing/sharpenramp.png" width="860" class="mb-3 mw-100">
@@ -1195,9 +1198,6 @@ v@P = pos_total;</code></pre>
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
-						<p>For another type of exaggeration, draw a ramp from negative to positive or vice-versa.</p>
-						<img src="./images/smoothing/rampkernel.png" width="860" class="mb-3 mw-100">
-						<p>TODO: ADD DEMO AND HIP FILE</p>
 						<h3>Topology convolution</h3>
 						<p>Going off track for a bit, I started wondering what happens if you convolve geometry instead of time.</p>
 						<p>Convolution just needs neighbours and weights. Let's sample a bunch of nearby points, multiply them by weights and add them together. Just like Attribute Blur, we could do it by connectivity or proximity.</p>
