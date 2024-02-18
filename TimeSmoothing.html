@@ -326,21 +326,21 @@
 						<p>This was inspired by a talk <a href="https://www.linkedin.com/feed/update/urn:li:activity:7159079030745452544/" target="_blank">Catherine Williams did at SydHUG</a>. Catherine looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
 						<p>Smoothing and sharpening is a cool topic I've dipped into into a few times, so I wanted to gather some popular methods and dump them into Houdini in case it helps someone. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
 						<p>Unreal Engine, Blender and Maya have plenty of smoothing tools, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky. Houdini has tools as well, but they're harder to find. Matt Estela mentioned the <a href="https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--smoothmotion.html" target="_blank">Smooth Motion</a> node, which it turns out runs on points too. Harrison Molling mentioned CHOPs, which have <a href="https://www.sidefx.com/docs/houdini/nodes/chop/filter.html" target="_blank">Filter</a> and <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter</a> nodes.</p>
-						<p>I didn't know these existed, so I made 3 methods from scratch. Lots of this is new to Houdini and fun to learn, so stick around!</p>
+						<p>I didn't know these existed, so I made 3 methods myself. Lots of this is new to Houdini, so stick around!</p>
 						<ol>
 							<li>
-								<a href="#lerpHeader">Lerp</a> (simplest lowpass, used for games)
+								<a href="#method-1-lerp">Lerp</a> (simplest lowpass, used for games)
 							</li>
 							<li>
-								<a href="#convolutionHeader">Convolution</a> (gaussian blur, box blur, sharpening, used for images)
+								<a href="#method-2-convolution">Convolution</a> (gaussian blur, box blur, sharpening, used for images)
 							</li>
 							<li>
-								<a href="#biquadHeader">Biquad filters</a> (butterworth, used for audio EQs)
+								<a href="#method-3-biquad-filters">Biquad filters</a> (butterworth, used for audio EQs)
 							</li>
 						</ol>
 					</section>
 					<div id="content">
-						<h2 id="lerpHeader">Method 1: Lerp</h2>
+						<h2 id="method-1-lerp">Method 1: Lerp</h2>
 						<p>The easiest way to smooth stuff is with lerp, <a href="./Lerp" target="_blank">which I wrote about here</a>. It's really popular for games, especially in Unity. It's not a good method, but it's a nice intro to the topic.</p>
 						<p>The idea is you start at some value, then pick a target value. Each frame you move a little bit closer to the target by some percentage. The slower you move, the smoother your path becomes.</p>
 						<pre><code class="language-js">current = lerp(current, target, factor);</code></pre>
@@ -831,7 +831,7 @@ v@P = pos[trail_length / 2];</code></pre>
 							<a href="./hips/smoothing/lerp_smooth_trail_linear.hipnc?raw=true" target="_blank">Download the HIP file!</a>
 						</p>
 						<p>While lerp works OK, there's plenty of fancier methods of smoothing out stuff. Let's learn about convolution!</p>
-						<h2 id="convolutionHeader">Method 2: Convolution</h2>
+						<h2 id="method-2-convolution">Method 2: Convolution</h2>
 						<p>Convolution solves many problems we were having before. It's practically linear phase and only needs a handful of frames, making it perfect for batch processing. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
 						<p>It works by picking a value, sampling the neighbours around it, multiplying them and adding them together. It's like what we did with lerp, except now we have precise control over how much each neighbour contributes to the final result. We can totally ignore neighbours or even flip their influence.</p>
 						<p>For example, say you want each value to be the average of its 2 neighbours. For that you can use the kernel <code>[0.5, 0, 0.5]</code>.</p>
@@ -1193,7 +1193,7 @@ v@P = pos_total;</code></pre>
 						<p>For example, TODO: ADD DIAGRAM HERE</p>
 						<p>I thought it'd would work better since edge lengths won't affect it, but it still gets biased by clusters of points with similar distances.</p>
 						<p>Anyway, back on track. Let's jump to the most advanced filters I know!</p>
-						<h2 id="biquadHeader">Method 3: Biquad filters</h2>
+						<h2 id="method-3-biquad-filters">Method 3: Biquad filters</h2>
 						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter.</p>
 						<p>It gives you full control over the frequency response, so you can make precise changes without affecting other frequencies.</p>
 						<p class="mb-2">
@@ -1210,8 +1210,10 @@ v@P = pos_total;</code></pre>
 						</div>
 						<div class="mb-2">
 							<button id="addFilter" class="btn btn-primary me-3">Add filter</button>
-							<input id="useDecibels" type="checkbox" checked>
-							<label for="useDecibels">Decibel Scale</label>
+							<div class="float-end">
+								<input id="useDecibels" type="checkbox" checked>
+								<label for="useDecibels">Decibel Scale</label>
+							</div>
 						</div>
 						<div id="filterList"></div>
 						<script>
