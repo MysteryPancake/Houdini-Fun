@@ -1222,6 +1222,7 @@ v@P = pos_total;</code></pre>
 						<h2 id="method-3-biquad-filters">Method 3: Biquad filters</h2>
 						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter.</p>
 						<p>It gives you full control over the frequency response, so you can make precise changes without affecting other frequencies.</p>
+						<p>Have a play with this demo. Try to get a feel of how time and frequency interact.</p>
 						<p class="mb-2">
 							<b>Time Domain</b>
 						</p>
@@ -1243,7 +1244,7 @@ v@P = pos_total;</code></pre>
 								<label for="biquadDecibels">Decibel Scale</label>
 							</div>
 						</div>
-						<div id="filterList"></div>
+						<div id="filterList" class="mb-3"></div>
 						<script>
 						(function(){
 							// Scale down amplitude so -36dB fits on canvas
@@ -1926,7 +1927,17 @@ v@P = pos_total;</code></pre>
 							addFilter();
 						})();
 						</script>
-						<p>TODO: finish this</p>
+						<p>Here's some ideas you can try:</p>
+						<ul>
+							<li>A lowpass filter dampens high frequencies. Try to dampen the noise without affecting the main sine wave.</li>
+							<li>A highpass filter dampens low frequencies. Try to dampen the main sine wave without affecting the noise.</li>
+							<li>A bandpass filter isolates a certain frequency. Try to isolate the main sine wave to cut the noise.</li>
+							<li>A notch filter cuts out a certain frequency. Try to cut the main sine wave and identify its frequency.</li>
+							<li>A peaking filter exaggerates or dampens a certain frequency. Try to exaggerate the main sine wave.</li>
+							<li>A low shelf filter exaggerates or dampens low frequencies. Try to dampen the main sine wave.</li>
+							<li>A high shelf filter exaggerates or dampens high frequencies. Try to exaggerate the noise.</li>
+							<li>Butterworth filters are steeper, made by stacking default filters with certain settings. Try to isolate the main sine wave.</li>
+						</ul>
 						<div class="my-2">
 							<a href="./hips/smoothing/biquad_equalizer.hipnc?raw=true" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
