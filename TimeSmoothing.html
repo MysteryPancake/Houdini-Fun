@@ -330,9 +330,9 @@
 					<section id="intro">
 						<h1 id="blurryTitle" class="mb-4">Smoothing and sharpening in time</h1>
 						<p>This was inspired by a talk <a href="https://www.linkedin.com/feed/update/urn:li:activity:7159079030745452544/" target="_blank">Catherine Williams did at SydHUG</a>. Catherine looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
-						<p>Smoothing and sharpening is a cool topic I've dipped into into a few times, so I wanted to gather some popular methods and dump them into Houdini in case it helps someone. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
+						<p>Smoothing and sharpening is a cool topic I've dipped into into a few times, so I gathered my favourite methods and dumped them into Houdini in case it helps someone. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
 						<p>Unreal Engine, Blender and Maya have plenty of smoothing tools, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky. Houdini has tools as well, but they're harder to find. Matt Estela mentioned the <a href="https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--smoothmotion.html" target="_blank">Smooth Motion</a> node, which it turns out runs on points too. Harrison Molling mentioned CHOPs, which have <a href="https://www.sidefx.com/docs/houdini/nodes/chop/filter.html" target="_blank">Filter</a> and <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter</a> nodes.</p>
-						<p>I didn't know these existed until recently, so I made 3 methods myself. Lots of this is new to Houdini, so stick around!</p>
+						<p>I only learnt this after making my own methods. Lots of this is new to Houdini, so stick around!</p>
 						<ol>
 							<li>
 								<a href="#method-1-lerp">Lerp</a> (simplest lowpass, used for games)
@@ -1300,8 +1300,8 @@ v@P = pos_total;</code></pre>
 								// From "Simple implementation of Biquad filters" by Tom St Denis
 								let a0, a1, a2, b0, b1, b2;
 								switch (type) {
-								case 0: // Regular lowpass
-								case 7: // Butterworth lowpass
+								case 0:
+									// Low pass
 									b0 = (1 - cs) * 0.5;
 									b1 = 1 - cs;
 									b2 = (1 - cs) * 0.5;
@@ -1309,8 +1309,8 @@ v@P = pos_total;</code></pre>
 									a1 = -2 * cs;
 									a2 = 1 - alpha;
 									break;
-								case 1: // Regular lowpass
-								case 8: // Butterworth lowpass
+								case 1:
+									// High pass
 									b0 = (1 + cs) * 0.5;
 									b1 = -(1 + cs);
 									b2 = (1 + cs) * 0.5;
@@ -1318,8 +1318,8 @@ v@P = pos_total;</code></pre>
 									a1 = -2 * cs;
 									a2 = 1 - alpha;
 									break;
-								case 2: // Regular lowpass
-								case 9: // Butterworth lowpass
+								case 2:
+									// Band pass
 									b0 = alpha;
 									b1 = 0;
 									b2 = -alpha;
@@ -1467,29 +1467,6 @@ v@P = pos_total;</code></pre>
 								return Math.sqrt(fc / fd);
 							}
 							
-							// From https://www.earlevel.com/main/2016/09/29/cascading-filters/
-							function getButterworthQs(order) {
-								const oddPoles = order % 2 === 1;
-								const pairs = Math.floor(order * 0.5);
-								const Qs = new Float32Array(pairs + oddPoles);
-								const poleInc = Math.PI / order;
-								
-								// Odd order doesn't work since it requires first order filters
-								// I only bothered implementing second order biquad filters
-								let firstAngle = poleInc;
-								if (oddPoles) {
-									Qs[0] = 0.5;
-								} else {
-									firstAngle *= 0.5;
-								}
-								
-								for (let i = 0; i < pairs; i++) {
-									Qs[i + oddPoles] = 1 / (2 * Math.cos(firstAngle + i * poleInc));
-								}
-
-								return Qs;
-							}
-							
 							function updateFreqResponse() {
 								for (let i = 0; i < freqResponse.length; ++i) {
 									let pos = Math.sin(Math.PI * i / freqResponse.length * 0.5);
@@ -1619,14 +1596,29 @@ v@P = pos_total;</code></pre>
 								if (linearPhase) {
 									dbGain *= 0.5;
 								}
-								if (filter.type > 6) {
+								if (filter.type >= 7) {
 									// Butterworth filter, made by stacking biquads. Merge all biquad coefficients into one giant list
 									// [a0, a1, a2, b0, b1, b2, c0, c1, c2, c3, c4, a0, a1, a2, b0, b1, b2...]
-									const Qs = getButterworthQs(filter.order);
-									filter.coefficients = new Float32Array(Qs.length * 11);
-									for (let i = 0; i < Qs.length; ++i) {
-										const co = getCoefficients(filter.type, filter.freq, Qs[i], dbGain);
-										filter.coefficients.set(co, i * 11);
+									const numPairs = Math.floor(filter.order * 0.5);
+									const oddPoles = filter.order % 2 === 1;
+									const poleInc = Math.PI / filter.order;
+									filter.coefficients = new Float32Array((numPairs + oddPoles) * 11);
+
+									// Odd order doesn't work since it requires first order filters
+									// I only bothered implementing second order biquad filters
+									let firstAngle = poleInc;
+									if (oddPoles) {
+										const co = getCoefficients(filter.type - 7, filter.freq, 0.5, dbGain);
+										filter.coefficients.set(co, 0);
+									} else {
+										firstAngle *= 0.5;
+									}
+									
+									// From https://www.earlevel.com/main/2016/09/29/cascading-filters/
+									for (let i = 0; i < numPairs; ++i) {
+										const Q = 1 / (2 * Math.cos(firstAngle + i * poleInc));
+										const co = getCoefficients(filter.type - 7, filter.freq, Q, dbGain);
+										filter.coefficients.set(co, (i + oddPoles) * 11);
 									}
 								} else {
 									// Regular filter, store coefficients normally
