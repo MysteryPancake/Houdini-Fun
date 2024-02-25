@@ -3,7 +3,7 @@
 
 If you've ever wondered how they work, look no further. I remade them on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
 
-For a great resource on deriving them yourself, check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://www.youtube.com/watch?v=aVwxzDHniEw) videos!
+For a great resource on deriving them yourself, check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://youtu.be/-Ii3MrJFBkQ?t=5599) videos!
 
 ## `lerp()`
 [Lerp](https://en.wikipedia.org/wiki/Linear_interpolation) takes two values and performs a weighted sum based on a factor.
@@ -44,10 +44,12 @@ Inverse lerp takes a value and a range, then normalizes the value so it lies bet
 Given a minimum and maximum, the range is `max - min`. To normalize a value we can divide it by the range.
 
 ```js
-float invlerp_diy(float a; float min; float max) {
-	return (a - min) / (max - min);
+float invlerp_diy(float value; float min; float max) {
+	return (value - min) / (max - min);
 }
 ```
+
+It's a handy shorthand for `fit(value, min, max, 0, 1)`.
 
 ## `fit()`
 `fit()` is the combination of `invlerp()` and `lerp()`.
