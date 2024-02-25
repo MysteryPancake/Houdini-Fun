@@ -44,10 +44,12 @@ Inverse lerp takes a value and a range, then normalizes the value so it lies bet
 Given a minimum and maximum, the range is `max - min`. To normalize a value we can divide it by the range.
 
 ```js
-float invlerp_diy(float a; float min; float max) {
-	return (a - min) / (max - min);
+float invlerp_diy(float value; float min; float max) {
+	return (value - min) / (max - min);
 }
 ```
+
+It's a handy shorthand for `fit(value, min, max, 0, 1)`.
 
 ## `fit()`
 `fit()` is the combination of `invlerp()` and `lerp()`.
