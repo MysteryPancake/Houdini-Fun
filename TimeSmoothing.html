@@ -1806,7 +1806,7 @@ v@P = pos_total;</code></pre>
 							
 							function addFilter() {
 								const filter = {
-									"type": 4,
+									"type": filters.length <= 0 ? 0 : 4,
 									"order": 4,
 									"freq": Math.floor(Math.random() * nyquist * 1),
 									"Q": 0.707,
@@ -1893,7 +1893,7 @@ v@P = pos_total;</code></pre>
 									moveFilter(e);
 								} else {
 									hoveredFilter = getHoveredFilter(e);
-									canv2.style.cursor = hoveredFilter ? "pointer" : "inherit";
+									canv2.style.cursor = hoveredFilter ? "pointer" : "initial";
 									drawFreq();
 								}
 							});
