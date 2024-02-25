@@ -36,6 +36,10 @@
 			gain = Math.max(gain, Number.MIN_VALUE);
 			return 20.0 * Math.log10(gain);
 		}
+
+		function dbToGain(db) {
+			return Math.pow(10.0, db / 20.0);
+		}
 		
 		function mouseClickData(e, canv, data, scale) {
 			const key = Math.floor(e.offsetX / canv.width * (data.length - 1));
@@ -402,7 +406,7 @@
 								draw();
 							});
 
-							canv.addEventListener("click", function(e) {
+							canv.addEventListener("mousedown", function(e) {
 								mouseClickData(e, canv, data, 1);
 								draw();
 							});
@@ -535,7 +539,7 @@
 								draw();
 							});
 
-							canv.addEventListener("click", function(e) {
+							canv.addEventListener("mousedown", function(e) {
 								mouseClickData(e, canv, data, 1);
 								draw();
 							});
@@ -681,7 +685,7 @@
 								draw();
 							});
 
-							canv.addEventListener("click", function(e) {
+							canv.addEventListener("mousedown", function(e) {
 								mouseClickData(e, canv, data, 1);
 								draw();
 							});
@@ -955,7 +959,7 @@ v@P = pos[trail_length / 2];</code></pre>
 								draw();
 							}
 
-							canv.addEventListener("click", moveKernel);
+							canv.addEventListener("mousedown", moveKernel);
 							canv.addEventListener("mousemove", function(e) {
 								if (e.which !== 1) return;
 								moveKernel(e);
@@ -1044,7 +1048,7 @@ v@P = pos[trail_length / 2];</code></pre>
 								draw();
 							}
 
-							canv.addEventListener("click", moveKernel);
+							canv.addEventListener("mousedown", moveKernel);
 							canv.addEventListener("mousemove", function(e) {
 								if (e.which !== 1) return;
 								moveKernel(e);
@@ -1228,7 +1232,7 @@ v@P = pos_total;</code></pre>
 							<b>Frequency Domain</b>
 						</p>
 						<div class="mb-1">
-							<canvas id="biquadCanvas2" width="720" height="256" style="cursor: pointer;"></canvas>
+							<canvas id="biquadCanvas2" width="720" height="256"></canvas>
 						</div>
 						<div class="mb-2">
 							<button id="addFilter" class="btn btn-primary me-3"><i class="bi bi-plus-lg"></i> Add filter</button>
@@ -1479,9 +1483,7 @@ v@P = pos_total;</code></pre>
 										for (let k = 0; k < co.length; k += 11) {
 											let response = getFreqResponse(co, k, pos);
 											// Since I used brute force linear phase by running the filter twice, the response is squared
-											if (linearPhase) {
-												response *= response;
-											}
+											if (linearPhase) response *= response;
 											freqResponse[i] *= response;
 										}
 									}
@@ -1538,7 +1540,93 @@ v@P = pos_total;</code></pre>
 								ctx2.lineTo(canv2.width, canv2.height);
 								ctx2.fill();
 							}
+
+							const controlSize = 12;
+							let hoveredFilter, activeFilter;
+
+							// My opinion on where the control knobs should be
+							function getControlPos(filter) {
+								let db = 0;
+								let yPos;
+
+								if (filter.type <= 3) {
+									// For low, high, band and notch, use the Q value
+									db = 6 * Math.log2(filter.Q);
+									if (linearPhase) db *= 2;
+									if (filter.type === 2) db = -db;
+								} else if (filter.type <= 6) {
+									// For shelf and peak, use the gain value
+									db = filter.dbGain;
+								}
+
+								if (useDecibels) {
+									yPos = canv2.height * 0.5 - (db / dbScale * 0.5) * canv2.height;
+								} else {
+									yPos = canv2.height - dbToGain(db) * canv2.height * 0.5;
+								}
+
+								return [filter.freq / nyquist * canv2.width, yPos];
+							}
 							
+							function moveFilter(e) {
+								if (!activeFilter) return;
+								const xFactor = e.offsetX / canv2.width;
+								const yFactor = e.offsetY / canv2.height;
+
+								const freq = xFactor * nyquist;
+								activeFilter.freq = freq;
+								activeFilter.elems.freq.slider.value = freq;
+								// Force rounding to slider step value
+								activeFilter.elems.freq.value.textContent = activeFilter.elems.freq.slider.value;
+
+								let dbGain;
+								if (useDecibels) {
+									dbGain = dbScale - 2 * dbScale * yFactor;
+								} else {
+									dbGain = gainTodB(2 - yFactor * 2);
+								}
+
+								if (activeFilter.type <= 3) {
+									// For low, high, band and notch, adjust the Q value
+									if (linearPhase) dbGain *= 0.5;
+									if (activeFilter.type === 2) dbGain = -dbGain;
+									const Q = Math.pow(2, dbGain / 6);
+									activeFilter.Q = Q;
+									activeFilter.elems.Q.slider.value = Q;
+									// Force rounding to slider step value
+									activeFilter.elems.Q.value.textContent = activeFilter.elems.Q.slider.value;
+								} else if (activeFilter.type <= 6) {
+									// For shelf and peak, adjust the gain
+									activeFilter.dbGain = dbGain;
+									activeFilter.elems.dbGain.slider.value = dbGain;
+									// Force rounding to slider step value
+									activeFilter.elems.dbGain.value.textContent = activeFilter.elems.dbGain.slider.value;
+								}
+
+								updateCoefficients(activeFilter);
+								updateTimeResponse();
+								updateFreqResponse();
+								drawTime();
+								drawFreq();
+							}
+
+							function distance(x1, y1, x2, y2) {
+								const xDist = x1 - x2;
+								const yDist = y1 - y2;
+								return Math.sqrt(xDist * xDist + yDist * yDist);
+							}
+
+							function getHoveredFilter(e) {
+								for (let i = 0; i < filters.length; ++i) {
+									const filter = filters[i];
+									const pos = getControlPos(filter);
+									const dist = distance(e.offsetX, e.offsetY, pos[0], pos[1]);
+									if (dist < controlSize * 2) {
+										return filter;
+									}
+								};
+							}
+
 							function drawFreq() {
 								drawBackground(canv2, ctx2);
 								
@@ -1569,7 +1657,7 @@ v@P = pos_total;</code></pre>
 								drawMagnitudes(freqAfter);
 								
 								// Draw filter frequency response
-								ctx2.strokeStyle = "#FFFF00";
+								ctx2.strokeStyle = "white";
 								ctx2.beginPath();
 								for (let i = 0; i < freqResponse.length; ++i) {
 									if (useDecibels) {
@@ -1580,22 +1668,30 @@ v@P = pos_total;</code></pre>
 									ctx2.lineTo(i / (freqResponse.length - 1) * canv2.width, yPos);
 								}
 								ctx2.stroke();
+
+								// Draw interactive filter controls
+								filters.forEach(function(filter) {
+									ctx2.fillStyle = hoveredFilter === filter ? "white" : filter.color;
+									const size = hoveredFilter === filter ? controlSize * 1.5 : controlSize;
+									const pos = getControlPos(filter);
+									ctx2.fillRect(pos[0] - size * 0.5, pos[1] - size * 0.5, size, size);
+								});
 							}
 							
 							// Disable parameters which aren't used by certain filter types
 							function disableElems(filter) {
-								filter.elems.Q.style.display = filter.type > 4 ? "none" : "block";
-								filter.elems.dbGain.style.display = (filter.type >= 4 && filter.type <= 6) ? "block" : "none";
-								filter.elems.order.style.display = filter.type > 6 ? "block" : "none";
+								filter.elems.Q.div.style.display = filter.type > 4 ? "none" : "block";
+								filter.elems.dbGain.div.style.display = (filter.type >= 4 && filter.type <= 6) ? "block" : "none";
+								filter.elems.order.div.style.display = filter.type > 6 ? "block" : "none";
 							}
 							
 							function updateCoefficients(filter) {
 								let dbGain = filter.dbGain;
+
 								// Try to match frequency response with linear phase enabled
 								// Ideally the magnitude would be exactly sqrt but I don't know how to achieve that
-								if (linearPhase) {
-									dbGain *= 0.5;
-								}
+								if (linearPhase) dbGain *= 0.5;
+
 								if (filter.type >= 7) {
 									// Butterworth filter, made by stacking biquads. Merge all biquad coefficients into one giant list
 									// [a0, a1, a2, b0, b1, b2, c0, c1, c2, c3, c4, a0, a1, a2, b0, b1, b2...]
@@ -1642,7 +1738,6 @@ v@P = pos_total;</code></pre>
 							
 							function addSelect(elem, text, filter, key, options) {
 								const div = document.createElement("div");
-								filter.elems.type = div;
 								elem.appendChild(div);
 								
 								const label = document.createElement("label");
@@ -1656,6 +1751,7 @@ v@P = pos_total;</code></pre>
 									option.value = i;
 									typeSelect.add(option);
 								}
+								typeSelect.value = filter.type;
 								typeSelect.addEventListener("change", function(e) {
 									filter[key] = parseInt(e.target.value);
 									disableElems(filter);
@@ -1669,9 +1765,10 @@ v@P = pos_total;</code></pre>
 							}
 							
 							function addSlider(elem, text, min, max, step, filter, key, units) {
+								filter.elems[key] = {};
 								const div = document.createElement("div");
-								filter.elems[key] = div;
 								elem.appendChild(div);
+								filter.elems[key].div = div;
 								
 								const label = document.createElement("label");
 								label.textContent = text;
@@ -1680,6 +1777,7 @@ v@P = pos_total;</code></pre>
 								const value = document.createElement("span");
 								value.textContent = filter[key];
 								label.appendChild(value);
+								filter.elems[key].value = value;
 								
 								if (units) {
 									const unit = document.createElement("span");
@@ -1703,21 +1801,24 @@ v@P = pos_total;</code></pre>
 									drawFreq();
 								});
 								div.appendChild(slider);
+								filter.elems[key].slider = slider;
 							}
 							
 							function addFilter() {
 								const filter = {
-									"type": 0,
+									"type": 4,
 									"order": 4,
-									"freq": Math.floor(nyquist * 0.25),
+									"freq": Math.floor(Math.random() * nyquist * 1),
 									"Q": 0.707,
-									"dbGain": 3,
+									"dbGain": 6,
+									"color": `hsl(${Math.floor(Math.random() * 360)}, 75%, 50%)`,
 									"elems": {}
 								};
 
 								// Add new element
 								const elem = document.createElement("div");
 								elem.className = "biquad-filter position-relative d-flex flex-column flex-lg-row text-white rounded mb-2";
+								elem.style.borderTop = `6px solid ${filter.color}`;
 								filterListElem.appendChild(elem);
 								
 								// Add element contents
@@ -1739,7 +1840,7 @@ v@P = pos_total;</code></pre>
 								// Add delete button
 								const close = document.createElement("button");
 								close.className = "position-absolute end-0 top-0 mt-2 me-2 btn-close btn-close-white";
-								close.addEventListener("click", function(e) {
+								close.addEventListener("mousedown", function() {
 									elem.remove();
 									const index = filters.indexOf(filter);
 									if (index >= 0) {
@@ -1761,7 +1862,7 @@ v@P = pos_total;</code></pre>
 								drawFreq();
 							}
 
-							canv.addEventListener("click", function(e) {
+							canv.addEventListener("mousedown", function(e) {
 								mouseClickData(e, canv, timeBefore, ampScale);
 								
 								updateDFT(freqBefore);
@@ -1773,14 +1874,36 @@ v@P = pos_total;</code></pre>
 							
 							canv.addEventListener("mousemove", function(e) {
 								if (e.which !== 1) return;
-								
 								mouseMoveData(e, canv, timeBefore, ampScale);
-								
+
 								updateDFT(freqBefore);
 								updateTimeResponse();
 								updateFreqResponse();
 								drawTime();
 								drawFreq();
+							});
+
+							canv2.addEventListener("mousedown", function(e) {
+								activeFilter = getHoveredFilter(e);
+								moveFilter(e);
+							});
+
+							canv2.addEventListener("mousemove", function(e) {
+								if (activeFilter) {
+									moveFilter(e);
+								} else {
+									hoveredFilter = getHoveredFilter(e);
+									canv2.style.cursor = hoveredFilter ? "pointer" : "inherit";
+									drawFreq();
+								}
+							});
+
+							canv2.addEventListener("mouseup", function(e) {
+								activeFilter = undefined;
+							});
+
+							canv2.addEventListener("mouseleave", function(e) {
+								activeFilter = undefined;
 							});
 							
 							useDecibelsToggle.addEventListener("input", function(e) {
@@ -1797,7 +1920,7 @@ v@P = pos_total;</code></pre>
 								drawFreq();
 							});
 							
-							addFilterElem.addEventListener("click", addFilter);
+							addFilterElem.addEventListener("mousedown", addFilter);
 
 							updateDFT(freqBefore);
 							addFilter();
