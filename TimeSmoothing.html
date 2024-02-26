@@ -322,6 +322,11 @@
 			border-radius: 0.5rem;
 			padding: 0.2rem;
 		}
+
+		/* Prevent annoying selection issues */
+		div:has(> input) {
+			user-select: none;
+		}
 		</style>
 	</head>
 	<body onload="setup();">
@@ -562,28 +567,6 @@
 						<div>
 							<canvas id="lerp2Canvas" width="640" height="200" style="cursor: pointer;"></canvas>
 						</div>
-						
-						<!--<table class="mb-3">
-							<tr>
-								<td class="pe-3">
-									
-								</td>
-								<td class="pe-3">
-									
-								</td>
-								<td>
-									
-								</td>
-							</tr>
-							<tr>
-								<td class="pe-3">
-									
-								</td>
-								<td class="pe-3">
-									
-								</td>
-							</tr>
-						</table>-->
 						<div class="d-flex flex-column flex-sm-row mb-3 gap-3">
 							<div>
 								<div>
@@ -857,7 +840,7 @@ v@P = pos[trail_length / 2];</code></pre>
 						<div>
 							<canvas id="convCanvas" width="720" height="360" style="cursor: pointer;"></canvas>
 						</div>
-						<table class="mb-3">
+						<table class="mb-3 user-select-none">
 							<tr class="text-center">
 								<td class="pe-3">
 									<span id="convXWeightValue"></span>
