@@ -1221,8 +1221,8 @@ v@P = pos_total;</code></pre>
 						<p>Anyway, back on track. Let's jump to the most advanced filters I know!</p>
 						<h2 id="method-3-biquad-filters">Method 3: Biquad filters</h2>
 						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter.</p>
-						<p>It gives you full control over the frequency response, so you can make precise changes without affecting other frequencies.</p>
-						<p>Have a play with this demo. Try to get a feel of how time and frequency interact.</p>
+						<p>They give you full control over the frequency response, so you can make precise changes without affecting other frequencies. Best of all, they're fast and easy to run. It barely takes any code to run a biquad filter, seen later in this article.</p>
+						<p>Have a play with this demo. Try to get a feel for how time and frequency interact.</p>
 						<p class="mb-2">
 							<b>Time Domain</b>
 						</p>
@@ -1938,6 +1938,25 @@ v@P = pos_total;</code></pre>
 							<li>A high shelf filter exaggerates or dampens high frequencies. Try to exaggerate the noise.</li>
 							<li>Butterworth filters are steeper, made by stacking default filters with certain settings. Try to isolate the main sine wave.</li>
 						</ul>
+						<h3>RBJ cookbook</h3>
+						<p>So how do biquad filters work? Luckily they're very well documented and have been studied for years.</p>
+						<p>Maybe the most famous resource on biquad filters is <a href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" target="_blank">Robert Bristow-Johnson's audio EQ cookbook</a>, which has a great <a href="https://www.musicdsp.org/en/latest/Filters/64-biquad-c-code.html" target="_blank">C version by Tom St Denis</a>. I used Tom's version for all my implementations, including my <a href="https://www.shadertoy.com/view/dtlSWH" target="_blank">GPU equalizer</a>.</p>
+						<p>Though deriving the filters is complicated, running them is easy. It only takes 5 lines of code!</p>
+						<pre><code class="language-js">result = a0 * sample
+       + a1 * x1
+       + a2 * x2
+       - a3 * y1
+       - a4 * y2
+
+// Shift x1 to x2, sample to x1
+x2 = x1;
+x1 = sample;
+
+// Shift y1 to y2, result to y1
+y2 = y1;
+y1 = result;</code></pre>
+						<h3>Running this in Houdini</h3>
+						<p>TODO</p>
 						<div class="my-2">
 							<a href="./hips/smoothing/biquad_equalizer.hipnc?raw=true" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
