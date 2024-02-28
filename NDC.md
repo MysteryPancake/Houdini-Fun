@@ -51,7 +51,7 @@ addpoint(0, camPos);
 
 The Z axis aligns with the camera direction, so move along it to draw a ray.
 
-<img src="./images/ndc/ndccamline.gif" width="300" align="left">
+<img src="./images/ndc/ndccamline.webp" width="300" align="left">
 
 ```js
 // Run this in a detail wrangle
@@ -100,7 +100,7 @@ Another trick is turning this into an outline, much like Labs Extract Silouette.
 
 Using NDC coordinates in camera space lets you flatten geometry but keep it identical from the camera perspective.
 
-<img src="./images/ndc/ndccampov.gif" width="300" align="left">
+<img src="./images/ndc/ndccampov.webp" width="300" align="left">
 
 ```js
 string cam = chs("cam");
@@ -119,7 +119,7 @@ v@P = fromNDC(cam, p);
 
 Same as above, except subtracting the Z coordinate. Again the geometry is identical from the camera perspective.
 
-<img src="./images/ndc/ndccampov2.gif" width="300" align="left">
+<img src="./images/ndc/ndccampov2.webp" width="300" align="left">
 
 ```js
 string cam = chs("cam");
@@ -138,7 +138,7 @@ v@P = fromNDC(cam, p);
 
 Same as above, except using another camera as reference. The Z coordinates are flipped as the cameras cross paths.
 
-<img src="./images/ndc/cubeillusion.gif" width="300" align="left">
+<img src="./images/ndc/cubeillusion.webp" width="300" align="left">
 
 ```js
 string cam = chs("cam");
@@ -164,7 +164,7 @@ The VEX equivalent of Camera Frustum qL.
 
 2. Convert from NDC to world coordinates.
 
-<img src="./images/ndc/ndcfrustrum.gif" width="300" align="left">
+<img src="./images/ndc/ndcfrustrum.webp" width="300" align="left">
 
 ```js
 string cam = chs("cam");
@@ -187,7 +187,7 @@ The VEX equivalent of Camera Plane qL.
 
 2. Convert from NDC to world coordinates.
 
-<img src="./images/ndc/ndcplane.gif" width="300" align="left">
+<img src="./images/ndc/ndcplane.webp" width="300" align="left">
 
 ```js
 string cam = chs("cam");
