@@ -57,7 +57,7 @@ float wave = sin(time * frequency * 2 * PI);
 
 Conceptually it's more like a **rotation**.
 
-<img src="./images/waveforms/phase2.gif" width="500">
+<img src="./images/waveforms/phase2.webp" width="500">
 
 You control the phase by adding to the time:
 
