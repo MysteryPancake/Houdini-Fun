@@ -150,7 +150,7 @@ Sometimes you need to generate circles without relying on built-in nodes, like t
 
 Luckily it's easy, just use `sin()` on one axis and `cos()` on the other:
 
-<img src="./images/movecircle.gif?raw=true" width="200" align="left">
+<img src="./images/movecircle.webp?raw=true" width="200" align="left">
 
 ```js
 float theta = chf("theta");
@@ -372,11 +372,11 @@ v@P *= mat;
 v@P *= invert(mat);
 ```
 
-<img src="./images/extracttransform.gif?raw=true" width="500">
+<img src="./images/extracttransform.webp?raw=true" width="500">
 
 [Download the HIP file!](./hips/extracttransform.hipnc?raw=true)
 
-<img src="./images/inverttransform.gif?raw=true" width="500">
+<img src="./images/inverttransform.webp?raw=true" width="500">
 
 [Download the HIP file!](./hips/inverttransform.hipnc?raw=true)
 
@@ -630,7 +630,7 @@ Cloth sims work best with preroll starting in a neutral rest pose. For example, 
 4. Use the Time Shift node to move the animation forward so it doesn't bleed into the preroll. This can also be done in the "Timing" menu of FBX Character Import.
 5. Use Bone Deform to animate the skin based on Skeleton Blend.
 
-<img src="./images/fbxtransition.gif?raw=true" height="320">
+<img src="./images/fbxtransition.webp?raw=true" height="320">
 
 [Download the HIP file!](./hips/fbxtransition.hipnc?raw=true)
 
