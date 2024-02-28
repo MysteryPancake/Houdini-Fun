@@ -560,7 +560,7 @@
 						<h3>Problem 2: Oversmoothing</h3>
 						<p>You'll find this method is hard to control. It tends to smooth everything too much or not enough.</p>
 						<p>This is because of the <b>order</b> of the filter. The order basically means how sharp and precise a filter is. Here's a nice diagram from <a href="https://www.electronics-tutorials.ws/filter/filter_8.html" target="_blank">Electronics Tutorials</a>. You can see as the order increases the curve gets steeper, meaning it cuts precisely and doesn't smudge everything.</p>
-						<img src="./images/smoothing/filterorder.gif" class="mb-3 mw-100">
+						<img src="./images/smoothing/filterorder.png" class="mb-3 mw-100">
 						<p>The lerp method is a <a href="https://tomroelandts.com/articles/low-pass-single-pole-iir-filter" target="_blank">first order IIR lowpass</a>, so it's pretty blunt and tends to smudge everything out.</p>
 						<p>Turns out there's a cool trick to improve it. If you stack a bunch of low order filters, you approximate a high order filter. This works surprisingly well, though it's much slower and smudgier than doing it properly.</p>
 						<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
@@ -740,7 +740,7 @@
 						<p>Now we can write the formula in VEX. In solvers, <code>@P</code> is the current position. The second input we connected <code>@opinput1_P</code> is the latest animation, which is our target position.</p>
 						<pre><code class="language-js">v@P = lerp(v@P, v@opinput1_P, chf("factor"));</code></pre>
 						<p>Here's before and after. It smooths out most of the noise, but reduces the range of motion too much.</p>
-						<img src="./images/smoothing/lerpsmoothsolver.gif" width="640" class="mw-100">
+						<img src="./images/smoothing/lerpsmoothsolver.webp" width="640" class="mw-100">
 						<div class="my-2">
 							<a href="./hips/smoothing/lerp_smooth_solver.hipnc?raw=true" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
@@ -773,7 +773,7 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 	v@P = lerp(v@P, target_pos, chf("factor"));
 }</code></pre>
 						<p>Here's before and after. It looks pretty similar, but jitters more since it keeps forgetting past samples.</p>
-						<img src="./images/smoothing/lerpsmoothtrail.gif" width="640" class="mw-100">
+						<img src="./images/smoothing/lerpsmoothtrail.webp" width="640" class="mw-100">
 						<div class="my-2">
 							<a href="./hips/smoothing/lerp_smooth_trail.hipnc?raw=true" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
@@ -823,7 +823,7 @@ for (int i = 0; i < layers; ++i) {
 // Get the center frame, which is our frame
 v@P = pos[trail_length / 2];</code></pre>
 						<p>Thanks to looking into the future, we can anticipate motion before it even happens. Here's a demo with the linear phase version in green and the original version in red.</p>
-						<img src="./images/smoothing/lerpsmoothtraillinear.gif" width="540" class="mw-100">
+						<img src="./images/smoothing/lerpsmoothtraillinear.webp" width="540" class="mw-100">
 						<div class="my-2">
 							<a href="./hips/smoothing/lerp_smooth_trail_linear.hipnc?raw=true" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
@@ -1084,10 +1084,10 @@ v@P = pos_total / f@kernel_sum;</code></pre>
 							</tr>
 							<tr>
 								<td>
-									<img src="./images/smoothing/convolutiontrail.gif" width="640" class="mw-100">
+									<img src="./images/smoothing/convolutiontrail.webp" width="640" class="mw-100">
 								</td>
 								<td>
-									<img src="./images/smoothing/convolutiontrail2.gif" width="640" class="mw-100">
+									<img src="./images/smoothing/convolutiontrail2.webp" width="640" class="mw-100">
 								</td>
 							</tr>
 						</table>
@@ -1119,7 +1119,7 @@ for (int i = 0; i < trail_length; ++i) {
 	f[]@kernel[i] = cos(2 * PI * x) * (insanity - abs(x));
 	f@kernel_sum += f[]@kernel[i];
 }</code></pre>
-						<img src="./images/smoothing/convolutionspringy.gif" width="640" class="mw-100">
+						<img src="./images/smoothing/convolutionspringy.webp" width="640" class="mw-100">
 						<div class="my-2">
 							<a href="./hips/smoothing/convolution_springy.hipnc?raw=true" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
@@ -1161,10 +1161,10 @@ v@P = pos_total;</code></pre>
 							</tr>
 							<tr>
 								<td>
-									<img src="./images/smoothing/convolutioncustom.gif" width="640" class="mw-100">
+									<img src="./images/smoothing/convolutioncustom.webp" width="640" class="mw-100">
 								</td>
 								<td>
-									<img src="./images/smoothing/convolutioncustom2.gif" width="640" class="mw-100">
+									<img src="./images/smoothing/convolutioncustom2.webp" width="640" class="mw-100">
 								</td>
 							</tr>
 						</table>
@@ -1179,7 +1179,7 @@ v@P = pos_total;</code></pre>
 						<p>To approximate gaussian blur, draw a bell curve centered at 0.5.</p>
 						<img src="./images/smoothing/gaussianblur.png" width="860" class="mb-3 mw-100">
 						<p>Here's a demo with gaussian blur in blue and box blur in green. Box blur tends to blur more aggressively since it uses all samples equally.</p>
-						<img src="./images/smoothing/convolutionblurs.gif" width="640" class="mw-100">
+						<img src="./images/smoothing/convolutionblurs.webp" width="640" class="mw-100">
 						<div class="my-2">
 							<a href="./hips/smoothing/convolution_blurs.hipnc?raw=true" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
@@ -1810,7 +1810,7 @@ v@P = pos_total;</code></pre>
 								addSlider(elem, "Frequency: ", 0, nyquist, 0.1, filter, "freq", " Hz");
 								
 								// Low pass, high pass, band pass, notch and peaking only
-								addSlider(elem, "Q: ", 0, 8, 0.001, filter, "Q");
+								addSlider(elem, "Q: ", 0.001, 8, 0.001, filter, "Q");
 								
 								// Peaking, high shelf and low shelf only
 								addSlider(elem, "Gain: ", -dbScale, dbScale, 0.1, filter, "dbGain", " dB");
@@ -1922,7 +1922,7 @@ v@P = pos_total;</code></pre>
 							<li>Butterworth filters are steeper, made by stacking default filters with certain settings. Try to isolate the main sine wave.</li>
 						</ul>
 						<h3>RBJ cookbook</h3>
-						<p>So how do biquad filters work? Luckily they're very well documented and have been studied for years.</p>
+						<p>So how do biquad filters work? Luckily they're well documented and have been studied for years.</p>
 						<p>Maybe the most famous resource on biquad filters is <a href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" target="_blank">Robert Bristow-Johnson's audio EQ cookbook</a>, which has a great <a href="https://www.musicdsp.org/en/latest/Filters/64-biquad-c-code.html" target="_blank">C version by Tom St Denis</a>. I used Tom's version for all my implementations, including my <a href="https://www.shadertoy.com/view/dtlSWH" target="_blank">GPU equalizer</a>.</p>
 						<p>Though deriving the filters is complicated, running them is easy. It only takes 5 lines of code!</p>
 						<pre><code class="language-js">result = a0 * sample
