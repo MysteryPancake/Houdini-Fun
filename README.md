@@ -207,6 +207,30 @@ addprim(0, "poly", points);
 
 [Download the HIP file!](./hips/circle.hipnc?raw=true)
 
+## Reusing VEX code in multiple wrangles
+Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
+
+VEX has `#include` as well, but sadly it only works if you put the file in a specific Houdini directory.
+
+Luckily there's a secret way to reuse code without `#include`! It's used in a couple of LABS nodes.
+
+First add any node with a string property. It can be a wrangle, a null or anything else. In the string property, type the functions you want to share.
+
+```js
+vector addToPos(vector p) {
+    return p + {1, 2, 3};
+}
+```
+
+Now you can import and run those functions in any other wrangle with `chs("../path/to/string_property")` enclosed in backticks!
+
+```js
+// Append the code string and run it (like #include)
+`chs("../path/to/string_property")`
+
+v@P = addToPos(v@P);
+```
+
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
 
