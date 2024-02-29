@@ -480,7 +480,7 @@
 						<p>It happens since the value is too lazy in moving to the target, so it sticks near the previous value and smears out the graph.</p>
 						<p>Phase shift is a popular topic in music, you'll find many audio engineers rambling about it online (<a href="https://www.youtube.com/@DanWorrall" target="_blank">Dan Worrall</a> is my favourite). When you use an equalizer on music (for example to boost the bass), it usually adds a bit of phase shift. Some plugins (like <a href="https://ddmf.eu/plugindoctor/" target="_blank">Plugindoctor</a>) even show you the exact phase shift you'll get. This is called the <b>phase response</b>.</p>
 						<p>Phase shift is a natural part of the universe so there's nothing wrong with it, but it's annoying if you want stuff to line up. The lazy way is shifting over the graph. The proper way is using <b>linear phase</b> filters. Linear phase filters always need values forwards in time as well as backwards.</p>
-						<p>Apparently if you <a href="https://www.youtube.com/watch?v=eSyCuuSzuE4" target="_blank">smooth forwards then again in reverse</a>, it cancels out the phase shift and makes a linear phase filter. Here's a demo with the linear version in green.</p>
+						<p>The simplest way is smoothing forwards, then smoothing backwards. This cancels out the phase shift and makes a linear phase filter. Here's a demo with the original version in red, and the linear phase version in green.</p>
 						<div>
 							<canvas id="lerp3Canvas" width="640" height="200" style="cursor: pointer;"></canvas>
 						</div>
