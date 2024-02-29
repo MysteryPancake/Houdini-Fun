@@ -289,6 +289,35 @@ v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.
 
 [Download the HIP file!](./hips/hdrisample.hipnc?raw=true)
 
+## Smoothing volumes with VEX
+Levin on the CGWiki Discord wanted to blur volumes in VEX. You can do it by sample neighbors in a box and averaging them together. This is slower than the built-in volume nodes, but might be useful one day:
+
+```js
+float density_sum = 0;
+int num_samples = 0;
+
+int voxel_radius = chi("voxel_radius");
+for (int x = -voxel_radius; x <= voxel_radius; ++x) {
+    for (int y = -voxel_radius; y <= voxel_radius; ++y) {
+        for (int z = -voxel_radius; z <= voxel_radius; ++z) {
+            // Sample voxel at offset index
+            vector voxel = set(i@ix + x, i@iy + y, i@iz + z);
+            float density = volumeindex(0, 0, voxel);
+
+            // Add to sum and sample count
+            density_sum += density;
+            ++num_samples;
+        }
+    }
+}
+
+f@density = density_sum / num_samples;
+```
+
+<img src="./images/volumesmoothing.png?raw=true" height="320">
+
+[Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
+
 ## Snapping to the floor
 Often it's nice to organise geometry by snapping it to the floor. Here's a few ways to do it!
 
