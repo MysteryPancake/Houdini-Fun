@@ -212,7 +212,7 @@ Most programming languages have ways to share and reuse code. C has `#include`, 
 
 VEX has `#include` as well, but sadly it only works if you put the file in a specific Houdini directory.
 
-Luckily there's a secret way to reuse code without `#include`! It's used in a couple of LABS nodes.
+Luckily there's a secret way to reuse code without `#include`! I found it in a couple of LABS nodes.
 
 First add any node with a string property. It can be a wrangle, a null or anything else. In the string property, type the functions you want to share.
 
@@ -230,6 +230,8 @@ Now you can import and run those functions in any other wrangle with `chs("../pa
 
 v@P = addToPos(v@P);
 ```
+
+[Download the HIP file!](./hips/including_vex_code.hip?raw=true)
 
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
