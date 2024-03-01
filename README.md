@@ -207,6 +207,32 @@ addprim(0, "poly", points);
 
 [Download the HIP file!](./hips/circle.hipnc?raw=true)
 
+## Reusing VEX code in multiple wrangles
+Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
+
+VEX has `#include` as well, but sadly it only works if you put the file in a specific Houdini directory.
+
+Luckily there's a secret way to reuse code without `#include`! I found it in a couple of LABS nodes.
+
+First add any node with a string property. It can be a wrangle, a null or anything else. In the string property, type the functions you want to share.
+
+```js
+vector addToPos(vector p) {
+    return p + {1, 2, 3};
+}
+```
+
+Now you can import and run those functions in any other wrangle with `chs("../path/to/string_property")` enclosed in backticks!
+
+```js
+// Append the code string and run it (like #include)
+`chs("../path/to/string_property")`
+
+v@P = addToPos(v@P);
+```
+
+[Download the HIP file!](./hips/including_vex_code.hip?raw=true)
+
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
 
@@ -262,6 +288,35 @@ v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.
 ```
 
 [Download the HIP file!](./hips/hdrisample.hipnc?raw=true)
+
+## Smoothing volumes with VEX
+Levin on the CGWiki Discord wanted to blur volumes in VEX. You can do it by sample neighbors in a box and averaging them together. This is slower than the built-in volume nodes, but might be useful one day:
+
+```js
+float density_sum = 0;
+int num_samples = 0;
+
+int voxel_radius = chi("voxel_radius");
+for (int x = -voxel_radius; x <= voxel_radius; ++x) {
+    for (int y = -voxel_radius; y <= voxel_radius; ++y) {
+        for (int z = -voxel_radius; z <= voxel_radius; ++z) {
+            // Sample voxel at offset index
+            vector voxel = set(i@ix + x, i@iy + y, i@iz + z);
+            float density = volumeindex(0, 0, voxel);
+
+            // Add to sum and sample count
+            density_sum += density;
+            ++num_samples;
+        }
+    }
+}
+
+f@density = density_sum / num_samples;
+```
+
+<img src="./images/volumesmoothing.png?raw=true" height="320">
+
+[Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
 
 ## Snapping to the floor
 Often it's nice to organise geometry by snapping it to the floor. Here's a few ways to do it!
