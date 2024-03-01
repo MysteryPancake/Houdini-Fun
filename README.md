@@ -231,9 +231,9 @@ Now you can import and run those functions in any other wrangle with `chs("../pa
 v@P = addToPos(v@P);
 ```
 
-[Download the HIP file!](./hips/including_vex_code.hip?raw=true)
-
 **UPDATE:** Van and WaffleboyTom said this is evil since it causes the code to recompile. Use if you dare!
+
+[Download the HIP file!](./hips/including_vex_code.hip?raw=true)
 
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
