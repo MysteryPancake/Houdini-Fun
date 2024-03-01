@@ -350,10 +350,10 @@
 								<a href="#method-2-convolution">Convolution</a> (gaussian blur, box blur, sharpening, used for images)
 							</li>
 							<li>
-								<a href="#method-3-biquad-filters">Biquad filters</a> (low pass, high pass, butterworth, etc, used for audio EQs)
+								<a href="#method-3-biquad-filters">Biquad filters</a> (low pass, high pass, butterworth... used for audio EQs)
 							</li>
 							<li>
-								<a href="#method-4-fir-filters">FIR filters</a> (convolution and biquads combined)
+								<a href="#method-4-fir-filters">FIR filters</a> (convolution with a special kernel)
 							</li>
 						</ol>
 					</section>
@@ -1096,7 +1096,7 @@ v@P = pos_total / f@kernel_sum;</code></pre>
 							</a>
 						</div>
 						<p>Now I know what you're thinking. This looks exactly like the lerp method from before! What's the point of going through all that effort?</p>
-						<p>Well firstly, it properly reaches the target unlike the lerp method. And secondly, you can swap out the kernel to get cool effects!</p>
+						<p>Well firstly, it actually reaches the target unlike lerp. And secondly, you can swap out the kernel to get cool effects!</p>
 						<h4>Cool kernels</h4>
 						<p>Here's a cool kernel I made by accident. It turns any animation into an incredible springy mess!</p>
 						<img src="./images/smoothing/springykernel.png" width="960" class="mb-3 mw-100">
