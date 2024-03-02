@@ -1124,8 +1124,9 @@ for (int i = 0; i < trail_length; ++i) {
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
+						<h5>Drawing kernels with ramps</h5>
 						<p>This way of building kernels is ugly and hard. It'd be nicer if we could draw kernels visually with a ramp.</p>
-						<p>We can delete the Detail Wrangle and just use the Point Wrangle, since the ramp stores the kernel for us.</p>
+						<p>For that we can delete the Detail Wrangle and use a single Point Wrangle, since the ramp stores the kernel for us.</p>
 						<pre><code language="js">// Make sure this matches your trail node
 int trail_length = chi("../trail1/length");
 int point_count = npoints(0);
