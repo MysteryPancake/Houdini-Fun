@@ -1199,11 +1199,11 @@ v@P = pos_total;</code></pre>
 						<img src="./images/smoothing/groupexpandstep.png" width="360" class="mb-3 mw-100">
 						<p>Now let's remap the step attribute to a new value using a ramp. This ramp is our convolution kernel.</p>
 						<img src="./images/smoothing/groupexpandremap.png" width="360" class="mb-3 mw-100">
-						<p>Sadly I couldn't find an easy way to define up, down, left and right. Instead I cut the ramp in half and mapped all directions to the same ramp.</p>
+						<p>Sadly I couldn't find an easy way to define up, down, left and right. Instead I cut the ramp in half and mapped all directions equivalently.</p>
 						<img src="./images/smoothing/groupexpandremap2.png" width="360" class="mb-3 mw-100">
 						<p>In 3D this makes a bulge symmetrical in all directions away from the center point.</p>
 						<img src="./images/smoothing/groupexpand3d.png" width="480" class="mb-3 mw-100">
-						<p>Now we sum the results, and repeat this for all points. I originally did it by <a href="https://www.sidefx.com/forum/topic/77827" target="_blank">remaking Group Expand in VEX</a>, which is very slow.</p>
+						<p>Now we sum the results, and repeat this for all points. I originally did this by <a href="https://www.sidefx.com/forum/topic/77827" target="_blank">remaking Group Expand in VEX</a>, which is very slow.</p>
 						<pre><code class="language-js">int visited_points[] = array(i@ptnum);
 int last_points[] = visited_points;
 
@@ -1247,11 +1247,11 @@ if (chi("normalize_kernel")) {
 }
 
 v@P = pos_total;</code></pre>
-						<p>Here's a demo using a gaussian kernel. The main reason it looks different to Attribute Blur is because I didn't consider edge lengths.</p>
-						<img src="./images/smoothing/connectivityconvolve.webp" width="540" class="mb-3 mw-100">
-						<p>A much faster method is using Group Expand or Edge Transport in a For-Each Point loop.</p>
-						<p>It's hard to explain here, so I included both methods in <a href="./hips/smoothing/convolution_topology.hipnc?raw=true" target="_blank">the HIP file</a>. Group Expand is identical to the VEX method, while Edge Transport sums the edge lengths. Here's a demo using Edge Transport, which considers the edge lengths unlike Group Expand.</p>
-						<img src="./images/smoothing/connectivityconvolve2.webp" width="540" class="mb-3 mw-100">
+						<p>Here's a demo using a gaussian kernel. The features get smoothed by different amounts since I didn't consider edge lengths.</p>
+						<img src="./images/smoothing/connectivityconvolve.webp" width="480" class="mb-3 mw-100">
+						<p>A much faster method is using Group Expand or Edge Transport in a For-Each Point loop. It's hard to explain here, so I included both methods in <a href="./hips/smoothing/convolution_topology.hipnc?raw=true" target="_blank">the HIP file</a>.</p>
+						<p>Group Expand is identical to the VEX method, while Edge Transport sums the edge lengths. By considering edge lengths you can see the smoothing is evenly distributed across the entire geometry, reducing the distortion of the features.</p>
+						<img src="./images/smoothing/connectivityconvolve2.webp" width="480" class="mb-3 mw-100">
 						<h4>Option 2: Proximity</h4>
 						<p>If we have a disconnected point cloud, we can weigh each point by its distance from the current point.</p>
 						<p>For example, TODO: ADD DIAGRAM HERE</p>
