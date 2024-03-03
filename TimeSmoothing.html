@@ -1253,9 +1253,33 @@ v@P = pos_total;</code></pre>
 						<p>Group Expand is identical to the VEX method, while Edge Transport sums the edge lengths. By considering edge lengths you can see the smoothing is evenly distributed across the entire geometry, reducing the distortion of the features.</p>
 						<img src="./images/smoothing/connectivityconvolve2.webp" width="480" class="mw-100">
 						<h4>Option 2: Proximity</h4>
-						<p>If we have a disconnected point cloud, we can weigh each point by its distance from the current point.</p>
-						<p>For example, TODO: ADD DIAGRAM HERE</p>
-						<p>I thought it'd would work better since edge lengths won't affect it, but it still gets biased by clusters of points with similar distances.</p>
+						<p>If we have a disconnected point cloud, we can sample neighbors in a sphere and weigh them by their distance to the center.</p>
+						<img src="./images/smoothing/spherepoints.png" width="480" class="mb-3 mw-100">
+						<p>I thought it'd work better since edge lengths don't matter, but it still gets biased by point clusters similar distances away.</p>
+						<pre><code class="language-js">// Clamp to prevent 0 distance
+float max_dist = max(1e-8, chf("max_distance"));
+int points[] = pcfind(0, "P", v@P, max_dist, npoints(0));
+
+vector pos_total = 0;
+float kernel_sum = 0;
+
+// Sample kernel based on how far away each point is
+foreach (int pt; points) {
+	vector pos = point(0, "P", pt);
+	float dist = distance(pos, v@P);
+	float weight = chramp("kernel", dist / max_dist);
+	pos_total += pos * weight;
+	kernel_sum += weight;
+}
+
+// Normalize so it adds to 1
+if (chi("normalize_kernel")) {
+	pos_total /= kernel_sum;
+}
+
+v@P = pos_total;</code></pre>
+						<img src="./images/smoothing/proximityconvolve.webp" width="480" class="mb-3 mw-100">
+						<p>I just realised this looks identical to Edge Transport, which makes sense since both are distance-based.</p>
 						<p>Anyway, back on track. Let's jump to the most advanced filters I know!</p>
 						<h2 id="method-3-biquad-filters">Method 3: Biquad filters</h2>
 						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter.</p>
