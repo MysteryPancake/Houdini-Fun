@@ -1251,7 +1251,7 @@ v@P = pos_total;</code></pre>
 						<img src="./images/smoothing/connectivityconvolve.webp" width="480" class="mb-3 mw-100">
 						<p>A much faster method is using Group Expand or Edge Transport in a For-Each Point loop. It's hard to explain here, so I included both methods in <a href="./hips/smoothing/convolution_topology.hipnc?raw=true" target="_blank">the HIP file</a>.</p>
 						<p>Group Expand is identical to the VEX method, while Edge Transport sums the edge lengths. By considering edge lengths you can see the smoothing is evenly distributed across the entire geometry, reducing the distortion of the features.</p>
-						<img src="./images/smoothing/connectivityconvolve2.webp" width="480" class="mb-3 mw-100">
+						<img src="./images/smoothing/connectivityconvolve2.webp" width="480" class="mw-100">
 						<h4>Option 2: Proximity</h4>
 						<p>If we have a disconnected point cloud, we can weigh each point by its distance from the current point.</p>
 						<p>For example, TODO: ADD DIAGRAM HERE</p>
