@@ -1247,31 +1247,11 @@ if (chi("normalize_kernel")) {
 }
 
 v@P = pos_total;</code></pre>
-						<p>A much faster method is using Group Expand in a For-Each Point loop. It's hard to explain here, so <a href="./hips/smoothing/convolution_topology.hipnc?raw=true" target="_blank">check out the HIP file</a>.</p>
-						<img src="./images/smoothing/topoconvolvenodes.png" width="540" class="mb-3 mw-100">
-						<pre><code class="language-js">// Make sure this matches the number of steps of your Group Expand node
-int max_steps = chi("../group_expand/numsteps");
-
-// Get all points with a step attribute grouped by Group Expand
-int pts[] = expandpointgroup(1, "selected");
-
-float kernel_sum = 0;
-v@P = 0;
-
-// Sample kernel based on how many points away we travelled
-// This is biased by density, ideally scale it by edge length travelled
-foreach (int pt; pts) {
-    vector pos = point(1, "P", pt);
-    int step = point(1, "step", pt);
-    float kernel = chramp("kernel", float(step) / max_steps);
-    v@P += pos * kernel;
-    kernel_sum += kernel;
-}
-
-// Normalize so it adds to 1
-if (chi("normalize_kernel")) {
-    v@P /= kernel_sum;
-}</code></pre>
+						<p>Here's a demo using a gaussian kernel. The main reason it looks different to Attribute Blur is because I didn't consider edge lengths.</p>
+						<img src="./images/smoothing/connectivityconvolve.webp" width="540" class="mb-3 mw-100">
+						<p>A much faster method is using Group Expand or Edge Transport in a For-Each Point loop.</p>
+						<p>It's hard to explain here, so I included both methods in <a href="./hips/smoothing/convolution_topology.hipnc?raw=true" target="_blank">the HIP file</a>. Group Expand is identical to the VEX method, while Edge Transport sums the edge lengths. Here's a demo using Edge Transport, which considers the edge lengths unlike Group Expand.</p>
+						<img src="./images/smoothing/connectivityconvolve2.webp" width="540" class="mb-3 mw-100">
 						<h4>Option 2: Proximity</h4>
 						<p>If we have a disconnected point cloud, we can weigh each point by its distance from the current point.</p>
 						<p>For example, TODO: ADD DIAGRAM HERE</p>
