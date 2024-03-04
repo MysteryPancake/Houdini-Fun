@@ -320,6 +320,17 @@ f@density = density_sum / num_samples;
 
 [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
 
+## Apply orient to packed prims
+Copy to Points automatically applies `@orient` and `@N` attributes, but what if you set a custom `@orient` and want to apply it?
+
+Normally you'd set the `transform` intrinsic, but to just apply the `@orient` you can set `pointinstancetransform` to 1.
+
+```js
+setprimintrinsic(0, "pointinstancetransform", i@elemnum, 1);
+```
+
+Thanks to WaffleboyTom for this tip!
+
 ## Snapping to the floor
 Often it's nice to organise geometry by snapping it to the floor. Here's a few ways to do it!
 
