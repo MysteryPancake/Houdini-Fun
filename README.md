@@ -320,10 +320,10 @@ f@density = density_sum / num_samples;
 
 [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
 
-## Apply orient to packed prims
-Copy to Points automatically applies `@orient` and `@N` attributes, but what if you set a custom `@orient` and want to apply it?
+## Applying orient to packed prims
+Copy to Points automatically applies attributes like `@orient`, but what if you need the same effect after setting `@orient` to a quaternion?
 
-Normally you'd set the `transform` intrinsic, but to just apply the `@orient` you can set `pointinstancetransform` to 1.
+Normally you'd set the `transform` intrinsic, but this replaces everything. To just replace the `@orient`, set `pointinstancetransform` to 1.
 
 ```js
 setprimintrinsic(0, "pointinstancetransform", i@elemnum, 1);
