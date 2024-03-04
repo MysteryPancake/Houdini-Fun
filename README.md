@@ -321,7 +321,7 @@ f@density = density_sum / num_samples;
 [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
 
 ## Applying orient to packed prims
-Copy to Points automatically applies attributes like `@orient`, but what if you need the same effect after setting `@orient` to a quaternion?
+Copy to Points automatically applies quaternions like `@orient`, but what if you need the same effect without Copy to Points?
 
 Normally you'd set the `transform` intrinsic, but this replaces everything. To just replace the `@orient`, set `pointinstancetransform` to 1.
 
