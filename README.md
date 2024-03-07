@@ -320,6 +320,17 @@ f@density = density_sum / num_samples;
 
 [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
 
+## Applying orient to packed prims
+Copy to Points automatically applies quaternions like `@orient`, but what if you need the same effect without Copy to Points?
+
+Normally you'd set the `transform` intrinsic, but this replaces everything. To just replace the `@orient`, set `pointinstancetransform` to 1.
+
+```js
+setprimintrinsic(0, "pointinstancetransform", i@elemnum, 1);
+```
+
+Thanks to WaffleboyTom for this tip!
+
 ## Snapping to the floor
 Often it's nice to organise geometry by snapping it to the floor. Here's a few ways to do it!
 
