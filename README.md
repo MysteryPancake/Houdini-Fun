@@ -294,7 +294,7 @@ setprimattrib(0, "primcol", prim_id, i@ptcol);
 
 <br clear="left" />
 
-The same idea works for custom cross sections, though it's easier to use Copy to Points to orient each cross section correctly.
+The same code works for custom cross sections, though it's easier to use Copy to Points to orient each cross section.
 
 Just make sure the points are sorted and `cols` matches the point count of the cross section!
 
