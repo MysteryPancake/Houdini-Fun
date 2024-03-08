@@ -305,7 +305,7 @@ Just make sure the points are sorted and `cols` matches the point count of the c
 
 <br clear="left" />
 
-If `cols` doesn't match the point count, never fear. You'll find some really cool trippy shapes!
+If `cols` doesn't match the point count, never fear. You get some really cool trippy shapes!
 
 <p align="left">
   <img src="./images/sweepshape1.png?raw=true" height="300">
