@@ -207,6 +207,113 @@ addprim(0, "poly", points);
 
 [Download the HIP file!](./hips/circle.hipnc?raw=true)
 
+## Sweep in VEX
+
+Ever wanted to remake Sweep in VEX? Me neither, but let's do it anyway!
+
+<img src="./images/sweep1.png?raw=true" width="200" align="left">
+
+First we need to know the orientation of each point along the curve.
+
+The easiest way is with the Orientation Along Curve node. Enable the X and Y vectors `@out` and `@up`.
+
+The `@out` and `@up` vectors form a 3D plane we can place circles on.
+
+For example, we can multiply `sin()` by one vector and `cos()` by the other, then add them together.
+
+```js
+v@P += sin(phase) * v@up - sin(phase) * v@out;
+```
+
+<br clear="left" />
+
+<img src="./images/sweep2.png?raw=true" width="200" align="left">
+
+Using that in a for loop, we can replace each point with a correctly oriented circle.
+
+```js
+int cols = chi("columns");
+float radius = chf("radius");
+float angle = radians(chf("angle"));
+int num_points = npoints(0);
+
+for (int i = 0; i < cols; ++i) {
+    // Column factor (0-1 exclusive)
+    float col_factor = float(i) / cols;
+    // Row factor (0-1 inclusive)
+    float row_factor = float(i@ptnum) / (num_points - 1);
+
+    // Scale and rotation ramps
+    float scale_ramp = chramp("scale_ramp", row_factor);
+    float roll_ramp = chramp("roll_ramp", row_factor);
+
+    // Generate circles on the plane defined by v@out and v@up
+    float phase = 2 * PI * (col_factor + roll_ramp) + angle;
+    vector offset = cos(phase) * v@out - sin(phase) * v@up;
+
+    addpoint(0, v@P + offset * radius * scale_ramp);
+}
+
+// Remove original points
+removepoint(0, i@ptnum);
+```
+
+<br clear="left" />
+
+<img src="./images/sweep3.png?raw=true" width="200" align="left">
+
+Now we just need to connect the circles with quads. To make a quad, we need the index of each corner.
+
+The tricky bit is looping back to the start after we reach the end of each ring, which takes a bit of modulo.
+
+```js
+int num_points = npoints(0);
+int cols = chi("columns");
+
+// Skip last connections when path is open
+int closed = chi("close_path");
+if (!closed && i@ptnum >= num_points - cols) return;
+
+// Row and column indexes per point
+i@ptrow = i@ptnum / cols;
+i@ptcol = i@ptnum % cols;
+
+// Point indexes of the 4 corners of each quad
+int corner1 = i@ptnum;
+int corner2 = i@ptrow * cols + (i@ptnum + 1) % cols;
+int corner3 = (corner2 + cols) % num_points;
+int corner4 = (corner1 + cols) % num_points;
+
+// Add quads
+int prim_id = addprim(0, "poly", corner1, corner2, corner3, corner4);
+
+// Row and column indexes per prim
+setprimattrib(0, "primrow", prim_id, i@ptrow);
+setprimattrib(0, "primcol", prim_id, i@ptcol);
+```
+
+<br clear="left" />
+
+The same idea works for custom cross sections, though it's easier to use Copy to Points to orient each cross section correctly.
+
+Just make sure the points are sorted and `cols` matches the point count of the cross section!
+
+<p align="left">
+  <img src="./images/sweep4.png?raw=true" height="250">
+  <img src="./images/sweep5.png?raw=true" height="250">
+</p>
+
+<br clear="left" />
+
+If `cols` doesn't match the point count, never fear. You'll find some really cool trippy shapes!
+
+<p align="left">
+  <img src="./images/sweepshape1.png?raw=true" height="300">
+  <img src="./images/sweepshape2.png?raw=true" height="300">
+</p>
+
+[Download the HIP file!](./hips/vex_sweep.hiplc?raw=true)
+
 ## Reusing VEX code in multiple wrangles
 Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
 
