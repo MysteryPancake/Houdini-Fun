@@ -2025,10 +2025,10 @@ y1 = result;</code></pre>
 							</a>
 						</div>
 						<h2 id="method-4-fir-filters">Method 4: FIR filters</h2>
-						<p>FIR filters are like if convolution and biquad filters had a baby. They're a type of convolution with a very powerful kernel.</p>
+						<p>FIR filters are the perfect marriage of convolution and biquad filters. It's convolution with the most powerful kernel in the world!</p>
 						<p>To understand them, let's go back to lerp. Remember how I said lerp is an IIR lowpass? What does IIR even mean?</p>
 						<p>IIR stands for <b>Infinite Impulse Response</b>. This means the filter runs forever, and you keep feeding it samples infinitely. This is great for intense smoothing, since it gives plenty of time to move towards the target value. But most of the time we don't have infinite samples, like with Trail we only get a few samples at a time!</p>
-						<p>You can't just chop a signal up, lerp each piece and expect consistent results.</p>
+						<p>You can't just chop a signal up, lerp each piece and expect good results.</p>
 						<div>
 							<canvas id="lerp4Canvas" width="640" height="200" style="cursor: pointer;"></canvas>
 						</div>
@@ -2158,8 +2158,8 @@ y1 = result;</code></pre>
 							});
 						})();
 						</script>
-						<p>This is why using Trail with IIR filters is a bad idea. It adds more lumps and jumps instead of smoothing them out. If only we could smooth pieces of a signal without getting so many nasty jumps. Turns out we can with FIR filters!</p>
-						<p>FIR stands for <b>Finite Impulse Response</b>. In other words, the signal and filter have a fixed size. This is perfect for Trail!</p>
+						<p>The same thing happens when you use Trail with lerp. It adds more lumps and bumps instead of smoothing them out. If only there was a cleaner way to smooth pieces of a signal. Turns out there is, FIR filters!</p>
+						<p>FIR stands for <b>Finite Impulse Response</b>. This means the signal and filter have a fixed size, just like Trail.</p>
 						<p>TODO: FINISH THIS</p>
 					</div>
 				</div>
