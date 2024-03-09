@@ -303,8 +303,6 @@ Just make sure the points are sorted and `cols` matches the point count of the c
   <img src="./images/sweep5.png?raw=true" height="250">
 </p>
 
-<br clear="left" />
-
 If `cols` doesn't match the point count, never fear. You'll get cool trippy looking shapes!
 
 <p align="left">
@@ -313,6 +311,46 @@ If `cols` doesn't match the point count, never fear. You'll get cool trippy look
 </p>
 
 [Download the HIP file!](./hips/vex_sweep.hiplc?raw=true)
+
+## Sweep varying cross sections
+I showed this to Lara Belaeva, who pushes Sweep to its limits on LinkedIn. She tried it already, but had an interesting point:
+
+> If I decided to build my own Sweep I would try to do it similar to what we have in Plasticity. In Plasticity you can take several different cross-sections, put them in different regions of the curve, and the Sweep creates the blends between them across the curve. I tried to make such a tool but it's still so-so. Houdini's Sweep also can use different cross sections, but doesn't create blends between them
+
+It would be cool if Sweep supported different cross sections. But what if it does already?
+
+Try using normals from Orientation Along Curve, then copy different cross sections onto each point with Copy to Points.
+
+Plug that into Sweep's second input and you'll see we can use different cross sections after all!
+
+<img src="./images/sweep8.png?raw=true" height="300">
+
+Although it works, if you look closely it resampled each cross section to the same number of points. Lara tried this too:
+
+> I just resampled these cross-sections with a constant number of points and then they were sort of placed along the curve based on curveu attribute, and then the algorithm connected 1-1-1, 2-2-2, 3-3-3 points of these cross-sections with polylines. And then these polylines were turned into a mesh with Loft.
+
+So what if we want the exact same cross sections? PolyBridge comes to our rescue!
+
+Plug the cross sections into a PolyBridge node instead. Set the source group to all prims from 0 to the second last:
+
+```js
+0-`nprims(0)-2`
+```
+
+Set the destination group to all prims from 1 to the last:
+
+```js
+1-`nprims(0)-1`
+```
+
+Now the cross sections connect perfectly without any resampling!
+
+<p align="left">
+  <img src="./images/sweep8.png?raw=true" height="200">
+  <img src="./images/sweep7.png?raw=true" height="200">
+</p>
+
+[Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc?raw=true)
 
 ## Reusing VEX code in multiple wrangles
 Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
