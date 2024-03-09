@@ -217,9 +217,9 @@ First we need to know the orientation of each point along the curve.
 
 The easiest way is with the Orientation Along Curve node. Enable the X and Y vectors `@out` and `@up`.
 
-The `@out` and `@up` vectors form a 3D plane we can place circles on.
+The `@out` and `@up` vectors define a 3D plane we can slap circles on.
 
-For example, we can multiply `sin()` by one vector and `cos()` by the other, then add them together.
+For example, multiply `sin()` by one vector and `cos()` by the other, then add them together. This gets a point around a circle flattened to the plane.
 
 ```js
 v@P += sin(phase) * v@up - sin(phase) * v@out;
