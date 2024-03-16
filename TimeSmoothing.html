@@ -115,7 +115,7 @@
 			ctx.fillRect(0, 0, canv.width, canv.height);
 		}
 		
-		function drawLine(canv, ctx, x1, y1, x2, y2) {
+		function drawLine(ctx, x1, y1, x2, y2) {
 			ctx.beginPath();
 			ctx.moveTo(x1, y1);
 			ctx.lineTo(x2, y2);
@@ -359,7 +359,7 @@
 					</section>
 					<div id="content">
 						<h2 id="method-1-lerp">Method 1: Lerp</h2>
-						<p>The easiest way to smooth stuff is with lerp, <a href="./Lerp" target="_blank">which I wrote about here</a>. It's really popular for games, especially in Unity. It's not a good method, but it's a nice intro to the topic.</p>
+						<p>The easiest way to smooth stuff is with lerp, <a href="./Lerp" target="_blank">which I wrote about here</a>. It's really popular for games, especially in Unity. It's not the best method, but it's a nice intro to the topic.</p>
 						<p>The idea is you start at some value, then pick a target value. Each frame you move a little bit closer to the target by some percentage. The slower you move, the smoother your path becomes.</p>
 						<pre><code class="language-js">current = lerp(current, target, factor);</code></pre>
 						<p>Here's a demo with the smooth version in white. Click and drag to draw your own data.</p>
@@ -708,7 +708,7 @@
 								
 								ctx.lineWidth = 1.5;
 								ctx.strokeStyle = "#FF0000";
-								drawLine(canv, ctx, 0, canv.height * 0.2, canv.width, canv.height * 0.2);
+								drawLine(ctx, 0, canv.height * 0.2, canv.width, canv.height * 0.2);
 								
 								ctx.strokeStyle = "white";
 								ctx.beginPath();
@@ -747,7 +747,7 @@
 						</div>
 						<p>Although solvers are ideal, we can get a decent approximation with Trail.</p>
 						<h4 id="option-2-trail">Option 2: Trail</h4>
-						<p>Instead of sampling all past frames, it's faster to sample a handful of past frames and try to guess the future from them. This is called a <b>sliding window</b> technique, which Catherine used for her demo. It's good for production since it can be batch processed and run in parallel. <a href="https://www.shadertoy.com/view/dtlSWH" target="_blank">I used it to make a GPU equalizer</a>. However it's bad news for lerp, since lerp <a href="#method-4-fir-filters">can't react to jolts</a> if it doesn't know they happened.</p>
+						<p>Instead of sampling all past frames, it's faster to sample a handful of past frames and try to guess the future from them. This is called a <b>sliding window</b> technique, which Catherine used for her demo. It's good for production since it can be batch processed and run in parallel. However it's bad news for lerp, since lerp <a href="#method-4-fir-filters">can't react to jolts</a> if it doesn't know they happened.</p>
 						<p>To try it anyway, add a Trail node and a Point Wrangle. Plug Trail into the second wrangle input.</p>
 						<img src="./images/smoothing/trailwrangle.PNG" width="540" class="mb-3 mw-100">
 						<p>For dense meshes, it helps to cache Trail for better performance.</p>
@@ -1280,7 +1280,7 @@ if (chi("normalize_kernel")) {
 v@P = pos_total;</code></pre>
 						<img src="./images/smoothing/proximityconvolve.webp" width="480" class="mb-3 mw-100">
 						<p>This looks similar to Edge Transport, which makes sense since both are distance-based methods.</p>
-						<p>Anyway, back on track. Let's jump to lerp's older brother, biquad filters!</p>
+						<p>Anyway, back on track. Let's jump to lerp's big brother, biquad filters!</p>
 						<h2 id="method-3-biquad-filters">Method 3: Biquad filters</h2>
 						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter.</p>
 						<p>They give you full control over the frequency response, so you can make precise changes without affecting other frequencies. Best of all, they're fast and easy to run. It barely takes any code to run a biquad filter, seen later in this article.</p>
@@ -1567,22 +1567,22 @@ v@P = pos_total;</code></pre>
 								
 								// Draw middle line
 								let yPos = 0.5 * canv.height;
-								drawLine(canv, ctx, 0, yPos, canv.width, yPos);
+								drawLine(ctx, 0, yPos, canv.width, yPos);
 								
 								ctx.strokeStyle = "#FF0000";
 								// Draw clipping top line
 								yPos = (0.5 - ampScale) * canv.height;
-								drawLine(canv, ctx, 0, yPos, canv.width, yPos);
+								drawLine(ctx, 0, yPos, canv.width, yPos);
 								
 								// Draw clipping bottom line
 								yPos = (0.5 + ampScale) * canv.height;
-								drawLine(canv, ctx, 0, yPos, canv.width, yPos);
+								drawLine(ctx, 0, yPos, canv.width, yPos);
 								
 								ctx.strokeStyle = "#808080";
-								drawData(canv, ctx, timeBefore, ampScale);
+								drawData(ctx, timeBefore, ampScale);
 								
 								ctx.strokeStyle = "white";
-								drawData(canv, ctx, timeAfter, ampScale);
+								drawData(ctx, timeAfter, ampScale);
 							}
 							
 							const canv2 = document.getElementById("biquadCanvas2");
@@ -1703,13 +1703,13 @@ v@P = pos_total;</code></pre>
 									} else {
 										yPos = canv2.height - i * canv2.height * 0.5;
 									}
-									drawLine(canv2, ctx2, 0, yPos, canv2.width, yPos);
+									drawLine(ctx2, 0, yPos, canv2.width, yPos);
 								}
 								
 								// Draw clipping line
 								ctx2.strokeStyle = "#FF0000";
 								yPos = canv2.height * 0.5;
-								drawLine(canv2, ctx2, 0, yPos, canv2.width, yPos);
+								drawLine(ctx2, 0, yPos, canv2.width, yPos);
 								
 								// Draw magnitudes before filtering
 								ctx2.fillStyle = "#808080";
@@ -2081,7 +2081,7 @@ y1 = result;</code></pre>
 										if (i % resetPeriod === 0) {
 											current = data[i];
 											const xPos = i / (dataCopy.length - 1) * canv.width;
-											drawLine(canv, ctx, xPos, 0, xPos, canv.height);
+											drawLine(ctx, xPos, 0, xPos, canv.height);
 										}
 										// The magic formula
 										current = lerp(current, dataCopy[i], lerpFac);
@@ -2119,7 +2119,7 @@ y1 = result;</code></pre>
 											// Draw cut line
 											ctx.strokeStyle = "#808080";
 											const xPos = i / (data.length - 1) * canv.width;
-											drawLine(canv, ctx, xPos, 0, xPos, canv.height);
+											drawLine(ctx, xPos, 0, xPos, canv.height);
 
 											ctx.strokeStyle = "white";
 											ctx.beginPath();
