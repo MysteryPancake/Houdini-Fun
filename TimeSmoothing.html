@@ -1579,10 +1579,10 @@ v@P = pos_total;</code></pre>
 								drawLine(ctx, 0, yPos, canv.width, yPos);
 								
 								ctx.strokeStyle = "#808080";
-								drawData(ctx, timeBefore, ampScale);
+								drawData(canv, ctx, timeBefore, ampScale);
 								
 								ctx.strokeStyle = "white";
-								drawData(ctx, timeAfter, ampScale);
+								drawData(canv, ctx, timeAfter, ampScale);
 							}
 							
 							const canv2 = document.getElementById("biquadCanvas2");
