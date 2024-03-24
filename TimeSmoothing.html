@@ -1282,9 +1282,8 @@ v@P = pos_total;</code></pre>
 						<p>This looks similar to Edge Transport, which makes sense since both are distance-based methods.</p>
 						<p>Anyway, back on track. Let's jump to lerp's big brother, biquad filters!</p>
 						<h2 id="method-3-biquad-filters">Method 3: Biquad filters</h2>
-						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter.</p>
-						<p>They give you full control over the frequency response, so you can make precise changes without affecting other frequencies. Best of all, they're fast and easy to run. It barely takes any code to run a biquad filter, seen later in this article.</p>
-						<p>Have a play with this demo. Try to get a feel for how time and frequency interact.</p>
+						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter. They give full control over the frequency response with very little effort.</p>
+						<p>Have a play with the demo below. Try to get a feel for how time and frequency interact.</p>
 						<p class="mb-2">
 							<b>Time Domain</b>
 						</p>
@@ -2002,9 +2001,10 @@ v@P = pos_total;</code></pre>
 						</ul>
 						<h3>RBJ cookbook</h3>
 						<p>So how do biquad filters work? Luckily they're well documented and have been studied for years.</p>
-						<p>Maybe the most famous resource on biquad filters is <a href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" target="_blank">Robert Bristow-Johnson's audio EQ cookbook</a>, which has a great <a href="https://www.musicdsp.org/en/latest/Filters/64-biquad-c-code.html" target="_blank">C version by Tom St Denis</a>. I used Tom's version for all my implementations, including my <a href="https://www.shadertoy.com/view/dtlSWH" target="_blank">GPU equalizer</a>.</p>
-						<p>Though deriving the filters is complicated, running them is easy. It only takes 5 lines of code!</p>
-						<pre><code class="language-js">result = a0 * sample
+						<p>Maybe the most famous resource is <a href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" target="_blank">Robert Bristow-Johnson's audio EQ cookbook</a>. It spoonfeeds you all the math, which is great for idiots like me. Even better, there's a beautiful <a href="https://www.musicdsp.org/en/latest/Filters/64-biquad-c-code.html" target="_blank">C version by Tom St Denis</a> you can copy paste into any programming language. I first used it for a <a href="https://www.shadertoy.com/view/dtlSWH" target="_blank">GPU equalizer</a>, and I've been stealing it ever since!</p>
+						<p>Though the math leading up to it is scary, the actual filtering process is only 5 lines of code!</p>
+						<pre><code class="language-js">// Calculate current sample
+result = a0 * sample
        + a1 * x1
        + a2 * x2
        - a3 * y1
@@ -2018,7 +2018,143 @@ x1 = sample;
 y2 = y1;
 y1 = result;</code></pre>
 						<h3>Running this in Houdini</h3>
-						<p>TODO</p>
+						<p>In the code above, you'll see variables called <code>a0</code>, <code>a1</code>, <code>a2</code>, <code>a3</code> and <code>a4</code>. These are the <b>coefficients</b> of the filter.</p>
+						<p>Each filter type has different coefficients, so the first step is calculating them for the filter we want. Start by adding a Detail Wrangle.</p>
+						<img src="./images/smoothing/biquadwrangle1.png" width="540" class="mb-3 mw-100">
+						<p>Now let's steal the <a href="https://www.musicdsp.org/en/latest/Filters/64-biquad-c-code.html" target="_blank">C code</a> and translate it into VEX! One day I'll understand the math, but sadly not today.</p>
+						<pre><code class="language-js">// How many samples we're getting every second
+float sample_rate = chf("sample_rate");
+
+// Filter type: lowpass, highpass, bandpass, notch, peaking, low shelf or high shelf
+int filter_type = chi("filter_type");
+
+// Frequency of the filter, must be less than half the sample rate (Nyquist)
+float freq = chf("frequency");
+
+// Shape of the filter, used by all except low and high shelf filters
+float Q = chf("Q");
+
+// Gain in decibels, used by peaking, low shelf and high shelf filters
+float db_gain = chf("gain_db");
+
+// These parameters are shared for all filter types
+float A = pow(10, db_gain / 40);
+float w = 2 * PI * freq / sample_rate;
+float sn = sin(w);
+float cs = cos(w);
+float alpha = sn / (2 * Q);
+float beta = sqrt(A + A);
+
+// Each filter type has different coefficients
+float a0, a1, a2, b0, b1, b2;
+if (filter_type == 0) {
+	// Low pass
+	b0 = (1 - cs) / 2;
+	b1 = 1 - cs;
+	b2 = (1 - cs) / 2;
+	a0 = 1 + alpha;
+	a1 = -2 * cs;
+	a2 = 1 - alpha;
+} else if (filter_type == 1) {
+	// High pass
+	b0 = (1 + cs) / 2;
+	b1 = -(1 + cs);
+	b2 = (1 + cs) / 2;
+	a0 = 1 + alpha;
+	a1 = -2 * cs;
+	a2 = 1 - alpha;
+} else if (filter_type == 2) {
+	// Band pass
+	b0 = alpha;
+	b1 = 0;
+	b2 = -alpha;
+	a0 = 1 + alpha;
+	a1 = -2 * cs;
+	a2 = 1 - alpha;
+} else if (filter_type == 3) {
+	// Notch
+	b0 = 1;
+	b1 = -2 * cs;
+	b2 = 1;
+	a0 = 1 + alpha;
+	a1 = -2 * cs;
+	a2 = 1 - alpha;
+} else if (filter_type == 4) {
+	// Peaking
+	b0 = 1 + (alpha * A);
+	b1 = -2 * cs;
+	b2 = 1 - (alpha * A);
+	a0 = 1 + (alpha / A);
+	a1 = -2 * cs;
+	a2 = 1 - (alpha / A);
+} else if (filter_type == 5) {
+	// Low shelf
+	b0 = A * ((A + 1) - (A - 1) * cs + beta * sn);
+	b1 = 2 * A * ((A - 1) - (A + 1) * cs);
+	b2 = A * ((A + 1) - (A - 1) * cs - beta * sn);
+	a0 = (A + 1) + (A - 1) * cs + beta * sn;
+	a1 = -2 * ((A - 1) + (A + 1) * cs);
+	a2 = (A + 1) + (A - 1) * cs - beta * sn;
+} else if (filter_type == 6) {
+	// High shelf
+	b0 = A * ((A + 1) + (A - 1) * cs + beta * sn);
+	b1 = -2 * A * ((A - 1) + (A + 1) * cs);
+	b2 = A * ((A + 1) + (A - 1) * cs - beta * sn);
+	a0 = (A + 1) - (A - 1) * cs + beta * sn;
+	a1 = 2 * ((A - 1) - (A + 1) * cs);
+	a2 = (A + 1) - (A - 1) * cs - beta * sn;
+}
+
+// Final coefficients, these actually get used for filtering
+f@a0 = b0 / a0;
+f@a1 = b1 / a0;
+f@a2 = b2 / a0;
+f@a3 = a1 / a0;
+f@a4 = a2 / a0;</code></pre>
+						<p>This spits out the coefficients we need as detail attributes called <code>@a0</code>, <code>@a1</code>, <code>@a2</code>, <code>@a3</code> and <code>@a4</code>. Brilliant!</p>
+						<p>Now we need to set the initial values of the filter, <code>@x1</code>, <code>@x2</code>, <code>@y1</code> and <code>@y2</code>. Do this in a Point Wrangle after the Detail Wrangle.</p>
+						<img src="./images/smoothing/biquadwrangle2.png" width="540" class="mb-3 mw-100">
+						<p>Since we haven't filtered anything yet, we can set the initial values to 0.</p>
+						<pre><code class="language-js">v@x1 = v@x2 = v@y1 = v@y2 = 0;</code></pre>
+						<p>Or if you really want, you can set them to the current position.</p>
+						<pre><code class="language-js">v@x1 = v@x2 = v@y1 = v@y2 = v@P;</code></pre>
+						<p>This helps the filter converge faster towards the target value. It's good for some filters like a lowpass, where the filtered value is similar to the original value. For others like a highpass, it makes it harder since it's further to travel.</p>
+						<p>Finally we can run the biquad filter using a Solver. Add a Solver node after the Point Wrangle.</p>
+						<img src="./images/smoothing/biquadwrangle3.png" width="540" class="mb-3 mw-100">
+						<p>In the Solver, add a Point Wrangle with the current animation (Input_1) plugged into the second wrangle input.</p>
+						<img src="./images/smoothing/biquadwrangle4.png" width="540" class="mb-3 mw-100">
+						<p>In the Point Wrangle is the heart of the filter. Just as before, it's only a few lines of code!</p>
+						<pre><code class="language-js">// Get current sample
+vector sample = v@opinput1_P;
+
+// Apply filter based on current sample
+v@P = f@a0 * sample
+    + f@a1 * v@x1
+    + f@a2 * v@x2
+    - f@a3 * v@y1
+    - f@a4 * v@y2;
+      
+// Shift x1 to x2, sample to x1
+v@x2 = v@x1;
+v@x1 = sample;
+
+// Shift y1 to y2, result to y1
+v@y2 = v@y1;
+v@y1 = v@P;</code></pre>
+						<div class="my-2">
+							<a href="./hips/smoothing/biquad_single.hiplc?raw=true" target="_blank">
+								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
+							</a>
+						</div>
+						<h4>Oversampling</h4>
+						<p>A popular music technique is oversampling, adding more detail to your signal. It helps biquad filters cramp less.</p>
+						<p>Sampled signals have limits in what they can store. One of these limits is the <b>Nyquist frequency</b>. It means anything above half the sample rate can't be stored with perfect quality. For example if your FPS is 24 Hz, you can only view sine waves up to 12 Hz. Anything faster appears to slow down, since the camera records slower than the object moves. This is known as <b>aliasing</b>.</p>
+						<p>This happens a lot in Houdini, like with motion blur of fast moving objects. If something moves at sonic speed, you need tons of substeps to accurately capture the movement.</p>
+						<p>Nyquist limits also apply to biquad filters. You can't make the frequency of a biquad filter higher than half the sample rate. It's impossible for sine waves above Nyquist to exist, so there's no point trying to filter them out.</p>
+						<p>Just like with motion blur, the solution is oversampling. In Houdini that means increasing the substeps on your Solver. If you double the substeps from 1 to 2, you're doubling the sample rate from 24 to 48. Now you can filter anything up to 24 Hz!</p>
+						<p>When setting up biquad coefficients, make sure your sample rate includes the substeps too!</p>
+						<pre><code class="language-js">Sample Rate = $FPS * ch("../solver/substep")</code></pre>
+						<h4>Stacking filters</h4>
 						<div class="my-2">
 							<a href="./hips/smoothing/biquad_equalizer.hipnc?raw=true" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
