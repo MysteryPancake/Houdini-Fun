@@ -136,7 +136,7 @@ Subtract 0.25 from `time` to get a sine wave.
 
 ```js
 float waveSquare(float freq; float time) {
-	return ceil(0.5 - frac(freq * time)) * 2.0 - 1.0;
+	return ceil(0.5 - frac(freq * time)) * 2 - 1;
 }
 ```
 
@@ -149,7 +149,7 @@ I used `ceil()` since it seems error prone than `sign()`.
 
 ```js
 float waveTriangle(float freq; float time) {
-	return abs(frac(freq * time - 0.25) - 0.5) * 4.0 - 1.0;
+	return abs(frac(freq * time - 0.25) - 0.5) * 4 - 1;
 }
 ```
 
@@ -162,7 +162,7 @@ I used `frac()` since it's faster than modulo.
 
 ```js
 float waveSaw(float freq; float time) {
-	return frac(freq * time + 0.5) * 2.0 - 1.0;
+	return frac(freq * time + 0.5) * 2 - 1;
 }
 ```
 
@@ -173,7 +173,7 @@ float waveSaw(float freq; float time) {
 
 ```js
 float wavePulse(float freq; float time; float duty) {
-	return (frac(freq * time) < duty) * 2.0 - 1.0;
+	return (frac(freq * time) < duty) * 2 - 1;
 }
 ```
 
