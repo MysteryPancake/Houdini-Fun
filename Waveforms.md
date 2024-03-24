@@ -182,3 +182,16 @@ float wavePulse(float freq; float time; float duty) {
 Set `duty` to 0.5 to get a square wave.
 
 <br clear="right"/>
+
+## Custom wave
+<img align="right" src="./images/waveforms/customwave.png" width="400">
+
+```js
+float waveCustom(float freq; float time) {
+	return chramp("custom_waveform", frac(freq * time + 0.5)) * 2 - 1;
+}
+```
+
+Draw a waveform with a ramp. Samples are between 0 and 1.
+
+<br clear="right"/>
