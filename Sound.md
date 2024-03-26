@@ -56,7 +56,7 @@ Doubling the speed makes everything raise by 1 octave (12 semitones). It also ma
 
 For fractional speeds it's a lot harder. Just like resizing an image, you have to interpolate between samples to fill in missing data.
 
-<img src="./images/sound/resamplingmeme.png" width="450">
+<img src="./images/sound/resamplingmeme.png" width="600">
 
 There's many ways to interpolate signals, [hear them on my website!](https://mysterypancake.github.io/Houdini-Fun/tools/Resampling) Sinc is the highest possible quality for audio.
 
