@@ -8,8 +8,8 @@ I recently lost my mind and made a bunch of audio effects and a couple of synths
 <img src="./images/sound/soundfx.png" width="800">
 
 ## How it works
-Originally it worked with brute force. I made a tool to [convert raw sample data to audio](https://mysterypancake.github.io/Fun/html/rawaudio), which was slow and tedious.
+Originally I used brute force. I made a tool to [convert raw sample data to audio](https://mysterypancake.github.io/Fun/html/rawaudio), so you could copy data from Houdini and hear how it sounds.
+<br>
+This was slow and tedious, which took all the fun away from sound design and experimenting.
 
 Luckily I found out CHOPS has audio output, so you can mess around and hear the result without leaving Houdini!
-
-The latency is surprisingly good given how many points it has to process, 44100 points for every second of audio!
