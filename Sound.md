@@ -13,7 +13,8 @@ Originally this worked using [a brute force tool I made](https://mysterypancake.
 Luckily CHOPS has direct audio output, which I'm using now. It's much faster and lets you hear the result without leaving Houdini!
 
 ## Setup
-This section is only required if you're interested in learning how all this works from scratch. Otherwise, scroll down to the [nodes](#nodes) section!
+
+This section explains how to setup CHOPS if you want to remake this yourself. Otherwise, feel free to jump ahead to the [nodes](#nodes) section!
 
 <img align="left" src="./images/sound/soundanimsettings.png" width="250">
 
@@ -30,13 +31,36 @@ With such a high framerate, Houdini playback is always slow. This causes audio b
 <br clear="left"/>
 
 ## Nodes
-- Resampling
-- Stereo Image
-- Gain
-- Distortion
-- Parametric EQ
-- Convolution
-- Delay
-- Vibrato
-- Tremolo
-- Chorus
+
+### Resampling
+todo
+
+### Stereo Image
+todo
+
+### Gain
+todo
+
+### Distortion
+todo
+
+### Parametric EQ
+todo
+
+### Convolution
+todo
+
+### Delay
+todo
+
+### Vibrato
+todo
+
+### Tremolo
+todo
+
+### Chorus
+todo
+
+### Oscillators
+todo
