@@ -8,7 +8,7 @@ I recently lost my mind and made a bunch of audio effects and a couple of synths
 
 <img src="./images/sound/soundfx.png" width="800">
 
-Originally this worked using [a brute force tool I made](https://mysterypancake.github.io/Houdini-Fun/tools/RawAudio). You had to copy data from Houdini onto the website to hear it. This was slow and tedious, taking the fun away from sound design and experimentation.
+Originally this worked using [a brute force website I made](https://mysterypancake.github.io/Houdini-Fun/tools/RawAudio). You had to copy data from Houdini onto the website to hear it. This was slow and tedious, taking the fun away from sound design and experimentation.
 
 Luckily CHOPS has direct audio output, which I'm using now. It's much faster and lets you hear the result without leaving Houdini!
 
@@ -33,7 +33,45 @@ With such a high framerate, Houdini playback is always slow. This causes audio b
 ## Nodes
 
 ### Resampling
-todo
+
+Resampling lets you change the pitch and timing of audio by stretching and squashing it. It's also a huge pain to get right.
+
+Resizing audio is just like resizing an image. You have to interpolate between samples to fill in missing information.
+
+<img src="./images/sound/resamplingmeme.png" width="400">
+
+There's many ways to interpolate signals, [try some on my website!](https://mysterypancake.github.io/Houdini-Fun/tools/Resampling) Sinc is the highest possible quality for audio.
+
+Sadly I haven't made sinc in Houdini yet, so you'll have to deal with crappy linear and hermite interpolation for now.
+
+```c
+vector interpolatePos(int mode; float index) {
+    if (mode == 0) {
+        // Linear interpolation, horrible quality
+        vector prev = point(0, "P", floor(index));
+        vector next = point(0, "P", int(ceil(index)));
+        return lerp(prev, next, frac(index));
+    } else {
+        // Hermite interpolation, less horrible but not good
+        // From https://www.musicdsp.org/en/latest/Other/93-hermite-interpollation.html
+        int rounded = floor(index);
+        float x = frac(index);
+        vector y0 = point(0, "P", rounded - 1);
+        vector y1 = point(0, "P", rounded);
+        vector y2 = point(0, "P", rounded + 1);
+        vector y3 = point(0, "P", rounded + 2);
+        vector c1 = 0.5 * (y2 - y0);
+        vector c3 = 1.5 * (y1 - y2) + 0.5 * (y3 - y0);
+        vector c2 = y0 - y1 + c1 - c3;
+        return ((c3 * x + c2) * x + c1) * x + y1;
+    }
+}
+
+int mode = chi("interpolation");
+float oldX = v@P.x;
+v@P = interpolatePos(mode, float(i@ptnum) * chf("speed"));
+v@P.x = oldX;
+```
 
 ### Stereo Image
 todo
