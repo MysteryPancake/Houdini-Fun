@@ -28,6 +28,8 @@ With such a high framerate, Houdini playback is always slow. This causes audio b
 
 **Make sure to select "Maintain realtime playback, possibly skipping frames". This stops most of the buffering issues!**
 
+TODO: FINISH THIS SECTION
+
 <br clear="left"/>
 
 ## Nodes
