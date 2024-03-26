@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Resampling</title>
+		<meta name="description" content="Demonstration of common interpolation methods.">
+		<meta name="keywords" content="Audio, Interpolation, Resample, Resampling">
+		<meta property="og:title" content="Resampling">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://mysterypancake.github.io/Houdini-Fun/tools/Resampling">
+		<meta property="og:site_name" content="Resampling">
+		<meta property="og:description" content="Demonstration of common interpolation methods.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+		* {
+			font-family: system-ui, Arial, Helvetica, sans-serif;
+		}
+
+		h1 {
+			margin: 16px 0;
+		}
+
+		canvas {
+			margin-top: 8px;
+		}
+		</style>
+		<script>
+			// https://github.com/osuushi/Smooth.js
+			(function(){var t,n,r,e,i,o,c,p,u,l,a,s,h,f,d,m,g,_,y,I,C,w,T,v,M,N,b=Object.prototype.hasOwnProperty,S=function(t,n){for(var r in n)b.call(n,r)&&(t[r]=n[r]);function e(){this.constructor=t}return e.prototype=n.prototype,t.prototype=new e,t.__super__=n.prototype,t};for(m in s={method:(r={METHOD_NEAREST:"nearest",METHOD_LINEAR:"linear",METHOD_CUBIC:"cubic",METHOD_LANCZOS:"lanczos",METHOD_SINC:"sinc",CLIP_CLAMP:"clamp",CLIP_ZERO:"zero",CLIP_PERIODIC:"periodic",CLIP_MIRROR:"mirror",CUBIC_TENSION_DEFAULT:0,CUBIC_TENSION_CATMULL_ROM:0}).METHOD_CUBIC,cubicTension:r.CUBIC_TENSION_DEFAULT,clip:r.CLIP_CLAMP,scaleTo:0,sincFilterSize:2,sincWindow:void 0},u=function(t,n){return Math.max(0,Math.min(t,n-1))},a=function(t,n){return(t%=n)<0&&(t+=n),t},l=function(t,n){var r;return(t=a(t,r=2*(n-1)))>n-1&&(t=r-t),t},t=function(){function t(t,n){if(this.array=t,this.length=this.array.length,!(this.clipHelper={clamp:this.clipHelperClamp,zero:this.clipHelperZero,periodic:this.clipHelperPeriodic,mirror:this.clipHelperMirror}[n.clip]))throw"Invalid clip: "+n.clip}return t.prototype.getClippedInput=function(t){return 0<=t&&t<this.length?this.array[t]:this.clipHelper(t)},t.prototype.clipHelperClamp=function(t){return this.array[u(t,this.length)]},t.prototype.clipHelperZero=function(t){return 0},t.prototype.clipHelperPeriodic=function(t){return this.array[a(t,this.length)]},t.prototype.clipHelperMirror=function(t){return this.array[l(t,this.length)]},t.prototype.interpolate=function(t){throw"Subclasses of AbstractInterpolator must override the interpolate() method."},t}(),i=function(n){function r(){r.__super__.constructor.apply(this,arguments)}return S(r,t),r.prototype.interpolate=function(t){return this.getClippedInput(Math.round(t))},r}(),e=function(n){function r(){r.__super__.constructor.apply(this,arguments)}return S(r,t),r.prototype.interpolate=function(t){var n;return(1-(t-=n=Math.floor(t)))*this.getClippedInput(n)+t*this.getClippedInput(n+1)},r}(),n=function(n){function r(t,n){this.tangentFactor=1-Math.max(0,Math.min(1,n.cubicTension)),r.__super__.constructor.apply(this,arguments)}return S(r,t),r.prototype.getTangent=function(t){return this.tangentFactor*(this.getClippedInput(t+1)-this.getClippedInput(t-1))/2},r.prototype.interpolate=function(t){var n,r,e,i,o;return n=Math.floor(t),r=[this.getTangent(n),this.getTangent(n+1)],(2*(o=(t-=n)*(i=t*t))-3*i+1)*(e=[this.getClippedInput(n),this.getClippedInput(n+1)])[0]+(o-2*i+t)*r[0]+(-2*o+3*i)*e[1]+(o-i)*r[1]},r}(),w=Math.sin,o=Math.PI,T=function(t){return 0===t?1:w(o*t)/(o*t)},g=function(t){return function(n){return T(n/t)}},y=function(t){return function(n){return T(n)*t(n)}},c=function(n){function r(t,n){if(r.__super__.constructor.apply(this,arguments),this.a=n.sincFilterSize,!n.sincWindow)throw"No sincWindow provided";this.kernel=y(n.sincWindow)}return S(r,t),r.prototype.interpolate=function(t){var n,r,e,i,o;for(e=0,r=i=(n=Math.floor(t))-this.a+1,o=n+this.a;i<=o?r<=o:r>=o;i<=o?r++:r--)e+=this.kernel(t-r)*this.getClippedInput(r);return e},r}(),h=function(t,n){var r,e,i,o;for(o=[],e=0,i=t.length;e<i;e++)r=t[e],o.push(r[n]);return o},_=function(t,n,r){var e,i;return"0,1"===r.join?t:(e=n/(r[1]-r[0]),i=r[0],function(n){return t(e*(n-i))})},f=function(t){return Object.prototype.toString.call(t).slice("[object ".length,-1)},M=function(t){if(isNaN(t))throw"NaN in Smooth() input";if("Number"!==f(t))throw"Non-number in Smooth() input";if(!isFinite(t))throw"Infinity in Smooth() input"},N=function(t,n){var r,e,i;if("Array"!==f(t))throw"Non-vector in Smooth() input";if(t.length!==n)throw"Inconsistent dimension in Smooth() input";for(e=0,i=t.length;e<i;e++)r=t[e],M(r)},d=function(t){return"Number"===f(t)&&isFinite(t)&&!isNaN(t)},I=function(t){var n;switch(n="scaleTo param must be number or array of two numbers",f(t)){case"Number":if(!d(t))throw n;t=[0,t];break;case"Array":if(2!==t.length)throw n;if(!d(t[0])||!d(t[1]))throw n;break;default:throw n}return t},C=function(t){var n,r,e;for(r in n={},t)b.call(t,r)&&(e=t[r],n[r]=e);return n},p=function(t,r){var o,u,l,a,d,m,y,w,T,v,S;for(y in null==r&&(r={}),T={},r=C(r),T.config=C(r),null==r.scaleTo&&(r.scaleTo=r.period),null==r.sincFilterSize&&(r.sincFilterSize=r.lanczosFilterSize),s)b.call(s,y)&&(S=s[y],null==r[y]&&(r[y]=S));if(!(d={nearest:i,linear:e,cubic:n,lanczos:c,sinc:c}[r.method]))throw"Invalid method: "+r.method;if("lanczos"===r.method&&(r.sincWindow=g(r.sincFilterSize)),t.length<2)throw"Array must have at least two elements";for(y in T.count=t.length,v=function(){var n,e,i,o;switch(f(t[0])){case"Number":if(T.dimension="scalar",p.deepValidation)for(n=0,i=t.length;n<i;n++)w=t[n],M(w);return a=new d(t,r),function(t){return a.interpolate(t)};case"Array":if(T.dimension=u=t[0].length,!u)throw"Vectors must be non-empty";if(p.deepValidation)for(e=0,o=t.length;e<o;e++)S=t[e],N(S,u);return m=function(){var n;for(n=[],l=0;0<=u?l<u:l>u;0<=u?l++:l--)n.push(new d(h(t,l),r));return n}(),function(t){var n,r,e,i;for(i=[],r=0,e=m.length;r<e;r++)n=m[r],i.push(n.interpolate(t));return i};default:throw"Invalid element type: "+f(t[0])}}(),o="periodic"===r.clip?t.length:t.length-1,r.scaleTo||(r.scaleTo=o),T.domain=I(r.scaleTo),v=_(v,o,T.domain),T.domain.sort(),T)b.call(T,y)&&(S=T[y],v[y]=S);return v},r)b.call(r,m)&&(v=r[m],p[m]=v);p.deepValidation=!0,("undefined"!=typeof exports&&null!==exports?exports:window).Smooth=p}).call(this);
+		</script>
+		<script>
+		let canvasElem;
+		let canvasContext;
+		let audioContext;
+		let detail;
+		let numSamples;
+		let bufferSource;
+		let smoothed;
+		let interpolation;
+		let samples;
+		let frequency;
+		let volume;
+		let volumeNode;
+		let buffer;
+
+		// 4-point, 3rd-order Hermite interpolation
+		// Based on https://www.musicdsp.org/en/latest/Other/93-hermite-interpollation.html
+		function hermite(arr, index) {
+			const floor = Math.floor(index);
+			const x = index % 1;
+			let y1 = arr[floor];
+			if (y1 === undefined) {
+				y1 = 0;
+			}
+			let y0 = arr[floor - 1];
+			if (y0 === undefined) {
+				y0 = y1;
+			}
+			let y2 = arr[floor + 1];
+			if (y2 === undefined) {
+				y2 = y1;
+			}
+			let y3 = arr[floor + 2];
+			if (y3 === undefined) {
+				y3 = y2;
+			}
+			const c1 = 0.5 * (y2 - y0);
+			const c3 = 1.5 * (y1 - y2) + 0.5 * (y3 - y0);
+			const c2 = y0 - y1 + c1 - c3;
+			return ((c3 * x + c2) * x + c1) * x + y1;
+		}
+
+		// Linear interpolation
+		// Based on https://github.com/MysteryPancake/After-Effects-Fun/blob/master/expressions/linear.js
+		function linear(arr, index) {
+			let prev = arr[Math.floor(index)];
+			let next = arr[Math.ceil(index)];
+			if (prev === undefined) {
+				prev = 0;
+			}
+			if (next === undefined) {
+				next = 0;
+			}
+			const weight = index % 1;
+			return prev * (1 - weight) + next * weight;
+		}
+
+		function setDetail(elem) {
+			detail = parseFloat(elem.value);
+			recalculate();
+		}
+
+		function setSamples(elem) {
+			numSamples = parseInt(elem.value);
+			repopulateArray();
+			recalculate();
+		}
+
+		function setFrequency(elem) {
+			frequency = parseFloat(elem.value);
+			recalculateBuffer();
+		}
+
+		function setVolume(elem) {
+			if (!volumeNode) return;
+			volume = parseFloat(elem.value);
+			volumeNode.gain.value = volume;
+		}
+
+		function setInterpolation(elem) {
+			interpolation = elem.value;
+			recalculate();
+		}
+
+		function repopulateArray() {
+			samples = new Float32Array(numSamples);
+			// Keep first and last samples at 0 to prevent pops and remove DC offset
+			for (let i = 1; i < numSamples - 1; i++) {
+				samples[i] = Math.random() - 0.5;
+			}
+		}
+
+		function recalculateFilter() {
+			switch (interpolation) {
+				case "sincrectangular":
+					smoothed = Smooth(samples, {
+						clip: "periodic",
+						method: "sinc",
+						sincFilterSize: 64,
+						sincWindow: function(x) {
+							return 1;
+						}
+					});
+					break;
+				case "sincgaussian":
+					smoothed = Smooth(samples, {
+						clip: "periodic",
+						method: "sinc",
+						sincFilterSize: 64,
+						sincWindow: function(x) {
+							return Math.exp(-x * x);
+						}
+					});
+					break;
+				case "nearest":
+				case "linear":
+				case "cubic":
+				case "lanczos":
+					smoothed = Smooth(samples, {
+						clip: "periodic",
+						method: interpolation
+					});
+					break;
+			}
+		}
+
+		function redrawCanvas() {
+			canvasContext.fillStyle = "black";
+			canvasContext.fillRect(0, 0, canvasElem.width, canvasElem.height);
+			if (buffer) {
+				const interpolated = buffer.getChannelData(0);
+				canvasContext.globalCompositeOperation = "screen";
+				// Draw interpolated samples
+				canvasContext.fillStyle = "green";
+				for (let i = 0; i < interpolated.length; i++) {
+					canvasContext.beginPath();
+					canvasContext.arc(i / (interpolated.length - 1) * canvasElem.width, (interpolated[i] + 1) * canvasElem.height * 0.5, 3, 0, 2 * Math.PI);
+					canvasContext.fill();
+				}
+				// Draw actual samples
+				canvasContext.shadowBlur = 8;
+				canvasContext.shadowColor = "white";
+				canvasContext.fillStyle = "white";
+				for (let j = 0; j < samples.length; j++) {
+					canvasContext.beginPath();
+					canvasContext.arc(j / (samples.length - 1) * canvasElem.width, (samples[j] + 1) * canvasElem.height * 0.5, 6, 0, 2 * Math.PI);
+					canvasContext.fill();
+				}
+				canvasContext.globalCompositeOperation = "source-over";
+				canvasContext.shadowBlur = 0;
+			} else {
+				canvasContext.shadowBlur = 32;
+				canvasContext.shadowColor = "white";
+				canvasContext.fillStyle = "white";
+				canvasContext.font = (canvasElem.height * 0.25) + "px Arial";
+				canvasContext.textAlign = "center";
+				canvasContext.textBaseline = "middle";
+				canvasContext.fillText("Click to enable audio", canvasElem.width * 0.5, canvasElem.height * 0.5);
+				canvasContext.shadowBlur = 0;
+			}
+		}
+
+		function recalculate() {
+			recalculateFilter();
+			recalculateBuffer();
+			redrawCanvas();
+		}
+
+		function recalculateBuffer() {
+			if (!audioContext) return;
+			if (bufferSource) {
+				bufferSource.disconnect();
+				bufferSource.stop();
+			}
+			bufferSource = audioContext.createBufferSource();
+			buffer = audioContext.createBuffer(1, samples.length * detail, audioContext.sampleRate);
+			const interpolated = buffer.getChannelData(0);
+			for (let i = 0; i < interpolated.length; i++) {
+				const newIndex = i / (interpolated.length - 1) * (samples.length - 1);
+				switch (interpolation) {
+					case "rounddown":
+						interpolated[i] = samples[Math.floor(newIndex)];
+						break;
+					case "roundup":
+						interpolated[i] = samples[Math.ceil(newIndex)];
+						break;
+					case "customnearest":
+						interpolated[i] = samples[Math.round(newIndex)];
+						break;
+					case "customlinear":
+						interpolated[i] = linear(samples, newIndex);
+						break;
+					case "customhermite":
+						interpolated[i] = hermite(samples, newIndex);
+						break;
+					default:
+						interpolated[i] = smoothed(newIndex);
+				}
+			}
+			bufferSource.playbackRate.value = interpolated.length / audioContext.sampleRate * frequency;
+			bufferSource.buffer = buffer;
+			bufferSource.loop = true;
+			bufferSource.connect(volumeNode);
+			bufferSource.start();
+		}
+
+		function setupAudio() {
+			if (audioContext) return;
+			audioContext = new (window.AudioContext || window.webkitAudioContext)();
+			volumeNode = audioContext.createGain();
+			volumeNode.gain.value = volume;
+			volumeNode.connect(audioContext.destination);
+			recalculate();
+		}
+
+		function setup() {
+			canvasElem = document.getElementById("canvasElem");
+			canvasContext = canvasElem.getContext("2d");
+			detail = parseFloat(document.getElementById("detailSlider").value);
+			numSamples = parseInt(document.getElementById("sampleSlider").value);
+			frequency = parseInt(document.getElementById("freqSlider").value);
+			volume = parseFloat(document.getElementById("volumeSlider").value);
+			interpolation = document.getElementById("method").value;
+			canvasElem.addEventListener("click", setupAudio);
+			Smooth.deepValidation = false;
+			repopulateArray();
+			redrawCanvas();
+		}
+		</script>
+	</head>
+	<body onload="setup();">
+		<h1>Resampling</h1>
+		<div>
+			<label for="method">Method</label>
+			<select id="method" onchange="setInterpolation(this);">
+				<optgroup label="Zero-Order Hold">
+					<option value="rounddown">Round Down</option>
+					<option value="roundup">Round Up</option>
+					<option value="nearest">Nearest</option>
+					<option value="customnearest">Nearest (Remake)</option>
+				</optgroup>
+				<optgroup label="First-Order Hold">
+					<option value="linear">Linear</option>
+					<option value="customlinear">Linear (Remake)</option>
+				</optgroup>
+				<optgroup label="Third-Order Hold">
+					<option value="cubic">Cubic / Hermite</option>
+					<option value="customhermite">Cubic / Hermite (Remake)</option>
+				</optgroup>
+				<optgroup label="Sinc-Based">
+					<option value="lanczos">Lanczos</option>
+					<option value="sincgaussian" selected>Sinc (Gaussian)</option>
+					<option value="sincrectangular">Sinc (Rectangular)</option>
+				</optgroup>
+			</select>
+			<label for="sampleSlider">Samples</label>
+			<input type="range" id="sampleSlider" oninput="setSamples(this);" min="2" max="100" value="20" step="1">
+			<label for="detailSlider">Detail</label>
+			<input type="range" id="detailSlider" oninput="setDetail(this);" min="1" max="50" value="20" step="0.01">
+			<label for="freqSlider">Frequency</label>
+			<input type="range" id="freqSlider" oninput="setFrequency(this);" min="20" max="880" value="220" step="0.01">
+			<label for="volumeSlider">Volume</label>
+			<input type="range" id="volumeSlider" oninput="setVolume(this);" min="0" max="1" value="0.25" step="0.01">
+		</div>
+		<canvas id="canvasElem" width="1024" height="256"></canvas>
+	</body>
+</html>
