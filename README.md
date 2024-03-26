@@ -2,7 +2,7 @@
 Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 
 ## Rabbit Hole
-These articles grew too long to fit on the main page. Be sure to check them out!
+These articles grew too long to fit here. They're the most interesting in my opinion, so be sure to check them out!
 
 - [Vexember 2023](Vexember.md)
 - [3D Signed Distance Functions](./Houdini_SDFs.md)
