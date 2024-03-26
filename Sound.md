@@ -97,7 +97,7 @@ Stereo audio is beautiful, it has so much depth and impact compared to mono. Mes
 
 #### Panning
 
-Panning is great for separating elements in a mix, directly controlling the left/right balance. It's harder to implement than you'd think, since music sounds quieter when only heard from one ear.
+Panning is great for separating elements in a mix, directly controlling the left/right balance. It's harder to make than you'd think, because music sounds quieter when only heard from one ear.
 
 To compensate, most software like [FL Studio](https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/songsettings_settings.htm) uses a circular panning law. It boosts everything up to 3 dB away from the center.
 
