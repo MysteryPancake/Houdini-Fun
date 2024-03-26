@@ -36,9 +36,23 @@ TODO: FINISH THIS SECTION
 
 ### Resampling
 
-Resampling lets you change the pitch and timing of audio by stretching and squashing it. It's also a huge pain to get right.
+Resampling changes the pitch of audio by stretching and squashing it. Stretching makes the pitch lower, squashing makes the pitch higher.
 
-Stretching audio is just like stretching an image. You have to interpolate between samples to fill in missing information.
+Resampling is easy for integer speeds. Each point contains a sample, so multiply the point number and grab the result at the new index.
+
+```c
+// This only works for whole numbers
+int speed = chi("speed");
+vector newPos = point(0, "P", i@ptnum * speed);
+
+// Modify Y (left) and Z (right) only
+v@P.y = newPos.y;
+v@P.z = newPos.z;
+```
+
+Doubling the speed makes everything raise by 1 octave (12 semitones). It also makes the speed twice as fast.
+
+For fractional speeds it's a lot harder. Just like resizing an image, you have to interpolate between samples to fill in missing data.
 
 <img src="./images/sound/resamplingmeme.png" width="400">
 
