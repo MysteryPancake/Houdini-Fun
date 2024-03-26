@@ -29,7 +29,6 @@ With such a high framerate, Houdini playback is always slow. This causes audio b
 
 <br clear="left"/>
 
-<a id="nodes"></a>
 ## Nodes
 - Resampling
 - Stereo Image
