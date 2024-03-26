@@ -8,11 +8,12 @@ I recently lost my mind and made a bunch of audio effects and a couple of synths
 
 <img src="./images/sound/soundfx.png" width="800">
 
-Originally this worked using [a brute force tool I made](https://mysterypancake.github.io/Houdini-Fun/tools/RawAudio). You had to copy data from Houdini to hear it. This was slow and tedious, taking the fun away from sound design and experimentation.
+Originally this worked using [a brute force tool I made](https://mysterypancake.github.io/Houdini-Fun/tools/RawAudio). You had to copy data from Houdini onto the website to hear it. This was slow and tedious, taking the fun away from sound design and experimentation.
 
-Luckily CHOPS has direct audio output, which it uses now. It's much faster and lets you hear the result without leaving Houdini!
+Luckily CHOPS has direct audio output, which I'm using now. It's much faster and lets you hear the result without leaving Houdini!
 
 ## Setup
+This section is only required if you're interested in learning how all this works from scratch. Otherwise, scroll down to the [nodes](#nodes) section!
 
 <img align="left" src="./images/sound/soundanimsettings.png" width="250">
 
@@ -25,3 +26,18 @@ Using a high framerate makes it terribly slow to simulate stuff. I tried pluckin
 With such a high framerate, Houdini playback is always slow. This causes audio buffering.
 
 **Make sure to select "Maintain realtime playback, possibly skipping frames". This stops most of the buffering issues!**
+
+<br clear="left"/>
+
+<a id="nodes"></a>
+## Nodes
+- Resampling
+- Stereo Image
+- Gain
+- Distortion
+- Parametric EQ
+- Convolution
+- Delay
+- Vibrato
+- Tremolo
+- Chorus
