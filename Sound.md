@@ -8,7 +8,7 @@ I recently lost my mind and made a bunch of audio effects and a couple of synths
 
 <img src="./images/sound/soundfx.png" width="800">
 
-Originally this worked using [an online tool I made](https://mysterypancake.github.io/Fun/html/rawaudio). You had to copy data from Houdini to hear it. This was slow and tedious, taking the fun away from sound design and experimentation.
+Originally this worked using [a brute force tool I made](https://mysterypancake.github.io/Houdini-Fun/tools/RawAudio). You had to copy data from Houdini to hear it. This was slow and tedious, taking the fun away from sound design and experimentation.
 
 Luckily CHOPS has direct audio output, which it uses now. It's much faster and lets you hear the result without leaving Houdini!
 
