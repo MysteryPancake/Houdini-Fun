@@ -38,6 +38,8 @@ TODO: FINISH THIS SECTION
 
 Resampling changes the pitch of audio by stretching and squashing it. Stretching makes the pitch lower, squashing makes the pitch higher.
 
+<img src="./images/sound/resamplingfl.png" width="500">
+
 Resampling is easy for integer speeds. Each point contains a sample, so multiply the point number and grab the result at the new index.
 
 ```c
