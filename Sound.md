@@ -8,9 +8,9 @@ I recently lost my mind and made a bunch of audio effects and a couple of synths
 
 <img src="./images/sound/soundfx.png" width="800">
 
-Originally I made a [tool to convert raw sample data to audio](https://mysterypancake.github.io/Fun/html/rawaudio), so you could copy data from Houdini and hear how it sounds. This was slow and tedious, taking the fun away from sound design and experimentation.
+Originally this worked using [an online tool I made](https://mysterypancake.github.io/Fun/html/rawaudio). You had to copy data from Houdini to hear it. This was slow and tedious, taking the fun away from sound design and experimentation.
 
-Luckily I found out CHOPS has audio output. This is much faster, and lets you hear the result without leaving Houdini!
+Luckily CHOPS has direct audio output, which it uses now. It's much faster and lets you hear the result without leaving Houdini!
 
 ## Setup
 
