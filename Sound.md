@@ -6,7 +6,7 @@ I recently lost my mind and made a bunch of audio effects and synths in Houdini.
 
 [Download the HIP file!](hips/sdfs/sdf_volumes.hipnc?raw=true)
 
-<img src="./images/sound/soundfx.png" width="800">
+<img src="./images/sound/soundfx.png" width="860">
 
 Originally this worked using [a brute force website I made](https://mysterypancake.github.io/Houdini-Fun/tools/RawAudio). You had to copy data from Houdini onto the website to hear it. This was slow and tedious, taking the fun away from sound design and experimentation.
 
@@ -38,7 +38,7 @@ TODO: FINISH THIS SECTION
 
 Resampling changes the pitch of audio by stretching and squashing it. Stretching makes the pitch lower, squashing makes the pitch higher.
 
-<img src="./images/sound/resamplingfl.png" width="500">
+<img src="./images/sound/resamplingfl.png" width="450">
 
 Resampling is easy for integer speeds. Each point contains a sample, so multiply the point number and grab the result at the new index.
 
@@ -56,7 +56,7 @@ Doubling the speed makes everything raise by 1 octave (12 semitones). It also ma
 
 For fractional speeds it's a lot harder. Just like resizing an image, you have to interpolate between samples to fill in missing data.
 
-<img src="./images/sound/resamplingmeme.png" width="400">
+<img src="./images/sound/resamplingmeme.png" width="450">
 
 There's many ways to interpolate signals, [hear them on my website!](https://mysterypancake.github.io/Houdini-Fun/tools/Resampling) Sinc is the highest possible quality for audio.
 
@@ -97,7 +97,7 @@ Stereo audio is beautiful, it has so much depth and impact compared to mono. Mes
 
 #### Panning
 
-Panning is great for separating elements in a mix, directly controlling the left/right balance. It's harder to implement than you'd think, since music sounds quieter when only heard from one ear.
+Panning is great for separating elements in a mix, directly controlling the left/right balance. It's harder to make than you'd think, because music sounds quieter when only heard from one ear.
 
 To compensate, most software like [FL Studio](https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/songsettings_settings.htm) uses a circular panning law. It boosts everything up to 3 dB away from the center.
 
