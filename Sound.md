@@ -36,11 +36,11 @@ With such a high framerate, Houdini playback is always slow. This causes audio b
 
 Resampling lets you change the pitch and timing of audio by stretching and squashing it. It's also a huge pain to get right.
 
-Resizing audio is just like resizing an image. You have to interpolate between samples to fill in missing information.
+Stretching audio is just like stretching an image. You have to interpolate between samples to fill in missing information.
 
 <img src="./images/sound/resamplingmeme.png" width="400">
 
-There's many ways to interpolate signals, [try some on my website!](https://mysterypancake.github.io/Houdini-Fun/tools/Resampling) Sinc is the highest possible quality for audio.
+There's many ways to interpolate signals, [hear them on my website!](https://mysterypancake.github.io/Houdini-Fun/tools/Resampling) Sinc is the highest possible quality for audio.
 
 Sadly I haven't made sinc in Houdini yet, so you'll have to deal with crappy linear and hermite interpolation for now.
 
@@ -74,6 +74,40 @@ v@P.x = oldX;
 ```
 
 ### Stereo Image
+
+Stereo audio is beautiful, it has so much depth and impact compared to mono. Messing with the relationship between the left and right channels has a massive effect, so let's get into it!
+
+Here's a few essentials for messing with the stereo image.
+
+#### Panning
+
+Panning is great for separating elements in a mix, directly controlling the left/right balance. It's harder to implement than you'd think, since music sounds quieter when only heard from one ear.
+
+To compensate, most software like [FL Studio](https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/songsettings_settings.htm) uses a circular panning law. It boosts everything up to 3 dB away from the center.
+
+<img src="./images/sound/circularpanning.png" width="400">
+
+I've never done it before, so I stole an algorithm from the [Web Audio API](https://webaudio.github.io/web-audio-api/#stereopanner-algorithm). Thanks guys!
+
+```c
+// From https://webaudio.github.io/web-audio-api/#stereopanner-algorithm
+float pan = clamp(chf("pan"), -1, 1);
+float x = pan + (pan <= 0);
+float gainL = cos(x * PI * 0.5);
+float gainR = sin(x * PI * 0.5);
+
+float inputL = v@P.y;
+float inputR = v@P.z;
+if (pan <= 0) {
+    v@P.y = inputL + inputR * gainL;
+    v@P.z = inputR * gainR;
+} else {
+    v@P.y = inputL * gainL;
+    v@P.z = inputR + inputL * gainR;
+}
+```
+
+#### Bend Panning
 todo
 
 ### Gain
