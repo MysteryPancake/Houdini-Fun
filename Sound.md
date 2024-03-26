@@ -93,8 +93,6 @@ v@P.x = oldX;
 
 Stereo audio is beautiful, it has so much depth and impact compared to mono. Messing with the relationship between the left and right channels has a massive effect, so let's get into it!
 
-Here's a few essentials for messing with the stereo image.
-
 #### Panning
 
 Panning is great for separating elements in a mix, directly controlling the left/right balance. It's harder to implement than you'd think, since music sounds quieter when only heard from one ear.
