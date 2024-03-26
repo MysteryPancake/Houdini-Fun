@@ -12,7 +12,7 @@ These articles grew too long to fit on the main page. Be sure to check them out!
 - [Normalized Device Coordinates](./NDC.md)
 - [4D Geometry](./4D.md)
 - [Time Smoothing](https://mysterypancake.github.io/Houdini-Fun/TimeSmoothing) (interactive!)
-- [Sound and Music](./Music.md)
+- [Sound and Music](./Sound.md)
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
