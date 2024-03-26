@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Raw Audio Player</title>
+		<meta name="description" content="Plays raw audio data from sample data.">
+		<meta name="keywords" content="Audio, Raw, PCM, Player">
+		<meta property="og:title" content="Raw Audio Player">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://mysterypancake.github.io/Houdini-Fun/tools/RawAudio">
+		<meta property="og:site_name" content="Raw Audio Player">
+		<meta property="og:description" content="Plays raw audio data from sample data.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+		* {
+			font-family: system-ui, Arial, Helvetica, sans-serif;
+		}
+
+		textarea, input[type="text"], input[type="number"] {
+			box-sizing: border-box;
+			width: 100%;
+		}
+
+		input[type="range"] {
+			width: 12rem;
+		}
+
+		textarea {
+			resize: vertical;
+		}
+
+		button {
+			background-color: #0d6efd;
+			border-radius: 0.5rem;
+			border: none;
+			color: white;
+			cursor: pointer;
+			padding: 0.5rem;
+		}
+
+		button:hover {
+			background-color: #0b5ed7;
+		}
+
+		a.disabled > button {
+			background-color: #5a5a5a;
+			cursor: default;
+		}
+		</style>
+		<script>
+		let canvElem, canvCtx, leftElem, rightElem, sepElem, removeDC, normalize, volElem, pitchElem, rateElem, loopElem, downloadElem, dataLeft, dataRight, pitchLabel, volLabel;
+
+		function setup() {
+			canvElem = document.getElementById("canvElem");
+			canvElem.width = canvElem.parentElement.clientWidth;
+			canvCtx = canvElem.getContext("2d", { alpha: false });
+
+			leftElem = document.getElementById("leftElem");
+			leftElem.addEventListener("input", updateWithBuffer);
+
+			rightElem = document.getElementById("rightElem");
+			rightElem.addEventListener("input", updateWithBuffer);
+
+			downloadElem = document.getElementById("download");
+
+			sepElem = document.getElementById("sepElem");
+			sepElem.addEventListener("input", updateWithBuffer);
+
+			removeDC = document.getElementById("removeDC");
+			removeDC.addEventListener("change", updateWithBuffer);
+
+			normalize = document.getElementById("normalize");
+			normalize.addEventListener("change", updateWithBuffer);
+
+			rateElem = document.getElementById("sampleRate");
+			rateElem.addEventListener("change", updateWithBuffer)
+
+			const play = document.getElementById("play");
+			play.addEventListener("click", toggleAudio);
+
+			volElem = document.getElementById("volume");
+			volElem.addEventListener("input", setVolume);
+
+			volLabel = document.getElementById("volumeLabel");
+			volLabel.textContent = `${Math.floor(parseFloat(volElem.value) * 100)}%`;
+
+			pitchElem = document.getElementById("pitch");
+			pitchElem.addEventListener("input", setPitch);
+
+			pitchLabel = document.getElementById("pitchLabel");
+			pitchLabel.textContent = `${pitchElem.value} cents`;
+
+			loopElem = document.getElementById("loop");
+			loopElem.addEventListener("change", toggleAudio);
+
+			updateData();
+		}
+
+		function interleave(inputL, inputR) {
+			const length = inputL.length + inputR.length;
+			const result = new Float32Array(length);
+			let index = 0;
+			let inputIndex = 0;
+			while (index < length) {
+				result[index++] = inputL[inputIndex];
+				result[index++] = inputR[inputIndex];
+				inputIndex++;
+			}
+			return result;
+		}
+
+		function floatTo16Bit(output, offset, input) {
+			for (let i = 0; i < input.length; i++, offset += 2) {
+				const s = Math.max(-1, Math.min(1, input[i]));
+				output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+			}
+		}
+
+		function floatTo32Bit(output, offset, input) {
+			for (let i = 0; i < input.length; i++, offset += 4) {
+				output.setFloat32(offset, input[i], true);
+			}
+		}
+
+		function writeString(view, offset, str) {
+			for (let i = 0; i < str.length; i++) {
+				view.setUint8(offset + i, str.charCodeAt(i));
+			}
+		}
+
+		function encodeWAV(samples, format, sampleRate, numChannels, bitDepth) {
+			const bytesPerSample = bitDepth / 8;
+			const blockAlign = numChannels * bytesPerSample;
+			const buffer = new ArrayBuffer(44 + samples.length * bytesPerSample);
+			const view = new DataView(buffer);
+			writeString(view, 0, "RIFF");
+			view.setUint32(4, 36 + samples.length * bytesPerSample, true);
+			writeString(view, 8, "WAVE");
+			writeString(view, 12, "fmt ");
+			view.setUint32(16, 16, true);
+			view.setUint16(20, format, true);
+			view.setUint16(22, numChannels, true);
+			view.setUint32(24, sampleRate, true);
+			view.setUint32(28, sampleRate * blockAlign, true);
+			view.setUint16(32, blockAlign, true);
+			view.setUint16(34, bitDepth, true);
+			writeString(view, 36, "data");
+			view.setUint32(40, samples.length * blockAlign, true);
+			if (format === 1) {
+				floatTo16Bit(view, 44, samples);
+			} else {
+				floatTo32Bit(view, 44, samples);
+			}
+			return view;
+		}
+
+		function bufferToFile(name, buffer, float32) {
+			let interleaved;
+			const numChannels = Math.min(buffer.numberOfChannels, 2);
+			if (numChannels === 2) {
+				interleaved = interleave(buffer.getChannelData(0), buffer.getChannelData(1));
+			} else {
+				interleaved = buffer.getChannelData(0);
+			}
+			const view = encodeWAV(interleaved, float32 ? 3 : 1, buffer.sampleRate, numChannels, float32 ? 32 : 16);
+			return new File([view], name + ".wav", { type: "audio/wav" });
+		}
+
+		function readSamples(elem) {
+			let samples = [];
+			const strings = elem.value.split(sepElem.value);
+
+			for (let i = 0; i < strings.length; ++i) {
+				const str = strings[i].trim();
+				if (!str) continue;
+
+				const num = parseFloat(str);
+				if (isNaN(num)) {
+					window.alert(`Invalid number: ${str}`);
+					return;
+				}
+
+				samples.push(num);
+			};
+			return new Float32Array(samples);
+		}
+
+		function updateData() {
+			dataLeft = readSamples(leftElem);
+			dataRight = readSamples(rightElem);
+			if (!dataLeft || !dataRight) return;
+
+			const hasRight = dataRight.length > 0;
+			if (hasRight && dataLeft.length !== dataRight.length) {
+				window.alert(`Mismatching left and right channel lengths: ${dataLeft.length} and ${dataRight.length}`);
+				return;
+			}
+
+			if (removeDC.checked) {
+				// Calculate the DC offset
+				let DC = 0;
+				for (let i = 0; i < dataLeft.length; ++i) {
+					DC += dataLeft[i];
+					if (hasRight) {
+						DC += dataRight[i];
+					}
+				}
+				DC /= dataLeft.length + dataRight.length;
+
+				// Offset by the DC to normalize
+				for (let i = 0; i < dataLeft.length; ++i) {
+					dataLeft[i] -= DC;
+					if (hasRight) {
+						dataRight[i] -= DC;
+					}
+				}
+			}
+
+			if (normalize.checked) {
+				// Find the maximum sample
+				let max = 0;
+				for (let i = 0; i < dataLeft.length; ++i) {
+					max = Math.max(Math.abs(dataLeft[i]), max);
+					if (hasRight) {
+						max = Math.max(Math.abs(dataRight[i]), max);
+					}
+				}
+
+				// Divide by the maximum to normalize
+				for (let i = 0; i < dataLeft.length; ++i) {
+					dataLeft[i] /= max;
+					if (hasRight) {
+						dataRight[i] /= max;
+					}
+				}
+			}
+			draw();
+		}
+
+		function drawLine(x1, y1, x2, y2) {
+			canvCtx.beginPath();
+			canvCtx.moveTo(x1, y1);
+			canvCtx.lineTo(x2, y2);
+			canvCtx.stroke();
+		}
+
+		function drawChannelData(data) {
+			canvCtx.beginPath();
+			for (let i = 0; i < data.length; ++i) {
+				const xPos = i / (data.length - 1) * canvElem.width;
+				const yPos = canvElem.height * 0.5 - data[i] * canvElem.height * 0.4;
+				canvCtx.lineTo(xPos, yPos);
+			}
+			canvCtx.stroke();
+		}
+
+		function draw() {
+			// Clear canvas
+			canvCtx.fillStyle = "black";
+			canvCtx.fillRect(0, 0, canvElem.width, canvElem.height);
+
+			// DC offset
+			canvCtx.lineWidth = 2;
+			canvCtx.strokeStyle = "gray";
+			let yPos = canvElem.height * 0.5;
+			drawLine(0, yPos, canvElem.width, yPos);
+
+			// 1 and -1
+			canvCtx.strokeStyle = "red";
+			yPos = canvElem.height * 0.1;
+			drawLine(0, yPos, canvElem.width, yPos);
+			yPos = canvElem.height * 0.9;
+			drawLine(0, yPos, canvElem.width, yPos);
+
+			canvCtx.strokeStyle = "white";
+			if (dataLeft) drawChannelData(dataLeft);
+			if (dataRight) drawChannelData(dataRight);
+		}
+
+		let audioCtx, gainNode, bufferSource, buffer, lastFile;
+
+		function ensureContext() {
+			if (audioCtx) return;
+			audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+			gainNode = audioCtx.createGain();
+			gainNode.connect(audioCtx.destination);
+			setVolume();
+		}
+
+		function updateBuffer() {
+			const sampleRate = parseInt(rateElem.value, 10);
+			buffer = audioCtx.createBuffer(dataRight.length ? 2 : 1, dataLeft.length, sampleRate);
+			buffer.copyToChannel(dataLeft, 0);
+			if (dataRight.length) {
+				buffer.copyToChannel(dataRight, 1);
+			}
+
+			if (lastFile) {
+				window.URL.revokeObjectURL(lastFile);
+			}
+			lastFile = bufferToFile("audio", buffer, true);
+			downloadElem.href = window.URL.createObjectURL(lastFile);
+			downloadElem.download = "audio.wav";
+			downloadElem.classList.remove("disabled");
+		}
+
+		function toggleAudio() {
+			ensureContext();
+			if (!buffer) updateBuffer();
+
+			if (bufferSource && bufferSource.loop) {
+				bufferSource.stop();
+				bufferSource = undefined;
+			} else {
+				bufferSource = audioCtx.createBufferSource();
+				bufferSource.buffer = buffer;
+				bufferSource.loop = loopElem.checked;
+				bufferSource.connect(gainNode);
+				setPitch();
+				bufferSource.start();
+			}
+		}
+
+		function setVolume() {
+			const volume = parseFloat(volElem.value);
+			volLabel.textContent = `${Math.floor(volume * 100)}%`;
+			if (!gainNode) return;
+			gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+		}
+
+		function setPitch() {
+			pitchLabel.textContent = `${pitchElem.value} cents`;
+			if (!bufferSource) return;
+			const pitch = parseFloat(pitchElem.value);
+			bufferSource.detune.setValueAtTime(pitch, audioCtx.currentTime);
+		}
+
+		function updateWithBuffer() {
+			updateData();
+			ensureContext();
+			updateBuffer();
+			
+			if (!bufferSource) return;
+			bufferSource.stop();
+			bufferSource = undefined;
+		}
+		</script>
+	</head>
+	<body onload="setup();">
+		<h1>Raw Audio Player</h1>
+		<div style="display: flex; margin-bottom: 0.5rem; column-gap: 0.5rem;">
+			<div style="display: inline-block; width: 100%;">
+				<label for="leftElem">Left channel samples</label>
+				<div>
+				<textarea id="leftElem" rows="5">0.089428,0.097762,0.113186,0.126448,0.127265,0.113342,0.096485,0.088473,0.079534,0.073895,0.073865,0.075789,0.084184,0.104966,0.133999,0.173435,0.206066,0.237890,0.265466,0.274259,0.285645,0.293022,0.290764,0.282173,0.256440,0.233392,0.214198,0.189458,0.166033,0.147406,0.130749,0.108644,0.096628,0.088517,0.070687,0.060164,0.063349,0.067210,0.074544,0.079722,0.078298,0.091762,0.091042,0.090436,0.093237,0.108845,0.126126,0.157254,0.200149,0.239939,0.276041,0.298598,0.323680,0.336106,0.331689,0.323730,0.303663,0.278868,0.251893,0.224644,0.197930,0.175189,0.148155,0.125490,0.111051,0.086523,0.060907,0.045094,0.053001,0.067264,0.077510,0.078780,0.092155,0.098564,0.103912,0.110151,0.119872,0.132932,0.159227,0.198568,0.224647,0.256192,0.296285,0.326178,0.348955,0.360100,0.354382,0.340113,0.316868,0.289325,0.253879,0.219711,0.190760,0.158291,0.120670,0.087447,0.062189,0.049439,0.041375,0.035689,0.027049,0.030061,0.034471,0.037572,0.035628,0.032248,0.036692,0.046307,0.058146,0.078882,0.106043,0.135455,0.177753,0.227125,0.288004,0.323619,0.342133,0.354606,0.359628,0.353130,0.328012,0.296140,0.266072,0.243032,0.224394,0.209595,0.189309,0.169867,0.151282,0.117862,0.100429,0.084389,0.090650,0.093450,0.096756,0.087069,0.083310,0.089854,0.098967,0.106194,0.116013,0.130812,0.163130,0.188605,0.216787,0.248021,0.266995,0.278381,0.290187,0.298146,0.292077,0.283880,0.261141,0.234490,0.206807,0.180860,0.155157,0.126543,0.102430,0.081206,0.062388,0.046348,0.037361,0.034499,0.037102,0.037694,0.036287,0.036060,0.039088,0.047734,0.057654,0.065642,0.074996,0.092904,0.122382,0.156924,0.193308,0.230879,0.276780,0.305922,0.326021,0.334148,0.323848,0.313920,0.290434,0.265252,0.239611,0.207650,0.181567,0.159751,0.149609,0.146206,0.136861,0.137576,0.131750,0.086543,0.066777,0.059373,0.050932,0.050220,0.045830,0.051124,0.060963,0.069824,0.083248,0.109401,0.138183,0.168114,0.199810,0.225134,0.255294,0.277683,0.298051,0.304827,0.298141,0.288270,0.267519,0.243858,0.219113,0.195009,0.170589,0.150794,0.137435,0.115324,0.092113,0.082379,0.090494,0.086723,0.068586,0.051144,0.040521,0.044714,0.046874,0.049399,0.050474,0.053064,0.061112,0.080228,0.112563,0.156428,0.192086,0.234533,0.275780,0.299256,0.319295,0.334817,0.336420,0.331730,0.313404,0.291626,0.266719,0.240575,0.208064,0.181081,0.159989,0.136058,0.120832,0.116191,0.117380,0.064306,0.050771,0.052921,0.053939,0.054026,0.060668,0.061191,0.060259,0.064049,0.072761,0.089312,0.115254,0.148178,0.182784,0.217655,0.253762,0.274363,0.291738,0.302733,0.298859,0.292784,0.274922,0.251701,0.223505,0.193966,0.167834,0.140525,0.116869,0.093682,0.070897,0.061484,0.065157,0.076438,0.082617,0.069569,0.059716,0.047118,0.043690,0.043216,0.047738,0.054773,0.065630,0.087275,0.123514,0.161371,0.202842,0.255029,0.298711,0.318620,0.338945,0.354957,0.354477,0.346776,0.325419,0.303175,0.279459,0.250129,0.229420,0.208442,0.188316,0.167047,0.139951,0.118326,0.095856,0.061468,0.068059,0.068923,0.061936,0.052999,0.054213,0.063917,0.076720,0.087040,0.100438,0.122163,0.151747,0.186306,0.223549,0.256975,0.299401,0.313169,0.317556,0.319558,0.307994,0.294686,0.274161,0.252625,0.228364,0.204505,0.187510,0.173748,0.160416,0.142498,0.123776,0.110881,0.115866,0.088863,0.089939,0.092685,0.079065,0.088231,0.083848,0.086661,0.086547,0.089198,0.095377,0.112689,0.140768,0.175004,0.205799,0.241106,0.279926,0.305736,0.325826,0.334991,0.328362,0.321401,0.303413,0.284068,0.264845,0.246250,0.230372,0.212073,0.191016,0.172456,0.146421,0.132653,0.117493,0.075269,0.037189,0.017517,0.000713,-0.001408,0.008764,0.020025,0.030401,0.038139,0.050603,0.072893,0.104375,0.152919,0.211582,0.270050,0.318149,0.342717,0.365719,0.376669,0.372845,0.361190,0.336172,0.308017,0.280241,0.250980,0.217653,0.179460,0.143762,0.115843,0.094840,0.079232,0.072417,0.072597,0.095336,0.100470,0.097100,0.098494,0.089153,0.097470,0.104639,0.106260,0.112569,0.126843,0.150910,0.187414,0.225999,0.254547,0.274828,0.283802,0.289211,0.289403,0.282070,0.271487,0.251296,0.226359,0.199007,0.172308,0.150808,0.132850,0.113359,0.101014,0.103305,0.102120,0.105618,0.104765,0.089996,0.085665,0.069579,0.062063,0.060672,0.066085,0.073475,0.076799,0.082859,0.098689,0.125852,0.164483,0.202264,0.241498,0.279494,0.299009,0.317021,0.325523,0.319676,0.305018,0.278638,0.251272,0.222357,0.194403,0.170850,0.149874,0.129825,0.110507,0.092511,0.076152,0.076983,0.068948,0.079278,0.086497,0.078860,0.071518,0.073655,0.082595,0.086836,0.089721,0.094811,0.105562,0.128851,0.165494,0.208543,0.257327,0.305906,0.323074,0.336994,0.335314,0.326935,0.316321,0.294110,0.269577,0.247119,0.224144,0.203754,0.184446,0.164525,0.139595,0.124296,0.105867,0.090434,0.050411,0.044703,0.044366,0.043189,0.054730,0.068698,0.082676,0.095318,0.103032,0.112666,0.128889,0.155168,0.186091,0.219539,0.250888,0.275824,0.293148,0.308970,0.319396,0.314415,0.303442,0.281798,0.257902,0.230439,0.202388,0.176253,0.145811,0.122716,0.111054,0.100493,0.100596,0.088993,0.084935,0.072362,0.060051,0.056299,0.069850,0.089169,0.107402,0.115362,0.121709,0.126168,0.135611,0.155546,0.190984,0.213719,0.234106,0.261471,0.282783,0.302758,0.312434,0.306792,0.299328,0.278018,0.251997,0.224921,0.187256,0.157549,0.133342,0.110320,0.093226,0.092056,0.093819,0.093475,0.090942,0.105421,0.108104,0.097985,0.102818,0.103642,0.110423,0.113885,0.120028,0.125559,0.138722,0.168468,0.205489,0.224028,0.241801,0.268009,0.283050,0.292293,0.295096,0.286252,0.273485,0.249298,0.223004,0.196469,0.166097,0.136295,0.115569,0.102782,0.090963,0.072898,0.062071,0.059004,0.052499,0.053170,0.055670,0.055197,0.061285,0.071823,0.080537,0.089933,0.096837,0.105157,0.125358,0.148683,0.192017,0.236428,0.279318,0.320926,0.350255,0.367270,0.373856,0.369062,0.364469,0.346657,0.321847,0.295377,0.260494,0.227211,0.197925,0.173196,0.160962,0.140147,0.122324,0.103851,0.068714,0.067088,0.070502,0.059686,0.064302,0.077960,0.088225,0.086594,0.089492,0.096743,0.104937,0.125682,0.161239,0.195652,0.223881,0.254576,0.273794,0.292602,0.301548,0.294112,0.282457,0.262979,0.237752,0.213078,0.184419,0.157578,0.131637,0.108511,0.082152,0.063649,0.049719,0.047598,0.037468,0.029816,0.033168,0.033354,0.028714,0.028924,0.037033,0.048545,0.058653,0.071262,0.092208,0.124683,0.175790,0.228689,0.273984,0.308112,0.314916,0.322568,0.325498,0.316602,0.305935,0.284494,0.262494,0.242141,0.221715,0.201486,0.184124,0.171814,0.150306,0.129693,0.123877,0.117359,0.094940,0.074183,0.062494,0.061262,0.081259,0.098291,0.110042,0.119607,0.135428,0.155669,0.170303,0.198909,0.221417,0.250178,0.276947,0.313202,0.333349,0.355110,0.369125,0.364170,0.352936,0.334020,0.313350,0.285519,0.256033,0.235403,0.206415,0.187076,0.160089,0.132341,0.125327,0.122355,0.115567,0.095231,0.084003,0.076860,0.062044,0.053078,0.050317,0.052053,0.057066,0.066411,0.088430,0.111668,0.138880,0.165759,0.197499,0.237225,0.264307,0.290325,0.309194,0.312571,0.312819,0.295771,0.274833,0.250622,0.217446,0.189089,0.152565,0.120924,0.094720,0.078689,0.072938,0.083930,0.085743,0.091808,0.080488,0.067813,0.056813,0.048777,0.045013,0.044365,0.047939,0.057721,0.076416,0.101229,0.128245,0.160052,0.197967,0.239117,0.268520,0.294983,0.309428,0.313211,0.312936,0.296744,0.273758,0.246792,0.215724,0.191328,0.171560,0.159395,0.151289,0.130329,0.095017,0.085846,0.077749,0.069585,0.059050,0.052115,0.040185,0.038150,0.043492,0.051856,0.061574,0.073851,0.090386,0.099657,0.126343,0.163238,0.202248,0.246123,0.277660,0.310941,0.318988,0.314726,0.303345,0.280102,0.252631,0.223054,0.191422,0.159655,0.130691,0.100766,0.062133,0.032106,0.014366,0.005692,-0.003253,0.013950,0.029745,0.051692,0.073209,0.085142,0.089785,0.095897,0.104350,0.119165,0.139306,0.163935,0.194833,0.222902,0.253624,0.279783,0.299754,0.324987,0.340377,0.342898,0.335063,0.319772,0.305742,0.287551,0.264785,0.234262,0.204724,0.176277,0.152609,0.138810,0.137686,0.126618,0.104384,0.087096,0.071969,0.060246,0.057222,0.058021,0.048012,0.044551,0.049673,0.061694,0.081127,0.107145,0.146454,0.188368,0.232756,0.278122,0.311354,0.342385,0.364048,0.362778,0.356229,0.332436,0.302353,0.270816,0.236459,0.204834,0.179434,0.165341,0.151425,0.134677,0.116807,0.108768,0.068482,0.048042,0.040751,0.029898,0.030605,0.040936,0.053998,0.066066,0.074679,0.089555,0.110394,0.136401,0.168595,0.212212,0.255441,0.307312,0.342102,0.369557,0.380515,0.373260,0.359037,0.334493,0.309123,0.279379,0.249248,0.220340,0.196603,0.172119,0.149275,0.124514,0.112086,0.089997,0.074219,0.056286,0.046203,0.034812,0.023179,0.017901,0.020201,0.025568,0.030063,0.037594,0.050748,0.073728,0.109249,0.148016,0.188926,0.232009,0.259136,0.282914,0.297117,0.296638,0.288404,0.272292,0.251883,0.231165,0.200952,0.172599,0.142040,0.117231,0.100663,0.088912,0.086900,0.092228,0.054853,0.062165,0.057241,0.046291,0.046711,0.049785,0.059178,0.069990,0.079211,0.093360,0.120209,0.148656,0.177520,0.213544,0.245446,0.280132,0.303227,0.323119,0.330597,0.318345,0.305155,0.284324,0.262787,0.242283,0.220278,0.197740,0.179956,0.159013,0.137914,0.133258,0.129923,0.113313,0.087797,0.058249,0.040089,0.025027,0.019899,</textarea>
+				</div>
+			</div>
+			<div style="display: inline-block; width: 100%;">
+				<label for="rightElem">Right channel samples (optional)</label>
+				<div>
+					<textarea id="rightElem" rows="5"></textarea>
+				</div>
+			</div>
+		</div>
+		<div style="margin-bottom: 0.5rem;">
+			<label for="sepElem">Separator</label>
+			<div>
+				<input id="sepElem" type="text" value=",">
+			</div>
+		</div>
+		<div style="margin-bottom: 0.5rem;">
+			<label for="sampleRate">Sample Rate (Hz)</label>
+			<div>
+				<input id="sampleRate" type="number" value="48000" min="1" step="1">
+			</div>
+		</div>
+		<div style="margin-bottom: 0.5rem;">
+			<input id="removeDC" type="checkbox" checked>
+			<label for="removeDC">Remove DC offset</label>
+			<input id="normalize" type="checkbox" checked>
+			<label for="normalize">Normalize</label>
+			<a id="download" class="disabled">
+				<button>Download WAV</button>
+			</a>
+		</div>
+		<canvas id="canvElem" width="512" height="256" style="margin-bottom: 0.5rem;"></canvas>
+		<div style="margin-bottom: 0.5rem;">Preview Settings</div>
+		<div style="display: flex; column-gap: 0.5rem; user-select: none;">
+			<div>
+				<button id="play">Toggle Audio</button>
+			</div>
+			<div>
+				<div>
+					<label for="volume">Volume:</label>
+					<span id="volumeLabel"></span>
+				</div>
+				<input id="volume" type="range" min="0" max="1" step="0.01" value="0.5">
+			</div>
+			<div>
+				<div>
+					<label for="pitch">Pitch Offset:</label>
+					<span id="pitchLabel"></span>
+				</div>
+				<input id="pitch" type="range" min="-10000" max="10000" step="1" value="0">
+			</div>
+			<div>
+				<input id="loop" type="checkbox" checked>
+				<label for="loop" checked>Loop</label>
+			</div>
+		</div>
+	</body>
+</html>
