@@ -2,7 +2,7 @@
 
 Houdini works fine for visual effects, but the real question is does it work for sound effects?
 
-I recently lost my mind and made a bunch of audio effects and a couple of synths in Houdini. Why? No clue!
+I recently lost my mind and made a bunch of audio effects and synths in Houdini. Why? No clue!
 
 [Download the HIP file!](hips/sdfs/sdf_volumes.hipnc?raw=true)
 
