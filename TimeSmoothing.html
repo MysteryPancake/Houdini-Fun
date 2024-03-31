@@ -1785,19 +1785,17 @@ v@P = pos_total;</code></pre>
 								if (filter.type >= 10) {
 									// Butterworth filter, made by stacking biquads. Merge all biquad coefficients into one giant list
 									// [a0, a1, a2, b0, b1, b2, c0, c1, c2, c3, c4, a0, a1, a2, b0, b1, b2...]
-									const numPairs = Math.floor(filter.order * 0.5);
+									const numPairs = Math.floor(filter.order / 2);
 									const oddPoles = filter.order % 2 === 1;
 									const poleInc = Math.PI / filter.order;
 									filter.coefficients = new Float32Array((numPairs + oddPoles) * 11);
 
 									let firstAngle = poleInc;
 									if (oddPoles) {
-										// Butterworth bandpass seems close enough without single pole filters
-										const offset = filter.type === 12 ? 10 : 2;
-										const co = getCoefficients(filter.type - offset, filter.freq, 0.5, dbGain);
+										const co = getCoefficients(filter.type - 2, filter.freq, 0.5, dbGain);
 										filter.coefficients.set(co, 0);
 									} else {
-										firstAngle *= 0.5;
+										firstAngle /= 2.0;
 									}
 									
 									// From https://www.earlevel.com/main/2016/09/29/cascading-filters/
@@ -1826,7 +1824,6 @@ v@P = pos_total;</code></pre>
 								"High Pass (First Order)",
 								"Low Pass (Butterworth)",
 								"High Pass (Butterworth)",
-								"Band Pass (Butterworth)",
 							];
 							
 							function addSelect(elem, text, filter, key, options) {
