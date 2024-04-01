@@ -338,10 +338,10 @@
 				<div class="col-md-9">
 					<section id="intro">
 						<h1 id="blurryTitle" class="mb-4">Smoothing and sharpening in time</h1>
-						<p>This was inspired by a talk Catherine Williams did at SydHUG. Catherine looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
-						<p>Smoothing and sharpening is a cool topic I've dipped into into a few times, so I gathered my favourite methods and dumped them into Houdini in case it helps someone. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
-						<p>Unreal Engine, Blender and Maya have plenty of smoothing tools, like Butterworth and Chebyshev filters. These are super popular for motion capture, which always comes in janky. Houdini has tools as well, but they're harder to find. Matt Estela mentioned the <a href="https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--smoothmotion.html" target="_blank">Smooth Motion</a> node, which it turns out runs on points too. Harrison Molling mentioned CHOPs, which have <a href="https://www.sidefx.com/docs/houdini/nodes/chop/filter.html" target="_blank">Filter</a> and <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter</a> nodes.</p>
-						<p>I only learnt this after making my own methods. Lots of this is new to Houdini, so stick around!</p>
+						<p>This was inspired by a talk by Catherine Williams at SydHUG. Catherine looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
+						<p>I never looked into smoothing and sharpening in depth, so I went down a rabbithole researching all the methods I could find and dumping them into Houdini. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
+						<p>Houdini has a few built-in tools for time smoothing, but they're hard to find. Matt Estela mentioned the <a href="https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--smoothmotion.html" target="_blank">Smooth Motion</a> node, which can run on points too. Harrison Molling mentioned CHOPs, which have <a href="https://www.sidefx.com/docs/houdini/nodes/chop/filter.html" target="_blank">Filter</a> and <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter</a> nodes. Catherine also mentioned <a href="https://www.sidefx.com/docs/houdini/nodes/sop/pca.html" target="_blank">Principle Component Analysis</a>, which has a great <a href="https://momme.gumroad.com/l/pcadejitter">dejitter node by Momme Carl</a>.</p>
+						<p>The standard nodes are OK, but not as controllable or fun as doing it manually. So let's begin!</p>
 						<ol>
 							<li>
 								<a href="#method-1-lerp">Lerp</a> (simplest lowpass, used for games)
@@ -830,6 +830,9 @@ v@P = pos[trail_length / 2];</code></pre>
 						</div>
 						<p>While lerp works OK, there's plenty of fancier methods of smoothing out stuff. Let's learn about convolution!</p>
 						<h2 id="method-2-convolution">Method 2: Convolution</h2>
+						<p>
+							<b>Note Houdini's built-in <a href="https://www.sidefx.com/docs/houdini/nodes/chop/filter.html" target="_blank">Filter node</a> works for convolution, just not with custom kernels! <a href="https://www.youtube.com/watch?v=_Zw61uJ79_k">See Mark Fancher's tutorial</a>.</b>
+						</p>
 						<p>Convolution solves many problems we were having before. It's linear phase and only needs a handful of frames, making it perfect for batch processing. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
 						<p>It works by picking a value, sampling the neighbours around it, multiplying them and adding them together. It's like what we did with lerp, except now we have precise control over how much each neighbour contributes to the final result. We can totally ignore neighbours or even flip their influence.</p>
 						<p>For example, say you want each value to be the average of its 2 neighbours. For that you can use the kernel <code>[0.5, 0, 0.5]</code>.</p>
@@ -1282,6 +1285,9 @@ v@P = pos_total;</code></pre>
 						<p>This looks similar to Edge Transport, which makes sense since both are distance-based methods.</p>
 						<p>Anyway, back on track. Let's jump to lerp's big brother, biquad filters!</p>
 						<h2 id="method-3-biquad-filters">Method 3: Biquad filters</h2>
+						<p>
+							<b>Note Houdini's built-in <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter node</a> works for biquad filters, just not with many types!</b>
+						</p>
 						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter. They give full control over the frequency response with very little effort.</p>
 						<p>Have a play with the demo below. Try to get a feel for how time and frequency interact.</p>
 						<p class="mb-2">
