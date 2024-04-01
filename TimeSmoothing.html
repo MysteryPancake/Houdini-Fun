@@ -1818,18 +1818,33 @@ v@P = pos_total;</code></pre>
 							}
 							
 							const filterOptions = [
-								"Low Pass",
-								"High Pass",
-								"Band Pass",
-								"Notch",
-								"Peaking",
-								"Low Shelf",
-								"High Shelf",
-								"All Pass",
-								"Low Pass (First Order)",
-								"High Pass (First Order)",
-								"Low Pass (Butterworth)",
-								"High Pass (Butterworth)",
+								{
+									category: "Second Order",
+									filters: [
+										"Low Pass",
+										"High Pass",
+										"Band Pass",
+										"Notch",
+										"Peaking",
+										"Low Shelf",
+										"High Shelf",
+										"All Pass",
+									]
+								},
+								{
+									category: "First Order",
+									filters: [
+										"Low Pass (First Order)",
+										"High Pass (First Order)",
+									]
+								},
+								{
+									category: "Butterworth",
+									filters: [
+										"Low Pass (Butterworth)",
+										"High Pass (Butterworth)",
+									]
+								},
 							];
 							
 							function addSelect(elem, text, filter, key, options) {
@@ -1840,13 +1855,21 @@ v@P = pos_total;</code></pre>
 								label.textContent = text;
 								div.appendChild(label);
 								
+								let index = 0;
 								const typeSelect = document.createElement("select");
-								for (let i = 0; i < options.length; ++i) {
-									const option = document.createElement("option");
-									option.text = options[i];
-									option.value = i;
-									typeSelect.add(option);
-								}
+								options.forEach(function(opt) {
+									const group = document.createElement("optgroup");
+									group.label = opt.category;
+									typeSelect.add(group);
+
+									opt.filters.forEach(function(filterName) {
+										const option = document.createElement("option");
+										option.text = filterName;
+										option.value = index++;
+										group.appendChild(option);
+									});
+								});
+
 								typeSelect.value = filter.type;
 								typeSelect.addEventListener("change", function(e) {
 									filter[key] = parseInt(e.target.value);
