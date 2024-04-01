@@ -831,7 +831,7 @@ v@P = pos[trail_length / 2];</code></pre>
 						<p>While lerp works OK, there's plenty of fancier methods of smoothing out stuff. Let's learn about convolution!</p>
 						<h2 id="method-2-convolution">Method 2: Convolution</h2>
 						<p>
-							<b>Note Houdini's built-in <a href="https://www.sidefx.com/docs/houdini/nodes/chop/filter.html" target="_blank">Filter node</a> works for convolution, just not with custom kernels! <a href="https://www.youtube.com/watch?v=_Zw61uJ79_k">See Mark Fancher's tutorial</a>.</b>
+							<b>Note Houdini's built-in <a href="https://www.sidefx.com/docs/houdini/nodes/chop/filter.html" target="_blank">Filter node</a> works for convolution, but not with custom kernels! <a href="https://www.youtube.com/watch?v=_Zw61uJ79_k">See Mark Fancher's tutorial</a>.</b>
 						</p>
 						<p>Convolution solves many problems we were having before. It's linear phase and only needs a handful of frames, making it perfect for batch processing. It's a weighted sum just like lerp, but it's much more powerful than you'd expect. It works for smoothing, sharpening, embossing and all kinds of cool filters.</p>
 						<p>It works by picking a value, sampling the neighbours around it, multiplying them and adding them together. It's like what we did with lerp, except now we have precise control over how much each neighbour contributes to the final result. We can totally ignore neighbours or even flip their influence.</p>
@@ -1286,7 +1286,7 @@ v@P = pos_total;</code></pre>
 						<p>Anyway, back on track. Let's jump to lerp's big brother, biquad filters!</p>
 						<h2 id="method-3-biquad-filters">Method 3: Biquad filters</h2>
 						<p>
-							<b>Note Houdini's built-in <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter node</a> works for biquad filters, just not with many types!</b>
+							<b>Note Houdini's built-in <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter node</a> works for biquad filters, but only a few types!</b>
 						</p>
 						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter. They give full control over the frequency response with very little effort.</p>
 						<p>Have a play with the demo below. Try to get a feel for how time and frequency interact.</p>
