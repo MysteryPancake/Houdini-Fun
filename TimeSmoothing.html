@@ -41,24 +41,29 @@
 			return Math.pow(10.0, db / 20.0);
 		}
 		
+		let lastX = 0, lastY = 0;
 		function mouseClickData(e, canv, data, scale) {
 			const key = Math.floor(e.offsetX / canv.width * (data.length - 1));
 			data[key] = (0.5 - e.offsetY / canv.height) / scale;
+			lastX = e.offsetX;
+			lastY = e.offsetY;
 		}
 
 		// When drawing, replace entries which were drawn over between frames
 		function mouseMoveData(e, canv, data, scale) {
-			const lastKey = Math.floor((e.offsetX - e.movementX) / canv.width * (data.length - 1));
-			const currentKey = Math.floor(e.offsetX / canv.width * (data.length - 1));
-			
+			let lastKey = Math.floor(lastX / canv.width * (data.length - 1));
+			let currentKey = Math.floor(e.offsetX / canv.width * (data.length - 1));
+
 			const start = Math.min(lastKey, currentKey);
 			const end = clamp(currentKey, lastKey, data.length - 1);
-			
+
 			for (let i = start; i <= end; ++i) {
-				const pastValue = (e.offsetY + e.movementY * Math.sign(e.movementX));
-				const line = start === end ? e.offsetY : lerp(e.offsetY, pastValue, invlerp(i, start, end));
+				const line = start === end ? e.offsetY : lerp(lastY, e.offsetY, invlerp(i, lastKey, currentKey));
 				data[i] = (0.5 - line / canv.height) / scale;
 			}
+
+			lastX = e.offsetX;
+			lastY = e.offsetY;
 		}
 		
 		// Structured sine wave data
@@ -1490,6 +1495,7 @@ v@P = pos_total;</code></pre>
 										real += Math.cos(phase) * timeBefore[n];
 										imag -= Math.sin(phase) * timeBefore[n];
 									}
+									// We only need the magnitude
 									data[k] = Math.sqrt(real * real + imag * imag) / data.length;
 								}
 							}
