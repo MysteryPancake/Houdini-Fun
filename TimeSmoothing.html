@@ -1486,8 +1486,8 @@ v@P = pos_total;</code></pre>
 							}
 
 							// Discrete fourier transform from https://www.youtube.com/watch?v=ITnPS8HGqLo
-							function updateDFT(data) {
-								for (let k = 0; k < data.length; ++k) {
+							function updateDFT() {
+								for (let k = 0; k < freqBefore.length; ++k) {
 									let real = 0;
 									let imag = 0;
 									for (let n = 0; n < timeBefore.length; ++n) {
@@ -1496,7 +1496,7 @@ v@P = pos_total;</code></pre>
 										imag -= Math.sin(phase) * timeBefore[n];
 									}
 									// We only need the magnitude
-									data[k] = Math.sqrt(real * real + imag * imag) / data.length;
+									freqBefore[k] = Math.sqrt(real * real + imag * imag) / freqBefore.length;
 								}
 							}
 
@@ -1989,8 +1989,7 @@ v@P = pos_total;</code></pre>
 
 							canv.addEventListener("mousedown", function(e) {
 								mouseClickData(e, canv, timeBefore, ampScale);
-								
-								updateDFT(freqBefore);
+								updateDFT();
 								updateTimeResponse();
 								updateFreqResponse();
 								drawTime();
@@ -2000,8 +1999,7 @@ v@P = pos_total;</code></pre>
 							canv.addEventListener("mousemove", function(e) {
 								if (e.which !== 1) return;
 								mouseMoveData(e, canv, timeBefore, ampScale);
-
-								updateDFT(freqBefore);
+								updateDFT();
 								updateTimeResponse();
 								updateFreqResponse();
 								drawTime();
@@ -2046,8 +2044,7 @@ v@P = pos_total;</code></pre>
 							});
 							
 							addFilterElem.addEventListener("mousedown", addFilter);
-
-							updateDFT(freqBefore);
+							updateDFT();
 							addFilter();
 						})();
 						</script>
