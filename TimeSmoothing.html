@@ -1378,7 +1378,7 @@ v@P = pos_total;</code></pre>
 								let a0, a1, a2, b0, b1, b2;
 								switch (type) {
 								case 0:
-									// Low pass
+									// Lowpass
 									b0 = (1 - cs) / 2;
 									b1 = 1 - cs;
 									b2 = b0;
@@ -1387,7 +1387,7 @@ v@P = pos_total;</code></pre>
 									a2 = 1 - alpha;
 									break;
 								case 1:
-									// High pass
+									// Highpass
 									b0 = (1 + cs) / 2;
 									b1 = -(1 + cs);
 									b2 = b0;
@@ -1396,7 +1396,7 @@ v@P = pos_total;</code></pre>
 									a2 = 1 - alpha;
 									break;
 								case 2:
-									// Band pass
+									// Bandpass
 									b0 = alpha;
 									b1 = 0;
 									b2 = -alpha;
@@ -1441,7 +1441,7 @@ v@P = pos_total;</code></pre>
 									a2 = (A + 1) - (A - 1) * cs - beta * sn;
 									break;
 								case 7:
-									// All pass (from https://webaudio.github.io/web-audio-api/#BiquadFilterNode)
+									// Allpass (from https://webaudio.github.io/web-audio-api/#BiquadFilterNode)
 									b0 = 1 - alpha;
 									b1 = -2 * cs;
 									b2 = 1 + alpha;
@@ -1451,21 +1451,66 @@ v@P = pos_total;</code></pre>
 									break;
 								case 8: {
 									// First order lowpass (from https://dsp.stackexchange.com/questions/93446)
-									a0 = 1;
-									a1 = -cs / (sn + 1);
+									a0 = sn + 1 + cs;
+									a1 = sn - 1 - cs;
 									a2 = 0;
-									b0 = (1 + a1) / 2;
-									b1 = b0;
+									b0 = sn;
+									b1 = sn;
 									b2 = 0;
 									break;
 								}
 								case 9:
 									// First order highpass (from https://dsp.stackexchange.com/questions/93446)
-									a0 = 1;
-									a1 = -cs / (sn + 1);
+									a0 = sn + 1 + cs;
+									a1 = sn - 1 - cs;
 									a2 = 0;
-									b0 = (1 - a1) / 2;
-									b1 = -b0;
+									b0 = 1 + cs;
+									b1 = -1 - cs;
+									b2 = 0;
+									break;
+								case 10:
+									// First order allpass (from https://dsp.stackexchange.com/questions/93446)
+									a0 = sn + 1 + cs;
+									a1 = sn - 1 - cs;
+									a2 = 0;
+									b0 = a1;
+									b1 = a0;
+									b2 = 0;
+									break;
+								case 11:
+									// First order low shelf (from https://dsp.stackexchange.com/questions/93446)
+									a0 = (1 / A) * sn + 1 + cs;
+									a1 = (1 / A) * sn - 1 - cs;
+									a2 = 0;
+									b0 = A * sn + 1 + cs;
+									b1 = A * sn - 1 - cs;
+									b2 = 0;
+									break;
+								case 12:
+									// First order high shelf (from https://dsp.stackexchange.com/questions/93446)
+									a0 = sn + (1 / A) + (1 / A) * cs;
+									a1 = sn - (1 / A) - (1 / A) * cs;
+									a2 = 0;
+									b0 = sn + A + A * cs;
+									b1 = sn - A - A * cs;
+									b2 = 0;
+									break;
+								case 13:
+									// Single pole low shelf (from https://www.earlevel.com/main/2021/09/02/biquad-calculator-v3)
+									a0 = 1;
+									a1 = -Math.exp(-omega);
+									a2 = 0;
+									b0 = 1 + a1;
+									b1 = 0;
+									b2 = 0;
+									break;
+								case 14:
+									// Single pole high shelf (from https://www.earlevel.com/main/2021/09/02/biquad-calculator-v3)
+									a0 = 1;
+									a1 = Math.exp(omega - Math.PI);
+									a2 = 0;
+									b0 = 1 - a1;
+									b1 = 0;
 									b2 = 0;
 									break;
 								}
@@ -1656,7 +1701,7 @@ v@P = pos_total;</code></pre>
 									db = 6 * Math.log2(filter.Q);
 									if (linearPhase) db *= 2;
 									if (filter.type === 2) db = -db;
-								} else if (filter.type <= 6) {
+								} else if (filter.type <= 6 || (filter.type >= 11 && filter.type <= 12)) {
 									// For shelf and peak, use the gain value
 									db = filter.dbGain;
 								}
@@ -1697,7 +1742,7 @@ v@P = pos_total;</code></pre>
 									activeFilter.elems.Q.slider.value = Q;
 									// Force rounding to slider step value
 									activeFilter.elems.Q.value.textContent = activeFilter.elems.Q.slider.value;
-								} else if (activeFilter.type <= 6) {
+								} else if (activeFilter.type <= 6 || (activeFilter.type >= 11 && activeFilter.type <= 12)) {
 									// For shelf and peak, adjust the gain
 									activeFilter.dbGain = dbGain;
 									activeFilter.elems.dbGain.slider.value = dbGain;
@@ -1783,8 +1828,8 @@ v@P = pos_total;</code></pre>
 							// Disable parameters which aren't used by certain filter types
 							function disableElems(filter) {
 								filter.elems.Q.div.style.display = (filter.type <= 4 || filter.type === 7) ? "block" : "none";
-								filter.elems.dbGain.div.style.display = (filter.type >= 4 && filter.type <= 6) ? "block" : "none";
-								filter.elems.order.div.style.display = filter.type >= 10 ? "block" : "none";
+								filter.elems.dbGain.div.style.display = ((filter.type >= 4 && filter.type <= 6) || (filter.type >= 11 && filter.type <= 12)) ? "block" : "none";
+								filter.elems.order.div.style.display = filter.type >= 15 ? "block" : "none";
 							}
 							
 							function updateCoefficients(filter) {
@@ -1794,7 +1839,7 @@ v@P = pos_total;</code></pre>
 								// Ideally the magnitude would be exactly sqrt but I don't know how to achieve that
 								if (linearPhase) dbGain *= 0.5;
 
-								if (filter.type >= 10) {
+								if (filter.type >= 15) {
 									// Butterworth filter, made by stacking biquads. Merge all biquad coefficients into one giant list
 									// [a0, a1, a2, b0, b1, b2, c0, c1, c2, c3, c4, a0, a1, a2, b0, b1, b2...]
 									const numPairs = Math.floor(filter.order / 2);
@@ -1804,7 +1849,7 @@ v@P = pos_total;</code></pre>
 
 									let firstAngle = poleInc;
 									if (oddPoles) {
-										const co = getCoefficients(filter.type - 2, filter.freq, 0.5, dbGain);
+										const co = getCoefficients(filter.type - 7, filter.freq, 0.5, dbGain);
 										filter.coefficients.set(co, 0);
 									} else {
 										firstAngle /= 2.0;
@@ -1813,7 +1858,7 @@ v@P = pos_total;</code></pre>
 									// From https://www.earlevel.com/main/2016/09/29/cascading-filters/
 									for (let i = 0; i < numPairs; ++i) {
 										const Q = 1 / (2 * Math.cos(firstAngle + i * poleInc));
-										const co = getCoefficients(filter.type - 10, filter.freq, Q, dbGain);
+										const co = getCoefficients(filter.type - 15, filter.freq, Q, dbGain);
 										filter.coefficients.set(co, (i + oddPoles) * 11);
 									}
 								} else {
@@ -1835,21 +1880,31 @@ v@P = pos_total;</code></pre>
 										"Low Shelf",
 										"High Shelf",
 										"All Pass",
-									]
+									],
 								},
 								{
 									category: "First Order",
 									filters: [
 										"Low Pass (First Order)",
 										"High Pass (First Order)",
-									]
+										"All Pass (First Order)",
+										"Low Shelf (First Order)",
+										"High Shelf (First Order)",
+									],
+								},
+								{
+									category: "Single Pole",
+									filters: [
+										"Low Pass (Single Pole)",
+										"High Pass (Single Pole)",
+									],
 								},
 								{
 									category: "Butterworth",
 									filters: [
 										"Low Pass (Butterworth)",
 										"High Pass (Butterworth)",
-									]
+									],
 								},
 							];
 							
