@@ -651,6 +651,11 @@ xyzdist(1, v@P, i@near_prim, v@near_uv);
 v@P = primuv(1, "P", i@near_prim, v@near_uv);
 ```
 
+### Other ways to parent stuff
+- Rivet is good for parenting objects to points. It only exists in the object context.
+- Copy to Points is good since it applies `@orient`, `@N` and `@up` attributes.
+- PolyHinge is good for parenting to edges, though no one really uses it much.
+
 ## Primuv vs actual UVs
 A common misconception is `primuv()` uses the actual UV map of the geometry. This would cause problems if the UVs overlapped.
 
@@ -937,7 +942,7 @@ Seems obvious but worth noting: Unlike some software, Houdini supports negative 
 
 For preroll you can always start simulating on a negative frame without needing to time shift anything.
 
-<img src="./images/negative_framerange.png?raw=true">
+<img src="./images/negative_framerange.png?raw=true" width="500">
 
 ## Fluids: Fix density loss 
 Don't take this section seriously. These are just techniques which seem to work for me.
