@@ -381,6 +381,17 @@ v@P = addToPos(v@P);
 
 [Download the HIP file!](./hips/including_vex_code.hip?raw=true)
 
+## Dynamic variable names
+A similar hack is using `chs("var_name")` to set a variable name at compile time.
+
+```js
+i@`chs("var_name")` = 123;
+```
+
+<img src="./images/vex_var_name.png?raw=true" height="200">
+
+[Download the HIP file!](./hips/vex_var_names.hiplc?raw=true)
+
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
 
