@@ -146,7 +146,7 @@ float frac_step = min(1, x % width * steepness); // Fractional component, lines
 float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
-## Remove points by time post-sim
+## Remove points by time after simulation
 Sometimes POP sims take ages to run, especially FLIP sims. This makes it painful to get notes about precise timing changes.
 
 I found a decent approach to avoid resimulation:
@@ -162,6 +162,10 @@ if (chramp("keep_percent", time_factor) < rand(i@id)) {
     removepoint(0, i@ptnum, 0);
 }
 ```
+
+|Original Sim|Post-Sim Removal|
+|---|---|
+|<img src="./images/postsimbefore.webp?raw=true" width="300">|<img src="./images/postsimafter.webp?raw=true" width="300">|
 
 [Download the HIP file!](./hips/pop_remove_post_sim.hipnc?raw=true)
 
@@ -682,7 +686,7 @@ Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 
 
 |Regular UVs|Intrinsic UVS|
 |---|---|
-|<img src="./images/regularuv.png?raw=true">|<img src="./images/primuv.png?raw=true">|
+|<img src="./images/regularuv.png?raw=true" width="300">|<img src="./images/primuv.png?raw=true" width="300">|
 
 If you want to use the actual UVs, use `uvsample()` instead.
 
