@@ -167,6 +167,10 @@ if (chramp("keep_percent", time_factor) < rand(i@id)) {
 |---|---|
 |<img src="./images/postsimbefore.webp?raw=true" width="300">|<img src="./images/postsimafter.webp?raw=true" width="300">|
 
+I used this ramp for the demo above:
+
+<img src="./images/remove_post_sim_ramp.png?raw=true" width="600">
+
 [Download the HIP file!](./hips/pop_remove_post_sim.hipnc?raw=true)
 
 ## Generating circles
