@@ -353,7 +353,7 @@ Now the cross sections connect perfectly without any resampling!
 
 [Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc?raw=true)
 
-## Reusing VEX code in multiple wrangles
+## Reusing code in multiple wrangles
 Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
 
 VEX has `#include` as well, but sadly it only works if you put the file in a specific Houdini directory.
