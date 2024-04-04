@@ -75,7 +75,7 @@ v@v *= damping;
 v@P += v@v;
 ```
 
-## RBDs: Make an aimbot (find velocity to hit a target)
+## Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
 [![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
