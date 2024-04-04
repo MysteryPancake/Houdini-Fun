@@ -477,7 +477,7 @@ for (int x = -voxel_radius; x <= voxel_radius; ++x) {
 f@density = density_sum / num_samples;
 ```
 
-<img src="./images/volumesmoothing.png?raw=true" height="320">
+<img src="./images/volumesmoothing.png?raw=true" width="600">
 
 [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
 
@@ -487,16 +487,16 @@ It's always hard to get a decent sim when your collision geometry is on life sup
 ### Particle Fluid Surface
 Works great for point clouds! VDB from Particles works too, but not as smoothly.
 
-<img src="./images/decentcollision.png?raw=true" height="200">
+<img src="./images/decentcollision.png?raw=true" width="600">
 
 [Download the HIP file!](./hips/decent_collision.hiplc?raw=true)
 
 ### Extrude
 Works well for flat surfaces! For more control, use point normals to set the extrusion direction.
 
-<img src="./images/extrudemode.png?raw=true" height="320">
+<img src="./images/extrudemode.png?raw=true" width="400">
 
-<img src="./images/decentcollision2.png?raw=true" height="200">
+<img src="./images/decentcollision2.png?raw=true" width="400">
 
 [Download the HIP file!](./hips/decent_collision2.hiplc?raw=true)
 
@@ -519,14 +519,14 @@ Often it's nice to organise geometry by snapping it to the floor. Here's a few w
 ### Match Size
 The easiest way is using a Match Size node with "Justify Y" set to "Min". It snaps the position only, and won't affect the rotation.
 
-<img src="./images/centersnap.png?raw=true" height="320">
+<img src="./images/centersnap.png?raw=true" width="600">
 
 ### Dihedral
 To affect the rotation too, swalsch suggested using `dihedral()`. You can use it to rotate the normal towards a down vector.
 
 First the object needs prim normals, which you can add with a Normal node set to "Primitives".
 
-<img src="./images/primnormals.png?raw=true" height="320">
+<img src="./images/primnormals.png?raw=true" width="400">
 
 Next pick a prim to snap to the floor, get its normal and use `dihedral()` to build the rotation matrix.
 
@@ -688,7 +688,7 @@ float correlation = dot(dir, v@N);
 @group_inside = correlation > ch("threshold");
 ```
 
-<img src="./images/inside.png?raw=true" height="320">
+<img src="./images/inside.png?raw=true" width="250">
 
 [Download the HIP file!](./hips/inside.hipnc?raw=true)
 
@@ -737,7 +737,7 @@ float x = rand(i@ptnum);
 v@v = x - 0.5;
 ```
 
-<img src="./images/velocity_1d.png?raw=true" height="320">
+<img src="./images/velocity_1d.png?raw=true" width="250">
 
 To get a 3D result, there are two options. Either explicitly declare 0.5 as a vector:
 
@@ -765,7 +765,7 @@ What shape would you expect to see? Surely a sphere, since it's centered at 0 an
 
 Unfortunately it's a cube, since the range is -0.5 to 0.5 on all axes separately.
 
-<img src="./images/velocity_cube.png?raw=true" height="320">
+<img src="./images/velocity_cube.png?raw=true" width="250">
 
 ### Random direction, random length
 To get a sphere and random vector lengths, use `sample_sphere_uniform()`:
@@ -780,7 +780,7 @@ Roughly equivalent to the following:
 v@v = normalize(rand(i@ptnum) - vector(0.5)) * rand(i@ptnum + 1);
 ```
 
-<img src="./images/velocity_sphere.png?raw=true" height="320">
+<img src="./images/velocity_sphere.png?raw=true" width="250">
 
 ### Random direction, constant length
 To get a sphere and normalized vector lengths, use `sample_direction_uniform()`:
@@ -795,7 +795,7 @@ Roughly equivalent to the following:
 v@v = normalize(rand(i@ptnum) - vector(0.5));
 ```
 
-<img src="./images/velocity_direction.png?raw=true" height="320">
+<img src="./images/velocity_direction.png?raw=true" width="250">
 
 ## Split vector magnitude and direction
 Sometimes you need to change part of a vector but not the other, like to randomize velocity but inherit the magnitude. It's easy with rotation, but here's a more general approach:
