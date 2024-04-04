@@ -384,13 +384,15 @@ v@P = addToPos(v@P);
 ## Dynamic attribute names
 A similar hack is using `chs("var_name")` to set an attribute name at compile time.
 
+For example, making a dynamically named integer attribute set to `123`:
+
 ```js
 i@`chs("var_name")` = 123;
 ```
 
-Below I made an integer attribute called `helloworld` set to `123`.
-
 <img src="./images/vex_var_name.png?raw=true" height="200">
+
+Certain characters like spaces aren't allowed in variable names, so try not to include them!
 
 [Download the HIP file!](./hips/vex_var_names.hiplc?raw=true)
 
