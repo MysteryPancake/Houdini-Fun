@@ -472,7 +472,7 @@ It's always hard to get a decent sim when your collision geometry is on life sup
 ### Particle Fluid Surface
 Works great for point clouds! VDB from Particles works too, but not as smoothly.
 
-<img src="./images/decentcollision.png?raw=true" height="320">
+<img src="./images/decentcollision.png?raw=true" height="200">
 
 [Download the HIP file!](./hips/decent_collision_geo.hiplc?raw=true)
 
