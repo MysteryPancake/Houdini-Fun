@@ -489,7 +489,16 @@ Works great for point clouds! VDB from Particles works too, but not as smoothly.
 
 <img src="./images/decentcollision.png?raw=true" height="200">
 
-[Download the HIP file!](./hips/decent_collision_geo.hiplc?raw=true)
+[Download the HIP file!](./hips/decent_collision.hiplc?raw=true)
+
+### Extrude
+Works well for flat surfaces! For more control, use point normals to set the extrusion direction.
+
+<img src="./images/extrudemode.png?raw=true" height="320">
+
+<img src="./images/decentcollision2.png?raw=true" height="200">
+
+[Download the HIP file!](./hips/decent_collision2.hiplc?raw=true)
 
 ## Applying orient to packed prims
 Copy to Points automatically applies quaternions like `@orient`, but what if you need the same effect without Copy to Points?
