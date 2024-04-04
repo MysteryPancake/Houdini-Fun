@@ -466,6 +466,16 @@ f@density = density_sum / num_samples;
 
 [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
 
+## Collision geometry from nasty meshes
+It's always hard to get a decent sim when your collision geometry is on life support. Here's a few ways to clean it up.
+
+### Particle Fluid Surface
+Works great for point clouds! VDB from Particles works too, but not as smoothly.
+
+<img src="./images/decentcollision.png?raw=true" height="320">
+
+[Download the HIP file!](./hips/decent_collision_geo.hiplc?raw=true)
+
 ## Applying orient to packed prims
 Copy to Points automatically applies quaternions like `@orient`, but what if you need the same effect without Copy to Points?
 
