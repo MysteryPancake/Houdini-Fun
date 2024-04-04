@@ -146,6 +146,25 @@ float frac_step = min(1, x % width * steepness); // Fractional component, lines
 float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
+## Remove points by time post-sim
+Sometimes POP sims take ages to run, especially FLIP sims. This makes it painful to get notes about precise timing changes.
+
+I found a decent approach to avoid resimulation:
+
+1. Simulate a ton of points, way more than you need.
+2. After simulating, get the birth time of each point `f@Time - f@age`.
+3. Cull points based on the birth time. Use a ramp for maximum control.
+
+```js
+float birth_time = f@Time - f@age;
+float time_factor = invlerp(birth_time, $TSTART, $TEND);
+if (chramp("keep_percent", time_factor) < rand(i@id)) {
+    removepoint(0, i@ptnum, 0);
+}
+```
+
+[Download the HIP file!](./hips/pop_remove_post_sim.hipnc?raw=true)
+
 ## Generating circles
 Sometimes you need to generate circles without relying on built-in nodes, like to know the phase.
 
