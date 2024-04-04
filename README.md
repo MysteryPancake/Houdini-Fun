@@ -99,7 +99,7 @@ v@v = point(1, "v", 0);
 
 6. Use "Life" to set the height of the path, and lower the "FPS" to reduce unneeded points.
 
-<img src="./images/aimbot_static.gif?raw=true" height="320">
+<img src="./images/aimbot_static.gif?raw=true" width="500">
 
 ### Hit a moving target
 Use the same method as before, but sample the target's position forwards in time.
@@ -108,7 +108,7 @@ Use the same method as before, but sample the target's position forwards in time
 2. Copy the "Life" attribute. It's the number of seconds until we hit the target. We need to find where the target is at that time.
 3. Add a Time Shift node to the target (before the centroid is calculated). Set it to the current time plus the "Life" attribute.
 
-<img src="./images/aimbot_moving.gif?raw=true" height="320">
+<img src="./images/aimbot_moving.gif?raw=true" width="500">
 
 [Download the HIP file!](./hips/aimbot.hipnc?raw=true)
 
@@ -117,7 +117,7 @@ If your "Life" is the same for all projectiles, extract multiple centroids and t
 
 If your "Life" changes per target, use a for loop instead.
 
-<img src="./images/aimbot.gif?raw=true" height="320">
+<img src="./images/aimbot.gif?raw=true" width="500">
 
 ## Smooth steps
 Smoothstep's evil uncle, smooth steps. This helps for staggering animations, like points moving along lines.
