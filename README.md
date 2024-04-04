@@ -99,7 +99,7 @@ v@v = point(1, "v", 0);
 
 6. Use "Life" to set the height of the path, and lower the "FPS" to reduce unneeded points.
 
-<img src="./images/aimbot_static.gif?raw=true" height="320">
+<img src="./images/aimbot_static.gif?raw=true" width="500">
 
 ### Hit a moving target
 Use the same method as before, but sample the target's position forwards in time.
@@ -108,7 +108,7 @@ Use the same method as before, but sample the target's position forwards in time
 2. Copy the "Life" attribute. It's the number of seconds until we hit the target. We need to find where the target is at that time.
 3. Add a Time Shift node to the target (before the centroid is calculated). Set it to the current time plus the "Life" attribute.
 
-<img src="./images/aimbot_moving.gif?raw=true" height="320">
+<img src="./images/aimbot_moving.gif?raw=true" width="500">
 
 [Download the HIP file!](./hips/aimbot.hipnc?raw=true)
 
@@ -117,7 +117,7 @@ If your "Life" is the same for all projectiles, extract multiple centroids and t
 
 If your "Life" changes per target, use a for loop instead.
 
-<img src="./images/aimbot.gif?raw=true" height="320">
+<img src="./images/aimbot.gif?raw=true" width="500">
 
 ## Smooth steps
 Smoothstep's evil uncle, smooth steps. This helps for staggering animations, like points moving along lines.
@@ -146,7 +146,7 @@ float frac_step = min(1, x % width * steepness); // Fractional component, lines
 float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
-## Remove points by time post-sim
+## Remove points by time after simulation
 Sometimes POP sims take ages to run, especially FLIP sims. This makes it painful to get notes about precise timing changes.
 
 I found a decent approach to avoid resimulation:
@@ -162,6 +162,10 @@ if (chramp("keep_percent", time_factor) < rand(i@id)) {
     removepoint(0, i@ptnum, 0);
 }
 ```
+
+|Original Sim|Post-Sim Removal|
+|---|---|
+|<img src="./images/postsimbefore.webp?raw=true" width="300">|<img src="./images/postsimafter.webp?raw=true" width="300">|
 
 [Download the HIP file!](./hips/pop_remove_post_sim.hipnc?raw=true)
 
@@ -682,7 +686,7 @@ Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 
 
 |Regular UVs|Intrinsic UVS|
 |---|---|
-|<img src="./images/regularuv.png?raw=true">|<img src="./images/primuv.png?raw=true">|
+|<img src="./images/regularuv.png?raw=true" width="300">|<img src="./images/primuv.png?raw=true" width="300">|
 
 If you want to use the actual UVs, use `uvsample()` instead.
 
