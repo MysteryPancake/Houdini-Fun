@@ -8,7 +8,7 @@ I recently lost my mind and made a bunch of audio effects and synths in Houdini.
 
 <img src="./images/sound/soundfx.png" width="860">
 
-Originally this worked using [a brute force website I made](https://mysterypancake.github.io/Houdini-Fun/tools/RawAudio). You had to copy data from Houdini onto the website to hear it. This was slow and tedious, taking the fun away from sound design and experimentation.
+Originally this worked using [a brute force website I made](https://mysterypancake.github.io/Fun/html/rawaudio). You had to copy data from Houdini onto the website to hear it. This was slow and tedious, taking the fun away from sound design and experimentation.
 
 Luckily CHOPS has direct audio output, which I'm using now. It's much faster and lets you hear the result without leaving Houdini!
 
@@ -58,7 +58,7 @@ For fractional speeds it's a lot harder. Just like resizing an image, you have t
 
 <img src="./images/sound/resamplingmeme.png" width="600">
 
-There's many ways to interpolate signals, [hear them on my website!](https://mysterypancake.github.io/Houdini-Fun/tools/Resampling) Sinc is the highest possible quality for audio.
+There's many ways to interpolate signals, [hear them on my website!](https://mysterypancake.github.io/Fun/html/resampling) Sinc is the highest possible quality for audio.
 
 Sadly I haven't made sinc in Houdini yet, so you'll have to deal with crappy linear and hermite interpolation for now.
 
