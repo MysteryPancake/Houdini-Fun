@@ -167,6 +167,10 @@ if (chramp("keep_percent", time_factor) < rand(i@id)) {
 |---|---|
 |<img src="./images/postsimbefore.webp?raw=true" width="300">|<img src="./images/postsimafter.webp?raw=true" width="300">|
 
+I used this ramp for the demo above:
+
+<img src="./images/remove_post_sim_ramp.png?raw=true" width="600">
+
 [Download the HIP file!](./hips/pop_remove_post_sim.hipnc?raw=true)
 
 ## Generating circles
@@ -505,17 +509,17 @@ f@density = density_sum / num_samples;
 [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
 
 ## Collision geometry from nasty meshes
-It's always hard to get a decent sim when your collision geometry is on life support. Here's a few ways to clean it up.
+It's always hard to get a decent sim when your collision geometry is on life support. Here's a few ways to clean it up!
 
 ### Particle Fluid Surface
-Works great for point clouds! VDB from Particles works too, but not as smoothly.
+Good for point clouds! VDB from Particles works too, but not as smoothly.
 
 <img src="./images/decentcollision.png?raw=true" width="600">
 
 [Download the HIP file!](./hips/decent_collision.hiplc?raw=true)
 
 ### Extrude
-Works well for flat surfaces! For more control, use point normals to set the extrusion direction.
+Good for flat surfaces! For more control, use point normals to set the extrusion direction.
 
 <img src="./images/extrudemode.png?raw=true" width="400">
 
