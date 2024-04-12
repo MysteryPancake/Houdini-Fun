@@ -1,5 +1,7 @@
 # Houdini Sound Effects
 
+**THIS ARTICLE IS A HEAVY WIP, WILL REPLACE LATER!**
+
 Houdini works fine for visual effects, but the real question is does it work for sound effects?
 
 I recently lost my mind and made a bunch of audio effects and synths in Houdini. Why? No clue!
