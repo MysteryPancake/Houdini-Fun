@@ -294,6 +294,7 @@ The tricky bit is looping back to the start after we reach the end of each ring,
 
 ```js
 int cols = chi("columns");
+
 // Skip last connections when path is open
 int closed = chi("close_path");
 if (!closed && i@ptnum >= i@numpt - cols) return;
