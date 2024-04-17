@@ -262,13 +262,12 @@ Using that in a for loop, we can replace each point with a correctly oriented ci
 int cols = chi("columns");
 float radius = chf("radius");
 float angle = radians(chf("angle"));
-int num_points = npoints(0);
 
 for (int i = 0; i < cols; ++i) {
     // Column factor (0-1 exclusive)
     float col_factor = float(i) / cols;
     // Row factor (0-1 inclusive)
-    float row_factor = float(i@ptnum) / (num_points - 1);
+    float row_factor = float(i@ptnum) / (i@numpt - 1);
 
     // Scale and rotation ramps
     float scale_ramp = chramp("scale_ramp", row_factor);
@@ -294,12 +293,10 @@ Now we just need to connect the circles with quads. To make a quad, we need the 
 The tricky bit is looping back to the start after we reach the end of each ring, which takes a bit of modulo.
 
 ```js
-int num_points = npoints(0);
 int cols = chi("columns");
-
 // Skip last connections when path is open
 int closed = chi("close_path");
-if (!closed && i@ptnum >= num_points - cols) return;
+if (!closed && i@ptnum >= i@numpt - cols) return;
 
 // Row and column indexes per point
 i@ptrow = i@ptnum / cols;
@@ -308,8 +305,8 @@ i@ptcol = i@ptnum % cols;
 // Point indexes of the 4 corners of each quad
 int corner1 = i@ptnum;
 int corner2 = i@ptrow * cols + (i@ptnum + 1) % cols;
-int corner3 = (corner2 + cols) % num_points;
-int corner4 = (corner1 + cols) % num_points;
+int corner3 = (corner2 + cols) % i@numpt;
+int corner4 = (corner1 + cols) % i@numpt;
 
 // Add quads
 int prim_id = addprim(0, "poly", corner1, corner2, corner3, corner4);
