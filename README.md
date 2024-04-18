@@ -510,9 +510,17 @@ The Group node has a useful option to select by normals. Carlll on the CGWiki Di
 
 <img src="./images/keepbynormals.png?raw=true" width="600">
 
-For that you need dot product. It tells how similar two vectors are, negative when opposite, positive when similar.
+You can use a dot product for this. It tells how correlated two vectors are, negative when opposite, positive when similar.
 
 <img src="./images/dotproduct.png?raw=true" width="600">
+
+To know if a vector points in a direction, check if the dot product passes a threshold.
+
+```js
+@group_upward = dot(v@N, {0, 1, 0}) > chf("threshold");
+```
+
+Here's a more complete version:
 
 ```js
 float similarity = dot(v@N, normalize(chv("direction")));
@@ -522,7 +530,7 @@ if (chi("include_opposite_direction")) {
 i@group_`chs("group_name")` = similarity >= cos(radians(chf("spread_angle")));
 ```
 
-Here's a comparison between the Group node version and the VEX version.
+Spot the difference. On the left is the Group node, on the right is VEX.
 
 <img src="./images/keepbynormals2.png?raw=true" width="500">
 
