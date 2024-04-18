@@ -510,11 +510,11 @@ The Group node has a useful option to select by normals. Carlll on the CGWiki Di
 
 <img src="./images/keepbynormals.png?raw=true" width="600">
 
-You can use a dot product for this. It tells how correlated two vectors are, negative when opposite, positive when similar.
+A dot product tells how similar two vectors are, negative when opposite, positive when similar.
 
 <img src="./images/dotproduct.png?raw=true" width="600">
 
-To know if a vector points in a direction, check if the dot product passes a threshold.
+To know if a vector points in a direction, you'd check if the dot product passes a threshold.
 
 ```js
 @group_upward = dot(v@N, {0, 1, 0}) > chf("threshold");
