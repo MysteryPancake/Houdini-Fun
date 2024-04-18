@@ -666,6 +666,35 @@ This affects position and rotation, but isn't as good as `dihedral()` since it w
 
 <img src="./images/floorextracttransform.png?raw=true" height="480">
 
+## FEM: Using real world physical units
+Unlike the RBD Solver, the FEM Solver doesn't list real world physical units. How do you use measurements with it?
+
+I emailed SideFX, and they responded with some useful information:
+
+> I am told both Shape Stiffness and Volume Stiffness have units of Pascal when the stiffness multiplier is set to 1.<br>
+> With the default Stiffness Multiplier of 1000, both these parameters would be in KPa.
+> 
+> These coefficients have the following meaning:
+>
+> ```
+> shape_stiffness = 2x Lamé's second parameter
+> volume_stiffness = Lamé's first parameter
+> ```
+>
+> Conversion from other physical parameters, which are more commonly available:
+> 
+> If you have the Young's modulus and the Poisson ratio of your material, you can compute the corresponding shape stiffness and volume stiffness parameters by:
+> 
+> ```
+> shape_stiffness = youngs_modulus / ( 1 + poisson_ratio )
+> volume_stiffness = shape_stiffness * ( poisson_ratio / ( 1 - ( 2 * poisson_ratio ) ) )
+> ```
+>
+> The damping ratio parameters are unitless and should be chosen in between 0 and 1.
+>
+> The attributes solidshapestiffness, solidvolumestiffness, etc. work as multipliers for the parameters that you specify on the object.<br>
+> You could keep these between 0 and 1 if you like to dial in the relative stiffness for parts of the material, where the overall stiffness is determined by the shape stiffness and volume stiffness parameters.
+
 ## Vellum: Stop wobbling, be rigid and bouncy
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
 
