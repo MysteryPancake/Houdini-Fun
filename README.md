@@ -505,6 +505,59 @@ f@density = density_sum / num_samples;
 
 [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
 
+## Keep by normals in VEX
+The Group node has a useful option to select by normals. Carlll on the CGWiki Discord was looking for a VEX equivalent.
+
+<img src="./images/keepbynormals.png?raw=true" width="600">
+
+For that you need dot product. It tells how similar two vectors are, negative when opposite, positive when similar.
+
+<img src="./images/dotproduct.png?raw=true" width="600">
+
+```js
+float similarity = dot(v@N, normalize(chv("direction")));
+if (chi("include_opposite_direction")) {
+    similarity = abs(similarity);
+}
+i@group_`chs("group_name")` = similarity >= cos(radians(chf("spread_angle")));
+```
+
+Here's a comparison between the Group node version and the VEX version.
+
+<img src="./images/keepbynormals2.png?raw=true" width="500">
+
+[Download the HIP file!](./hips/keepbynormals.hiplc?raw=true)
+
+## Select inside or outside
+Sometimes you need to select the inside or outside of double-sided geometry, for example to make single-sided geometry if Fuse doesn't work.
+
+The normals are great whenever you need to select anything by direction. Usually you can use a Group node set to "Keep By Normals", then use "Backface from" to pick the interior.
+
+If it screws up, here's another approach. Assuming the interior points inwards and the exterior points outwards, the normals of the interior should point roughly towards the center. That means to detect the interior, you can compare the direction of the normal with the direction towards the center.
+
+1. Pick a center point. Extract Centroid is good for this.
+
+```js
+vector center = point(1, "P", 0);
+```
+
+2. Find the direction towards the center.
+
+```js
+vector dir = normalize(center - v@P);
+```
+
+3. Compare it to the normal using a dot product. This tells you how much the normal faces the center (-1 to 1).
+
+```js
+float correlation = dot(dir, v@N);
+@group_inside = correlation > ch("threshold");
+```
+
+<img src="./images/inside.png?raw=true" width="250">
+
+[Download the HIP file!](./hips/inside.hipnc?raw=true)
+
 ## Collision geometry from nasty meshes
 It's always hard to get a decent sim when your collision geometry is on life support. Here's a few ways to clean it up!
 
@@ -690,36 +743,6 @@ Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 
 |<img src="./images/regularuv.png?raw=true" width="300">|<img src="./images/primuv.png?raw=true" width="300">|
 
 If you want to use the actual UVs, use `uvsample()` instead.
-
-## Select inside or outside
-Sometimes you need to select the inside or outside of double-sided geometry, for example to make single-sided geometry if Fuse doesn't work.
-
-The normals are great whenever you need to select anything by direction. Usually you can use a Group node set to "Keep By Normals", then use "Backface from" to pick the interior.
-
-If it screws up, here's another approach. Assuming the interior points inwards and the exterior points outwards, the normals of the interior should point roughly towards the center. That means to detect the interior, you can compare the direction of the normal with the direction towards the center.
-
-1. Pick a center point. Extract Centroid is good for this.
-
-```js
-vector center = point(1, "P", 0);
-```
-
-2. Find the direction towards the center.
-
-```js
-vector dir = normalize(center - v@P);
-```
-
-3. Compare it to the normal using a dot product. This tells you how much the normal faces the center (-1 to 1).
-
-```js
-float correlation = dot(dir, v@N);
-@group_inside = correlation > ch("threshold");
-```
-
-<img src="./images/inside.png?raw=true" width="250">
-
-[Download the HIP file!](./hips/inside.hipnc?raw=true)
 
 ## Fluids: Fix gap between surfaces
 Usually liquids resting on a surface have a small gap due to the collision geometry, easier to see once rendered.
