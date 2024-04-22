@@ -386,7 +386,7 @@ This is hard to do with Houdini's built-in nodes, so here's a manual approach.
 2. Use a Vertex Wrangle to manually fit the UVs based on the min and max.
 
 ```js
-v@uv = invlerp(v@uv, v@uvmin, v@uvmax); // Same as v@uv = fit(v@uv, v@uvmin, v@uvmax, 0, 1);
+v@uv = invlerp(v@uv, v@uvmin, v@uvmax); // Or v@uv = fit(v@uv, v@uvmin, v@uvmax, 0, 1);
 ```
 
 |Before|After|
