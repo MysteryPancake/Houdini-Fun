@@ -377,6 +377,24 @@ Now the cross sections connect perfectly without any resampling!
 
 [Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc?raw=true)
 
+## Fitting UV islands
+Sometimes you need to overlap UV islands and fit them to a full tile, like when slicing a sphere.
+
+This is hard to do with Houdini's built-in nodes, so here's a manual approach.
+
+1. Use Attribute Promote to get the min and max of the UV attribute. If there's multiple islands, go per piece by connectivity.
+2. Use a Vertex Wrangle to manually fit the UVs based on the min and max.
+
+```js
+v@uv = invlerp(v@uv, v@uvmin, v@uvmax); // Same as v@uv = fit(v@uv, v@uvmin, v@uvmax, 0, 1);
+```
+
+|Before|After|
+|---|---|
+|<img src="./images/uvfitting1.png?raw=true" height="200">|<img src="./images/uvfitting2.png?raw=true" height="200">|
+
+[Download the HIP file!](./hips/uv_island_fitting.hiplc?raw=true)
+
 ## Reusing code in multiple wrangles
 Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
 
