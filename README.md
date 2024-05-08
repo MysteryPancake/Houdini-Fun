@@ -449,10 +449,6 @@ Igor Elovikov told us about a top secret Houdini feature, multiline expressions!
 > You can do it in expression but it's a rather an esoteric part of Houdini parameters.<br>
 > Multiline expressions must be enclosed in {} and have a return statement, otherwise they evaluate to zero.
 
-<img src="./images/fontvex.png?raw=true" width="800">
-
-Igor originally used `strcat()` to join the strings. I found adding works too, it doesn't need typecasting unlike VEX!
-
 ```js
 `{
 string result = '';
@@ -462,6 +458,10 @@ for (i = 0; i < 10; i++) {
 return result;
 }`
 ```
+
+<img src="./images/fontvex.png?raw=true" width="800">
+
+Igor used `strcat()` to join the strings. I found adding works too, it doesn't need typecasting unlike VEX!
 
 ### Detail attribute
 If you want to use VEX, never fear! Make a detail attribute, add it as a spare input, then use `details()` to display it as text.
