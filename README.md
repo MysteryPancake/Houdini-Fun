@@ -446,8 +446,8 @@ Surprisingly it's tricky to display text based on an attribute or VEX snippet. H
 ### Expressions
 Igor Elovikov told us about a top secret Houdini feature, multiline expressions!
 
-> You can do it in expression but it's rather an esoteric part of Houdini parameters.<br>
-> Multiline expression has to be enclosed in {} and have return statement, otherwise it evaluates to zero.
+> You can do it in expression but it's a rather an esoteric part of Houdini parameters.<br>
+> Multiline expressions must be enclosed in {} and have a return statement, otherwise they evaluate to zero.
 
 <img src="./images/fontvex.png?raw=true" width="800">
 
