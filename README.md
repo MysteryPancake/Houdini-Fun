@@ -441,7 +441,7 @@ Certain characters like spaces aren't allowed in variable names, so try not to i
 ## Procedural text in the Font node
 Surprisingly it's tricky to display text based on an attribute or VEX snippet. Here's a few ways to do it!
 
-[Download the HIP file!](./hips/font_vex.hipnc?raw=true)
+[Download the HIP file!](./hips/font_vex.hiplc?raw=true)
 
 ### Expressions
 Igor Elovikov told us about a top secret Houdini feature, multiline expressions!
