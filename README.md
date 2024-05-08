@@ -438,6 +438,40 @@ Certain characters like spaces aren't allowed in variable names, so try not to i
 
 [Download the HIP file!](./hips/vex_var_names.hiplc?raw=true)
 
+## Procedural text in the Font node
+Surprisingly it's tricky to display text based on an attribute or VEX snippet. Here's a few ways to do it!
+
+[Download the HIP file!](./hips/font_vex.hipnc?raw=true)
+
+### Expressions
+Igor Elovikov told us about a top secret Houdini feature, multiline expressions!
+
+> You can do it in expression but it's rather an esoteric part of Houdini parameters.<br>
+> Multiline expression has to be enclosed in {} and have return statement, otherwise it evaluates to zero.
+
+<img src="./images/fontvex.png?raw=true" width="800">
+
+Igor originally used `strcat()` to join the strings. I found adding works too, it doesn't need typecasting unlike VEX!
+
+```js
+`{
+string result = '';
+for (i = 0; i < 10; i++) {
+    result = strcat(result, 'any');
+}
+return result;
+}`
+```
+
+### Detail attribute
+If you want to use VEX, never fear! Make a detail attribute, add it as a spare input, then use `details()` to display it as text.
+
+```js
+`details(-1, "your_string_attrib")`
+```
+
+<img src="./images/fontvex2.png?raw=true" width="800">
+
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
 
