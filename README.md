@@ -238,6 +238,8 @@ addprim(0, "poly", points);
 
 Ever wondered how Extract Transform works? Turns out it uses a popular matrix solving technique called [singular value decomposition](https://nghiaho.com/?page_id=671).
 
+[Download the HIP file!](./hips/extract_transform_svd.hiplc?raw=true)
+
 ### Align Translation
 
 Aligning the translation is easy. The best translation happens when you align the center of mass (average) of each point cloud.
@@ -306,11 +308,11 @@ if (determinant(R) < 0) {
     R = V * diag({1, 1, -1}) * transpose(U);
 }
 
-// 4. Combine translation and rotation into 4x4 matrix
+// 5. Combine translation and rotation into 4x4 matrix
 matrix transform = set(R);
 translate(transform, target_centroid - source_centroid);
 
-// 5. Add point for Transform Pieces to use
+// 6. Add point for Transform Pieces to use
 setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 ```
 
