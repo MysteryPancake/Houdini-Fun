@@ -267,7 +267,9 @@ setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 
 ### Align Translation + Rotation
 
-Aligning the rotation is harder. You need to use an SVD solver on the covariance matrix. Luckily Houdini has a SVD solver in VEX, `svddecomp()`.
+Aligning the rotation is harder. You need to build a covariance matrix, then solve it with SVD.
+
+Luckily we don't need to leave VEX! Houdini has a SVD solver called `svddecomp()`.
 
 ```js
 // Detail Wrangle: Solves translation and rotation only
