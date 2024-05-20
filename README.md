@@ -308,11 +308,11 @@ if (determinant(R) < 0) {
     R = V * diag({1, 1, -1}) * transpose(U);
 }
 
-// 4. Combine translation and rotation into 4x4 matrix
+// 5. Combine translation and rotation into 4x4 matrix
 matrix transform = set(R);
 translate(transform, target_centroid - source_centroid);
 
-// 5. Add point for Transform Pieces to use
+// 6. Add point for Transform Pieces to use
 setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 ```
 
