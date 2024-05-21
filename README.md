@@ -154,7 +154,7 @@ I found a decent approach to avoid resimulation:
 2. After simulating, get the birth time of each point using `f@Time - f@age`.
 3. Cull points based on the birth time. There's 2 main ways to do it.
 
-### Keyframes
+### Keyframes over time
 `chf()` lets you fetch values over time using `chf("channel", time)`. Use the birth time and you're good to go!
 
 ```js
@@ -164,7 +164,7 @@ if (chf("keep_percent", birth_time) < rand(i@id)) {
 }
 ```
 
-### Time Ramp
+### Ramp over time
 I used to remap time into a ramp instead. It's not as controllable as keyframes, but helps in some cases.
 
 ```js
