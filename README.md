@@ -146,13 +146,26 @@ float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
 ## Remove points by time after simulation
-Sometimes POP sims take ages to run, especially FLIP sims. This makes it painful to get notes about precise timing changes.
+Sometimes POP sims take ages to run, especially FLIP sims. This makes it annoying to get notes about timing changes.
 
 I found a decent approach to avoid resimulation:
 
-1. Simulate a ton of points, way more than you need.
-2. After simulating, get the birth time of each point `f@Time - f@age`.
-3. Cull points based on the birth time. Use a ramp for maximum control.
+1. Simulate tons of points, way more than you need.
+2. After simulating, get the birth time of each point using `f@Time - f@age`.
+3. Cull points based on the birth time. There's 2 main ways to do it.
+
+### Keyframes
+`chf()` lets you fetch values over time using `chf("channel", time)`. Use the birth time and you're good to go!
+
+```js
+float birth_time = f@Time - f@age;
+if (chf("keep_percent", birth_time) < rand(i@id)) {
+    removepoint(0, i@ptnum, 0);
+}
+```
+
+### Time Ramp
+I used to remap time into a ramp instead. It's not as controllable as keyframes, but helps in some cases.
 
 ```js
 float birth_time = f@Time - f@age;
