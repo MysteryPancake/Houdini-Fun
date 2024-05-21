@@ -238,8 +238,6 @@ addprim(0, "poly", points);
 
 Ever wondered how Extract Transform works? Turns out it uses a popular matrix solving technique called [singular value decomposition](https://nghiaho.com/?page_id=671).
 
-[Download the HIP file!](./hips/extract_transform_svd.hiplc?raw=true)
-
 ### Align Translation
 
 Aligning the translation is easy. The best translation happens when you align the center of mass (average) of each point cloud.
@@ -373,6 +371,8 @@ translate(transform, target_centroid - (R * source_centroid));
 // 7. Add point for Transform Pieces to use
 setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 ```
+
+[Download the HIP file!](./hips/extract_transform_svd.hiplc?raw=true)
 
 ## Sweep in VEX
 
