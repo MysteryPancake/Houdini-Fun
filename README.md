@@ -711,10 +711,10 @@ f@density = density_sum / num_samples;
 [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
 
 ## Split curve to individual lines and back again
-Putting this here since I always forget.
+Putting this here since I always forget the nodes.
 
-- Convert Line splits a single prim curve into multiple line prims.
-- PolyPath combines multiple line prims into a single curve prim.
+- "Convert Line" splits a single prim curve into multiple line prims.
+- "PolyPath" combines multiple line prims into a single curve prim.
 
 ## Keep by normals in VEX
 The Group node has a useful option to select by normals. Carlll on the CGWiki Discord was looking for a VEX equivalent.
