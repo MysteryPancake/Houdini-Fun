@@ -6,7 +6,7 @@ If you've ever wondered how they work, look no further. I remade them on my [Aft
 For a great resource on deriving them yourself, check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://youtu.be/-Ii3MrJFBkQ?t=5599) videos!
 
 ## `lerp()`
-[Lerp](https://en.wikipedia.org/wiki/Linear_interpolation) takes two values and performs a weighted sum based on a factor.
+[Lerp](https://en.wikipedia.org/wiki/Linear_interpolation) takes two values and does a weighted sum based on a factor.
 
 For example to get halfway between two values, you'd add half of each:
 
@@ -39,9 +39,21 @@ float lerp_diy(float value1; float value2; float amount) {
 ```
 
 ## `invlerp()`
-Inverse lerp takes a value and a range, then normalizes the value so it lies between 0 and 1.
+Inverse lerp takes a value and a range, then remaps the value so it lies between 0 and 1.
 
-Given a minimum and maximum, the range is `max - min`. To normalize a value we can divide it by the range.
+For example, say you have a value between 2 and 5. Start by moving the range so it starts on 0.
+
+```js
+value - 2;
+```
+
+Now it lies between 0 and 3. To move it between 0 and 1, just divide by 3. 3 is the difference between 5 and 2.
+
+```js
+(value - 2) / (5 - 2)
+```
+
+Generalizing this gives the formula for inverse lerp:
 
 ```js
 float invlerp_diy(float value; float min; float max) {
