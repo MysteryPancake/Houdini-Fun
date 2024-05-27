@@ -55,7 +55,7 @@ The Z axis aligns with the camera direction, so move along it to draw a ray.
 
 ```js
 // Run this in a detail wrangle
-string cam = chs("cam");
+string cam = chsop("cam");
 float offset = chf("raylength");
 
 // Sample two positions along the Z axis in NDC space to draw a ray
@@ -77,7 +77,7 @@ Using NDC coordinates directly in world space flattens the geometry to how it lo
 <img src="./images/ndc/ndcflat.png" width="300" align="left">
 
 ```js
-string cam = chs("cam");
+string cam = chsop("cam");
 
 // Flatten by setting Z to a constant value
 v@P = toNDC(cam, v@P);
@@ -103,7 +103,7 @@ Using NDC coordinates in camera space lets you flatten geometry but keep it iden
 <img src="./images/ndc/ndccampov.webp" width="300" align="left">
 
 ```js
-string cam = chs("cam");
+string cam = chsop("cam");
 float offset = ch("distance");
 
 // Flatten to camera by setting Z to a constant value
@@ -122,7 +122,7 @@ Same as above, except subtracting the Z coordinate. Again the geometry is identi
 <img src="./images/ndc/ndccampov2.webp" width="300" align="left">
 
 ```js
-string cam = chs("cam");
+string cam = chsop("cam");
 float offset = ch("distance");
 
 // Distort relative to camera by adding or multiplying the Z value
@@ -141,7 +141,7 @@ Same as above, except using another camera as reference. The Z coordinates are f
 <img src="./images/ndc/cubeillusion.webp" width="300" align="left">
 
 ```js
-string cam = chs("cam");
+string cam = chsop("cam");
 float mult = ch("multiply");
 float add = ch("add");
 
@@ -167,7 +167,7 @@ The VEX equivalent of Camera Frustum qL.
 <img src="./images/ndc/ndcfrustrum.webp" width="300" align="left">
 
 ```js
-string cam = chs("cam");
+string cam = chsop("cam");
 
 // Optionally animate it along the Z axis
 v@P.z -= chf("distance");
@@ -190,7 +190,7 @@ The VEX equivalent of Camera Plane qL.
 <img src="./images/ndc/ndcplane.webp" width="300" align="left">
 
 ```js
-string cam = chs("cam");
+string cam = chsop("cam");
 
 // Optionally animate it along the Z axis
 v@P.z = -chf("distance");
@@ -210,7 +210,7 @@ This technique is great for holograms. I first saw [Entagma use it for a raytrac
 Since the plane is flattened on Z in NDC space, this is easy. Just subtract the camera position from the current position.
 
 ```js
-string cam = chs("cam");
+string cam = chsop("cam");
 vector camPos = fromNDC(cam, {0, 0, 0});
 
 // Projection direction
@@ -226,7 +226,7 @@ v@N = normalize(v@P - camPos);
 For arbitrary geometry, the same idea applies. Convert to NDC space, flatten Z and convert back to world space.
 
 ```js
-string cam = chs("cam");
+string cam = chsop("cam");
 vector camPos = fromNDC(cam, {0, 0, 0});
 
 // Flatten Z axis in NDC space
@@ -247,7 +247,7 @@ So what is offscreen? For X and Y it's anything outside the 0 to 1 range, and fo
 <img src="./images/ndc/ndccull.png" width="300" align="left">
 
 ```js
-string cam = chs("cam");
+string cam = chsop("cam");
 vector ndcPos = toNDC(cam, v@P);
 
 if (ndcPos.x < 0 || ndcPos.x > 1 // Remove outside 0-1 on X
@@ -265,7 +265,7 @@ It helps to add some wiggle room near the edges to avoid issues like glitchy mot
 
 ```js
 float padding = chf("padding");
-string cam = chs("cam");
+string cam = chsop("cam");
 vector ndcPos = toNDC(cam, v@P);
 
 if (ndcPos.x < -padding || ndcPos.x > 1 + padding // Remove outside 0-1 on X (with padding)
