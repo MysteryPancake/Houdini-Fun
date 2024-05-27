@@ -280,9 +280,9 @@ if (ndcPos.x < -padding || ndcPos.x > 1 + padding // Remove outside 0-1 on X (wi
 ## Build your own NDC matrix
 You can use `perspective()` to build a matrix that has the same effect as `toNDC()` and `fromNDC()`.
 
-Thanks to Igor Elovikov for the code below! He noted this:
+Thanks to Igor Elovikov for sharing the code below! He noted this:
 
-> VEX toNDC() feels misleading and confusing.<br>
+> VEX toNDC() feels a bit misleading and confusing.<br>
 > Usually NDC space is a cube from (-1, 1, 1) to (1, 1, 1), but VEX transforms it to screen space and removes normalization from Z.<br>
 > So X, Y is normalized but Z is the actual Z, the distance from the camera.<br>
 > Also when you're doing stuff manually, you should work with [homogenous coordinates](https://carmencincotti.com/2022-05-02/homogeneous-coordinates-clip-space-ndc/) (vector4 basically).
