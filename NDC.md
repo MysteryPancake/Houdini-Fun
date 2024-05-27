@@ -318,8 +318,8 @@ string cam = chsop("cam");
     chf(cam + "/near"),
     chf(cam + "/far")
 );
-4@world_to_camera = getspace("space:world", "/obj/cam1");
-4@to_ndc = @world_to_camera * @projection;
+4@world_to_camera = getspace("space:world", cam);
+4@to_ndc = 4@world_to_camera * 4@projection;
 
 v@P *= 4@to_ndc;
 ```
