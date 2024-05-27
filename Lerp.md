@@ -47,7 +47,7 @@ For example, say you have a value between 2 and 5. Start by moving the range so 
 value - 2;
 ```
 
-Now it lies between 0 and 3. To move it between 0 and 1, just divide by 3. This is the difference between 5 and 2.
+Now it lies between 0 and 3. To move it between 0 and 1, just divide it by 3 (the difference between 5 and 2).
 
 ```js
 (value - 2) / (5 - 2)
