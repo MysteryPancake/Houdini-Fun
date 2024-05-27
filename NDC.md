@@ -276,3 +276,50 @@ if (ndcPos.x < -padding || ndcPos.x > 1 + padding // Remove outside 0-1 on X (wi
 ```
 
 <br clear="left" />
+
+## Build your own NDC matrix
+You can use `perspective()` to build a matrix that has the same effect as `toNDC()` and `fromNDC()`.
+
+Thanks to Igor Elovikov for the code below! He noted this:
+
+> VEX toNDC() feels misleading and confusing.<br>
+> Usually NDC space is a cube from (-1, 1, 1) to (1, 1, 1), but VEX transforms it to screen space and removes normalization from Z.<br>
+> So X, Y is normalized but Z is the actual Z, the distance from the camera.<br>
+> Also when you're doing stuff manually, you should work with [homogenous coordinates](https://carmencincotti.com/2022-05-02/homogeneous-coordinates-clip-space-ndc/) (vector4 basically).
+
+```js
+string cam = chsop("cam");
+
+4@projection = perspective(
+    chf(cam + "/focal") / chf(cam + "/aperture"),
+    chf(cam + "/resx") / chf(cam + "/resy"),
+    chf(cam + "/aspect"),
+    0, 1,
+    {-1, -1, 1, 1}
+);
+4@world_to_camera = getspace("space:world", cam);
+4@to_ndc = 4@world_to_camera * 4@projection;
+
+// Equivalent to v@P = toNDC(cam, v@P);
+vector4 pos = vector4(v@P) * 4@to_ndc;
+v@P = vector(pos) / pos.w;
+v@P.z = pos.z;
+```
+
+Try this version if you want Z to be normalized:
+
+```js
+string cam = chsop("cam");
+
+4@projection = perspective(
+    chf(cam + "/focal") / chf(cam + "/aperture"),
+    chf(cam + "/resx") / chf(cam + "/resy"),
+    chf(cam + "/aspect"),
+    chf(cam + "/near"),
+    chf(cam + "/far")
+);
+4@world_to_camera = getspace("space:world", "/obj/cam1");
+4@to_ndc = @world_to_camera * @projection;
+
+v@P *= 4@to_ndc;
+```
