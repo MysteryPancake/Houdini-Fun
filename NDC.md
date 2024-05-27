@@ -19,13 +19,13 @@ The Z coordinates are 0 at the camera, negative in front and positive behind the
 You can convert a world space coordinate to NDC using `toNDC()`:
 
 ```js
-vector ndcPos = toNDC("/obj/cam1", v@P);
+vector ndcPos = toNDC(chsop("cam"), v@P);
 ```
 
 Then convert it back to world space using `fromNDC()`:
 
 ```js
-vector worldPos = fromNDC("/obj/cam1", ndcPos);
+vector worldPos = fromNDC(chsop("cam"), ndcPos);
 ```
 
 Here's some NDC tricks you can play with. [Download the HIP file!](./hips/ndc/ndcfun.hipnc?raw=true)
@@ -38,7 +38,7 @@ The origin of NDC space is the camera, so just convert `{0, 0, 0}` to world spac
 
 ```js
 // Run this in a detail wrangle
-string cam = "/obj/cam1";
+string cam = chsop("cam");
 vector camPos = fromNDC(cam, {0, 0, 0});
 addpoint(0, camPos);
 ```
