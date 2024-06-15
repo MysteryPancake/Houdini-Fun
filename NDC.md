@@ -328,8 +328,9 @@ v@P *= 4@to_ndc;
 
 Igor also shared how to calculate `fromNDC()` based on a modified version of `toNDC()`.
 
-> Inverse transform is tricky as again it involves the inversion of what I did in first wrangle ("denormalization" of Z)
-> Also you have to keep the W component of the point (actually I saw somewhere there should be an implicit 4th component, but not sure)
+> Inverse transform is tricky as it involves the inversion of what I did before (denormalization of Z)<br>
+> Also you have to keep the W component of the point<br>
+> Actually I saw somewhere there should be an implicit 4th component, but not sure.
 
 #### `toNDC()`
 
