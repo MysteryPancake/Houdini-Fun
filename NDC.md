@@ -324,12 +324,14 @@ string cam = chsop("cam");
 v@P *= 4@to_ndc;
 ```
 
-Igor also shared a version adapted for `fromNDC()` and noted this:
+### Both ways
+
+Igor also shared how to calculate `fromNDC()` based on a modified version of `toNDC()`.
 
 > Inverse transform is tricky as again it involves the inversion of what I did in first wrangle ("denormalization" of Z)
 > Also you have to keep the W component of the point (actually I saw somewhere there should be an implicit 4th component, but not sure)
 
-### To NDC
+#### `toNDC()`
 
 ```js
 string cam = chsop("cam");
@@ -357,7 +359,7 @@ v@P.z = f@near + pos.z * clip_z;
 f@origin_w = pos.w;
 ```
 
-### From NDC
+#### `fromNDC()`
 
 ```js
 vector4 pos = v@P;
