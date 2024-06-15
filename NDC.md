@@ -282,7 +282,7 @@ You can use `perspective()` to build a matrix that has the same effect as `toNDC
 
 Thanks to Igor Elovikov for sharing the code below! He noted this:
 
-> VEX toNDC() feels a bit misleading and confusing.<br>
+> VEX `toNDC()` feels a bit misleading and confusing.<br>
 > Usually NDC space is a cube from (-1, 1, 1) to (1, 1, 1), but VEX transforms it to screen space and removes normalization from Z.<br>
 > So X, Y is normalized but Z is the actual Z, the distance from the camera.<br>
 > Also when you're doing stuff manually, you should work with [homogenous coordinates](https://carmencincotti.com/2022-05-02/homogeneous-coordinates-clip-space-ndc/) (vector4 basically).
@@ -322,4 +322,46 @@ string cam = chsop("cam");
 4@to_ndc = 4@world_to_camera * 4@projection;
 
 v@P *= 4@to_ndc;
+```
+
+Igor also shared a version adapted for `fromNDC()` and noted this:
+
+> Inverse transform is tricky as again it involves the inversion of what I did in first wrangle ("denormalization" of Z)
+> Also you have to keep the W component of the point (actually I saw somewhere there should be an implicit 4th component, but not sure)
+
+### To NDC
+
+```js
+string cam = chsop("cam");
+f@near = chf(cam + "/near");
+f@far = chf(cam + "/far");
+
+4@projection = perspective(
+    chf(cam + "/focal") / chf(cam + "/aperture"),
+    chf(cam + "/resx") / chf(cam + "/resy"),
+    chf(cam + "/aspect"),
+    f@near,
+    f@far,
+    {-1, -1, 1, 1}
+);
+4@world_to_camera = getspace("space:world", cam);
+4@to_ndc = 4@world_to_camera * 4@projection;
+
+float clip_z = f@far - f@near;
+
+// Equivalent to v@P = toNDC(cam, v@P);
+vector4 pos = vector4(v@P) * 4@to_ndc;
+v@P = vector(pos) / pos.w;
+v@P.z = f@near + pos.z * clip_z;
+
+f@origin_w = pos.w;
+```
+
+### From NDC
+
+```js
+vector4 pos = v@P;
+pos.z = invlerp(v@P.z, f@near, f@far) / f@origin_w;
+pos *= invert(4@to_ndc);
+v@P = vector(pos) / pos.w;
 ```
