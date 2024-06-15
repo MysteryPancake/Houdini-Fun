@@ -278,7 +278,7 @@ if (ndcPos.x < -padding || ndcPos.x > 1 + padding // Remove outside 0-1 on X (wi
 <br clear="left" />
 
 ## Build your own NDC matrix
-You can use `perspective()` to build a matrix that has the same effect as `toNDC()` and `fromNDC()`.
+You can use `perspective()` to build a matrix that has the same effect as `toNDC()`.
 
 Thanks to Igor Elovikov for sharing the code below! He noted this:
 
@@ -324,7 +324,7 @@ string cam = chsop("cam");
 v@P *= 4@to_ndc;
 ```
 
-### Both ways
+### Convert both ways
 
 Igor also shared how to calculate `fromNDC()` based on a modified version of `toNDC()`.
 
