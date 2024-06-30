@@ -630,9 +630,7 @@ Vladimir on the CGWiki Discord was generating random curves, and wanted to stop 
 
 Though a Vellum sim is probably the best way, I found Vellum Post Process and Relax (in 3D mode) work too.
 
-The key is making sure the points aren't coplanar, otherwise they spread in 2D only.
-
-You just need to randomize the position a little to spread them on the Y axis, then try Vellum Post Process and Resample.
+The key is making sure the points aren't coplanar, otherwise they spread in 2D only. You just need to randomize the position on all 3 axes, then Vellum Post Process or Relax.
 
 <img src="./images/overlapped_cables.png?raw=true" width="500">
 
