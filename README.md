@@ -625,6 +625,17 @@ If you want to use VEX, never fear! Make a detail attribute, add it as a spare i
 
 <img src="./images/fontvex2.png?raw=true" width="800">
 
+## Overlapping cables without intersection
+Vladimir on the CGWiki Discord was generating random curves, and wanted to stop them intersecting.
+
+Though a Vellum sim is probably the best way, I found Vellum Post Process and Relax (in 3D mode) work too.
+
+The key is making sure the points aren't coplanar, otherwise they spread in 2D only. Randomize the position a little first, then use Vellum Post Process or Relax.
+
+<img src="./images/overlapped_cables.png?raw=true" width="500">
+
+[Download the HIP file!](./hips/overlapping_cables.hiplc?raw=true)
+
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
 
