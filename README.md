@@ -626,9 +626,15 @@ If you want to use VEX, never fear! Make a detail attribute, add it as a spare i
 <img src="./images/fontvex2.png?raw=true" width="800">
 
 ## Overlapping cables without intersection
-Vladimir on the CGWiki Discord was generating random curves, and wanted to stop them intersecting.
+Vladimir on the CGWiki Discord wanted to generate random curves and stop them from intersecting.
 
-Though a Vellum sim is probably the best way, I found Vellum Post Process and Relax (in 3D mode) work too.
+Start by scattering a bunch of points and connecting every few using an Add node. This makes a bunch of random lines.
+
+Now let's smooth them out. You can Resample, Blur, or Convert them to NURBS or Bezier paths. Use Relax to spread them out too.
+
+<img src="./images/random_curves.png?raw=true" width="500">
+
+To stop intersection a Vellum sim is likely the best, though I found Vellum Post Process and Relax work well too.
 
 The key is making sure the points aren't coplanar, otherwise they spread in 2D only. Randomize the position a little first, then use Vellum Post Process or Relax.
 
