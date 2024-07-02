@@ -165,7 +165,7 @@ if (chf("keep_percent", birth_time) < rand(i@id)) {
 ```
 
 ### Ramp over time
-I used to remap time into a ramp instead. It's not as controllable as keyframes, but helps in some cases.
+I used to remap time using a ramp instead. It's not as controllable as keyframes, but helps in some cases.
 
 ```js
 float birth_time = f@Time - f@age;
