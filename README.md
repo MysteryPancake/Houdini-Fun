@@ -251,7 +251,7 @@ addprim(0, "poly", points);
 
 KineFX often whinges when skeletons are cyclic. There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
 
-If the skeleton actually has cycles, you'll need to remove them. I couldn't find a node to do this, so ended up using a depth first search.
+If the skeleton actually has cycles, you'll need to cut them. I couldn't find a node to do this, so I used VEX instead.
 
 ```js
 // Depth first search to mark graph cycles for cutting
@@ -269,7 +269,7 @@ for (int i = 0; i < n || len(stack) > 0; ++i) {
   // If we've seen this point already, we found a cycle
   if (++sums[current] > 1) {
     // Group it to be removed with polycut
-    setpointgroup(0, "cycle", current, 1);
+    setpointgroup(0, "cyclic", current, 1);
     // Add an iteration since we skipped this one
     ++n;
     continue;
@@ -282,7 +282,7 @@ for (int i = 0; i < n || len(stack) > 0; ++i) {
 }
 ```
 
-This marks the points where cycles occur. To prevent the cycles, you can cut or remove these points with PolyCut.
+This groups the points where cycles occur. To repair the cycles, you can cut or remove these points with PolyCut.
 
 ## Extract Transform in VEX
 
