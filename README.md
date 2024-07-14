@@ -247,43 +247,6 @@ addprim(0, "poly", points);
 
 [Download the HIP file!](./hips/circle.hipnc?raw=true)
 
-## KineFX: Fix Cyclic Skeletons
-
-KineFX often whinges when skeletons are cyclic. There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
-
-If the skeleton actually has cycles, you'll need to cut them. I couldn't find a node to do this, so I used VEX instead.
-
-```js
-// Depth first search to mark graph cycles for cutting
-int n = i@numpt;
-int sums[];
-resize(sums, n);
-int stack[] = {0};
-
-// Also check if the stack is empty in case the final point has a cycle
-for (int i = 0; i < n || len(stack) > 0; ++i) {
-  
-  // Get the next point in the stack, or whatever point hasn't been visited yet
-  int current = len(stack) > 0 ? pop(stack, 0) : argsort(sums)[0];
-  
-  // If we've seen this point already, we found a cycle
-  if (++sums[current] > 1) {
-    // Group it to be removed with polycut
-    setpointgroup(0, "cyclic", current, 1);
-    // Add an iteration since we skipped this one
-    ++n;
-    continue;
-  }
-  
-  // Add all the neighbours we haven't explored to the stack
-  foreach (int next; neighbours(0, current)) {
-    if (sums[next] == 0) insert(stack, 0, next);
-  }
-}
-```
-
-This groups the points where cycles occur. To repair the cycles, you can cut or remove these points with PolyCut.
-
 ## Extract Transform in VEX
 
 Ever wondered how Extract Transform works? Turns out it uses a popular matrix solving technique called [singular value decomposition](https://nghiaho.com/?page_id=671).
@@ -1285,6 +1248,45 @@ If you need geometry in a context that doesn't provide it (like the forces of a 
 Many techniques work depending on the situation. Sometimes more randomisation is needed, other times the velocity needs reducing.
 
 A common technique is cranking up the disturbance. Controlling it by speed helps add it where mushrooms are likely to form.
+
+## KineFX: Fix Cyclic Skeletons
+
+**UPDATE: This doesn't seem to work reliably. It has an incomplete traversal error instead.**
+
+KineFX often whinges when skeletons are cyclic. There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
+
+If the skeleton actually has cycles, you'll need to cut them. I couldn't find a node to do this, so I used VEX instead.
+
+```js
+// Depth first search to mark graph cycles for cutting
+int n = i@numpt;
+int sums[];
+resize(sums, n);
+int stack[] = {0};
+
+// Also check if the stack is empty in case the final point has a cycle
+for (int i = 0; i < n || len(stack) > 0; ++i) {
+  
+  // Get the next point in the stack, or whatever point hasn't been visited yet
+  int current = len(stack) > 0 ? pop(stack, 0) : argsort(sums)[0];
+  
+  // If we've seen this point already, we found a cycle
+  if (++sums[current] > 1) {
+    // Group it to be removed with polycut
+    setpointgroup(0, "cyclic", current, 1);
+    // Add an iteration since we skipped this one
+    ++n;
+    continue;
+  }
+  
+  // Add all the neighbours we haven't explored to the stack
+  foreach (int next; neighbours(0, current)) {
+    if (sums[next] == 0) insert(stack, 0, next);
+  }
+}
+```
+
+This groups the points where cycles occur. To repair the cycles, you can cut or remove these points with PolyCut.
 
 ## Negative frame ranges
 Seems obvious but worth noting: Unlike some software, Houdini supports negative frame ranges.
