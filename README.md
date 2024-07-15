@@ -547,7 +547,7 @@ int stack[] = {0};
 for (int i = 0; i < n || len(stack) > 0; ++i) {
   
   // Get the next point in the stack, or whatever point hasn't been visited yet
-  int current = len(stack) > 0 ? pop(stack, 0) : argsort(sums)[0];
+  int current = len(stack) > 0 ? pop(stack, 0) : find(sums, 0);
   
   // If we've seen this point already, we found a cycle
   if (++sums[current] > 1) {
