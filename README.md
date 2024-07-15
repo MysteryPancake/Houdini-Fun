@@ -551,7 +551,7 @@ for (int i = 0; i < n || len(stack) > 0; ++i) {
   
   // If we've seen this point already, we found a cycle
   if (++sums[current] > 1) {
-    // Group it to be removed with polycut
+    // Group it to be split
     setpointgroup(0, "cyclic", current, 1);
     // Add an iteration since we skipped this one
     ++n;
@@ -565,7 +565,7 @@ for (int i = 0; i < n || len(stack) > 0; ++i) {
 }
 ```
 
-I tried using PolyCut to cut them, but it doesn't cut all the connections. Convert Line and Split Points seems to work though.
+I tried using PolyCut, but it doesn't cut all connections. Convert Line and Split Points seems to work though.
 
 <img src="./images/cycle_detection.png?raw=true" height="400">
 
