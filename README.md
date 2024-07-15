@@ -530,7 +530,7 @@ Now the cross sections connect perfectly without any resampling!
 
 [Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc?raw=true)
 
-## KineFX: Fix Cyclic Skeletons
+## KineFX: Detect and Fix Cyclic Skeletons
 
 KineFX often whinges when skeletons are cyclic. There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
 
@@ -566,6 +566,10 @@ for (int i = 0; i < n || len(stack) > 0; ++i) {
 ```
 
 I tried using PolyCut to cut them, but it doesn't cut all the connections. Convert Line and Split Points seems to work though.
+
+<img src="./images/cycle_detection.png?raw=true" height="400">
+
+[Download the HIP file!](./hips/cycle_detection.hip?raw=true)
 
 ## Fitting UV islands
 Sometimes you need to overlap UV islands and fit them to a full tile, like when slicing a sphere.
