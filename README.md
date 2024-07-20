@@ -11,7 +11,7 @@ These articles grew too long to fit here. They're the most interesting in my opi
 - [Easings](./Easings.md)
 - [Normalized Device Coordinates](./NDC.md)
 - [4D Geometry](./4D.md)
-- [Time Smoothing](https://mysterypancake.github.io/Houdini-Fun/TimeSmoothing) (interactive!)
+- [Time Smoothing](https://mysterypancake.github.io/Houdini-Fun/TimeSmoothing) (WIP, interactive!)
 
 <h2><img src="./images/fast_straight_skeleton.svg?raw=true" height="32"> HDA: Fast Straight Skeleton 3D</h2>
 
