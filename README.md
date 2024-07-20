@@ -1241,16 +1241,11 @@ Cloth sims work best with preroll starting in a neutral rest pose. For example, 
 [Download the HIP file!](./hips/fbxtransition.hipnc?raw=true)
 
 ### Without FBX
-One option is using a Blend Shapes node, but you'll find the limbs usually clip through the body as it swaps from the T-pose to the animated pose. My sketchy method of improving this is using Extract Transform and Transform Pieces.
+Try using my node [Fast Straight Skeleton 3D](./hdas)! It gives you rest and deforming skeletons you can use with Joint Capture Biharmonic.
 
-1. Use blast to isolate a face from the character's chest.
-2. Use Extract Transform and Transform Pieces to transform the T-pose to match the animated pose.
+To blend from T-Pose to animated, plug the animation into the first input and the T-Pose into the second input. Then blend the two skeletons with Skeleton Blend.
 
-In other words, the T-posed character flies over to the animated position and rotates to match it. That gives you an easier time using Blend Shapes, since it only has to move the arms and legs a short distance to match the animated pose.
-
-To avoid ruffling the clothes, skip the flying step. Just move the clothes directly to the new T-pose location using Transform Pieces.
-
-Another option could be Labs Straight Skeleton 3D. It generates a skeleton from any mesh which could help with blending, but I haven't tried it myself.
+Afterwards you can use Joint Capture Biharmonic to deform the skin using Bone Deform. Make sure the centroid method is "Center of Mass" for best results!
 
 ## Cloth: Fix rest pose clipping
 Cloth sims screw up from clipping, especially when clipped from the start. One option is growing the character into the cloth. 
