@@ -23,7 +23,7 @@ The second lowest frequency (or eigenvector) is called the Fiedler vector. It fo
 
 Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for allowing me to share this and suggesting improvements! It's based on his [Curve Skeleton example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd).
 
-[Download the HDA here!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda?raw=true) Also check out my [example HIP!](./hdas/fast_straight_skeleton.hip)
+[Download the HDA here!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda?raw=true) Also check out my [example HIP!](./hdas/fast_straight_skeleton.hip?raw=true)
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
