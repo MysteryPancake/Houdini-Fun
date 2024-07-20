@@ -13,6 +13,18 @@ These articles grew too long to fit here. They're the most interesting in my opi
 - [4D Geometry](./4D.md)
 - [Time Smoothing](https://mysterypancake.github.io/Houdini-Fun/TimeSmoothing) (interactive!)
 
+<h2><img src="./images/fast_straight_skeleton.svg?raw=true" height="32"> HDA: Fast Straight Skeleton 3D</h2>
+
+They added a new [Laplacian node](https://www.sidefx.com/docs/houdini//nodes/sop/laplacian.html) to Houdini 20.5. You can do cool [frequency-based tricks](https://houdinigubbins.wordpress.com/2017/07/05/spectral-analysis/) with it.
+
+One example is calculating a straight skeleton. You can do this with a Laplacian node followed by a Linear Solver set to "SymEigsShiftSolver". This gives you a bunch of Laplacian eigenvectors, which are like frequencies making up a mesh.
+
+The second lowest frequency (or eigenvector) is called the Fiedler vector. It follows the general flow of the geometry, which is great for straight skeletons. Also it's orders of magnitude faster than Labs Straight Skeleton 3D!
+
+Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for allowing me to share this and suggesting improvements! It's based on his [Curve Skeleton example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd).
+
+[Download the HDA here!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda?raw=true) Also check out my [example HIP!](./hdas/fast_straight_skeleton.hip)
+
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
 
