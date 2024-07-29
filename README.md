@@ -89,7 +89,7 @@ v@P += v@v;
 ## Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
-Video Tutorial:
+**Video Tutorial**
 
 [![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
 
@@ -1324,6 +1324,6 @@ Grid Scale = Particle Radius Scale / (sqrt(3)/2)
 
 ## Convert Copernicus to Heightfield
 
-Video Tutorial:
+**Video Tutorial**
 
 [![Heightfield tutorial](https://img.youtube.com/vi/-zGjD4zaYMU/mqdefault.jpg)](https://youtu.be/-zGjD4zaYMU)
