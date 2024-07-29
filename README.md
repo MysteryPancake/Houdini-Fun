@@ -89,6 +89,8 @@ v@P += v@v;
 ## Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
+Video Tutorial:
+
 [![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
 
 ### Hit a static target
@@ -1319,3 +1321,9 @@ No idea if this affects density, but just in case here's the minimum:
 Particle Radius Scale = Grid Scale × (sqrt(3)/2)
 Grid Scale = Particle Radius Scale / (sqrt(3)/2)
 ```
+
+## Convert Copernicus to Heightfield
+
+Video Tutorial:
+
+[![Heightfield tutorial](https://img.youtube.com/vi/-zGjD4zaYMU/mqdefault.jpg)](https://youtu.be/-zGjD4zaYMU)
