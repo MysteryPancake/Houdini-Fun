@@ -252,7 +252,7 @@ vector ndcPos = toNDC(cam, v@P);
 
 if (ndcPos.x < 0 || ndcPos.x > 1 // Remove outside 0-1 on X
  || ndcPos.y < 0 || ndcPos.y > 1 // Remove outside 0-1 on Y
- || ndcPos.z > 0) { // Remove behind camera (positive Z)
+ || ndcPos.z >= 0) { // Remove behind camera (positive Z)
     removepoint(0, i@ptnum);
 }
 ```
@@ -270,7 +270,7 @@ vector ndcPos = toNDC(cam, v@P);
 
 if (ndcPos.x < -padding || ndcPos.x > 1 + padding // Remove outside 0-1 on X (with padding)
  || ndcPos.y < -padding || ndcPos.y > 1 + padding // Remove outside 0-1 on Y (with padding)
- || ndcPos.z > 0) { // Remove behind camera (positive Z)
+ || ndcPos.z >= 0) { // Remove behind camera (positive Z)
     removepoint(0, i@ptnum);
 }
 ```
