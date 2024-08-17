@@ -65,7 +65,9 @@ To adjust motion over time, plug the current geometry into the second input and 
 vector dir = v@opinput1_P - v@P;
 ```
 
-**UPDATE:** The spring solver in [MOPs](https://www.motionoperators.com/) has better damping:
+**UPDATE:** The spring solver in [MOPs](https://www.motionoperators.com/) uses Hooke's law, which is more physically accurate.
+<br>
+However I don't know how to make it substep independent, and it uses 2 variables to control frequency instead of 1.
 
 ```js
 float mass = 1.0;
@@ -77,12 +79,11 @@ vector dir = v@targetP - v@P;
 
 // Accelerate towards it
 vector force = k * dir;
-vector accel = force / mass;
-v@v += accel;
+v@v += force / mass;
 
 // Dampen velocity to prevent infinite overshoot
 v@v *= damping;
-v@P += v@v;
+v@P += v@v * f@TimeInc;
 ```
 
 ## Make an aimbot (find velocity to hit a target)
