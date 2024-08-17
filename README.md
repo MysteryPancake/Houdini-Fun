@@ -46,7 +46,7 @@ Next add a solver. Inside the solver, add a point wrangle with this VEX:
 float freq = 100.0;
 float damping = 5.0;
 
-// Dampen velocity to prevent infinite overshoot
+// Dampen velocity to prevent infinite overshoot (done here to avoid distorting the acceleration)
 v@v /= 1.0 + damping * f@TimeInc;
 
 // Find direction towards target
