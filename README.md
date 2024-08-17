@@ -47,16 +47,16 @@ Next add a solver. Inside the solver, add a point wrangle with this VEX:
 float freq = 100.0;
 float damping = 5.0;
 
+// Dampen velocity to prevent infinite overshoot
+v@v /= 1.0 + damping * f@TimeInc;
+
 // Find direction towards target
 vector dir = v@targetP - v@P;
 
 // Accelerate towards it (@TimeInc to handle substeps)
-vector accel = dir * freq * f@TimeInc * f@TimeInc;
-v@v += accel;
-
-// Dampen velocity to prevent infinite overshoot
-v@v /= 1.0 + damping * f@TimeInc;
-v@P += v@v;
+v@accel = dir * freq;
+v@v += v@accel * f@TimeInc;
+v@P += v@v * f@TimeInc;
 ```
 
 To adjust motion over time, plug the current geometry into the second input and use it instead of `v@targetP`:
