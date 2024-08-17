@@ -65,9 +65,9 @@ To adjust motion over time, plug the current geometry into the second input and 
 vector dir = v@opinput1_P - v@P;
 ```
 
-**UPDATE:** The spring solver in [MOPs](https://www.motionoperators.com/) uses Hooke's law, which is more physically accurate.
+**UPDATE:** The spring solver in [MOPs](https://www.motionoperators.com/) uses Hooke's law.
 <br>
-However I don't know how to make it substep independent, and it uses 2 variables to control frequency instead of 1.
+This is more physically accurate, but I don't know how to make it substep independent.
 
 ```js
 float mass = 1.0;
