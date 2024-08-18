@@ -90,7 +90,7 @@ v@P += v@v * f@TimeInc;
 
 ### Non-Recursive Version
 
-An easy approximation of a spring is an [oscillator with an exponential falloff](https://www.desmos.com/calculator/hepyprgxwq). This is called damped harmonic motion.
+An easy approximation of a spring is an [oscillator with an exponential falloff](https://www.desmos.com/calculator/hepyprgxwq). This is basically damped harmonic motion.
 
 <img src="./images/waveforms/spring.png?raw=true" width="600">
 
