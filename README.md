@@ -90,10 +90,30 @@ v@P += v@v * f@TimeInc;
 
 ### Non-Recursive Version
 
+An easy approximation of a spring is an [oscillator with an exponential falloff](https://www.desmos.com/calculator/hepyprgxwq). This is called damped harmonic motion.
+
+<img src="./images/waveforms/spring.png?raw=true" height="280">
+
+Note it travels from 1 to 0 with overshoot. This makes it perfect to use as a mix factor, for example with lerp.
+
 ```js
 float spring(float time; float frequency; float damping) {
-  return cos(frequency * time) * exp(-damping * time);
+    return cos(frequency * time) * exp(-damping * time);
 }
+
+// Usage example
+v@P = lerp(v@targetP, v@P, spring(f@Time, 10.0, 5.0);
+```
+
+Overshoot happens since cos goes between -1 and 1. To fix this, just remap cos between 0 and 1.
+
+```js
+float spring_less(float time; float frequency; float damping) {
+    return (cos(frequency * time) * 0.5 + 0.5) * exp(-damping * time);
+}
+
+// Usage example
+v@P = lerp(v@targetP, v@P, spring_less(f@Time, 10.0, 5.0);
 ```
 
 ## Make an aimbot (find velocity to hit a target)
