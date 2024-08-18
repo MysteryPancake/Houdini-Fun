@@ -92,7 +92,7 @@ v@P += v@v * f@TimeInc;
 
 An easy approximation of a spring is an [oscillator with an exponential falloff](https://www.desmos.com/calculator/hepyprgxwq). This is called damped harmonic motion.
 
-<img src="./images/waveforms/spring.png?raw=true" height="280">
+<img src="./images/waveforms/spring.png?raw=true" width="600">
 
 Note how it travels from 1 to 0. This makes it perfect to use as a mix factor, for example with lerp.
 
@@ -107,7 +107,7 @@ v@P = lerp(v@targetP, v@P, spring(f@Time, 10.0, 5.0));
 
 Overshoot occurs since cos ranges between -1 and 1. To fix this, remap cos between 0 and 1 instead.
 
-<img src="./images/waveforms/spring_less.png?raw=true" height="280">
+<img src="./images/waveforms/spring_less.png?raw=true" width="600">
 
 ```js
 float spring_less(float time; float frequency; float damping) {
