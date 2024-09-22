@@ -101,8 +101,8 @@ float spring(float time; float frequency; float damping) {
     return cos(frequency * time) * exp(-damping * time);
 }
 
-// Example usage
-v@P = lerp(v@P, v@targetP, 1 - spring(f@Time, 10.0, 5.0));
+// Example usage, spring to targetP
+v@P = lerp(v@targetP, v@P, spring(f@Time, 10.0, 5.0));
 ```
 
 Overshoot occurs since cos ranges between -1 and 1. To fix this, remap cos between 0 and 1 instead.
@@ -114,8 +114,8 @@ float spring_less(float time; float frequency; float damping) {
     return (cos(frequency * time) * 0.5 + 0.5) * exp(-damping * time); // Or fit11(..., 0, 1)
 }
 
-// Example usage
-v@P = lerp(v@P, v@targetP, 1 - spring_less(f@Time, 10.0, 5.0));
+// Example usage, spring to targetP
+v@P = lerp(v@targetP, v@P, spring_less(f@Time, 10.0, 5.0));
 ```
 
 ## Make an aimbot (find velocity to hit a target)
