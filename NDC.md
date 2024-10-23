@@ -297,7 +297,7 @@ string cam = chsop("cam");
     0, 1,
     {-1, -1, 1, 1}
 );
-4@world_to_camera = getspace("space:world", cam);
+4@world_to_camera = invert(optransform(cam)); // or getspace("space:world", cam);
 4@to_ndc = 4@world_to_camera * 4@projection;
 
 // Equivalent to v@P = toNDC(cam, v@P);
@@ -318,7 +318,7 @@ string cam = chsop("cam");
     chf(cam + "/near"),
     chf(cam + "/far")
 );
-4@world_to_camera = getspace("space:world", cam);
+4@world_to_camera = invert(optransform(cam)); // or getspace("space:world", cam);
 4@to_ndc = 4@world_to_camera * 4@projection;
 
 v@P *= 4@to_ndc;
@@ -347,7 +347,7 @@ f@far = chf(cam + "/far");
     f@far,
     {-1, -1, 1, 1}
 );
-4@world_to_camera = getspace("space:world", cam);
+4@world_to_camera = invert(optransform(cam)); // or getspace("space:world", cam);
 4@to_ndc = 4@world_to_camera * 4@projection;
 
 float clip_z = f@far - f@near;
