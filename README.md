@@ -30,7 +30,7 @@ Most preroll nodes use position difference only. This is fine for translation bu
 
 Extract Transform can be used to estimate the rotation difference too. This gives preroll for both rotation and translation.
 
-My HDA works on single and multiple pieces, either packed or unpacked. For packed pieces, it uses the intrinsic transform as reference.
+This HDA works on single and multiple pieces, either packed or unpacked. For packed pieces, it uses their intrinsic transforms.
 
 [Download the HDA here!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda?raw=true) Also check out the [example HIP!](./hdas/rigid_piece_preroll.hip?raw=true)
 
