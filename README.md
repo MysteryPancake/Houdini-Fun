@@ -20,9 +20,19 @@ One example is calculating a straight skeleton. You can do this with a Laplacian
 
 The second lowest frequency (or eigenvector) is called the Fiedler vector. It follows the general flow of the geometry, which is great for straight skeletons. Also it's orders of magnitude faster than Labs Straight Skeleton 3D!
 
-[Download the HDA here!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda?raw=true) Also check out my [example HIP!](./hdas/fast_straight_skeleton.hip?raw=true)
-
 Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me share this and suggesting improvements! It's based on his [Curve Skeleton example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd).
+
+[Download the HDA here!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda?raw=true) Also check out the [example HIP!](./hdas/fast_straight_skeleton.hip?raw=true)
+
+## HDA: Rigid Piece Preroll
+
+Most preroll nodes use position difference only. This is fine for translation but not rotation.
+
+Extract Transform can be used to estimate the rotation difference too. This gives preroll for both rotation and translation.
+
+My HDA works on single and multiple pieces, either packed or unpacked. For packed pieces, it uses the intrinsic transform as reference.
+
+[Download the HDA here!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda?raw=true) Also check out the [example HIP!](./hdas/rigid_piece_preroll.hip?raw=true)
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
