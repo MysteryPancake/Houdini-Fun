@@ -168,9 +168,9 @@ Use the same method as before, but sample the target's position forwards in time
 [Download the HIP file!](./hips/aimbot.hipnc?raw=true)
 
 ### Hit multiple targets
-If your "Life" is the same for all projectiles, extract multiple centroids and transfer velocities from the first point of each arc based on connectivity. Try enabling "Path Point Index" on Ballistic Path and blasting all non-zero indices.
+Extract multiple centroids and transfer v from each arc. Enable "Path Point Index" on Ballistic Path, blast non-zero indices, then Attribute Copy v.
 
-If your "Life" changes per target, use a for loop instead.
+If your "Life" changes per target, set a life attribute on each point.
 
 <img src="./images/aimbot.gif?raw=true" width="500">
 
