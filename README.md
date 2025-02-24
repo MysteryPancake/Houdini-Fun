@@ -580,7 +580,7 @@ Set the destination group to all prims from 1 to the last:
 Now the cross sections connect perfectly without any resampling!
 
 <p align="left">
-  <img src="./images/sweep8.png?raw=true" height="200">
+  <img src="./images/sweep6.png?raw=true" height="200">
   <img src="./images/sweep7.png?raw=true" height="200">
 </p>
 
