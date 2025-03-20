@@ -621,7 +621,7 @@ for (int i = 0; i < n || len(stack) > 0; ++i) {
 }
 ```
 
-I tried using PolyCut, but it doesn't cut all connections. Convert Line and Split Points seems to work though.
+I tried using PolyCut, but it doesn't cut all connections. Convert Line and Point Split seems to work though.
 
 <img src="./images/cycle_detection.png?raw=true" height="400">
 
