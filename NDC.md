@@ -39,7 +39,7 @@ The origin of NDC space is the camera, so just convert `{0, 0, 0}` to world spac
 ```js
 // Run this in a detail wrangle
 string cam = chsop("cam");
-vector camPos = fromNDC(cam, {0, 0, 0});
+vector camPos = fromNDC(cam, {0, 0, 0}); // or {0, 0, 0} * optransform(cam);
 addpoint(0, camPos);
 ```
 
