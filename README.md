@@ -131,7 +131,7 @@ v@P = lerp(v@targetP, v@P, spring_less(f@Time, 10.0, 5.0));
 ## Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
-**Video Tutorial (click below to view)**
+**[Video Tutorial](https://youtu.be/Ed2_62BlOFA)**
 
 [![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
 
@@ -208,7 +208,7 @@ Simple radial blur shader I made for Balthazar on the CGWiki Discord.
 
 ## Copernicus to Heightfield
 
-**Video Tutorial (click below to view)**
+**[Video Tutorial](https://youtu.be/-zGjD4zaYMU)**
 
 [![Heightfield tutorial](https://img.youtube.com/vi/-zGjD4zaYMU/mqdefault.jpg)](https://youtu.be/-zGjD4zaYMU)
 
