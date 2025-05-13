@@ -174,6 +174,44 @@ If your "Life" changes per target, set a life attribute on each point.
 
 <img src="./images/aimbot.gif?raw=true" width="500">
 
+## Copernicus: Radial Blur
+Simple radial blur shader I made for Balthazar on the CGWiki Discord.
+
+<img src="./images/cops/radial_blur.png?raw=true" width="600">
+
+```c
+#bind layer src? val=0
+#bind layer !&dst
+
+#bind parm quality int val=10
+#bind parm center float2 val=0
+#bind parm scale float val=0.2
+#bind parm rotation float val=0
+
+@KERNEL
+{
+    float2 offset = @P - @center;
+    float4 result = 0.;
+    float scale = 1;
+    
+    for (int i = 0; i <= @quality; ++i) {
+        result += @src.imageSample(offset * scale + @center) / (@quality + 1);
+        offset = rotate2D(offset, @rotation / @quality);
+        scale -= @scale / @quality;
+    }
+    
+    @dst.set(result);
+}
+```
+
+[Download the HIP file!](./hips/cops/radial_blur.hiplc?raw=true)
+
+## Copernicus to Heightfield
+
+**Video Tutorial**
+
+[![Heightfield tutorial](https://img.youtube.com/vi/-zGjD4zaYMU/mqdefault.jpg)](https://youtu.be/-zGjD4zaYMU)
+
 ## Smooth steps
 Smoothstep's evil uncle, smooth steps. This helps for staggering animations, like points moving along lines.
 
@@ -1363,9 +1401,3 @@ No idea if this affects density, but just in case here's the minimum:
 Particle Radius Scale = Grid Scale × (sqrt(3)/2)
 Grid Scale = Particle Radius Scale / (sqrt(3)/2)
 ```
-
-## Convert Copernicus to Heightfield
-
-**Video Tutorial**
-
-[![Heightfield tutorial](https://img.youtube.com/vi/-zGjD4zaYMU/mqdefault.jpg)](https://youtu.be/-zGjD4zaYMU)
