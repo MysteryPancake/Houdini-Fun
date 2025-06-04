@@ -215,11 +215,11 @@ Simple radial blur shader I made for Balthazar on the CGWiki Discord.
 ## Complex Growth in 2 nodes
 You can get cool and organic looking shapes using opposing forces, like Relax and Attribute Blur.
 
+[Download the HIP file!](./hips/spaghetti.hiplc?raw=true)
+
 **[Video Tutorial](https://youtu.be/h0TUYC2WNXY)**
 
 [![Growth tutorial](https://img.youtube.com/vi/h0TUYC2WNXY/mqdefault.jpg)](https://youtu.be/h0TUYC2WNXY)
-
-[Download the HIP file!](./hips/spaghetti.hiplc?raw=true)
 
 ## Smooth steps
 Smoothstep's evil uncle, smooth steps. This helps for staggering animations, like points moving along lines.
