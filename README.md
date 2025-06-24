@@ -12,6 +12,10 @@ These articles grew too long to fit here. They're the most interesting in my opi
 - [4D Geometry](./4D.md)
 - [Time Smoothing](https://mysterypancake.github.io/Houdini-Fun/TimeSmoothing) (WIP, interactive!)
 
+## Vertex Block Descent in Houdini
+
+Basically Vellum 2. [Moved here!](https://github.com/MysteryPancake/Houdini-VBD)
+
 <h2><img src="./images/fast_straight_skeleton.svg?raw=true" height="32"> HDA: Fast Straight Skeleton 3D</h2>
 
 They added a new [Laplacian node](https://www.sidefx.com/docs/houdini//nodes/sop/laplacian.html) to Houdini 20.5. You can do cool [frequency-based tricks](https://houdinigubbins.wordpress.com/2017/07/05/spectral-analysis/) with it.
