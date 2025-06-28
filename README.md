@@ -14,7 +14,7 @@ These articles grew too long to fit here. They're the most interesting in my opi
 
 ## Vertex Block Descent in Houdini
 
-Basically Vellum 2. [Moved here!](https://github.com/MysteryPancake/Houdini-VBD)
+Vellum except it explodes randomly. [Moved to here!](https://github.com/MysteryPancake/Houdini-VBD)
 
 <h2><img src="./images/fast_straight_skeleton.svg?raw=true" height="32"> HDA: Fast Straight Skeleton 3D</h2>
 
