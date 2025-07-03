@@ -23,9 +23,12 @@ f@surface = sdSphere(v@P, 0.5);
 
 <img src="./images/sdfs/vdbconvert.png" width="500">
 
-I did this for [a ton of SDFs](https://iquilezles.org/articles/distfunctions/) by Inigo Quilez. [Download the HIP file!](hips/sdfs/sdf_volumes.hipnc?raw=true)
+I did this for [a ton of SDFs](https://iquilezles.org/articles/distfunctions/) by Inigo Quilez.
 
 [<img src="./images/sdfs/sdf_volumes.png?raw=true">](hips/sdf_volumes.hipnc?raw=true)
+
+| [Download the HIP file!](hips/sdfs/sdf_volumes.hipnc?raw=true) |
+| --- |
 
 ## Sphere - exact
 
