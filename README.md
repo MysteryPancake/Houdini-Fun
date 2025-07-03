@@ -1,7 +1,9 @@
 # CGWiki DLC
+
 Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 
 ## Rabbit Hole
+
 These articles grew too long to fit here. They're the most interesting in my opinion, so be sure to check them out!
 
 - [3D Signed Distance Functions](./Houdini_SDFs.md)
@@ -38,6 +40,7 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 | --- | --- |
 
 ## Simple spring solver
+
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
 
 <p align="left">
@@ -132,6 +135,7 @@ v@P = lerp(v@targetP, v@P, spring_less(f@Time, 10.0, 5.0));
 ```
 
 ## Make an aimbot (find velocity to hit a target)
+
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
 [![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
@@ -140,6 +144,7 @@ Want to prepare for the next war but can't solve projectile motion? Never fear, 
 | --- |
 
 ### Hit a static target
+
 1. Connect your projectile to a Ballistic Path node.
 2. Set the Launch Method to "Targeted" and disable drag.
 3. Add a `@targetP` attribute to your projectile. Set it to the centroid of the target object.
@@ -161,6 +166,7 @@ v@v = point(1, "v", 0);
 <img src="./images/aimbot_static.gif?raw=true" width="500">
 
 ### Hit a moving target
+
 Use the same method as before, but sample the target's position forwards in time.
 
 1. On the Ballistic Path node, set the Targeting Method to "Life".
@@ -173,6 +179,7 @@ Use the same method as before, but sample the target's position forwards in time
 | --- |
 
 ### Hit multiple targets
+
 Extract multiple centroids and transfer v from each arc. Enable "Path Point Index" on Ballistic Path, blast non-zero indices, then Attribute Copy v.
 
 If your "Life" changes per target, set a life attribute on each point.
@@ -180,6 +187,7 @@ If your "Life" changes per target, set a life attribute on each point.
 <img src="./images/aimbot.gif?raw=true" width="500">
 
 ## Copernicus: Radial Blur
+
 Simple radial blur shader I made for Balthazar on the CGWiki Discord.
 
 <img src="./images/cops/radial_blur.png?raw=true" width="600">
@@ -214,12 +222,15 @@ Simple radial blur shader I made for Balthazar on the CGWiki Discord.
 
 ## Copernicus to Heightfield
 
+Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes? Heightfields!
+
 [![Heightfield tutorial](https://img.youtube.com/vi/-zGjD4zaYMU/mqdefault.jpg)](https://youtu.be/-zGjD4zaYMU)
 
 | [Video Tutorial](https://youtu.be/-zGjD4zaYMU) |
 | --- |
 
 ## Complex Growth in 2 nodes
+
 You can get cool and organic looking shapes using opposing forces, like Relax and Attribute Blur.
 
 [![Growth tutorial](https://img.youtube.com/vi/h0TUYC2WNXY/mqdefault.jpg)](https://youtu.be/h0TUYC2WNXY)
@@ -228,6 +239,7 @@ You can get cool and organic looking shapes using opposing forces, like Relax an
 | --- | --- |
 
 ## Smooth steps
+
 Smoothstep's evil uncle, smooth steps. This helps for staggering animations, like points moving along lines.
 
 <img src="./images/vexember/vexemberhilbert.gif?raw=true" width="500">
@@ -255,6 +267,7 @@ float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
 ## Remove points by time after simulation
+
 Sometimes POP sims take ages to run, especially FLIP sims. This makes it annoying to get notes about timing changes.
 
 I found a decent approach to avoid resimulation:
@@ -264,6 +277,7 @@ I found a decent approach to avoid resimulation:
 3. Cull points based on the birth time. There's 2 main ways to do it.
 
 ### Keyframes over time
+
 `chf()` lets you fetch values over time using `chf("channel", time)`. Use the birth time and you're good to go!
 
 ```js
@@ -274,6 +288,7 @@ if (chf("keep_percent", birth_time) < rand(i@id)) {
 ```
 
 ### Ramp over time
+
 I used to remap time using a ramp instead. It's not as controllable as keyframes, but helps in some cases.
 
 ```js
@@ -296,6 +311,7 @@ I used this ramp for the demo above:
 | --- |
 
 ## Generating circles
+
 Sometimes you need to generate circles without relying on built-in nodes, like to know the phase.
 
 Luckily it's easy, just use `sin()` on one axis and `cos()` on the other:
@@ -604,6 +620,7 @@ If `cols` doesn't match the point count, never fear. You'll get cool trippy look
 | --- |
 
 ## Sweep varying cross sections
+
 I showed this to Lara Belaeva, who pushes Sweep to its limits on LinkedIn. She tried it already, but had an interesting point:
 
 > If I decided to build my own Sweep I would try to do it similar to what we have in Plasticity. In Plasticity you can take several different cross-sections, put them in different regions of the curve, and the Sweep creates the blends between them across the curve. I tried to make such a tool but it's still so-so. Houdini's Sweep also can use different cross sections, but doesn't create blends between them
@@ -687,6 +704,7 @@ I tried using PolyCut, but it doesn't cut all connections. Convert Line and Poin
 | --- |
 
 ## Fitting UV islands
+
 Sometimes you need to overlap UV islands and fit them to a full tile, like when slicing a sphere.
 
 This is hard to do with Houdini's built-in nodes, so here's a manual approach.
@@ -706,6 +724,7 @@ v@uv = invlerp(v@uv, v@uvmin, v@uvmax); // Or v@uv = fit(v@uv, v@uvmin, v@uvmax,
 | --- |
 
 ## Reusing code in multiple wrangles
+
 Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
 
 VEX has `#include` as well, but sadly it only works if you put the file in a specific Houdini directory.
@@ -735,6 +754,7 @@ v@P = addToPos(v@P);
 | --- |
 
 ## Dynamic attribute names
+
 A similar hack is using `chs("var_name")` to set an attribute name at compile time.
 
 For example, making a dynamically named integer attribute set to `123`:
@@ -751,12 +771,14 @@ Certain characters like spaces aren't allowed in variable names, so try not to i
 | --- |
 
 ## Procedural text in the Font node
+
 Surprisingly it's tricky to display text based on an attribute or VEX snippet. Here's a few ways to do it!
 
 | [Download the HIP file!](./hips/font_vex.hiplc?raw=true) |
 | --- |
 
 ### Expressions
+
 Igor Elovikov told us about a top secret Houdini feature, multiline expressions!
 
 > You can do it in expression but it's a rather an esoteric part of Houdini parameters.<br>
@@ -777,6 +799,7 @@ return result;
 Igor used `strcat()` to join the strings. I found adding works too, it doesn't need typecasting unlike VEX!
 
 ### Detail attribute
+
 If you want to use VEX, never fear! Make a detail attribute, add it as a spare input, then use `details()` to display it as text.
 
 ```js
@@ -786,6 +809,7 @@ If you want to use VEX, never fear! Make a detail attribute, add it as a spare i
 <img src="./images/fontvex2.png?raw=true" width="800">
 
 ## Overlapping cables without intersection
+
 Vladimir on the CGWiki Discord wanted to generate random curves and stop them from intersecting.
 
 Start by scattering a bunch of points and connecting every few using an Add node. This makes a bunch of random lines.
@@ -804,6 +828,7 @@ The key is making sure the points aren't coplanar, otherwise they spread in 2D o
 | --- |
 
 ## Nearest point to any attribute
+
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
 
 The shortest way is abusing `pcfind()`, which takes any input as the position channel:
@@ -819,6 +844,7 @@ Another option is using Attribute Swap to move the attribute to `@P`. Keep in mi
 To find an exact match, use `findattribval()` instead.
 
 ## Unwrap
+
 Swalsch told us about a top secret alternative to the above, known as [unwrap](https://www.sidefx.com/docs/houdini/vex/functions/geounwrap.html).
 
 It changes the context of any VEX function, allowing you to override functions to work with any attribute.
@@ -844,6 +870,7 @@ i@near_id = nearpoint("unwrap:uv opinput:0", chv("uv_coordinate"));
 | --- |
 
 ## Sampling environment maps
+
 A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI using VEX. It's a cheap way to get environment mapping without leaving the viewport.
 
 <img src="./images/hdrisample.png?raw=true" height="320">
@@ -862,6 +889,7 @@ v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.
 | --- |
 
 ## Smoothing volumes with VEX
+
 Levin on the CGWiki Discord wanted to blur volumes in VEX. You can do it by sample neighbors in a box and averaging them together. This is slower than the built-in volume nodes, but might be useful one day:
 
 ```js
@@ -892,12 +920,14 @@ f@density = density_sum / num_samples;
 | --- |
 
 ## Split curve to individual lines and back again
+
 Putting this here since I always forget the nodes.
 
 - "Convert Line" splits a single prim curve into multiple line prims.
 - "PolyPath" combines multiple line prims into a single curve prim.
 
 ## Keep by normals in VEX
+
 The Group node has a useful option to select by normals. Carlll on the CGWiki Discord was looking for a VEX equivalent.
 
 <img src="./images/keepbynormals.png?raw=true" width="600">
@@ -930,6 +960,7 @@ Spot the difference. On the left is the Group node, on the right is VEX.
 | --- |
 
 ## Select inside or outside
+
 Sometimes you need to select the inside or outside of double-sided geometry, for example to make single-sided geometry if Fuse doesn't work.
 
 The normals are great whenever you need to select anything by direction. Usually you can use a Group node set to "Keep By Normals", then use "Backface from" to pick the interior.
@@ -961,9 +992,11 @@ float correlation = dot(dir, v@N);
 | --- |
 
 ## Collision geometry from nasty meshes
+
 It's always hard to get a decent sim when your collision geometry is on life support. Here's a few ways to clean it up!
 
 ### Particle Fluid Surface
+
 Good for point clouds! VDB from Particles works too, but not as smoothly.
 
 <img src="./images/decentcollision.png?raw=true" width="600">
@@ -972,6 +1005,7 @@ Good for point clouds! VDB from Particles works too, but not as smoothly.
 | --- |
 
 ### Extrude
+
 Good for flat surfaces! For more control, use point normals to set the extrusion direction.
 
 <img src="./images/extrudemode.png?raw=true" width="400">
@@ -982,6 +1016,7 @@ Good for flat surfaces! For more control, use point normals to set the extrusion
 | --- |
 
 ## Applying orient to packed prims
+
 Copy to Points automatically applies quaternions like `@orient`, but what if you need the same effect without Copy to Points?
 
 Normally you'd set the `transform` intrinsic, but this replaces everything. To just replace the `@orient`, set `pointinstancetransform` to 1.
@@ -993,17 +1028,20 @@ setprimintrinsic(0, "pointinstancetransform", i@elemnum, 1);
 Thanks to WaffleboyTom for this tip!
 
 ## Snapping to the floor
+
 Often it's nice to organise geometry by snapping it to the floor. Here's a few ways to do it!
 
 | [Download the HIP file!](./hips/snaptofloor.hipnc?raw=true) |
 | --- |
 
 ### Match Size
+
 The easiest way is using a Match Size node with "Justify Y" set to "Min". It snaps the position only, and won't affect the rotation.
 
 <img src="./images/centersnap.png?raw=true" width="600">
 
 ### Dihedral
+
 To affect the rotation too, swalsch suggested using `dihedral()`. You can use it to rotate the normal towards a down vector.
 
 First the object needs prim normals, which you can add with a Normal node set to "Primitives".
@@ -1050,6 +1088,7 @@ v@P *= rotMat;
 ```
 
 ### Extract Transform
+
 The hackiest way is abusing Extract Transform. You flatten the prims to the floor, then approximate the transform for it.
 
 This affects position and rotation, but isn't as good as `dihedral()` since it won't flip the object past 180 degrees.
@@ -1064,6 +1103,7 @@ This affects position and rotation, but isn't as good as `dihedral()` since it w
 <img src="./images/floorextracttransform.png?raw=true" height="480">
 
 ## FEM: Using real world physical units
+
 Unlike the RBD Solver, the FEM Solver doesn't list real world physical units. How do you use measurements with it?
 
 I emailed SideFX, and they responded with some useful information:
@@ -1093,6 +1133,7 @@ I emailed SideFX, and they responded with some useful information:
 > You could keep these between 0 and 1 if you like to dial in the relative stiffness for parts of the material, where the overall stiffness is determined by the shape stiffness and volume stiffness parameters.
 
 ## Vellum: Stop wobbling, be rigid and bouncy
+
 Vellum is usually wobbly like jelly, making hard objects tricky to achieve without an RBD Solver.
 
 If you absolutely need Vellum, a great technique comes from Matt Estela.
@@ -1104,6 +1145,7 @@ If you absolutely need Vellum, a great technique comes from Matt Estela.
 Keep the topology as basic as possible and try increasing the substeps to make Shape Match even more stiff.
 
 ## Stabilize and unstabilize geometry
+
 Otherwise known as swapping reference frames, rest to animated, world to local, frozen to unfrozen...
 
 Perhaps the best trick in Houdini is moving geometry to a rest pose, doing something and moving it back to an animated pose.
@@ -1111,6 +1153,7 @@ Perhaps the best trick in Houdini is moving geometry to a rest pose, doing somet
 It fixes tons of issues like broken collisions, VDBs jumping around, plus aliasing and quantization artifacts.
 
 ### Rigid geometry
+
 Extract Transform and Transform Pieces are your best friends.
 
 1. Use Time Shift to freeze the animated geometry. This is your rest pose.
@@ -1142,6 +1185,7 @@ v@P *= invert(mat);
 | --- |
 
 ### Bendy geometry
+
 For simple cases, Point Deform is your best friend.
 
 1. Use Time Shift to freeze the animated geometry. This is your rest pose.
@@ -1165,11 +1209,13 @@ v@P = primuv(1, "P", i@near_prim, v@near_uv);
 ```
 
 ### Other ways to parent stuff
+
 - Rivet is good for parenting objects to points. It only exists in the object context.
 - Copy to Points is good since it applies `@orient`, `@N` and `@up` attributes.
 - PolyHinge is good for parenting to edges, though no one really uses it.
 
 ## Primuv vs actual UVs
+
 A common misconception is `primuv()` uses the actual UV map of the geometry. This would cause problems if the UVs overlapped.
 
 Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 0 to 1 per prim. Since each prim is separated by index, it'll never overlap.
@@ -1181,11 +1227,13 @@ Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 
 If you want to use the actual UVs, use `uvsample()` instead.
 
 ## Fluids: Fix gap between surfaces
+
 Usually liquids resting on a surface have a small gap due to the collision geometry, easier to see once rendered.
 
 A tip from Raphael Gadot is to transfer normals from the surface onto the liquid with some falloff. This greatly improves the blending.
 
 ## Optimize everything
+
 Is your scene slow? Don't blame Houdini, it's likely you haven't optimized properly.
 
 - Using subdivided geometry? PolyReduce and Remesh it down to the simplest form.
@@ -1200,6 +1248,7 @@ Is your scene slow? Don't blame Houdini, it's likely you haven't optimized prope
 Use Houdini's [performance monitor](https://www.sidefx.com/docs/houdini/ref/panes/perfmon.html) to track down what's slowest.
 
 ## Be careful with velocity
+
 Velocity is easy to overlook and hard to get right. I've rendered full shots before realising I forgot to put velocity on deforming geo, transfer it to packed geo, or it doesn't line up.
 
 A great tip from Lewis Taylor is to double check velocities from POP sims. It sometimes ignores POP forces and calculates an incorrect result.
@@ -1207,11 +1256,13 @@ A great tip from Lewis Taylor is to double check velocities from POP sims. It so
 For checking velocities, a tip from Ben Anderson is Time Shift a frame backward, template it and display velocity. You should see a line between the past and present position.
 
 ## Be careful combining VDBs
+
 Combining multiple pairs of VDBs is often unpredictable, for example combining two sims by density may skip velocity. 
 
 Make sure to combine each VDB pair separately, then feed all pairs into a merge node.
 
 ## Be careful with typecasting
+
 I used to do this to generate random velocities between -0.5 and 0.5. See if you can spot the problem.
 
 ```js
@@ -1243,6 +1294,7 @@ v@v = x - 0.5;
 This happens a lot, so always explicitly declare types to be safe!
 
 ## Be careful with random
+
 Even with fixed typecasting, there's still a problem. See if you can spot it:
 
 ```js
@@ -1256,6 +1308,7 @@ Unfortunately it's a cube, since the range is -0.5 to 0.5 on all axes separately
 <img src="./images/velocity_cube.png?raw=true" width="250">
 
 ### Random direction, random length
+
 To get a sphere and random vector lengths, use `sample_sphere_uniform()`:
 
 ```js
@@ -1271,6 +1324,7 @@ v@v = normalize(rand(i@ptnum) - vector(0.5)) * rand(i@ptnum + 1);
 <img src="./images/velocity_sphere.png?raw=true" width="250">
 
 ### Random direction, constant length
+
 To get a sphere and normalized vector lengths, use `sample_direction_uniform()`:
 
 ```js
@@ -1286,6 +1340,7 @@ v@v = normalize(rand(i@ptnum) - vector(0.5));
 <img src="./images/velocity_direction.png?raw=true" width="250">
 
 ## Split vector magnitude and direction
+
 Sometimes you need to change part of a vector but not the other, like to randomize velocity but inherit the magnitude. It's easy with rotation, but here's a more general approach:
 
 ```js
@@ -1301,16 +1356,19 @@ v@v = dir * mag;
 ```
 
 ## POP: Make particles look like fluid
+
 A key characteristic of fluid is how it sticks together, forming clumps and strands. POP Fluid tries to emulate this, but it doesn't look as good as FLIP.
 
 To get nicer clumps, a tip from Raphael Gadot is to use Attribute Blur set to "Proximity". Though it won't affect the motion, it looks incredible on still frames.
 
 ## Smoke / Fluids: Fix moving colliders
+
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
 
 A great fix comes from Raphael Gadot: Stabilise the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space. This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims.
 
 ### 1. Relative gravity
+
 1. Add an `@up` vector in world space (before Transform Pieces).
 
 ```js
@@ -1328,6 +1386,7 @@ Force Z = -9.81 * point(-1, 0, "up", 2)
 Make sure the force is "Set Always"!
 
 ### 2. Relative acceleration
+
 1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point.
 
 2. Add another Gravity Force node, using negative `@accel` as your force vector.
@@ -1341,6 +1400,7 @@ Force Z = -point(-1, 0, "accel", 2)
 Make sure the force is "Set Always"!
 
 ### 3. Stabilise (world to local)
+
 1. Pick a face on the collider you want to stabilise. Blast everything except that face.
 2. Time freeze that face with a Time Shift node.
 3. Use an Extract Transform node to compare the frozen face to the moving face. That tells you how the collider moves over time, allowing you to cancel out the movement.
@@ -1357,9 +1417,11 @@ If you want to deal with open containers, the easiest way is to do a separate si
 Another tip is use "Central Difference" when calculating the velocity. This gives the fluid more time to move away from the collider.
 
 ## Cloth: Fix missing preroll
+
 Cloth sims work best with preroll starting in a neutral rest pose. For example, the character starts in an A-pose or T-pose before transitioning into the animation. If anim screwed you over, never fear! Preroll can be added in Houdini.
 
 ### With FBX
+
 1. Export the animated character as FBX. Make sure to include the skeleton!
 2. Import the character with a FBX Character Import node.
 3. Use a Skeleton Blend node to blend from the rest skeleton to the animated skeleton. If the rest skeleton has a bad pose, fix it with the Rig Pose node. Alternatively, export another FBX posed to your liking. FBX Character Import that animated skeleton as the rest skeleton.
@@ -1372,6 +1434,7 @@ Cloth sims work best with preroll starting in a neutral rest pose. For example, 
 | --- |
 
 ### Without FBX
+
 Try using my node [Fast Straight Skeleton 3D](./hdas)! It gives you rest and deforming skeletons you can use with Joint Capture Biharmonic.
 
 To blend from T-Pose to animated, plug the animation into the first input and the T-Pose into the second input. Then blend the two skeletons with Skeleton Blend.
@@ -1379,6 +1442,7 @@ To blend from T-Pose to animated, plug the animation into the first input and th
 Afterwards you can use Joint Capture Biharmonic to deform the skin using Bone Deform. Make sure the centroid method is "Center of Mass" for best results!
 
 ## Cloth: Fix rest pose clipping
+
 Cloth sims screw up from clipping, especially when clipped from the start. One option is growing the character into the cloth. 
 
 1. Disable gravity in the cloth sim.
@@ -1388,12 +1452,14 @@ Cloth sims screw up from clipping, especially when clipped from the start. One o
 5. Use the Time Shift node to move the animation forward so it doesn't bleed into the growing. 
 
 ## Cloth: Layer stacking
+
 One little known feature of Vellum Cloth (at least to me) is layering. It can improve the physics of overlapping garments, like jackets on top of t-shirts. 
 
 1. In Vellum Configure Cloth, use the "Layer" setting to define the ordering, bottom to top.
 2. On the Vellum Solver under "Collisions", enable "Layer Shock". Lower layers are simulated much heavier than higher layers. 
 
 ## Karma: Fix motion blur
+
 Motion blur in Karma can be pretty unpredictable, especially with packed instances.
 
 A great fix comes from [Matt Estela](https://tokeru.com/cgwiki/UsdGuide18.html#motion-blur): just add a Cache node set to "Rolling Window". Usually I use 1 frame before and 1 frame after.
@@ -1401,17 +1467,21 @@ A great fix comes from [Matt Estela](https://tokeru.com/cgwiki/UsdGuide18.html#m
 This is faster than the new Motion Blur node, which caches the entire timeline at once. It also fixes issues with animated materials.
 
 ## Attribute min / max / average...
+
 Use Attribute Promote set to "Detail" with the appropriate mode.
 
 ## Alternating rows for brick walls
+
 The tricky part about modelling brick walls is the alternating pattern. Every second row is slid across by half a brick's width. How would you create this pattern? Manual interpolation? Primuv?
 
 An easy way is working subtractively. Take the base curve and resample it. This gives you the first row. For the second row, subdivide the first. Use a "Group by Range" node to select every second point, then delete them with a "Dissolve" node.
 
 ## Access context geometry inside solver
+
 If you need geometry in a context that doesn't provide it (like the forces of a Vellum Solver), just drop down a SOP Solver. You can use Object Merge inside a SOP Solver to grab geometry from anywhere else too. Great for feedback loops!
 
 ## Pyro: Fix mushrooms
+
 Many techniques work depending on the situation. Sometimes more randomisation is needed, other times the velocity needs reducing.
 
 A common technique is cranking up the disturbance. Controlling it by speed helps add it where mushrooms are likely to form.
@@ -1419,13 +1489,15 @@ A common technique is cranking up the disturbance. Controlling it by speed helps
 This groups the points where cycles occur. To repair the cycles, you can cut or remove these points with PolyCut.
 
 ## Negative frame ranges
+
 Seems obvious but worth noting: Unlike some software, Houdini supports negative frame ranges.
 
 For preroll you can always start simulating on a negative frame without needing to time shift anything.
 
 <img src="./images/negative_framerange.png?raw=true" width="500">
 
-## Fluids: Fix density loss 
+## Fluids: Fix density loss
+
 Don't take this section seriously. These are just techniques which seem to work for me.
 
 Density loss often happens when Surface Tension is enabled. Droplets tend to disappear when bunched too close together, so try disabling it before anything else. 
