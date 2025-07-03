@@ -11,10 +11,7 @@ These articles grew too long to fit here. They're the most interesting in my opi
 - [Normalized Device Coordinates](./NDC.md)
 - [4D Geometry](./4D.md)
 - [Time Smoothing](https://mysterypancake.github.io/Houdini-Fun/TimeSmoothing) (WIP, interactive!)
-
-## Vertex Block Descent in Houdini
-
-Vellum except it explodes randomly. [Moved to here!](https://github.com/MysteryPancake/Houdini-VBD)
+- [Vertex Block Descent in Houdini](https://github.com/MysteryPancake/Houdini-VBD)
 
 <h2><img src="./images/fast_straight_skeleton.svg?raw=true" height="32"> HDA: Fast Straight Skeleton 3D</h2>
 
@@ -26,7 +23,8 @@ The second lowest frequency (or eigenvector) is called the Fiedler vector. It fo
 
 Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me share this and suggesting improvements! It's based on his [Curve Skeleton example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd).
 
-[Download the HDA here!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda?raw=true) Also check out the [example HIP!](./hdas/fast_straight_skeleton.hip?raw=true)
+| [Download the HDA!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda?raw=true) | [Download the HIP file!](./hdas/fast_straight_skeleton.hip?raw=true) |
+| --- | --- |
 
 ## HDA: Rigid Piece Preroll
 
@@ -36,7 +34,8 @@ Extract Transform can be used to estimate the rotation difference too. This give
 
 This HDA works on single and multiple pieces, either packed or unpacked. For packed pieces, it uses their intrinsic transforms.
 
-[Download the HDA here!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda?raw=true) Also check out the [example HIP!](./hdas/rigid_piece_preroll.hip?raw=true)
+| [Download the HDA!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda?raw=true) | [Download the HIP file!](./hdas/rigid_piece_preroll.hip?raw=true) |
+| --- | --- |
 
 ## Simple spring solver
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
@@ -135,9 +134,10 @@ v@P = lerp(v@targetP, v@P, spring_less(f@Time, 10.0, 5.0));
 ## Make an aimbot (find velocity to hit a target)
 Want to prepare for the next war but can't solve projectile motion? Never fear, the Ballistic Path node is all you need.
 
-**[Video Tutorial](https://youtu.be/Ed2_62BlOFA)**
-
 [![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
+
+| [Video Tutorial](https://youtu.be/Ed2_62BlOFA) |
+| --- |
 
 ### Hit a static target
 1. Connect your projectile to a Ballistic Path node.
@@ -169,7 +169,8 @@ Use the same method as before, but sample the target's position forwards in time
 
 <img src="./images/aimbot_moving.gif?raw=true" width="500">
 
-[Download the HIP file!](./hips/aimbot.hipnc?raw=true)
+| [Download the HIP file!](./hips/aimbot.hipnc?raw=true) |
+| --- |
 
 ### Hit multiple targets
 Extract multiple centroids and transfer v from each arc. Enable "Path Point Index" on Ballistic Path, blast non-zero indices, then Attribute Copy v.
@@ -208,22 +209,23 @@ Simple radial blur shader I made for Balthazar on the CGWiki Discord.
 }
 ```
 
-[Download the HIP file!](./hips/cops/radial_blur.hiplc?raw=true)
+| [Download the HIP file!](./hips/cops/radial_blur.hiplc?raw=true) |
+| --- |
 
 ## Copernicus to Heightfield
 
-**[Video Tutorial](https://youtu.be/-zGjD4zaYMU)**
-
 [![Heightfield tutorial](https://img.youtube.com/vi/-zGjD4zaYMU/mqdefault.jpg)](https://youtu.be/-zGjD4zaYMU)
+
+| [Video Tutorial](https://youtu.be/-zGjD4zaYMU) |
+| --- |
 
 ## Complex Growth in 2 nodes
 You can get cool and organic looking shapes using opposing forces, like Relax and Attribute Blur.
 
-[Download the HIP file!](./hips/spaghetti.hiplc?raw=true)
-
-**[Video Tutorial](https://youtu.be/h0TUYC2WNXY)**
-
 [![Growth tutorial](https://img.youtube.com/vi/h0TUYC2WNXY/mqdefault.jpg)](https://youtu.be/h0TUYC2WNXY)
+
+| [Download the HIP file!](./hips/spaghetti.hiplc?raw=true) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
+| --- | --- |
 
 ## Smooth steps
 Smoothstep's evil uncle, smooth steps. This helps for staggering animations, like points moving along lines.
@@ -290,7 +292,8 @@ I used this ramp for the demo above:
 
 <img src="./images/remove_post_sim_ramp.png?raw=true" width="600">
 
-[Download the HIP file!](./hips/pop_remove_post_sim.hipnc?raw=true)
+| [Download the HIP file!](./hips/pop_remove_post_sim.hipnc?raw=true) |
+| --- |
 
 ## Generating circles
 Sometimes you need to generate circles without relying on built-in nodes, like to know the phase.
@@ -352,7 +355,8 @@ addprim(0, "poly", points);
 
 <br clear="left" />
 
-[Download the HIP file!](./hips/circle.hipnc?raw=true)
+| [Download the HIP file!](./hips/circle.hipnc?raw=true) |
+| --- |
 
 ## Extract Transform in VEX
 
@@ -492,7 +496,8 @@ translate(transform, target_centroid - (R * source_centroid));
 setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 ```
 
-[Download the HIP file!](./hips/extract_transform_svd.hiplc?raw=true)
+| [Download the HIP file!](./hips/extract_transform_svd.hiplc?raw=true) |
+| --- |
 
 ## Sweep in VEX
 
@@ -595,7 +600,8 @@ If `cols` doesn't match the point count, never fear. You'll get cool trippy look
   <img src="./images/sweepshape2.png?raw=true" height="300">
 </p>
 
-[Download the HIP file!](./hips/vex_sweep.hiplc?raw=true)
+| [Download the HIP file!](./hips/vex_sweep.hiplc?raw=true) |
+| --- |
 
 ## Sweep varying cross sections
 I showed this to Lara Belaeva, who pushes Sweep to its limits on LinkedIn. She tried it already, but had an interesting point:
@@ -635,7 +641,8 @@ Now the cross sections connect perfectly without any resampling!
   <img src="./images/sweep7.png?raw=true" height="200">
 </p>
 
-[Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc?raw=true)
+| [Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc?raw=true) |
+| --- |
 
 ## KineFX: Detect and Fix Cyclic Skeletons
 
@@ -676,7 +683,8 @@ I tried using PolyCut, but it doesn't cut all connections. Convert Line and Poin
 
 <img src="./images/cycle_detection.png?raw=true" height="400">
 
-[Download the HIP file!](./hips/cycle_detection.hip?raw=true)
+| [Download the HIP file!](./hips/cycle_detection.hip?raw=true) |
+| --- |
 
 ## Fitting UV islands
 Sometimes you need to overlap UV islands and fit them to a full tile, like when slicing a sphere.
@@ -694,7 +702,8 @@ v@uv = invlerp(v@uv, v@uvmin, v@uvmax); // Or v@uv = fit(v@uv, v@uvmin, v@uvmax,
 |---|---|
 |<img src="./images/uvfitting1.png?raw=true" height="200">|<img src="./images/uvfitting2.png?raw=true" height="200">|
 
-[Download the HIP file!](./hips/uv_island_fitting.hiplc?raw=true)
+| [Download the HIP file!](./hips/uv_island_fitting.hiplc?raw=true) |
+| --- |
 
 ## Reusing code in multiple wrangles
 Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
@@ -722,7 +731,8 @@ v@P = addToPos(v@P);
 
 **UPDATE:** Van and WaffleboyTom said this is evil since it causes the code to recompile. Use if you dare!
 
-[Download the HIP file!](./hips/including_vex_code.hip?raw=true)
+| [Download the HIP file!](./hips/including_vex_code.hip?raw=true) |
+| --- |
 
 ## Dynamic attribute names
 A similar hack is using `chs("var_name")` to set an attribute name at compile time.
@@ -737,12 +747,14 @@ i@`chs("var_name")` = 123;
 
 Certain characters like spaces aren't allowed in variable names, so try not to include them!
 
-[Download the HIP file!](./hips/vex_var_names.hiplc?raw=true)
+| [Download the HIP file!](./hips/vex_var_names.hiplc?raw=true) |
+| --- |
 
 ## Procedural text in the Font node
 Surprisingly it's tricky to display text based on an attribute or VEX snippet. Here's a few ways to do it!
 
-[Download the HIP file!](./hips/font_vex.hiplc?raw=true)
+| [Download the HIP file!](./hips/font_vex.hiplc?raw=true) |
+| --- |
 
 ### Expressions
 Igor Elovikov told us about a top secret Houdini feature, multiline expressions!
@@ -788,7 +800,8 @@ The key is making sure the points aren't coplanar, otherwise they spread in 2D o
 
 <img src="./images/overlapped_cables.png?raw=true" width="500">
 
-[Download the HIP file!](./hips/overlapping_cables.hiplc?raw=true)
+| [Download the HIP file!](./hips/overlapping_cables.hiplc?raw=true) |
+| --- |
 
 ## Nearest point to any attribute
 `nearpoint()` finds the closest point to `@P`, but what if you need the closest point to something else?
@@ -827,7 +840,8 @@ The direct way is using unwrap to replace the context:
 i@near_id = nearpoint("unwrap:uv opinput:0", chv("uv_coordinate"));
 ```
 
-[Download the HIP file!](./hips/geounwrap.hipnc?raw=true)
+| [Download the HIP file!](./hips/geounwrap.hipnc?raw=true) |
+| --- |
 
 ## Sampling environment maps
 A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI using VEX. It's a cheap way to get environment mapping without leaving the viewport.
@@ -844,7 +858,8 @@ vector uv = set(atan2(-r.z, -r.x) / PI + 0.5, r.y * 0.5 + 0.5, 0);
 v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.y);
 ```
 
-[Download the HIP file!](./hips/hdrisample.hipnc?raw=true)
+| [Download the HIP file!](./hips/hdrisample.hipnc?raw=true) |
+| --- |
 
 ## Smoothing volumes with VEX
 Levin on the CGWiki Discord wanted to blur volumes in VEX. You can do it by sample neighbors in a box and averaging them together. This is slower than the built-in volume nodes, but might be useful one day:
@@ -873,7 +888,8 @@ f@density = density_sum / num_samples;
 
 <img src="./images/volumesmoothing.png?raw=true" width="600">
 
-[Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true)
+| [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true) |
+| --- |
 
 ## Split curve to individual lines and back again
 Putting this here since I always forget the nodes.
@@ -910,7 +926,8 @@ Spot the difference. On the left is the Group node, on the right is VEX.
 
 <img src="./images/keepbynormals2.png?raw=true" width="500">
 
-[Download the HIP file!](./hips/keepbynormals.hiplc?raw=true)
+| [Download the HIP file!](./hips/keepbynormals.hiplc?raw=true) |
+| --- |
 
 ## Select inside or outside
 Sometimes you need to select the inside or outside of double-sided geometry, for example to make single-sided geometry if Fuse doesn't work.
@@ -940,7 +957,8 @@ float correlation = dot(dir, v@N);
 
 <img src="./images/inside.png?raw=true" width="250">
 
-[Download the HIP file!](./hips/inside.hipnc?raw=true)
+| [Download the HIP file!](./hips/inside.hipnc?raw=true) |
+| --- |
 
 ## Collision geometry from nasty meshes
 It's always hard to get a decent sim when your collision geometry is on life support. Here's a few ways to clean it up!
@@ -950,7 +968,8 @@ Good for point clouds! VDB from Particles works too, but not as smoothly.
 
 <img src="./images/decentcollision.png?raw=true" width="600">
 
-[Download the HIP file!](./hips/decent_collision.hiplc?raw=true)
+| [Download the HIP file!](./hips/decent_collision.hiplc?raw=true) |
+| --- |
 
 ### Extrude
 Good for flat surfaces! For more control, use point normals to set the extrusion direction.
@@ -959,7 +978,8 @@ Good for flat surfaces! For more control, use point normals to set the extrusion
 
 <img src="./images/decentcollision2.png?raw=true" width="400">
 
-[Download the HIP file!](./hips/decent_collision2.hiplc?raw=true)
+| [Download the HIP file!](./hips/decent_collision2.hiplc?raw=true) |
+| --- |
 
 ## Applying orient to packed prims
 Copy to Points automatically applies quaternions like `@orient`, but what if you need the same effect without Copy to Points?
@@ -975,7 +995,8 @@ Thanks to WaffleboyTom for this tip!
 ## Snapping to the floor
 Often it's nice to organise geometry by snapping it to the floor. Here's a few ways to do it!
 
-[Download the HIP file!](./hips/snaptofloor.hipnc?raw=true)
+| [Download the HIP file!](./hips/snaptofloor.hipnc?raw=true) |
+| --- |
 
 ### Match Size
 The easiest way is using a Match Size node with "Justify Y" set to "Min". It snaps the position only, and won't affect the rotation.
@@ -1112,11 +1133,13 @@ v@P *= invert(mat);
 
 <img src="./images/extracttransform.webp?raw=true" width="500">
 
-[Download the HIP file!](./hips/extracttransform.hipnc?raw=true)
+| [Download the HIP file!](./hips/extracttransform.hipnc?raw=true) |
+| --- |
 
 <img src="./images/inverttransform.webp?raw=true" width="500">
 
-[Download the HIP file!](./hips/inverttransform.hipnc?raw=true)
+| [Download the HIP file!](./hips/inverttransform.hipnc?raw=true) |
+| --- |
 
 ### Bendy geometry
 For simple cases, Point Deform is your best friend.
@@ -1345,7 +1368,8 @@ Cloth sims work best with preroll starting in a neutral rest pose. For example, 
 
 <img src="./images/fbxtransition.webp?raw=true" height="320">
 
-[Download the HIP file!](./hips/fbxtransition.hipnc?raw=true)
+| [Download the HIP file!](./hips/fbxtransition.hipnc?raw=true) |
+| --- |
 
 ### Without FBX
 Try using my node [Fast Straight Skeleton 3D](./hdas)! It gives you rest and deforming skeletons you can use with Joint Capture Biharmonic.
