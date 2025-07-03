@@ -6,6 +6,7 @@ Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 
 These articles grew too long to fit here. They're the most interesting in my opinion, so be sure to check them out!
 
+- [Vertex Block Descent in Houdini](https://github.com/MysteryPancake/Houdini-VBD)
 - [3D Signed Distance Functions](./Houdini_SDFs.md)
 - [Lerp and Fit](Lerp.md)
 - [Waveforms](./Waveforms.md)
@@ -13,7 +14,8 @@ These articles grew too long to fit here. They're the most interesting in my opi
 - [Normalized Device Coordinates](./NDC.md)
 - [4D Geometry](./4D.md)
 - [Time Smoothing](https://mysterypancake.github.io/Houdini-Fun/TimeSmoothing) (WIP, interactive!)
-- [Vertex Block Descent in Houdini](https://github.com/MysteryPancake/Houdini-VBD)
+- [Vexember 2023](./Vexember.md) (WIP)
+- [Sound Effects](./Sound.md) (WIP)
 
 <h2><img src="./images/fast_straight_skeleton.svg?raw=true" height="32"> HDA: Fast Straight Skeleton 3D</h2>
 
