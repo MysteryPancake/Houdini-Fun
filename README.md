@@ -27,7 +27,7 @@ The second lowest frequency (or eigenvector) is called the Fiedler vector. It fo
 
 Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me share this and suggesting improvements! It's based on his [Curve Skeleton example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd).
 
-<img src="./images/straight_skeletons.png?raw=true" width="450">
+<img src="./images/straight_skeletons.png?raw=true" height="300">
 
 | [Download the HDA!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda?raw=true) | [Download the HIP file!](./hdas/fast_straight_skeleton.hip?raw=true) |
 | --- | --- |
@@ -39,6 +39,8 @@ Most preroll nodes use position difference only. This is fine for translation bu
 Extract Transform can be used to estimate the rotation difference too. This gives preroll for both rotation and translation.
 
 This HDA works on single and multiple pieces, either packed or unpacked. For packed pieces, it uses their intrinsic transforms.
+
+<img src="./images/rigidpreroll.gif?raw=true" height="300">
 
 | [Download the HDA!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda?raw=true) | [Download the HIP file!](./hdas/rigid_piece_preroll.hip?raw=true) |
 | --- | --- |
