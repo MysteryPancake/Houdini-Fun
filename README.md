@@ -27,6 +27,8 @@ The second lowest frequency (or eigenvector) is called the Fiedler vector. It fo
 
 Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me share this and suggesting improvements! It's based on his [Curve Skeleton example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd).
 
+<img src="./images/straight_skeletons.png?raw=true" width="600">
+
 | [Download the HDA!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda?raw=true) | [Download the HIP file!](./hdas/fast_straight_skeleton.hip?raw=true) |
 | --- | --- |
 
