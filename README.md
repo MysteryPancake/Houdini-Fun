@@ -597,6 +597,9 @@ vector primuv_diy(int geo; string attr; int prim; vector uvw) {
 v@P = primuv_diy(1, "P", i@hitprim, v@hitprimuv);
 ```
 
+| [Download the HIP file!](./hips/primuv_diy.hiplc?raw=true) |
+| --- |
+
 ## Sweep in VEX
 
 Ever wanted to remake Sweep in VEX? Me neither, but let's do it anyway!
