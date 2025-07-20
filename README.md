@@ -526,7 +526,7 @@ setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 Ever wondered how primuv works? It doesn't exist in OpenCL, so I had to remake it:
 
 ```js
-vector primuv_manual(int geo; string attr; int prim; vector uvw) {
+vector primuv_diy(int geo; string attr; int prim; vector uvw) {
 
     int typeid = primintrinsic(geo, "typeid", prim);
     int pts[] = primpoints(geo, prim);
@@ -594,7 +594,7 @@ vector primuv_manual(int geo; string attr; int prim; vector uvw) {
 }
 
 // Example usage
-v@P = primuv_manual(1, "P", i@hitprim, v@hitprimuv);
+v@P = primuv_diy(1, "P", i@hitprim, v@hitprimuv);
 ```
 
 ## Sweep in VEX
