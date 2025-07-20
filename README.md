@@ -521,9 +521,9 @@ setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 | [Download the HIP file!](./hips/extract_transform_svd.hiplc?raw=true) |
 | --- |
 
-## Primuv in VEX
+## Attribute Interpolate / Primuv in VEX
 
-Ever wondered how primuv works? It does something like this:
+Ever wondered how primuv works? It doesn't exist in OpenCL, so I had to remake it:
 
 ```js
 vector primuv_manual(int geo; string attr; int prim; vector uvw) {
@@ -593,7 +593,7 @@ vector primuv_manual(int geo; string attr; int prim; vector uvw) {
     }
 }
 
-// v@P = primuv(1, "P", i@hitprim, v@hitprimuv);
+// Example usage
 v@P = primuv_manual(1, "P", i@hitprim, v@hitprimuv);
 ```
 
