@@ -521,6 +521,82 @@ setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 | [Download the HIP file!](./hips/extract_transform_svd.hiplc?raw=true) |
 | --- |
 
+## Primuv in VEX
+
+Ever wondered how primuv works? It does something like this:
+
+```js
+vector primuv_manual(int geo; string attr; int prim; vector uvw) {
+
+    int typeid = primintrinsic(geo, "typeid", prim);
+    int pts[] = primpoints(geo, prim);
+    int numpt = len(pts);
+    float u = uvw.x;
+    float v = uvw.y;
+    float w = uvw.z;
+    
+    if (numpt == 2) {
+        // Line
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        return p0 * (1 - u) +
+               p1 * u;
+    } else if (numpt == 3) {
+        // Triangle
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        return p0 * (1 - u - v) +
+               p1 * u +
+               p2 * v;
+    } else if (numpt == 4 && typeid == 21) {
+        // Tetrahedron
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        vector p3 = point(geo, attr, pts[3]);
+        return p0 * (1 - u - v - w) +
+               p1 * u +
+               p2 * v +
+               p3 * w;
+    } else if (numpt == 4) {
+        // Quadrilateral
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        vector p3 = point(geo, attr, pts[3]);
+        float u1 = 1 - u;
+        float v1 = 1 - v;
+        return p0 * u1 * v1 +
+               p1 * u1 * v +
+               p2 * u * v +
+               p3 * u * v1;
+    } else {
+        // General case
+        vector pos = 0;
+        float offset = u * numpt;
+        int first = floor(offset);
+        int last = (first + 1) % numpt;
+        float blend = frac(offset);
+        
+        float weight_a = v / numpt;
+        float weight_b = (1 - blend) * (1 - v);
+        float weight_c = blend * (1 - v);
+        
+        for (int i = 0; i < numpt; ++i) {
+            vector p = point(geo, attr, pts[i]);
+            pos += p * (weight_a +
+                        weight_b * (i == first) +
+                        weight_c * (i == last));
+        }
+        return pos;
+    }
+}
+
+// v@P = primuv(1, "P", i@hitprim, v@hitprimuv);
+v@P = primuv_manual(1, "P", i@hitprim, v@hitprimuv);
+```
+
 ## Sweep in VEX
 
 Ever wanted to remake Sweep in VEX? Me neither, but let's do it anyway!
