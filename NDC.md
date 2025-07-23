@@ -241,6 +241,26 @@ vector worldPos = fromNDC(cam, ndcPos);
 v@N = normalize(worldPos - camPos);
 ```
 
+## Project depth maps
+
+Assuming no distortion, depth maps are easy to project using NDC coordinates.
+
+You can get a depth map from COPS using Rasterize Geometry with `intrinsic:depth_eye`.
+
+<img src="./images/ndc/copsdepth.png" width="700">
+
+To project into world space, just set the Z coordinate to the color of the texture. `@depth` came from Attribute From Map.
+
+<img src="./images/ndc/depthprojection.png" width="300" align="left">
+
+```js
+string cam = chsop("cam");
+v@P.z = -f@depth - chf("offset");
+v@P = fromNDC(cam, v@P);
+```
+
+<br clear="left" />
+
 ## Cull offscreen geometry
 
 Perhaps the most common use of NDC space is removing offscreen geometry.
