@@ -523,7 +523,9 @@ setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 
 ## Attribute Interpolate / Primuv in VEX
 
-Ever wondered how `primuv()` works? Me neither. It doesn't exist in OpenCL, so I had to remake it.
+Ever wondered how `primuv()` works? It doesn't exist in OpenCL, so I had to remake it.
+
+The functions below are designed for `@P`, but can be used on any other attribute by swapping `vector` to that attribute's type.
 
 ### VEX `primuv()`
 
