@@ -523,9 +523,9 @@ setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 
 ## Attribute Interpolate / Primuv in VEX
 
-Ever wondered how primuv works? It doesn't exist in OpenCL, so I had to rewrite it.
+Ever wondered how primuv works? Me neither. It doesn't exist in OpenCL, so I had to remake it.
 
-Here's the VEX version:
+VEX version:
 
 ```js
 vector primuv_diy(int geo; string attr; int prim; vector uvw) {
@@ -599,7 +599,7 @@ vector primuv_diy(int geo; string attr; int prim; vector uvw) {
 v@P = primuv_diy(1, "P", i@hitprim, v@hitprimuv);
 ```
 
-Here's the OpenCL version:
+OpenCL version:
 
 ```c
 #define entriesAt(_arr_, _idx_) ((_idx_ >= 0 && _idx_ < _arr_##_length) ? (_arr_##_index[_idx_+1] - _arr_##_index[_idx_]) : 0)
