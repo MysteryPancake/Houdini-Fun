@@ -300,6 +300,27 @@ if (ndcPos.x < -padding || ndcPos.x > 1 + padding // Remove outside 0-1 on X (wi
 
 <br clear="left" />
 
+## Cull geometry facing away from camera
+
+You can measure the correlation between the camera direction and object normal using `dot(v@N, camDir)`.
+
+Using this as the Clip attribute, you clear any geometry facing away from the camera.
+
+<img src="./images/ndc/clipbycamdir.png" width="300" align="left">
+
+```js
+string cam = chsop("cam");
+
+// dot() finds correlation between the normal direction and camera direction
+vector camPos = fromNDC(cam, {0, 0, 0});
+vector camDir = normalize(camPos - v@P);
+
+// Use this attribute with Clip
+f@correlation = dot(v@N, camDir);
+```
+
+<br clear="left" />
+
 ## Build your own NDC matrix
 You can use `perspective()` to build a matrix that has the same effect as `toNDC()`.
 
