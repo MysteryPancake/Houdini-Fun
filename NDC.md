@@ -245,7 +245,7 @@ v@N = normalize(worldPos - camPos);
 
 Assuming no distortion, depth maps are easy to project using NDC coordinates.
 
-You can get a depth map from COPS using Rasterize Geometry with `intrinsic:depth_eye`.
+You can get a depth map from Copernicus using Rasterize Geometry with `intrinsic:depth_eye`.
 
 <img src="./images/ndc/copsdepth.png" width="700">
 
