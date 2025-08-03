@@ -951,8 +951,8 @@ Note the group argument is very slow to evaluate. Any faster solutions would be 
 ```js
 // Build a group excluding connected prims, like "* ^123 ^456 ^789"
 string grp = "*";
-int neighbors[] = pointprims(0, i@ptnum);
-foreach (int prim; neighbors) {
+int neighbours[] = pointprims(0, i@ptnum);
+foreach (int prim; neighbours) {
     grp += " ^" + itoa(prim);
 }
 
