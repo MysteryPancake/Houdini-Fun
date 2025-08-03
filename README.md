@@ -940,6 +940,35 @@ v@uv = invlerp(v@uv, v@uvmin, v@uvmax); // Or v@uv = fit(v@uv, v@uvmin, v@uvmax,
 | [Download the HIP file!](./hips/uv_island_fitting.hiplc?raw=true) |
 | --- |
 
+## Detect overlapping UVs
+
+It's hard to prevent `uvintersect()` and `xyzdist()` from snapping to themselves. This is painful for detecting overlapping UVs and self collisions.
+
+One workaround is using the group argument to exclude nearby prims, like those connected to the current point.
+
+Note the group argument is very slow to evaluate. Any faster solutions would be great to know!
+
+```js
+// Build a group excluding connected prims, like "* ^123 ^456 ^789"
+string grp = "*";
+int neighbors[] = pointprims(0, i@ptnum);
+foreach (int prim; neighbors) {
+    grp += " ^" + itoa(prim);
+}
+
+// Check for intersections
+vector dir = {0, 0, -1};
+vector orig = v@uv - dir * 0.001;
+vector pos, primuv;
+int prim = uvintersect(0, grp, "uv", orig, dir, pos, primuv);
+if (prim >= 0) v@Cd = {1,0,0};
+```
+
+<img src="./images/overlapping_uvs.png?raw=true" height="300">
+
+| [Download the HIP file!](./hips/detect_overlapping_uvs.hiplc?raw=true) |
+| --- |
+
 ## Reusing code in multiple wrangles
 
 Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
