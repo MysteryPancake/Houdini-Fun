@@ -946,7 +946,7 @@ It's hard to prevent `uvintersect()` and `xyzdist()` from snapping to themselves
 
 One workaround is using the group argument to exclude nearby prims, like those connected to the current point.
 
-Sadly the group argument is very slow to evaluate. Let me know if you find a faster solution!
+Sadly the group argument is very slow to evaluate. Tell me if you find a better way!
 
 ```js
 // Build a group excluding connected prims, like "* ^123 ^456 ^789"
