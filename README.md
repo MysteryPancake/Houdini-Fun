@@ -13,6 +13,7 @@ These articles grew too long to fit here. They're the most interesting in my opi
 - [Easings](./Easings.md)
 - [Normalized Device Coordinates](./NDC.md)
 - [4D Geometry](./4D.md)
+- [`primuv()` and `xyzdist()` remade in VEX and OpenCL](./Primuv_Xyzdist.md)
 - [Time Smoothing](https://mysterypancake.github.io/Houdini-Fun/TimeSmoothing) (WIP, interactive!)
 - [Vexember 2023](./Vexember.md) (WIP)
 - [Sound Effects](./Sound.md) (WIP)
