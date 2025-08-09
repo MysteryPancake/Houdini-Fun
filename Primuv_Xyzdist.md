@@ -6,9 +6,9 @@ Ever wondered how `primuv()` and `xyzdist()` work? Me neither, but I had to rema
 
 `xyzdist()` uses an acceleration structure (likely BVH), which I can't recreate easily in VEX or OpenCL.
 
-For this reason, the functions below only work when you have the primnum already. They return the nearest position and primuvw.
+For this reason, the functions below only work when you know the primnum already. It returns the nearest surface position and primuvw.
 
-What if you don't know the primnum? Try using `pcfind()` to get a few nearby prims using their centroids, then pick the nearest result.
+What if you don't know the primnum? Try using `pcfind()` to get a few nearby primnums based on their centroids.
 
 Most of the code below is from ["Real-Time Collision Detection" by Christer Ericson](https://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf).
 
