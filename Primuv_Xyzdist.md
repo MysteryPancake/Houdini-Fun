@@ -1,6 +1,6 @@
-# `primuv()` and `xyzdist()` in VEX and OpenCL
+# Houdini `primuv()` and `xyzdist()`
 
-Ever wondered how `primuv()` and `xyzdist()` work? Neither exist in OpenCL, so I had to remake them from scratch.
+Ever wondered how `primuv()` and `xyzdist()` work? I remade them from scratch in VEX and OpenCL.
 
 ## `primuv()`
 
