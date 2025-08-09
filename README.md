@@ -607,7 +607,7 @@ v@P = primuv_diy(1, "P", i@hitprim, v@hitprimuv);
 #define entriesAt(_arr_, _idx_) ((_idx_ >= 0 && _idx_ < _arr_##_length) ? (_arr_##_index[_idx_+1] - _arr_##_index[_idx_]) : 0)
 #define compAt(_arr_, _idx_, _compidx_) ((_idx_ >= 0 && _idx_ < _arr_##_length && _compidx_ >= 0 && _compidx_ < entriesAt(_arr_, _idx_)) ? _arr_[_arr_##_index[_idx_] + _compidx_] : 0)
 
-static inline fpreal3 _primuv(
+static fpreal3 _primuv(
     global fpreal *P,
     global int *primpoints,
     global int *primpoints_index,
