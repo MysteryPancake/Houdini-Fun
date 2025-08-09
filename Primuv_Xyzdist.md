@@ -12,7 +12,7 @@ What if you don't know the primnum? Try using `pcfind()` to get a few nearby pri
 
 Most of the code below is from [*Real-Time Collision Detection* by Christer Ericson](https://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf).
 
-The result isn't identical for quads. This is because I split them into 2 triangles, while Houdini uses bilinear interpolation.
+The result isn't identical for quads because I split them into 2 triangles, while Houdini uses bilinear interpolation.
 
 | [Download the HIP file!](./hips/xyzdist_diy.hiplc?raw=true) |
 | --- |
