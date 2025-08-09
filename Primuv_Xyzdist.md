@@ -1,4 +1,4 @@
-# Houdini `primuv()` and `xyzdist()`
+# Houdini `primuv()` and `xyzdist()` from scratch
 
 Ever wondered how `primuv()` and `xyzdist()` work? I remade them from scratch in VEX and OpenCL.
 
