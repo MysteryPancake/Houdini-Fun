@@ -722,7 +722,7 @@ kernel void testPrimuv(
     
     const int prim = _bound_hitprim[idx];
     const fpreal3 primuv = vload3(idx, _bound_hitprimuv);
-    const int typeid = _bound_typeid[idx];
+    const int typeid = _bound_typeid[prim];
     
     const fpreal3 P = _primuv(_bound_P2, _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, prim, primuv, typeid);
     vstore3(P, idx, _bound_P);
