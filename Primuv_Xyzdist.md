@@ -1,215 +1,6 @@
-# Houdini `primuv()` and `xyzdist()` Remake
+# Houdini `xyzdist()` + `primuv()` Remake
 
-Ever wondered how `primuv()` and `xyzdist()` work? I remade them from scratch in VEX and OpenCL.
-
-## `primuv()`
-
-The functions below are designed for `@P`, but can be used on any other attribute by swapping `vector` to that attribute's type.
-
-| [Download the HIP file!](./hips/primuv_diy.hiplc?raw=true) |
-| --- |
-
-### `primuv()` in VEX
-
-```js
-vector primuv_diy(int geo; string attr; int prim; vector uvw) {
-
-    int typeid = primintrinsic(geo, "typeid", prim);
-    int pts[] = primpoints(geo, prim);
-    int numpt = len(pts);
-    float u = uvw.x;
-    float v = uvw.y;
-    float w = uvw.z;
-    
-    if (numpt == 2) {
-        // Line
-        vector p0 = point(geo, attr, pts[0]);
-        vector p1 = point(geo, attr, pts[1]);
-        return p0 * (1 - u) +
-               p1 * u;
-    } else if (numpt == 3) {
-        // Triangle
-        vector p0 = point(geo, attr, pts[0]);
-        vector p1 = point(geo, attr, pts[1]);
-        vector p2 = point(geo, attr, pts[2]);
-        return p0 * (1 - u - v) +
-               p1 * u +
-               p2 * v;
-    } else if (numpt == 4 && typeid == 21) {
-        // Tetrahedron
-        vector p0 = point(geo, attr, pts[0]);
-        vector p1 = point(geo, attr, pts[1]);
-        vector p2 = point(geo, attr, pts[2]);
-        vector p3 = point(geo, attr, pts[3]);
-        return p0 * (1 - u - v - w) +
-               p1 * u +
-               p2 * v +
-               p3 * w;
-    } else if (numpt == 4) {
-        // Quadrilateral
-        vector p0 = point(geo, attr, pts[0]);
-        vector p1 = point(geo, attr, pts[1]);
-        vector p2 = point(geo, attr, pts[2]);
-        vector p3 = point(geo, attr, pts[3]);
-        float u1 = 1 - u;
-        float v1 = 1 - v;
-        return p0 * u1 * v1 +
-               p1 * u1 * v +
-               p2 * u * v +
-               p3 * u * v1;
-    } else {
-        // General case
-        vector pos = 0;
-        float offset = u * numpt;
-        int first = floor(offset);
-        int last = (first + 1) % numpt;
-        float blend = frac(offset);
-        
-        float weight_a = v / numpt;
-        float weight_b = (1 - blend) * (1 - v);
-        float weight_c = blend * (1 - v);
-        
-        for (int i = 0; i < numpt; ++i) {
-            vector p = point(geo, attr, pts[i]);
-            pos += p * (weight_a +
-                        weight_b * (i == first) +
-                        weight_c * (i == last));
-        }
-        return pos;
-    }
-}
-
-// Example usage
-v@P = primuv_diy(1, "P", i@hitprim, v@hitprimuv);
-```
-
-### `primuv()` in OpenCL
-
-```c
-#define entriesAt(_arr_, _idx_) ((_idx_ >= 0 && _idx_ < _arr_##_length) ? (_arr_##_index[_idx_+1] - _arr_##_index[_idx_]) : 0)
-#define compAt(_arr_, _idx_, _compidx_) ((_idx_ >= 0 && _idx_ < _arr_##_length && _compidx_ >= 0 && _compidx_ < entriesAt(_arr_, _idx_)) ? _arr_[_arr_##_index[_idx_] + _compidx_] : 0)
-
-static fpreal3 _primuv(
-    global fpreal *P,
-    global int *primpoints,
-    global int *primpoints_index,
-    const int primpoints_length,
-    const int prim,
-    const fpreal3 uvw,
-    const int typeid)
-{
-    const int numpt = entriesAt(primpoints, prim);
-    const fpreal u = uvw.x;
-    const fpreal v = uvw.y;
-    const fpreal w = uvw.z;
-    
-    switch (numpt)
-    {
-        case 2: // Line
-        {
-            const int pt0 = compAt(primpoints, prim, 0);
-            const int pt1 = compAt(primpoints, prim, 1);
-            
-            const fpreal3 p0 = vload3(pt0, P);
-            const fpreal3 p1 = vload3(pt1, P);
-            
-            return p0 * (1.0f - u) +
-                   p1 * u;
-        }
-        case 3: // Triangle
-        {
-            const int pt0 = compAt(primpoints, prim, 0);
-            const int pt1 = compAt(primpoints, prim, 1);
-            const int pt2 = compAt(primpoints, prim, 2);
-            
-            const fpreal3 p0 = vload3(pt0, P);
-            const fpreal3 p1 = vload3(pt1, P);
-            const fpreal3 p2 = vload3(pt2, P);
-            
-            return p0 * (1.0f - u - v)
-                 + p1 * u
-                 + p2 * v;
-        }
-        case 4:
-        {
-            const int pt0 = compAt(primpoints, prim, 0);
-            const int pt1 = compAt(primpoints, prim, 1);
-            const int pt2 = compAt(primpoints, prim, 2);
-            const int pt3 = compAt(primpoints, prim, 3);
-            
-            const fpreal3 p0 = vload3(pt0, P);
-            const fpreal3 p1 = vload3(pt1, P);
-            const fpreal3 p2 = vload3(pt2, P);
-            const fpreal3 p3 = vload3(pt3, P);
-            
-            if (typeid == 21) // Tetrahedron
-            {
-                return p0 * (1.0f - u - v - w) +
-                       p1 * u +
-                       p2 * v +
-                       p3 * w;
-            }
-            else // Quadrilateral
-            {
-                const fpreal u1 = 1.0f - u;
-                const fpreal v1 = 1.0f - v;
-                return p0 * u1 * v1 +
-                       p1 * u1 * v +
-                       p2 * u * v +
-                       p3 * u * v1;
-            }
-        }
-        default: // General case
-        {
-            fpreal3 pos = (fpreal3)(0.0f);
-            const fpreal offset = u * numpt;
-            const int first = floor(offset);
-            const int last = (first + 1) % numpt;
-            const fpreal blend = offset - floor(offset);
-            
-            const fpreal weight_a = v / numpt;
-            const fpreal weight_b = (1.0f - blend) * (1.0f - v);
-            const fpreal weight_c = blend * (1.0f - v);
-            
-            for (int i = 0; i < numpt; ++i) {
-                const int pt = compAt(primpoints, prim, i);
-                const fpreal3 p = vload3(pt, P);
-                pos += p * (weight_a +
-                            weight_b * (i == first) +
-                            weight_c * (i == last));
-            }
-            return pos;
-        }
-    }
-}
-
-kernel void testPrimuv( 
-    const int _bound_P_length,
-    global fpreal * restrict _bound_P,
-    const int _bound_P2_length,
-    global fpreal * restrict _bound_P2,
-    const int _bound_primpoints_length,
-    global int * restrict _bound_primpoints_index,
-    global int * restrict _bound_primpoints,
-    const int _bound_typeid_length,
-    global int * restrict _bound_typeid,
-    const int _bound_hitprim_length,
-    global int * restrict _bound_hitprim,
-    const int _bound_hitprimuv_length,
-    global fpreal * restrict _bound_hitprimuv
-)
-{
-    const int idx = get_global_id(0);
-    if (idx >= _bound_P_length) return;
-    
-    const int prim = _bound_hitprim[idx];
-    const fpreal3 primuv = vload3(idx, _bound_hitprimuv);
-    const int typeid = _bound_typeid[prim];
-    
-    const fpreal3 P = _primuv(_bound_P2, _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, prim, primuv, typeid);
-    vstore3(P, idx, _bound_P);
-}
-```
+Ever wondered how `primuv()` and `xyzdist()` work? Me neither, but I had to remake them manually in VEX and OpenCL.
 
 ## `xyzdist()`
 
@@ -811,5 +602,214 @@ kernel void testXyzdist(
     
     vstore3(closestP, idx, _bound_P);
     vstore3(closestUVW, idx, _bound_Cd);
+}
+```
+
+## `primuv()`
+
+The functions below are designed for `@P`, but can be used on any other attribute by swapping `vector` to that attribute's type.
+
+| [Download the HIP file!](./hips/primuv_diy.hiplc?raw=true) |
+| --- |
+
+### `primuv()` in VEX
+
+```js
+vector primuv_diy(int geo; string attr; int prim; vector uvw) {
+
+    int typeid = primintrinsic(geo, "typeid", prim);
+    int pts[] = primpoints(geo, prim);
+    int numpt = len(pts);
+    float u = uvw.x;
+    float v = uvw.y;
+    float w = uvw.z;
+    
+    if (numpt == 2) {
+        // Line
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        return p0 * (1 - u) +
+               p1 * u;
+    } else if (numpt == 3) {
+        // Triangle
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        return p0 * (1 - u - v) +
+               p1 * u +
+               p2 * v;
+    } else if (numpt == 4 && typeid == 21) {
+        // Tetrahedron
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        vector p3 = point(geo, attr, pts[3]);
+        return p0 * (1 - u - v - w) +
+               p1 * u +
+               p2 * v +
+               p3 * w;
+    } else if (numpt == 4) {
+        // Quadrilateral
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        vector p3 = point(geo, attr, pts[3]);
+        float u1 = 1 - u;
+        float v1 = 1 - v;
+        return p0 * u1 * v1 +
+               p1 * u1 * v +
+               p2 * u * v +
+               p3 * u * v1;
+    } else {
+        // General case
+        vector pos = 0;
+        float offset = u * numpt;
+        int first = floor(offset);
+        int last = (first + 1) % numpt;
+        float blend = frac(offset);
+        
+        float weight_a = v / numpt;
+        float weight_b = (1 - blend) * (1 - v);
+        float weight_c = blend * (1 - v);
+        
+        for (int i = 0; i < numpt; ++i) {
+            vector p = point(geo, attr, pts[i]);
+            pos += p * (weight_a +
+                        weight_b * (i == first) +
+                        weight_c * (i == last));
+        }
+        return pos;
+    }
+}
+
+// Example usage
+v@P = primuv_diy(1, "P", i@hitprim, v@hitprimuv);
+```
+
+### `primuv()` in OpenCL
+
+```c
+#define entriesAt(_arr_, _idx_) ((_idx_ >= 0 && _idx_ < _arr_##_length) ? (_arr_##_index[_idx_+1] - _arr_##_index[_idx_]) : 0)
+#define compAt(_arr_, _idx_, _compidx_) ((_idx_ >= 0 && _idx_ < _arr_##_length && _compidx_ >= 0 && _compidx_ < entriesAt(_arr_, _idx_)) ? _arr_[_arr_##_index[_idx_] + _compidx_] : 0)
+
+static fpreal3 _primuv(
+    global fpreal *P,
+    global int *primpoints,
+    global int *primpoints_index,
+    const int primpoints_length,
+    const int prim,
+    const fpreal3 uvw,
+    const int typeid)
+{
+    const int numpt = entriesAt(primpoints, prim);
+    const fpreal u = uvw.x;
+    const fpreal v = uvw.y;
+    const fpreal w = uvw.z;
+    
+    switch (numpt)
+    {
+        case 2: // Line
+        {
+            const int pt0 = compAt(primpoints, prim, 0);
+            const int pt1 = compAt(primpoints, prim, 1);
+            
+            const fpreal3 p0 = vload3(pt0, P);
+            const fpreal3 p1 = vload3(pt1, P);
+            
+            return p0 * (1.0f - u) +
+                   p1 * u;
+        }
+        case 3: // Triangle
+        {
+            const int pt0 = compAt(primpoints, prim, 0);
+            const int pt1 = compAt(primpoints, prim, 1);
+            const int pt2 = compAt(primpoints, prim, 2);
+            
+            const fpreal3 p0 = vload3(pt0, P);
+            const fpreal3 p1 = vload3(pt1, P);
+            const fpreal3 p2 = vload3(pt2, P);
+            
+            return p0 * (1.0f - u - v)
+                 + p1 * u
+                 + p2 * v;
+        }
+        case 4:
+        {
+            const int pt0 = compAt(primpoints, prim, 0);
+            const int pt1 = compAt(primpoints, prim, 1);
+            const int pt2 = compAt(primpoints, prim, 2);
+            const int pt3 = compAt(primpoints, prim, 3);
+            
+            const fpreal3 p0 = vload3(pt0, P);
+            const fpreal3 p1 = vload3(pt1, P);
+            const fpreal3 p2 = vload3(pt2, P);
+            const fpreal3 p3 = vload3(pt3, P);
+            
+            if (typeid == 21) // Tetrahedron
+            {
+                return p0 * (1.0f - u - v - w) +
+                       p1 * u +
+                       p2 * v +
+                       p3 * w;
+            }
+            else // Quadrilateral
+            {
+                const fpreal u1 = 1.0f - u;
+                const fpreal v1 = 1.0f - v;
+                return p0 * u1 * v1 +
+                       p1 * u1 * v +
+                       p2 * u * v +
+                       p3 * u * v1;
+            }
+        }
+        default: // General case
+        {
+            fpreal3 pos = (fpreal3)(0.0f);
+            const fpreal offset = u * numpt;
+            const int first = floor(offset);
+            const int last = (first + 1) % numpt;
+            const fpreal blend = offset - floor(offset);
+            
+            const fpreal weight_a = v / numpt;
+            const fpreal weight_b = (1.0f - blend) * (1.0f - v);
+            const fpreal weight_c = blend * (1.0f - v);
+            
+            for (int i = 0; i < numpt; ++i) {
+                const int pt = compAt(primpoints, prim, i);
+                const fpreal3 p = vload3(pt, P);
+                pos += p * (weight_a +
+                            weight_b * (i == first) +
+                            weight_c * (i == last));
+            }
+            return pos;
+        }
+    }
+}
+
+kernel void testPrimuv( 
+    const int _bound_P_length,
+    global fpreal * restrict _bound_P,
+    const int _bound_P2_length,
+    global fpreal * restrict _bound_P2,
+    const int _bound_primpoints_length,
+    global int * restrict _bound_primpoints_index,
+    global int * restrict _bound_primpoints,
+    const int _bound_typeid_length,
+    global int * restrict _bound_typeid,
+    const int _bound_hitprim_length,
+    global int * restrict _bound_hitprim,
+    const int _bound_hitprimuv_length,
+    global fpreal * restrict _bound_hitprimuv
+)
+{
+    const int idx = get_global_id(0);
+    if (idx >= _bound_P_length) return;
+    
+    const int prim = _bound_hitprim[idx];
+    const fpreal3 primuv = vload3(idx, _bound_hitprimuv);
+    const int typeid = _bound_typeid[prim];
+    
+    const fpreal3 P = _primuv(_bound_P2, _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, prim, primuv, typeid);
+    vstore3(P, idx, _bound_P);
 }
 ```
