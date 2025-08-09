@@ -1,12 +1,15 @@
-# `primuv()` and `xyzdist()` in OpenCL and VEX
+# `primuv()` and `xyzdist()` in VEX and OpenCL
 
 Ever wondered how `primuv()` and `xyzdist()` work? Neither exist in OpenCL, so I had to remake them from scratch.
 
-## Attribute Interpolate / `primuv()` in VEX
+## `primuv()`
 
 The functions below are designed for `@P`, but can be used on any other attribute by swapping `vector` to that attribute's type.
 
-### VEX `primuv()`
+| [Download the HIP file!](./hips/primuv_diy.hiplc?raw=true) |
+| --- |
+
+### `primuv()` in VEX
 
 ```js
 vector primuv_diy(int geo; string attr; int prim; vector uvw) {
@@ -80,7 +83,7 @@ vector primuv_diy(int geo; string attr; int prim; vector uvw) {
 v@P = primuv_diy(1, "P", i@hitprim, v@hitprimuv);
 ```
 
-### OpenCL `primuv()`
+### `primuv()` in OpenCL
 
 ```c
 #define entriesAt(_arr_, _idx_) ((_idx_ >= 0 && _idx_ < _arr_##_length) ? (_arr_##_index[_idx_+1] - _arr_##_index[_idx_]) : 0)
@@ -208,20 +211,22 @@ kernel void testPrimuv(
 }
 ```
 
-| [Download the HIP file!](./hips/primuv_diy.hiplc?raw=true) |
-| --- |
-
-## Ray / `minpos()` / `xyzdist()` in VEX
+## `xyzdist()`
 
 `xyzdist()` uses an acceleration structure (likely BVH), which I can't recreate easily in VEX or OpenCL.
 
-This means the functions below only work when you have the primnum already. They return the nearest position and UVW coordinate to that primitive.
+For this reason, the functions below only work when you have the primnum already. They return the nearest position and primuvw.
 
 What if you don't know the primnum? Try using `pcfind()` to get a few nearby prims using their centroids, then pick the nearest result.
 
-The functions below are based on "Real-Time Collision Detection" by Christer Ericson. They aren't identical for quads, since Houdini's `xyzdist()` uses bilinear interpolation.
+Most of the code below is from ["Real-Time Collision Detection" by Christer Ericson](https://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf).
 
-### VEX `xyzdist()`
+The result isn't identical for quads. This is because I split them into 2 triangles, while Houdini uses bilinear interpolation.
+
+| [Download the HIP file!](./hips/xyzdist_diy.hiplc?raw=true) |
+| --- |
+
+### `xyzdist()` in VEX
 
 ```js
 // Find the closest point to P on a triangle, returns primnum and primuvw
@@ -469,7 +474,7 @@ v@P = closestP;
 v@Cd = closestUVW;
 ```
 
-### OpenCL `xyzdist()`
+### `xyzdist()` in OpenCL
 
 ```c
 #define entriesAt(_arr_, _idx_) ((_idx_ >= 0 && _idx_ < _arr_##_length) ? (_arr_##_index[_idx_+1] - _arr_##_index[_idx_]) : 0)
