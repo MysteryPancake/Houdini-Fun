@@ -18,8 +18,6 @@ Most of the code below is from [*Real-Time Collision Detection* by Christer Eric
 ### `xyzdist()` in VEX
 
 ```js
-// Everything below is from "Real-Time Collision Detection" by Christer Ericson
-
 // Find the closest point to P on a triangle, returns primnum and primuvw
 void closestPointTriangle(vector P; vector p0; vector p1; vector p2; vector outP; vector outUVW) {
     // Check if P in vertex region outside A
@@ -299,8 +297,6 @@ v@Cd = closestUVW;
 ```c
 #define entriesAt(_arr_, _idx_) ((_idx_ >= 0 && _idx_ < _arr_##_length) ? (_arr_##_index[_idx_+1] - _arr_##_index[_idx_]) : 0)
 #define compAt(_arr_, _idx_, _compidx_) ((_idx_ >= 0 && _idx_ < _arr_##_length && _compidx_ >= 0 && _compidx_ < entriesAt(_arr_, _idx_)) ? _arr_[_arr_##_index[_idx_] + _compidx_] : 0)
-
-// Everything below is from "Real-Time Collision Detection" by Christer Ericson
 
 // Find the closest point to P on a triangle, returns primnum and primuvw
 static void closestPointTriangle(
