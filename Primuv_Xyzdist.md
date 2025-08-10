@@ -298,6 +298,8 @@ v@Cd = closestUVW;
 #define entriesAt(_arr_, _idx_) ((_idx_ >= 0 && _idx_ < _arr_##_length) ? (_arr_##_index[_idx_+1] - _arr_##_index[_idx_]) : 0)
 #define compAt(_arr_, _idx_, _compidx_) ((_idx_ >= 0 && _idx_ < _arr_##_length && _compidx_ >= 0 && _compidx_ < entriesAt(_arr_, _idx_)) ? _arr_[_arr_##_index[_idx_] + _compidx_] : 0)
 
+// Everything below is from "Real-Time Collision Detection" by Christer Ericson
+
 // Find the closest point to P on a triangle, returns primnum and primuvw
 static void closestPointTriangle(
     const fpreal3 P,
@@ -409,12 +411,7 @@ static fpreal3 barycentric(
 }
 
 // Squared length, prefixed in case this gets added later
-static fpreal _length2(const fpreal2 v)
-{
-    return dot(v, v);
-}
-
-static fpreal _length2v(const fpreal3 v)
+static fpreal _length2(const fpreal3 v)
 {
     return dot(v, v);
 }
@@ -444,7 +441,7 @@ static void _xyzdist(
             
             // Project onto clamped ab
             const fpreal3 ab = p1 - p0;
-            const fpreal t = clamp(dot(P - p0, ab) / _length2v(ab), 0.0f, 1.0f);
+            const fpreal t = clamp(dot(P - p0, ab) / _length2(ab), 0.0f, 1.0f);
 
             (*closestP) = p0 + ab * t;
             (*closestUVW) = (fpreal3)(t, 0.0f, 0.0f);
@@ -484,7 +481,7 @@ static void _xyzdist(
                 if (pointOutsideOfPlane(P, p0, p1, p2, p3))
                 {
                     closestPointTriangle(P, p0, p1, p2, &tmpP, &tmpUVW);
-                    const fpreal dist = _length2v(tmpP - P);
+                    const fpreal dist = _length2(tmpP - P);
                     if (dist < bestDist)
                     {
                         bestDist = dist;
@@ -497,7 +494,7 @@ static void _xyzdist(
                 if (pointOutsideOfPlane(P, p0, p2, p3, p1))
                 {
                     closestPointTriangle(P, p0, p2, p3, &tmpP, &tmpUVW);
-                    const fpreal dist = _length2v(tmpP - P);
+                    const fpreal dist = _length2(tmpP - P);
                     if (dist < bestDist)
                     {
                         bestDist = dist;
@@ -510,7 +507,7 @@ static void _xyzdist(
                 if (pointOutsideOfPlane(P, p0, p3, p1, p2))
                 {
                     closestPointTriangle(P, p0, p3, p1, &tmpP, &tmpUVW);
-                    const fpreal dist = _length2v(tmpP - P);
+                    const fpreal dist = _length2(tmpP - P);
                     if (dist < bestDist)
                     {
                         bestDist = dist;
@@ -523,7 +520,7 @@ static void _xyzdist(
                 if (pointOutsideOfPlane(P, p1, p3, p2, p0))
                 {
                     closestPointTriangle(P, p1, p3, p2, &tmpP, &tmpUVW);
-                    const fpreal dist = _length2v(tmpP - P);
+                    const fpreal dist = _length2(tmpP - P);
                     if (dist < bestDist)
                     {
                         bestDist = dist;
@@ -560,7 +557,7 @@ static void _xyzdist(
                 
                 for (int i = 0; i < 8; ++i) {
                     const fpreal3 r = barycentric(p0, p1, p2, p3, (*closestUVW)) - P;
-                    if (_length2v(r) < tolerance) break;
+                    if (_length2(r) < tolerance) break;
                     
                     const fpreal3 dP_du = mix(edge_v0, edge_v1, closestUVW->y);
                     const fpreal3 dP_dv = mix(edge_u0, edge_u1, closestUVW->x);
@@ -569,7 +566,7 @@ static void _xyzdist(
                     const fpreal A22 = dot(dP_dv, dP_dv);
                     
                     const fpreal2 grad = (fpreal2)(dot(dP_du, r), dot(dP_dv, r));
-                    if (_length2(grad) < tolerance) break;
+                    if (dot(grad, grad) < tolerance) break;
                     
                     const fpreal det = A11 * A22 - A12 * A12;
                     if (fabs(det) < tolerance) break;
@@ -608,7 +605,7 @@ static void _xyzdist(
                 const int nextPt = compAt(primpoints, prim_id, (i + 1) % numpt);
                 const fpreal3 nextPos = vload3(nextPt, P_primpoints);
                 closestPointTriangle(P, avgPos, prevPos, nextPos, &tmpP, &tmpUVW);
-                const fpreal dist = _length2v(P - tmpP);
+                const fpreal dist = _length2(P - tmpP);
                 if (dist < bestDist) 
                 {
                     bestDist = dist;
@@ -664,7 +661,7 @@ kernel void testXyzdist(
         _xyzdist(prim_id, typeid, P, _bound_P_primpoints,
                 _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, &tmpP, &tmpUVW);
         
-        const fpreal dist = _length2v(tmpP - P);
+        const fpreal dist = _length2(tmpP - P);
         if (dist < bestDist) {
             bestDist = dist;
             closestP = tmpP;
