@@ -815,3 +815,120 @@ kernel void testPrimuv(
     vstore3(P, idx, _bound_P);
 }
 ```
+
+### `primuv()` with normals in VEX
+
+Since I was using this code for collision handling, I also needed the surface normals.
+
+Note the tetrahedral normals don't match Houdini. I wanted them to be planar, so they face outwards instead of interpolating.
+
+| [Download the HIP file!](./hips/primuvn_diy.hiplc?raw=true) |
+| --- |
+
+```js
+void primuv_diy(int geo; string attr; int prim; vector uvw; vector outP; vector outN) {
+
+    int typeid = primintrinsic(geo, "typeid", prim);
+    int pts[] = primpoints(geo, prim);
+    int numpt = len(pts);
+    float u = uvw.x;
+    float v = uvw.y;
+    float w = uvw.z;
+    
+    if (numpt == 2) {
+        // Line
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        outP = p0 * (1 - u) +
+               p1 * u;
+        // Lines don't really have normals
+        outN = 0;
+    } else if (numpt == 3) {
+        // Triangle
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        outN = normalize(cross(p0 - p2, p0 - p1));
+        outP = p0 * (1 - u - v) +
+               p1 * u +
+               p2 * v;
+    } else if (numpt == 4 && typeid == 21) {
+        // Tetrahedron
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        vector p3 = point(geo, attr, pts[3]);
+        float k = 1 - u - v - w;
+        outP = p0 * k +
+               p1 * u +
+               p2 * v +
+               p3 * w;
+        // For collisions, use planar normals instead of interpolated normals
+        // Smallest weight determines the normal
+        int min_face = 0;
+        float min_weight = u;
+        if (v < min_weight) { min_weight = v; min_face = 1; }
+        if (w < min_weight) { min_weight = w; min_face = 2; }
+        if (k < min_weight) { min_weight = k; min_face = 3; }
+        if (min_face == 0) {
+            outN = normalize(cross(p3 - p0, p3 - p2));
+        } else if (min_face == 1) {
+            outN = normalize(cross(p1 - p0, p1 - p3));
+        } else if (min_face == 2) {
+            outN = normalize(cross(p1 - p2, p1 - p0));
+        } else {
+            outN = normalize(cross(p1 - p3, p1 - p2));
+        }
+    } else if (numpt == 4) {
+        // Quadrilateral
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        vector p3 = point(geo, attr, pts[3]);
+        float u1 = 1 - u;
+        float v1 = 1 - v;
+        outP = p0 * u1 * v1 +
+               p1 * u1 * v +
+               p2 * u * v +
+               p3 * u * v1;
+        // Average the normals of both triangles
+        outN = normalize(cross(p0 - p2, p0 - p1) + cross(p0 - p3, p0 - p2));
+    } else {
+        // General case
+        vector pos = 0, N = 0;
+        float offset = u * numpt;
+        int first = floor(offset);
+        int last = (first + 1) % numpt;
+        float blend = frac(offset);
+        
+        float weight_a = v / numpt;
+        float weight_b = (1 - blend) * (1 - v);
+        float weight_c = blend * (1 - v);
+        
+        vector prev_pos = point(geo, attr, pts[0]);
+        pos += prev_pos * (weight_a +
+                           weight_b * (0 == first) +
+                           weight_c * (0 == last));
+        
+        for (int i = 1; i <= numpt; ++i) {
+            vector p = point(geo, attr, pts[i % numpt]);
+            if (i < numpt) {
+                pos += p * (weight_a +
+                            weight_b * (i == first) +
+                            weight_c * (i == last));
+            }
+            // Newell's method
+            N.x -= (prev_pos.y - p.y) * (prev_pos.z + p.z);
+            N.y -= (prev_pos.z - p.z) * (prev_pos.x + p.x);
+            N.z -= (prev_pos.x - p.x) * (prev_pos.y + p.y);
+            prev_pos = p;
+        }
+        
+        outN = normalize(N);
+        outP = pos;
+    }
+}
+
+// Example usage
+primuv_diy(1, "P", i@hitprim, v@hitprimuv, v@P, v@N);
+```
