@@ -1,18 +1,18 @@
 # Houdini `xyzdist()` + `primuv()` Remake
 
-Ever wondered how `primuv()` and `xyzdist()` work? Me neither, but I had to remake them manually in VEX and OpenCL.
+Ever wondered how `primuv()` and `xyzdist()` work? Me neither, but for performance reasons I had to remake them both.
 
 ## `xyzdist()`
 
 `xyzdist()` uses an acceleration structure (likely BVH), which I can't recreate easily in VEX or OpenCL.
 
-For this reason, the functions below only work when you have the primnum already. They return the nearest position and primuvw.
+For this reason, the functions below only work when you know the primnum already. It returns the nearest surface position and primuvw.
 
-What if you don't know the primnum? Try using `pcfind()` to get a few nearby prims using their centroids, then pick the nearest result.
+What if you don't know the primnum? Try using `pcfind()` to get a few nearby primnums based on their centroids.
 
-Most of the code below is from ["Real-Time Collision Detection" by Christer Ericson](https://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf).
+Most of the code below is from [*Real-Time Collision Detection* by Christer Ericson](https://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf).
 
-The result isn't identical for quads. This is because I split them into 2 triangles, while Houdini uses bilinear interpolation.
+The result isn't identical for quads because I split them into 2 triangles, while Houdini uses bilinear interpolation.
 
 | [Download the HIP file!](./hips/xyzdist_diy.hiplc?raw=true) |
 | --- |
@@ -271,6 +271,8 @@ v@Cd = closestUVW;
 #define entriesAt(_arr_, _idx_) ((_idx_ >= 0 && _idx_ < _arr_##_length) ? (_arr_##_index[_idx_+1] - _arr_##_index[_idx_]) : 0)
 #define compAt(_arr_, _idx_, _compidx_) ((_idx_ >= 0 && _idx_ < _arr_##_length && _compidx_ >= 0 && _compidx_ < entriesAt(_arr_, _idx_)) ? _arr_[_arr_##_index[_idx_] + _compidx_] : 0)
 
+// Everything below is from "Real-Time Collision Detection" by Christer Ericson
+
 // Find the closest point to P on a triangle, returns primnum and primuvw
 static void closestPointTriangle(
     const fpreal3 P,
@@ -367,7 +369,7 @@ static fpreal _length2(const fpreal3 _v)
 }
 
 // Given P and a primnum, returns the closest P and UVW
-static void xyzdist_diy(
+static void _xyzdist(
     const int prim_id,
     const int typeid,
     const fpreal3 P,
@@ -590,7 +592,7 @@ kernel void testXyzdist(
     {
         const int prim_id = compAt(_bound_nearprims, idx, i);
         const int typeid = _bound_typeid[prim_id];
-        xyzdist_diy(prim_id, typeid, P, _bound_P_primpoints, _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, &tmpP, &tmpUVW);
+        _xyzdist(prim_id, typeid, P, _bound_P_primpoints, _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, &tmpP, &tmpUVW);
         
         const fpreal dist = _length2(tmpP - P);
         if (dist < bestDist) {
@@ -812,4 +814,121 @@ kernel void testPrimuv(
     const fpreal3 P = _primuv(_bound_P2, _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, prim, primuv, typeid);
     vstore3(P, idx, _bound_P);
 }
+```
+
+### `primuv()` with normals in VEX
+
+Since I was using this code for collision handling, I also needed the surface normals.
+
+Note the tetrahedral normals don't match Houdini. I wanted them to be planar, so they face outwards instead of interpolating.
+
+| [Download the HIP file!](./hips/primuvn_diy.hiplc?raw=true) |
+| --- |
+
+```js
+void primuv_diy(int geo; string attr; int prim; vector uvw; vector outP; vector outN) {
+
+    int typeid = primintrinsic(geo, "typeid", prim);
+    int pts[] = primpoints(geo, prim);
+    int numpt = len(pts);
+    float u = uvw.x;
+    float v = uvw.y;
+    float w = uvw.z;
+    
+    if (numpt == 2) {
+        // Line
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        outP = p0 * (1 - u) +
+               p1 * u;
+        // Lines don't really have normals
+        outN = 0;
+    } else if (numpt == 3) {
+        // Triangle
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        outN = normalize(cross(p0 - p2, p0 - p1));
+        outP = p0 * (1 - u - v) +
+               p1 * u +
+               p2 * v;
+    } else if (numpt == 4 && typeid == 21) {
+        // Tetrahedron
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        vector p3 = point(geo, attr, pts[3]);
+        float k = 1 - u - v - w;
+        outP = p0 * k +
+               p1 * u +
+               p2 * v +
+               p3 * w;
+        // For collisions, use planar normals instead of interpolated normals
+        // Smallest weight determines the normal
+        int min_face = 0;
+        float min_weight = u;
+        if (v < min_weight) { min_weight = v; min_face = 1; }
+        if (w < min_weight) { min_weight = w; min_face = 2; }
+        if (k < min_weight) { min_weight = k; min_face = 3; }
+        if (min_face == 0) {
+            outN = normalize(cross(p3 - p0, p3 - p2));
+        } else if (min_face == 1) {
+            outN = normalize(cross(p1 - p0, p1 - p3));
+        } else if (min_face == 2) {
+            outN = normalize(cross(p1 - p2, p1 - p0));
+        } else {
+            outN = normalize(cross(p1 - p3, p1 - p2));
+        }
+    } else if (numpt == 4) {
+        // Quadrilateral
+        vector p0 = point(geo, attr, pts[0]);
+        vector p1 = point(geo, attr, pts[1]);
+        vector p2 = point(geo, attr, pts[2]);
+        vector p3 = point(geo, attr, pts[3]);
+        float u1 = 1 - u;
+        float v1 = 1 - v;
+        outP = p0 * u1 * v1 +
+               p1 * u1 * v +
+               p2 * u * v +
+               p3 * u * v1;
+        // Average the normals of both triangles
+        outN = normalize(cross(p0 - p2, p0 - p1) + cross(p0 - p3, p0 - p2));
+    } else {
+        // General case
+        vector pos = 0, N = 0;
+        float offset = u * numpt;
+        int first = floor(offset);
+        int last = (first + 1) % numpt;
+        float blend = frac(offset);
+        
+        float weight_a = v / numpt;
+        float weight_b = (1 - blend) * (1 - v);
+        float weight_c = blend * (1 - v);
+        
+        vector prev_pos = point(geo, attr, pts[0]);
+        pos += prev_pos * (weight_a +
+                           weight_b * (0 == first) +
+                           weight_c * (0 == last));
+        
+        for (int i = 1; i <= numpt; ++i) {
+            vector p = point(geo, attr, pts[i % numpt]);
+            if (i < numpt) {
+                pos += p * (weight_a +
+                            weight_b * (i == first) +
+                            weight_c * (i == last));
+            }
+            // Newell's method
+            N.x -= (prev_pos.y - p.y) * (prev_pos.z + p.z);
+            N.y -= (prev_pos.z - p.z) * (prev_pos.x + p.x);
+            N.z -= (prev_pos.x - p.x) * (prev_pos.y + p.y);
+            prev_pos = p;
+        }
+        
+        outN = normalize(N);
+        outP = pos;
+    }
+}
+
+// Example usage
+primuv_diy(1, "P", i@hitprim, v@hitprimuv, v@P, v@N);
 ```
