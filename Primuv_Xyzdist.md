@@ -12,14 +12,14 @@ What if you don't know the primnum? Try using `pcfind()` to get a few nearby pri
 
 Most of the code below is from [*Real-Time Collision Detection* by Christer Ericson](https://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf).
 
-The result isn't identical for quads because I split them into 2 triangles, while Houdini uses bilinear interpolation.
-
 | [Download the HIP file!](./hips/xyzdist_diy.hiplc?raw=true) |
 | --- |
 
 ### `xyzdist()` in VEX
 
 ```js
+// Everything below is from "Real-Time Collision Detection" by Christer Ericson
+
 // Find the closest point to P on a triangle, returns primnum and primuvw
 void closestPointTriangle(vector P; vector p0; vector p1; vector p2; vector outP; vector outUVW) {
     // Check if P in vertex region outside A
@@ -89,10 +89,20 @@ void closestPointTriangle(vector P; vector p0; vector p1; vector p2; vector outP
     outUVW = set(vb, vc, 0);
 }
 
-// For checking if P is outside a tetrahedron
+// Checks if P is outside a tetrahedron
 int pointOutsideOfPlane(vector P; vector p0; vector p1; vector p2; vector p3) {
     vector abc = cross(p1 - p0, p2 - p0);
     return dot(P  - p0, abc) * dot(p3 - p0, abc) < 0;
+}
+
+// Returns interpolated position based on barycentric UVW coordinates
+vector barycentric(vector p0; vector p1; vector p2; vector p3; vector uvw) {
+    float u1 = 1 - uvw.x;
+    float v1 = 1 - uvw.y;
+    return p0 * u1 * v1 
+         + p1 * u1 * uvw.y
+         + p2 * uvw.x * uvw.y
+         + p3 * uvw.x * v1;
 }
 
 // Given P and a primnum, returns the closest P and UVW
@@ -195,18 +205,36 @@ void xyzdist_diy(int geo; int prim; vector P; vector closestP; vector closestUVW
         vector p2 = point(geo, "P", pts[2]);
         vector p3 = point(geo, "P", pts[3]);
         
-        // Pick the closest point of either triangle
-        vector tmpP0, tmpUVW0, tmpP1, tmpUVW1;
-        closestPointTriangle(P, p0, p1, p2, tmpP0, tmpUVW0);
-        closestPointTriangle(P, p0, p2, p3, tmpP1, tmpUVW1);
+        // Houdini uses bilinear interpolation for quads, this is hard to solve
+        // Below is a simple least squares approximation for good performance
+        vector edge_v1 = p2 - p1;
+        vector edge_v0 = p3 - p0;
+        vector edge_u0 = p1 - p0;
+        vector edge_u1 = p2 - p3;
         
-        if (length2(tmpP0 - P) < length2(tmpP1 - P)) {
-            closestP = tmpP0;
-            closestUVW = set(tmpUVW0.y, tmpUVW0.x + tmpUVW0.y, 0);
-        } else {
-            closestP = tmpP1;
-            closestUVW = set(tmpUVW1.x + tmpUVW1.y, tmpUVW1.x, 0);
+        float tolerance = 1e-8;
+        closestUVW = {0.5, 0.5, 0};
+        
+        for (int i = 0; i < 8; ++i) {
+            vector r = barycentric(p0, p1, p2, p3, closestUVW) - P;
+            if (length2(r) < tolerance) break;
+            
+            vector dP_du = closestUVW.y * edge_v1 + (1 - closestUVW.y) * edge_v0;
+            vector dP_dv = (1 - closestUVW.x) * edge_u0 + closestUVW.x * edge_u1;
+            float A11 = dot(dP_du, dP_du);
+            float A12 = dot(dP_du, dP_dv);
+            float A22 = dot(dP_dv, dP_dv);
+            vector2 grad = set(-dot(dP_du, r), -dot(dP_dv, r));
+            if (length2(grad) < tolerance) break;
+            
+            float det = A11 * A22 - A12 * A12;
+            if (abs(det) < tolerance) break;
+            
+            closestUVW += set(grad.x * A22 - grad.y * A12, grad.y * A11 - grad.x * A12) / det;
         }
+        
+        closestUVW = clamp(closestUVW, 0, 1);
+        closestP = barycentric(p0, p1, p2, p3, closestUVW);
     } else {
         // General case
         vector tmpP, tmpUVW;
@@ -355,17 +383,43 @@ static void closestPointTriangle(
     (*outUVW) = (fpreal3)(vb, vc, 0.0f);
 }
 
-// For checking if P is outside a tetrahedron
-static int pointOutsideOfPlane(fpreal3 P, fpreal3 p0, fpreal3 p1, fpreal3 p2, fpreal3 p3)
+// Checks if P is outside a tetrahedron
+static int pointOutsideOfPlane(
+    const fpreal3 P,
+    const fpreal3 p0,
+    const fpreal3 p1,
+    const fpreal3 p2,
+    const fpreal3 p3)
 {
     const fpreal3 abc = cross(p1 - p0, p2 - p0);
     return dot(P - p0, abc) * dot(p3 - p0, abc) < 0.0f;
 }
 
-// Squared length, prefixed in case this gets added later
-static fpreal _length2(const fpreal3 _v)
+// Returns interpolated position based on barycentric UVW coordinates
+static fpreal3 barycentric(
+    const fpreal3 p0,
+    const fpreal3 p1,
+    const fpreal3 p2,
+    const fpreal3 p3,
+    const fpreal3 uvw)
 {
-    return dot(_v, _v);
+    const fpreal u1 = 1.0f - uvw.x;
+    const fpreal v1 = 1.0f - uvw.y;
+    return p0 * u1 * v1 
+         + p1 * u1 * uvw.y
+         + p2 * uvw.x * uvw.y
+         + p3 * uvw.x * v1;
+}
+
+// Squared length, prefixed in case this gets added later
+static fpreal _length2(const fpreal2 v)
+{
+    return dot(v, v);
+}
+
+static fpreal _length2v(const fpreal3 v)
+{
+    return dot(v, v);
 }
 
 // Given P and a primnum, returns the closest P and UVW
@@ -393,7 +447,7 @@ static void _xyzdist(
             
             // Project onto clamped ab
             const fpreal3 ab = p1 - p0;
-            const fpreal t = clamp(dot(P - p0, ab) / _length2(ab), 0.0f, 1.0f);
+            const fpreal t = clamp(dot(P - p0, ab) / _length2v(ab), 0.0f, 1.0f);
 
             (*closestP) = p0 + ab * t;
             (*closestUVW) = (fpreal3)(t, 0.0f, 0.0f);
@@ -433,7 +487,7 @@ static void _xyzdist(
                 if (pointOutsideOfPlane(P, p0, p1, p2, p3))
                 {
                     closestPointTriangle(P, p0, p1, p2, &tmpP, &tmpUVW);
-                    const fpreal dist = _length2(tmpP - P);
+                    const fpreal dist = _length2v(tmpP - P);
                     if (dist < bestDist)
                     {
                         bestDist = dist;
@@ -446,7 +500,7 @@ static void _xyzdist(
                 if (pointOutsideOfPlane(P, p0, p2, p3, p1))
                 {
                     closestPointTriangle(P, p0, p2, p3, &tmpP, &tmpUVW);
-                    const fpreal dist = _length2(tmpP - P);
+                    const fpreal dist = _length2v(tmpP - P);
                     if (dist < bestDist)
                     {
                         bestDist = dist;
@@ -459,7 +513,7 @@ static void _xyzdist(
                 if (pointOutsideOfPlane(P, p0, p3, p1, p2))
                 {
                     closestPointTriangle(P, p0, p3, p1, &tmpP, &tmpUVW);
-                    const fpreal dist = _length2(tmpP - P);
+                    const fpreal dist = _length2v(tmpP - P);
                     if (dist < bestDist)
                     {
                         bestDist = dist;
@@ -472,7 +526,7 @@ static void _xyzdist(
                 if (pointOutsideOfPlane(P, p1, p3, p2, p0))
                 {
                     closestPointTriangle(P, p1, p3, p2, &tmpP, &tmpUVW);
-                    const fpreal dist = _length2(tmpP - P);
+                    const fpreal dist = _length2v(tmpP - P);
                     if (dist < bestDist)
                     {
                         bestDist = dist;
@@ -497,21 +551,38 @@ static void _xyzdist(
             }
             else // Quadrilateral
             {
-                // Pick the closest point of either triangle
-                fpreal3 tmpP0, tmpUVW0, tmpP1, tmpUVW1;
-                closestPointTriangle(P, p0, p1, p2, &tmpP0, &tmpUVW0);
-                closestPointTriangle(P, p0, p2, p3, &tmpP1, &tmpUVW1);
+                // Houdini uses bilinear interpolation for quads, this is hard to solve
+                // Below is a simple least squares approximation for good performance
+                const fpreal3 edge_v1 = p2 - p1;
+                const fpreal3 edge_v0 = p3 - p0;
+                const fpreal3 edge_u0 = p1 - p0;
+                const fpreal3 edge_u1 = p2 - p3;
                 
-                if (_length2(tmpP0 - P) < _length2(tmpP1 - P))
-                {
-                    (*closestP) = tmpP0;
-                    (*closestUVW) = (fpreal3)(tmpUVW0.y, tmpUVW0.x + tmpUVW0.y, 0.0f);
+                const fpreal tolerance = 1e-8f;
+                (*closestUVW) = (fpreal3)(0.5f, 0.5f, 0.0f);
+                
+                for (int i = 0; i < 8; ++i) {
+                    const fpreal3 r = barycentric(p0, p1, p2, p3, (*closestUVW)) - P;
+                    if (_length2v(r) < tolerance) break;
+                    
+                    const fpreal3 dP_du = closestUVW->y * edge_v1 + (1 - closestUVW->y) * edge_v0;
+                    const fpreal3 dP_dv = (1 - closestUVW->x) * edge_u0 + closestUVW->x * edge_u1;
+                    const fpreal A11 = dot(dP_du, dP_du);
+                    const fpreal A12 = dot(dP_du, dP_dv);
+                    const fpreal A22 = dot(dP_dv, dP_dv);
+                    const fpreal2 grad = (fpreal2)(-dot(dP_du, r), -dot(dP_dv, r));
+                    if (_length2(grad) < tolerance) break;
+                    
+                    const fpreal det = A11 * A22 - A12 * A12;
+                    if (fabs(det) < tolerance) break;
+                    
+                    closestUVW->x += (grad.x * A22 - grad.y * A12) / det;
+                    closestUVW->y += (grad.y * A11 - grad.x * A12) / det;
                 }
-                else
-                {
-                    (*closestP) = tmpP1;
-                    (*closestUVW) = (fpreal3)(tmpUVW1.x + tmpUVW1.y, tmpUVW1.x, 0.0f);
-                }
+                
+                closestUVW->x = clamp(closestUVW->x, 0.0f, 1.0f);
+                closestUVW->y = clamp(closestUVW->y, 0.0f, 1.0f);
+                (*closestP) = barycentric(p0, p1, p2, p3, (*closestUVW));
             }
             break;
         }
@@ -539,7 +610,7 @@ static void _xyzdist(
                 const int nextPt = compAt(primpoints, prim_id, (i + 1) % numpt);
                 const fpreal3 nextPos = vload3(nextPt, P_primpoints);
                 closestPointTriangle(P, avgPos, prevPos, nextPos, &tmpP, &tmpUVW);
-                const fpreal dist = _length2(P - tmpP);
+                const fpreal dist = _length2v(P - tmpP);
                 if (dist < bestDist) 
                 {
                     bestDist = dist;
@@ -592,9 +663,10 @@ kernel void testXyzdist(
     {
         const int prim_id = compAt(_bound_nearprims, idx, i);
         const int typeid = _bound_typeid[prim_id];
-        _xyzdist(prim_id, typeid, P, _bound_P_primpoints, _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, &tmpP, &tmpUVW);
+        _xyzdist(prim_id, typeid, P, _bound_P_primpoints,
+                _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, &tmpP, &tmpUVW);
         
-        const fpreal dist = _length2(tmpP - P);
+        const fpreal dist = _length2v(tmpP - P);
         if (dist < bestDist) {
             bestDist = dist;
             closestP = tmpP;
