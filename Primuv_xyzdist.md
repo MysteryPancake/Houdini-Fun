@@ -271,6 +271,8 @@ v@Cd = closestUVW;
 #define entriesAt(_arr_, _idx_) ((_idx_ >= 0 && _idx_ < _arr_##_length) ? (_arr_##_index[_idx_+1] - _arr_##_index[_idx_]) : 0)
 #define compAt(_arr_, _idx_, _compidx_) ((_idx_ >= 0 && _idx_ < _arr_##_length && _compidx_ >= 0 && _compidx_ < entriesAt(_arr_, _idx_)) ? _arr_[_arr_##_index[_idx_] + _compidx_] : 0)
 
+// Everything below is from "Real-Time Collision Detection" by Christer Ericson
+
 // Find the closest point to P on a triangle, returns primnum and primuvw
 static void closestPointTriangle(
     const fpreal3 P,
@@ -367,7 +369,7 @@ static fpreal _length2(const fpreal3 _v)
 }
 
 // Given P and a primnum, returns the closest P and UVW
-static void xyzdist_diy(
+static void _xyzdist(
     const int prim_id,
     const int typeid,
     const fpreal3 P,
@@ -590,7 +592,7 @@ kernel void testXyzdist(
     {
         const int prim_id = compAt(_bound_nearprims, idx, i);
         const int typeid = _bound_typeid[prim_id];
-        xyzdist_diy(prim_id, typeid, P, _bound_P_primpoints, _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, &tmpP, &tmpUVW);
+        _xyzdist(prim_id, typeid, P, _bound_P_primpoints, _bound_primpoints, _bound_primpoints_index, _bound_primpoints_length, &tmpP, &tmpUVW);
         
         const fpreal dist = _length2(tmpP - P);
         if (dist < bestDist) {
