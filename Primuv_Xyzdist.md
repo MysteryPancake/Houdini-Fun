@@ -219,18 +219,19 @@ void xyzdist_diy(int geo; int prim; vector P; vector closestP; vector closestUVW
             vector r = barycentric(p0, p1, p2, p3, closestUVW) - P;
             if (length2(r) < tolerance) break;
             
-            vector dP_du = closestUVW.y * edge_v1 + (1 - closestUVW.y) * edge_v0;
-            vector dP_dv = (1 - closestUVW.x) * edge_u0 + closestUVW.x * edge_u1;
+            vector dP_du = lerp(edge_v0, edge_v1, closestUVW.y);
+            vector dP_dv = lerp(edge_u0, edge_u1, closestUVW.x);
             float A11 = dot(dP_du, dP_du);
             float A12 = dot(dP_du, dP_dv);
             float A22 = dot(dP_dv, dP_dv);
-            vector2 grad = set(-dot(dP_du, r), -dot(dP_dv, r));
+            
+            vector2 grad = set(dot(dP_du, r), dot(dP_dv, r));
             if (length2(grad) < tolerance) break;
             
             float det = A11 * A22 - A12 * A12;
             if (abs(det) < tolerance) break;
             
-            closestUVW += set(grad.x * A22 - grad.y * A12, grad.y * A11 - grad.x * A12) / det;
+            closestUVW -= set(grad.x * A22 - grad.y * A12, grad.y * A11 - grad.x * A12) / det;
         }
         
         closestUVW = clamp(closestUVW, 0, 1);
@@ -565,19 +566,20 @@ static void _xyzdist(
                     const fpreal3 r = barycentric(p0, p1, p2, p3, (*closestUVW)) - P;
                     if (_length2v(r) < tolerance) break;
                     
-                    const fpreal3 dP_du = closestUVW->y * edge_v1 + (1 - closestUVW->y) * edge_v0;
-                    const fpreal3 dP_dv = (1 - closestUVW->x) * edge_u0 + closestUVW->x * edge_u1;
+                    const fpreal3 dP_du = mix(edge_v0, edge_v1, closestUVW->y);
+                    const fpreal3 dP_dv = mix(edge_u0, edge_u1, closestUVW->x);
                     const fpreal A11 = dot(dP_du, dP_du);
                     const fpreal A12 = dot(dP_du, dP_dv);
                     const fpreal A22 = dot(dP_dv, dP_dv);
-                    const fpreal2 grad = (fpreal2)(-dot(dP_du, r), -dot(dP_dv, r));
+                    
+                    const fpreal2 grad = (fpreal2)(dot(dP_du, r), dot(dP_dv, r));
                     if (_length2(grad) < tolerance) break;
                     
                     const fpreal det = A11 * A22 - A12 * A12;
                     if (fabs(det) < tolerance) break;
                     
-                    closestUVW->x += (grad.x * A22 - grad.y * A12) / det;
-                    closestUVW->y += (grad.y * A11 - grad.x * A12) / det;
+                    closestUVW->x -= (grad.x * A22 - grad.y * A12) / det;
+                    closestUVW->y -= (grad.y * A11 - grad.x * A12) / det;
                 }
                 
                 closestUVW->x = clamp(closestUVW->x, 0.0f, 1.0f);
