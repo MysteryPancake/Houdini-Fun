@@ -204,34 +204,32 @@ void xyzdist_diy(int geo; int prim; vector P; vector closestP; vector closestUVW
         vector p3 = point(geo, "P", pts[3]);
         
         // Houdini uses bilinear interpolation for quads, this is hard to solve
-        // Below is a simple least squares approximation for good performance
-        vector edge_v1 = p2 - p1;
-        vector edge_v0 = p3 - p0;
-        vector edge_u0 = p1 - p0;
-        vector edge_u1 = p2 - p3;
+        // Below is my least squares approximation (https://www.shadertoy.com/view/W3GXR3)
+        vector A = p1 - p0;
+        vector B = p3 - p0;
+        vector C = p2 - p3 - A;
         
         float tolerance = 1e-8;
         closestUVW = {0.5, 0.5, 0};
         
         for (int i = 0; i < 8; ++i) {
-            vector r = barycentric(p0, p1, p2, p3, closestUVW) - P;
-            if (length2(r) < tolerance) break;
+            // Tangent vectors
+            vector dP_du = A + closestUVW.x * C;
+            vector dP_dv = B + closestUVW.y * C;
             
-            vector dP_du = lerp(edge_v0, edge_v1, closestUVW.y);
-            vector dP_dv = lerp(edge_u0, edge_u1, closestUVW.x);
-            
-            float A11 = dot(dP_du, dP_du);
-            float A12 = dot(dP_du, dP_dv);
-            float A22 = dot(dP_dv, dP_dv);
-            
-            vector2 grad = set(dot(dP_du, r), dot(dP_dv, r));
-            if (length2(grad) < tolerance) break;
-            
-            float det = A11 * A22 - A12 * A12;
+            // Metric tensor
+            float m = -dot(dP_dv, dP_du);
+            matrix2 metric = set(dot(dP_du, dP_du), m, m, dot(dP_dv, dP_dv));
+            float det = determinant(metric);
             if (abs(det) < tolerance) break;
             
-            closestUVW.x = clamp(closestUVW.x - (grad.x * A22 - grad.y * A12) / det, 0, 1);
-            closestUVW.y = clamp(closestUVW.y - (grad.y * A11 - grad.x * A12) / det, 0, 1);
+            // Gradient in UV space
+            vector dE_dp = barycentric(p0, p1, p2, p3, closestUVW) - P;
+            vector2 dE_duv = set(dot(dP_dv, dE_dp), dot(dP_du, dE_dp));
+            if (length2(dE_duv) < tolerance) break;
+            
+            // Descent
+            closestUVW = clamp(closestUVW - dE_duv * metric / det, 0, 1);
         }
         closestP = barycentric(p0, p1, p2, p3, closestUVW);
     } else {
@@ -544,34 +542,34 @@ static void _xyzdist(
             else // Quadrilateral
             {
                 // Houdini uses bilinear interpolation for quads, this is hard to solve
-                // Below is a simple least squares approximation for good performance
-                const fpreal3 edge_v1 = p2 - p1;
-                const fpreal3 edge_v0 = p3 - p0;
-                const fpreal3 edge_u0 = p1 - p0;
-                const fpreal3 edge_u1 = p2 - p3;
+                // Below is my least squares approximation (https://www.shadertoy.com/view/W3GXR3)
+                const fpreal3 A = p1 - p0;
+                const fpreal3 B = p3 - p0;
+                const fpreal3 C = p2 - p3 - A;
                 
                 const fpreal tolerance = 1e-8f;
                 (*closestUVW) = (fpreal3)(0.5f, 0.5f, 0.0f);
                 
                 for (int i = 0; i < 8; ++i) {
-                    const fpreal3 r = barycentric(p0, p1, p2, p3, (*closestUVW)) - P;
-                    if (_length2(r) < tolerance) break;
+                    // Tangent vectors
+                    const fpreal3 dP_du = A + closestUVW->x * C;
+                    const fpreal3 dP_dv = B + closestUVW->y * C;
                     
-                    const fpreal3 dP_du = mix(edge_v0, edge_v1, closestUVW->y);
-                    const fpreal3 dP_dv = mix(edge_u0, edge_u1, closestUVW->x);
-                    
-                    const fpreal A11 = dot(dP_du, dP_du);
+                    // Metric tensor
+                    const fpreal A11 = dot(dP_dv, dP_dv);
                     const fpreal A12 = dot(dP_du, dP_dv);
-                    const fpreal A22 = dot(dP_dv, dP_dv);
-                    
-                    const fpreal2 grad = (fpreal2)(dot(dP_du, r), dot(dP_dv, r));
-                    if (dot(grad, grad) < tolerance) break;
-                    
+                    const fpreal A22 = dot(dP_du, dP_du);
                     const fpreal det = A11 * A22 - A12 * A12;
                     if (fabs(det) < tolerance) break;
                     
-                    closestUVW->x = clamp(closestUVW->x - (grad.x * A22 - grad.y * A12) / det, 0.0f, 1.0f);
-                    closestUVW->y = clamp(closestUVW->y - (grad.y * A11 - grad.x * A12) / det, 0.0f, 1.0f);
+                    // Gradient in UV space
+                    const fpreal3 dE_dp = barycentric(p0, p1, p2, p3, (*closestUVW)) - P;
+                    const fpreal2 dE_duv = (fpreal2)(dot(dP_dv, dE_dp), dot(dP_du, dE_dp));
+                    if (dot(dE_duv, dE_duv) < tolerance) break;
+                    
+                    // Descent
+                    closestUVW->x = clamp(closestUVW->x - (dE_duv.x * A22 - dE_duv.y * A12) / det, 0.0f, 1.0f);
+                    closestUVW->y = clamp(closestUVW->y - (dE_duv.y * A11 - dE_duv.x * A12) / det, 0.0f, 1.0f);
                 }
                 (*closestP) = barycentric(p0, p1, p2, p3, (*closestUVW));
             }
