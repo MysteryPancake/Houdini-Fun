@@ -12,6 +12,8 @@ What if you don't know the primnum? Try using `pcfind()` to get a few nearby pri
 
 Most of the code below is from [*Real-Time Collision Detection* by Christer Ericson](https://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf).
 
+It also includes [my own method](https://www.shadertoy.com/view/W3GXR3) to find the closest point on a bilinear patch, which turns out to be the same as [vchizhov's method](https://www.shadertoy.com/view/M32SDG).
+
 | [Download the HIP file!](./hips/xyzdist_diy.hiplc?raw=true) |
 | --- |
 
