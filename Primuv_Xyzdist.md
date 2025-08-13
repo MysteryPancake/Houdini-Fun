@@ -43,16 +43,7 @@ void closestPointTriangle(vector P; vector p0; vector p1; vector p2; vector outP
         outUVW = {1, 0, 0};
         return;
     }
-
-    // Check if P in edge region of AB, return projection of P onto AB
-    float vc = d1 * d4 - d3 * d2;
-    if (vc <= 0 && d1 >= 0 && d3 <= 0) {
-        float v = d1 / (d1 - d3);
-        outP = p0 + v * ab;
-        outUVW = set(v, 0, 0);
-        return;
-    }
-
+    
     // Check if P in vertex region outside C
     vector cp = P - p2;
     float d5 = dot(ab, cp);
@@ -60,6 +51,15 @@ void closestPointTriangle(vector P; vector p0; vector p1; vector p2; vector outP
     if (d6 >= 0 && d5 <= d6) {
         outP = p2;
         outUVW = {0, 1, 0};
+        return;
+    }
+
+    // Check if P in edge region of AB, return projection of P onto AB
+    float vc = d1 * d4 - d3 * d2;
+    if (vc <= 0 && d1 >= 0 && d3 <= 0) {
+        float v = d1 / (d1 - d3);
+        outP = p0 + v * ab;
+        outUVW = set(v, 0, 0);
         return;
     }
 
@@ -331,16 +331,6 @@ static void closestPointTriangle(
         return;
     }
 
-    // Check if P in edge region of AB, return projection of P onto AB
-    fpreal vc = d1 * d4 - d3 * d2;
-    if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f)
-    {
-        fpreal v = d1 / (d1 - d3);
-        (*outP) = p0 + v * ab;
-        (*outUVW) = (fpreal3)(v, 0.0f, 0.0f);
-        return;
-    }
-
     // Check if P in vertex region outside C
     const fpreal3 cp = P - p2;
     const fpreal d5 = dot(ab, cp);
@@ -349,6 +339,16 @@ static void closestPointTriangle(
     {
         (*outP) = p2;
         (*outUVW) = (fpreal3)(0.0f, 1.0f, 0.0f);
+        return;
+    }
+    
+    // Check if P in edge region of AB, return projection of P onto AB
+    fpreal vc = d1 * d4 - d3 * d2;
+    if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f)
+    {
+        fpreal v = d1 / (d1 - d3);
+        (*outP) = p0 + v * ab;
+        (*outUVW) = (fpreal3)(v, 0.0f, 0.0f);
         return;
     }
 
