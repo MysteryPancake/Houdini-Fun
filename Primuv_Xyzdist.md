@@ -473,7 +473,7 @@ static void _xyzdist(
             if (typeid == 21) // Tetrahedron
             {
                 fpreal3 tmpP, tmpUVW;
-                fpreal bestDist = FLT_MAX;
+                fpreal bestDist = INFINITY;
                 
                 // If point outside face abc then compute closest point on abc
                 if (pointOutsideOfPlane(P, p0, p1, p2, p3))
@@ -528,7 +528,7 @@ static void _xyzdist(
                 }
                 
                 // Interpolate inside interior
-                if (bestDist >= FLT_MAX)
+                if (isinf(bestDist))
                 {
                     const fpreal3 e1 = p1 - p0;
                     const fpreal3 e2 = p2 - p0;
@@ -581,7 +581,7 @@ static void _xyzdist(
         {
             fpreal3 tmpP, tmpUVW;
             int closestI;
-            fpreal bestDist = FLT_MAX;
+            fpreal bestDist = INFINITY;
             
             // Add an imaginary triangle point in the center
             // Nicer to store positions here, but OpenCL doesn't support dynamic arrays
@@ -646,7 +646,7 @@ kernel void testXyzdist(
 
     const fpreal3 P = vload3(idx, _bound_P);
     fpreal3 tmpP, tmpUVW, closestP, closestUVW;
-    fpreal bestDist = FLT_MAX;
+    fpreal bestDist = INFINITY;
     
     // Check through the closest few prims for the nearest match
     const int numprims = entriesAt(_bound_nearprims, idx);
