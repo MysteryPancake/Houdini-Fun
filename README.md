@@ -682,7 +682,9 @@ By putting the type before the name, it makes an attribute called `@myvar` with 
 float @myvar = 123;
 ```
 
-This means if you merge geometry, instead of all entries becoming `0`, they become `123` instead!
+This means if you merge geometry, instead of all entries becoming `0`, they become `123` instead. Very handy!
+
+This is a feature [buried in the documentation](https://www.sidefx.com/docs/houdini/vex/snippets.html) I only found out by accident.
 
 ## Procedural text in the Font node
 
