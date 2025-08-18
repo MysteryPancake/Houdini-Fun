@@ -666,6 +666,24 @@ Certain characters like spaces aren't allowed in variable names, so try not to i
 | [Download the HIP file!](./hips/vex_var_names.hiplc?raw=true) |
 | --- |
 
+## Default values in VEX
+
+When making new attributes with VEX, you can use a special syntax to set the default value.
+
+Normally you'd use something like below. This makes an attribute called `@myvar` with a value of `123`, defaulting to `0`.
+
+```js
+f@myvar = 123;
+```
+
+By putting the type before the name, it makes an attribute called `@myvar` with a value of `123`, defaulting to `123`.
+
+```js
+float @myvar = 123;
+```
+
+This means if you merge geometry, instead of all entries becoming `0`, they become `123` instead!
+
 ## Procedural text in the Font node
 
 Surprisingly it's tricky to display text based on an attribute or VEX snippet. Here's a few ways to do it!
