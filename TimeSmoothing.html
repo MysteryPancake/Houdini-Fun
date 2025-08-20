@@ -2119,7 +2119,7 @@ v@P = pos_total;</code></pre>
 						</ul>
 						<h3>The big picture</h3>
 						<p>So how do biquad filters work? Originally I had no clue. There's a famous resource on them, <a href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" target="_blank">Robert Bristow-Johnson audio EQ cookbook</a>. It has a beautiful <a href="https://www.musicdsp.org/en/latest/Filters/64-biquad-c-code.html" target="_blank">C version by Tom St Denis</a>, which I blindly copy pasted like everyone else.</p>
-						<p>Now I have a slightly better idea of the big picture, so here's what I know.</p>
+						<p>Now I have a better idea of the big picture, so here's what I know.</p>
 						<h4>IIR vs FIR filters</h4>
 						<p>Here's the truth, I've been lying to you. I left out a key detail until now.</p>
 						<p>There's 2 main types of filters: <b>IIR</b> and <b>FIR</b>. Surprise! Lerp is an <b>IIR</b> filter, convolution is an <b>FIR</b> filter.</p>
