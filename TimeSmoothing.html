@@ -88,6 +88,12 @@
 			return data;
 		}
 
+		function generateImpulseData(numPoints) {
+			const data = new Float32Array(numPoints);
+			data[Math.floor(numPoints) * 0.5] = 1;
+			return data;
+		}
+
 		// Gaussian kernel, not optimized for symmetry
 		function gaussianKernel(numPoints) {
 			// Dividing by 3 seems to scale the kernel the best
@@ -343,10 +349,10 @@
 				<div class="col-md-9">
 					<section id="intro">
 						<h1 id="blurryTitle" class="mb-4">Smoothing and sharpening in time</h1>
-						<p>This was inspired by a talk by Catherine Williams at SydHUG. Catherine looked into a bunch of equations to smooth data, then used them to smooth jittery cloth sims over time.</p>
-						<p>I never looked into smoothing and sharpening in depth, so I went down a rabbithole researching all the methods I could find and dumping them into Houdini. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
+						<p>This is inspired by a talk by Catherine Williams at SydHUG. Catherine looked into a bunch of smoothing methods, then used them to smooth jittery cloth sims over time.</p>
+						<p>I never thought much about smoothing and sharpening, so I went on a deep dive and dumped even more methods into Houdini in case it helps someone. If you're Catherine this is probably old news, but hopefully it's fun anyway!</p>
 						<p>Houdini has a few built-in tools for time smoothing, but they're hard to find. Matt Estela mentioned the <a href="https://www.sidefx.com/docs/houdini/nodes/sop/kinefx--smoothmotion.html" target="_blank">Smooth Motion</a> node, which can run on points too. Harrison Molling mentioned CHOPs, which have <a href="https://www.sidefx.com/docs/houdini/nodes/chop/filter.html" target="_blank">Filter</a> and <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter</a> nodes. Catherine also mentioned <a href="https://www.sidefx.com/docs/houdini/nodes/sop/pca.html" target="_blank">Principle Component Analysis</a>, which has a great <a href="https://momme.gumroad.com/l/pcadejitter">dejitter node by Momme Carl</a>.</p>
-						<p>The standard nodes are OK, but not as controllable or fun as doing it manually. So let's begin!</p>
+						<p>The standard nodes are OK, but not as controllable or fun as doing it manually. So let's get into it!</p>
 						<ol>
 							<li>
 								<a href="#method-1-lerp">Lerp</a> (simplest lowpass, used for games)
@@ -355,19 +361,19 @@
 								<a href="#method-2-convolution">Convolution</a> (gaussian blur, box blur, sharpening, used for images)
 							</li>
 							<li>
-								<a href="#method-3-biquad-filters">Biquad filters</a> (low pass, high pass, butterworth... used for audio EQs)
+								<a href="#method-3-biquad-filters">Biquad filters</a> (low pass, high pass, butterworth... used for audio)
 							</li>
 							<li>
-								<a href="#method-4-fir-filters">FIR filters</a> (convolution with a special kernel)
+								<a href="#method-4-sinc-convolution">Sinc convolution</a> (ideal low pass, high pass... used for audio)
 							</li>
 						</ol>
 					</section>
 					<div id="content">
 						<h2 id="method-1-lerp">Method 1: Lerp</h2>
-						<p>The easiest way to smooth stuff is with lerp, <a href="./Lerp" target="_blank">which I wrote about here</a>. It's really popular for games, especially in Unity. It's not the best method, but it's a nice intro to the topic.</p>
+						<p>The easiest way to smooth stuff is with lerp. <a href="./Lerp" target="_blank">I wrote about it here</a>. It's really popular for games, especially in Unity. It's not a good method, but it's a nice intro to the topic.</p>
 						<p>The idea is you start at some value, then pick a target value. Each frame you move a little bit closer to the target by some percentage. The slower you move, the smoother your path becomes.</p>
 						<pre><code class="language-js">current = lerp(current, target, factor);</code></pre>
-						<p>Here's a demo with the smooth version in white. Click and drag to draw your own data.</p>
+						<p>Here's a demo with the smooth version in white. Click and drag to draw your own signal!</p>
 						<div>
 							<canvas id="lerpCanvas" width="640" height="200" style="cursor: pointer;"></canvas>
 						</div>
@@ -565,7 +571,7 @@
 						<p>You'll find this method is hard to control. It tends to smooth everything too much or not enough.</p>
 						<p>This is because of the <b>order</b> of the filter. The order basically means how sharp and precise a filter is. Here's a nice diagram from <a href="https://www.electronics-tutorials.ws/filter/filter_8.html" target="_blank">Electronics Tutorials</a>. You can see as the order increases the curve gets steeper, meaning it cuts precisely and doesn't smudge everything.</p>
 						<img src="./images/smoothing/filterorder.png" class="mb-3 mw-100">
-						<p>The lerp method is a <a href="https://tomroelandts.com/articles/low-pass-single-pole-iir-filter" target="_blank">first order IIR lowpass</a>, so it's pretty blunt and tends to smudge everything out.</p>
+						<p>Lerp is a <a href="https://tomroelandts.com/articles/low-pass-single-pole-iir-filter" target="_blank">first order lowpass</a>, so it's pretty blunt and tends to smudge everything out.</p>
 						<p>Turns out there's a cool trick to improve it. If you stack a bunch of low order filters, you approximate a high order filter. This works surprisingly well, though it's much slower and smudgier than doing it properly.</p>
 						<p>Here's a demo with the original filter in red, and the layered filters coloured towards purple. Try drawing some data and watch it move!</p>
 						<div>
@@ -684,10 +690,14 @@
 							});
 						})();
 						</script>
-						<h3>Problem 3: Undershooting</h3>
+						<h3 id="problem-3-undershooting">Problem 3: Undershooting</h3>
 						<p>When the slider is below 1, it never actually reaches the target.</p>
-						<p>You can tell from the formula. Lerp takes a percentage of two values and adds them together <a href="./Lerp" target="_blank">as described here</a>. For example if the factor is 0.9, it takes 10% of the current value and adds on 90% of the target value. That means you never get 100% of the target.</p>
-						<p>Here's a demo where the white line targets the red line. Though it may appear to, it always lies below the red line until the factor is 1.</p>
+						<p>You can tell from the formula. Lerp does a weighted sum of two values, <a href="./Lerp" target="_blank">as I wrote here</a>.</p>
+						<pre><code class="language-js">lerp(a, b, factor) = (1 - factor) * a + factor * b</code></pre>
+						<p>For example if the factor is 0.9, it takes 10% of the current value and adds on 90% of the target value.</p>
+						<pre><code class="language-js">lerp(current, target, 0.9) = 0.1 * current + 0.9 * target</code></pre>
+						<p>You can't get 100% of the target value unless the factor is 1, which doesn't really count.</p>
+						<p>Here's a demo where the white line targets the red line. It always lies below the red line unless the factor is 1.</p>
 						<div>
 							<canvas id="undershootCanvas" width="640" height="200"></canvas>
 						</div>
@@ -759,20 +769,19 @@
 						<p>Now we need to extract positions from different frames. This is done using <code>point()</code>. It has 3 arguments, but we only care about the last one.</p>
 						<pre><code class="language-js">vector pos = point(0, "P", point_number);</code></pre>
 						<p>Given the current point number <code>@ptnum</code>, we need to find the matching point number on the previous frame. Assuming the topology stays the same, you'll find a pattern. Let's say your <code>@ptnum</code> is 0. If the mesh has 5 points, your <code>@ptnum</code> on the previous frame will be 5, 10, 15, 20 and so on. This happens since the Trail node merges batches of 5 points per frame.</p>
-						<p>Using <code>npoints(0)</code> to get the number of points in the mesh, the general formula is <code>@ptnum + npoints(0) * frame</code></p>
+						<p>Using <code>i@numpt</code> to get the number of points in the mesh, the general formula is <code>@ptnum + i@numpt * frame</code></p>
 						<img src="./images/smoothing/trailframes.png" class="mb-3 w-100">
 						<p>Using this idea we can lerp through the positions from past to present, just like with the solver. No dictionaries or maps required!</p>
 						<pre><code class="language-js">// Make sure this matches your trail node
 int trail_length = chi("../trail1/length");
-int point_count = npoints(0);
 
 // Start at the last frame's position (the oldest frame)
-v@P = point(1, "P", i@ptnum + point_count * (trail_length - 1));
+v@P = point(1, "P", i@ptnum + i@numpt * (trail_length - 1));
 
 // Lerp from the past to the present, like the solver except manually
 for (int frame = 1; frame &lt; trail_length; ++frame) {
 	// Get the corresponding point position on the next frame
-	vector target_pos = point(1, "P", i@ptnum + point_count * (trail_length - 1 - frame));
+	vector target_pos = point(1, "P", i@ptnum + i@numpt * (trail_length - 1 - frame));
 	// The magic formula
 	v@P = lerp(v@P, target_pos, chf("factor"));
 }</code></pre>
@@ -792,7 +801,6 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 						<p>Next we can reuse the same frame offset idea from before, except this time filtering in both directions.</p>
 						<pre><code class="language-js">// Make sure this matches your trail node
 int trail_length = chi("../trail1/length");
-int point_count = npoints(0);
 float factor = chf("factor");
 int layers = chi("layers");
 
@@ -801,7 +809,7 @@ int layers = chi("layers");
 vector pos[];
 resize(pos, trail_length);
 for (int frame = 0; frame < trail_length; ++frame) {
-	pos[frame] = point(1, "P", i@ptnum + point_count * (trail_length - 1 - frame));
+	pos[frame] = point(1, "P", i@ptnum + i@numpt * (trail_length - 1 - frame));
 }
 
 // Smooth a bunch of times in a row (if you want)
@@ -1012,7 +1020,7 @@ v@P = pos[trail_length / 2];</code></pre>
 
 							const data = generateRandomData(Math.floor(canv.width / 16));
 							let kernelPos = Math.floor(data.length * 0.5);
-							let weights = gaussianKernel(5);
+							let weights = gaussianKernel(gaussSize);
 
 							function draw() {
 								drawBackground(canv, ctx);
@@ -1072,12 +1080,11 @@ for (int i = 0; i < trail_length; ++i) {
 						<p>Now onto the convolution. It's surprisingly easy since Trail and Time Shift did the hard work for us. We just need to add up all the values multiplied by their respective weights.</p>
 						<pre><code language="js">// Make sure this matches your trail node
 int trail_length = chi("../trail1/length");
-int point_count = npoints(0);
 
 // Convolve all frames to get the current frame
 vector pos_total = 0;
 for (int frame = 0; frame < trail_length; ++frame) {
-	vector pos = point(1, "P", i@ptnum + point_count * (trail_length - 1 - frame));
+	vector pos = point(1, "P", i@ptnum + i@numpt * (trail_length - 1 - frame));
 	pos_total += pos * f[]@kernel[frame];
 }
 
@@ -1103,7 +1110,7 @@ v@P = pos_total / f@kernel_sum;</code></pre>
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
-						<p>Now I know what you're thinking. This looks exactly like the lerp method from before! What's the point of going through all that effort?</p>
+						<p>Now I know what you're thinking. This looks exactly like lerp from before! What's the point of going through all that effort?</p>
 						<p>Well firstly, it actually reaches the target unlike lerp. And secondly, you can swap out the kernel to get cool effects!</p>
 						<h4>Cool kernels</h4>
 						<p>Here's a cool kernel I made by accident. It turns any animation into an incredible springy mess!</p>
@@ -1137,14 +1144,13 @@ for (int i = 0; i < trail_length; ++i) {
 						<p>For that we can delete the Detail Wrangle and use a single Point Wrangle, since the ramp stores the kernel for us.</p>
 						<pre><code language="js">// Make sure this matches your trail node
 int trail_length = chi("../trail1/length");
-int point_count = npoints(0);
 
 // Convolve all frames to get the current frame
 vector pos_total = 0;
 float kernel_sum = 0;
 
 for (int frame = 0; frame < trail_length; ++frame) {
-	vector pos = point(1, "P", i@ptnum + point_count * (trail_length - 1 - frame));
+	vector pos = point(1, "P", i@ptnum + i@numpt * (trail_length - 1 - frame));
 	float weight = chramp("kernel", float(frame) / (trail_length - 1));
 	pos_total += pos * weight;
 	kernel_sum += weight;
@@ -1266,7 +1272,7 @@ v@P = pos_total;</code></pre>
 						<p>I thought it'd work better since edge lengths don't matter, but it still gets biased by point clusters similar distances away.</p>
 						<pre><code class="language-js">// Clamp to prevent 0 distance
 float max_dist = max(1e-8, chf("max_distance"));
-int points[] = pcfind(0, "P", v@P, max_dist, npoints(0));
+int points[] = pcfind(0, "P", v@P, max_dist, i@numpt);
 
 vector pos_total = 0;
 float kernel_sum = 0;
@@ -1290,10 +1296,7 @@ v@P = pos_total;</code></pre>
 						<p>This looks similar to Edge Transport, which makes sense since both are distance-based methods.</p>
 						<p>Anyway, back on track. Let's jump to lerp's big brother, biquad filters!</p>
 						<h2 id="method-3-biquad-filters">Method 3: Biquad filters</h2>
-						<p>
-							<b>Note Houdini's built-in <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter node</a> works for biquad filters, but only supports a few types!</b>
-						</p>
-						<p>Biquad filters are extremely popular for music and sound design. They're used for most digital equalizers, so when you boost the bass or cut the treble, you're likely using a biquad filter. They give full control over the frequency response with very little effort.</p>
+						<p>Biquad filters are super popular for music and sound design. They're used for most digital EQs, so when you boost the bass or cut the treble, you're probably using a biquad filter. They give full control over the frequency response with very little effort.</p>
 						<p>Have a play with the demo below. Try to get a feel for how time and frequency interact.</p>
 						<p class="mb-2">
 							<b>Time Domain</b>
@@ -2114,25 +2117,168 @@ v@P = pos_total;</code></pre>
 							<li>A high shelf filter exaggerates or dampens high frequencies. Try to exaggerate the noise.</li>
 							<li>Butterworth filters are steeper, made by stacking biquads with certain settings. Try to isolate the main sine wave.</li>
 						</ul>
-						<h3>RBJ cookbook</h3>
-						<p>So how do biquad filters work? Luckily they're well documented and have been studied for years.</p>
-						<p>Maybe the most famous resource is <a href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" target="_blank">Robert Bristow-Johnson's audio EQ cookbook</a>. It spoonfeeds you all the math, which is great for idiots like me. Even better, there's a beautiful <a href="https://www.musicdsp.org/en/latest/Filters/64-biquad-c-code.html" target="_blank">C version by Tom St Denis</a> you can copy paste into any programming language. I first used it for a <a href="https://www.shadertoy.com/view/dtlSWH" target="_blank">GPU equalizer</a>, and I've been stealing it ever since!</p>
-						<p>Though the math leading up to it is scary, the actual filtering process is only 5 lines of code!</p>
-						<pre><code class="language-js">// Calculate current sample
-result = a0 * sample
-       + a1 * x1
-       + a2 * x2
-       - a3 * y1
-       - a4 * y2
+						<h3>The big picture</h3>
+						<p>So how do biquad filters work? Originally I had no clue. There's a famous resource on them, <a href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" target="_blank">Robert Bristow-Johnson audio EQ cookbook</a>. It has a beautiful <a href="https://www.musicdsp.org/en/latest/Filters/64-biquad-c-code.html" target="_blank">C version by Tom St Denis</a>, which I blindly copy pasted like everyone else.</p>
+						<p>Now I have a slightly better idea of the big picture, so here's what I know.</p>
+						<h4>IIR vs FIR filters</h4>
+						<p>Here's the truth, I've been lying to you. I left out a key detail until now.</p>
+						<p>There's 2 main types of filters: <b>IIR</b> and <b>FIR</b>. Surprise! Lerp is an <b>IIR</b> filter, convolution is an <b>FIR</b> filter.</p>
+						<h5>IIR filters</h5>
+						<p><b>IIR</b> stands for <b>Infinite Impulse Response</b>. This means the filter is recursive, and never settles to 0.</p>
+						<p>Lerp is a perfect example. It's recursive since it uses the previous output of itself, and <a href="#problem-3-undershooting">always undershoots 0</a>.</p>
+						<pre><code class="language-js">current = lerp(current, target, factor);</code></pre>
+						<p>Here's a demo with the <b>impulse</b> in white, and the <b>impulse response</b> in red. It goes forever!</p>
+						<div>
+							<canvas id="lerpIRCanvas" width="640" height="200"></canvas>
+						</div>
+						<div class="mb-3">
+							<label for="lerpIRFactor">Factor</label>
+							<input id="lerpIRFactor" type="range" min="0" max="1" step="0.01" value="0.01">
+							<span id="lerpIRFactorValue"></span>
+						</div>
+						<script>
+						(function(){
+							const canv = document.getElementById("lerpIRCanvas");
+							const ctx = canv.getContext("2d", { alpha: false });
+							resizeCanvasWidth(canv);
+							const impulseIndex = Math.floor(canv.width * 0.5);
 
-// Shift x1 to x2, sample to x1
-x2 = x1;
-x1 = sample;
+							const lerpSlider = document.getElementById("lerpIRFactor");
+							let lerpFac = parseFloat(lerpSlider.value);
 
-// Shift y1 to y2, result to y1
-y2 = y1;
-y1 = result;</code></pre>
+							const lerpValue = document.getElementById("lerpIRFactorValue");
+							lerpValue.textContent = lerpFac;
+							
+							function draw() {
+								drawBackground(canv, ctx);
+								
+								ctx.lineWidth = 1.5;
+								ctx.strokeStyle = "#FF0000";
+								ctx.beginPath();
+								let current = 0;
+								for (let i = 0; i <= canv.width; ++i) {
+									current += i === impulseIndex;
+									// The magic formula
+									current = lerp(current, 0, lerpFac);
+									ctx.lineTo(i, (0.8 - current * 0.6) * canv.height);
+								}
+								ctx.stroke();
+								
+								ctx.strokeStyle = "white";
+								ctx.beginPath();
+								for (let i = 0; i <= canv.width; ++i) {
+									ctx.lineTo(i, (0.8 - (i === impulseIndex) * 0.6) * canv.height);
+								}
+								ctx.stroke();
+							}
+							
+							draw();
+							
+							lerpSlider.addEventListener("input", function(e) {
+								lerpFac = parseFloat(e.target.value);
+								lerpValue.textContent = lerpFac;
+								draw();
+							});
+						})();
+						</script>
+						<h5>FIR filters</h5>
+						<p><b>FIR</b> stands for <b>Finite Impulse Response</b>. This means the filter isn't recursive, and settles to 0 within a number of samples.</p>
+						<p>Convolution is a perfect example. Since the kernel has a fixed size, the response never extends beyond that range.</p>
+						<p>Here's a demo with a gaussian kernel. See how the shapes match? With convolution, the kernel IS the <b>impulse response</b>!</p>
+						<div>
+							<canvas id="gaussianFRCanvas" width="720" height="360" style="cursor: pointer;"></canvas>
+						</div>
+						<table class="mb-3">
+							<tr>
+								<td class="pe-3">
+									<label for="gaussFRSize">Kernel Size:</label>
+									<span id="gaussFRSizeValue"></span>
+								</td>
+								<td>
+									<input id="gaussFRConvAll" type="checkbox" checked>
+									<label for="gaussFRConvAll">Convolve All</label>
+								</td>
+							</tr>
+							<tr>
+								<td class="pe-3">
+									<input id="gaussFRSize" type="range" min="1" max="65" step="2" value="7">
+								</td>
+							</tr>
+						</table>
+						<script>
+						(function(){
+							const canv = document.getElementById("gaussianFRCanvas");
+							const ctx = canv.getContext("2d", { alpha: false });
+							resizeCanvasWidth(canv);
+
+							const convToggle = document.getElementById("gaussFRConvAll");
+							let convAll = convToggle.checked;
+
+							const sizeSlider = document.getElementById("gaussFRSize");
+							let gaussSize = parseInt(sizeSlider.value);
+
+							const sizeValue = document.getElementById("gaussFRSizeValue");
+							sizeValue.textContent = gaussSize;
+
+							const data = generateImpulseData(Math.floor(canv.width / 16));
+							let kernelPos = Math.floor((data.length - gaussSize) * 0.5 + 1);
+							let weights = gaussianKernel(gaussSize);
+
+							function draw() {
+								drawBackground(canv, ctx);
+								drawConvolution(canv, ctx, data, kernelPos, weights, convAll);
+							}
+
+							draw();
+
+							convToggle.addEventListener("input", function(e) {
+								convAll = e.target.checked;
+								draw();
+							});
+
+							sizeSlider.addEventListener("input", function(e) {
+								gaussSize = parseInt(e.target.value);
+								sizeValue.textContent = gaussSize;
+								weights = gaussianKernel(gaussSize);
+								draw();
+							});
+
+							function moveKernel(e) {
+								kernelPos = Math.round(e.offsetX / canv.width * (data.length - 1) - weights.length * 0.5);
+								draw();
+							}
+
+							canv.addEventListener("mousedown", moveKernel);
+							canv.addEventListener("mousemove", function(e) {
+								if (e.which !== 1) return;
+								moveKernel(e);
+							});
+						})();
+						</script>
+						<p>Because of this, we can turn any IIR filter into a FIR filter just by using the IIR impulse response as a kernel! I'll get into that later.</p>
+						<h4>Lerp vs biquad filters</h4>
+						<p>Lerp and biquad filters have lots in common. Both are <b>IIR</b> filters! To prove it, let's transform lerp into a biquad filter!</p>
+						<p>Let's start with the basic lerp code from before.</p>
+						<pre><code class="language-js">current = lerp(current, target, factor);</code></pre>
+						<p>Since it's recursive it runs every frame. It's a bit unclear how it'd run sequentially. Let's make it more obvious.</p>
+						<p>Say we have an input array <code>x</code>. We want to filter it and store the output in an array <code>y</code>. The current array index is <code>n</code>.</p>
+						<pre><code class="language-js">y[n] = lerp(y[n-1], x[n], factor);</code></pre>
+						<p>Now it clearly involves 2 things: the latest input <code>x[n]</code>, and the previous filter output <code>y[n-1]</code>.<br>In filter lingo, <code>x[n]</code> is called a <b>feedforward coefficient</b>, and <code>y[n-1]</code> is called a <b>feedback coefficient</b>.</p>
+						<p>Now I'll replace lerp with <a href="./Lerp" target="_blank">the math it uses internally</a>.</p>
+						<pre><code class="language-js">y[n] = factor * x[n] + (1 - factor) * y[n-1];</code></pre>
+						<p>You can see it's a weighted sum of 2 values. Let's call the weights <code>b0</code> and <code>a1</code>.</p>
+						<pre><code class="language-js">a1 = 1 - factor;
+b0 = factor;
+y[n] = b0 * x[n] + a1 * y[n-1];</code></pre>
+						<p>Why am I doing all this boring stuff? To show you how it compares to a biquad filter!</p>
+						<p>Here's the Direct Form 1 biquad formula from the <a href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" target="_blank">famous RBJ cookbook</a>:</p>
+						<img src="./images/smoothing/rbjformula.png" width="350" class="mb-3 mw-100">
+						<p>Currently we're missing a few coefficients. We've got <code>b0</code> and <code>a1</code>, but we're missing <code>a0</code>, <code>a2</code>, <code>b1</code> and <code>b2</code>.<br>In filter lingo, that means we've got a <b>first order lowpass (single pole)</b>.</p>
+						<p>Biquad filters are <b>second order</b>, so they require 2 feedforward and 2 feedback coefficients.</p>
+						<p></p>
+						<p>TODO: FINISH THIS</p>
 						<h3>Running this in Houdini</h3>
+						<p>TODO: FINISH THIS</p>
 						<p>In the code above, you'll see variables called <code>a0</code>, <code>a1</code>, <code>a2</code>, <code>a3</code> and <code>a4</code>. These are the <b>coefficients</b> of the filter.</p>
 						<p>Each filter type has different coefficients, so the first step is calculating them for the filter we want. Start by adding a Detail Wrangle.</p>
 						<img src="./images/smoothing/biquadwrangle1.png" width="540" class="mb-3 mw-100">
@@ -2153,76 +2299,76 @@ float Q = chf("Q");
 float db_gain = chf("gain_db");
 
 // Shared between most filter types
-float A = pow(10, db_gain / 40);
-float w = 2 * PI * freq / sample_rate;
+float A = pow(10.0, db_gain / 40.0);
+float w = 2.0 * PI * freq / sample_rate;
 float sn = sin(w);
 float cs = cos(w);
-float alpha = sn / (2 * Q);
+float alpha = sn / (2.0 * Q);
 float beta = sqrt(A + A);
 
 // Calculate the coefficients for each filter type
 float a0, a1, a2, b0, b1, b2;
 if (filter_type == 0) {
 	// Low pass
-	b0 = (1 - cs) / 2;
-	b1 = 1 - cs;
+	b0 = (1.0 - cs) / 2.0;
+	b1 = 1.0 - cs;
 	b2 = b0;
-	a0 = 1 + alpha;
-	a1 = -2 * cs;
-	a2 = 1 - alpha;
+	a0 = 1.0 + alpha;
+	a1 = -2.0 * cs;
+	a2 = 1.0 - alpha;
 } else if (filter_type == 1) {
 	// High pass
-	b0 = (1 + cs) / 2;
-	b1 = -(1 + cs);
+	b0 = (1.0 + cs) / 2.0;
+	b1 = -(1.0 + cs);
 	b2 = b0;
-	a0 = 1 + alpha;
-	a1 = -2 * cs;
-	a2 = 1 - alpha;
+	a0 = 1.0 + alpha;
+	a1 = -2.0 * cs;
+	a2 = 1.0 - alpha;
 } else if (filter_type == 2) {
 	// Band pass
 	b0 = alpha;
-	b1 = 0;
+	b1 = 0.0;
 	b2 = -alpha;
-	a0 = 1 + alpha;
-	a1 = -2 * cs;
-	a2 = 1 - alpha;
+	a0 = 1.0 + alpha;
+	a1 = -2.0 * cs;
+	a2 = 1.0 - alpha;
 } else if (filter_type == 3) {
 	// Notch
-	b0 = 1;
-	b1 = -2 * cs;
-	b2 = 1;
-	a0 = 1 + alpha;
+	b0 = 1.0;
+	b1 = -2.0 * cs;
+	b2 = 1.0;
+	a0 = 1.0 + alpha;
 	a1 = b1;
-	a2 = 1 - alpha;
+	a2 = 1.0 - alpha;
 } else if (filter_type == 4) {
 	// Peaking
-	b0 = 1 + (alpha * A);
-	b1 = -2 * cs;
-	b2 = 1 - (alpha * A);
-	a0 = 1 + (alpha / A);
+	b0 = 1.0 + (alpha * A);
+	b1 = -2.0 * cs;
+	b2 = 1.0 - (alpha * A);
+	a0 = 1.0 + (alpha / A);
 	a1 = b1;
-	a2 = 1 - (alpha / A);
+	a2 = 1.0 - (alpha / A);
 } else if (filter_type == 5) {
 	// Low shelf
-	b0 = A * ((A + 1) - (A - 1) * cs + beta * sn);
-	b1 = 2 * A * ((A - 1) - (A + 1) * cs);
-	b2 = A * ((A + 1) - (A - 1) * cs - beta * sn);
-	a0 = (A + 1) + (A - 1) * cs + beta * sn;
-	a1 = -2 * ((A - 1) + (A + 1) * cs);
-	a2 = (A + 1) + (A - 1) * cs - beta * sn;
+	b0 = A * ((A + 1.0) - (A - 1.0) * cs + beta * sn);
+	b1 = 2.0 * A * ((A - 1.0) - (A + 1.0) * cs);
+	b2 = A * ((A + 1.0) - (A - 1.0) * cs - beta * sn);
+	a0 = (A + 1.0) + (A - 1.0) * cs + beta * sn;
+	a1 = -2.0 * ((A - 1.0) + (A + 1.0) * cs);
+	a2 = (A + 1.0) + (A - 1.0) * cs - beta * sn;
 } else if (filter_type == 6) {
 	// High shelf
-	b0 = A * ((A + 1) + (A - 1) * cs + beta * sn);
-	b1 = -2 * A * ((A - 1) + (A + 1) * cs);
-	b2 = A * ((A + 1) + (A - 1) * cs - beta * sn);
-	a0 = (A + 1) - (A - 1) * cs + beta * sn;
-	a1 = 2 * ((A - 1) - (A + 1) * cs);
-	a2 = (A + 1) - (A - 1) * cs - beta * sn;
+	b0 = A * ((A + 1.0) + (A - 1.0) * cs + beta * sn);
+	b1 = -2.0 * A * ((A - 1.0) + (A + 1.0) * cs);
+	b2 = A * ((A + 1.0) + (A - 1.0) * cs - beta * sn);
+	a0 = (A + 1.0) - (A - 1.0) * cs + beta * sn;
+	a1 = 2.0 * ((A - 1.0) - (A + 1.0) * cs);
+	a2 = (A + 1.0) - (A - 1.0) * cs - beta * sn;
 } else if (filter_type == 7) {
 	// All pass (from https://webaudio.github.io/web-audio-api/#BiquadFilterNode)
-	b0 = 1 - alpha;
-	b1 = -2 * cs;
-	b2 = 1 + alpha;
+	b0 = 1.0 - alpha;
+	b1 = -2.0 * cs;
+	b2 = 1.0 + alpha;
 	a0 = b2;
 	a1 = b1;
 	a2 = b0;
@@ -2285,7 +2431,10 @@ v@y1 = v@P;</code></pre>
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
-						<h2 id="method-4-fir-filters">Method 4: FIR filters</h2>
+						<h2 id="method-4-sinc-convolution">Method 4: Sinc convolution</h2>
+						<p>
+							<b>Note Houdini's built-in <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter node</a> works for sinc convolution!</b>
+						</p>
 						<p>FIR filters are the perfect marriage of convolution and biquad filters. It's convolution with the most powerful kernel in the world!</p>
 						<p>To understand them, let's go back to lerp. Remember how I said lerp is an IIR lowpass? What does IIR even mean?</p>
 						<p>IIR stands for <b>Infinite Impulse Response</b>. This means the filter runs forever, and you keep feeding it samples infinitely. This is great for intense smoothing, since it gives plenty of time to move towards the target value. But most of the time we don't have infinite samples, like with Trail we only get a few samples at a time!</p>
@@ -2422,6 +2571,45 @@ v@y1 = v@P;</code></pre>
 						<p>The same thing happens when you use Trail with lerp. It adds more lumps and bumps instead of smoothing them out. If only there was a cleaner way to smooth pieces of a signal. Turns out there is, FIR filters!</p>
 						<p>FIR stands for <b>Finite Impulse Response</b>. This means the signal and filter have a fixed size, just like Trail.</p>
 						<p>TODO: FINISH THIS</p>
+						<h2>Further Reading</h2>
+						<ul>
+							<li>
+								<a href="https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html" target="_blank">2nd Order Biquads</a> (Robert Bristow-Johnson)
+							</li>
+							<li>
+								<a href="https://www.musicdsp.org/en/latest/Filters/64-biquad-c-code.html" target="_blank">2nd Order Biquads in C</a> (Tom St Denis)
+							</li>
+							<li>
+								<a href="https://dsp.stackexchange.com/a/93451" target="_blank">1st Order Biquads</a> (Robert Bristow-Johnson)
+							</li>
+							<li>
+								<a href="https://dsp.stackexchange.com/a/16911" target="_blank">Biquad Frequency Response Derivation</a> (Robert Bristow-Johnson)
+							</li>
+							<li>
+								<a href="https://www.desmos.com/calculator/m1m7rhdpda" target="_blank">Biquad Frequency Response Demo</a> (ErBird)
+							</li>
+							<li>
+								<a href="https://www.earlevel.com/main/2021/09/02/biquad-calculator-v3" target="_blank">1st/2nd Order Biquad Calculator</a> (Nigel Redmon)
+							</li>
+							<li>
+								<a href="https://www.earlevel.com/main/2016/09/29/cascading-filters/" target="_blank">Butterworth Q Calculator</a> (Nigel Redmon)
+							</li>
+							<li>
+								<a href="https://www.earlevel.com/main/2013/10/28/pole-zero-placement-v2/" target="_blank">Pole-Zero Placement</a> (Nigel Redmon)
+							</li>
+							<li>
+								<a href="https://brianmcfee.net/dstbook-site/content/intro.html" target="_blank">Digital Signals Theory</a> (Brian McFee)
+							</li>
+							<li>
+								<a href="https://www.youtube.com/watch?v=ITnPS8HGqLo" target="_blank">Simple DFT in C++</a> (QuantitativeBytes)
+							</li>
+							<li>
+								<a href="https://www.youtube.com/watch?v=spUNpyF58BY" target="_blank">Fourier Transform Intro</a> (3Blue1Brown)
+							</li>
+							<li>
+								<a href="https://www.jezzamon.com/fourier/" target="_blank">Fourier Transform Demo</a> (Jez Swanson)
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
