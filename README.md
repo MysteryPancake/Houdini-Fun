@@ -842,6 +842,23 @@ Putting this here since I always forget the nodes.
 - "Convert Line" splits a single prim curve into multiple line prims.
 - "PolyPath" combines multiple line prims into a single curve prim.
 
+## Reduce sim stepping by smearing along velocity
+
+A common trick to prevent steppy sims is randomly offsetting each point along the velocity direction.
+
+Below assumes the shutter is centered, 0.5 should be the default (180 degree shutter)
+
+```js
+float shutter = chf("shutter");
+v@P += v@v * fit01(rand(i@id), -shutter, shutter) * f@TimeInc;
+```
+
+You can change both sides of the shutter for more control:
+
+```js
+v@P += v@v * fit01(rand(i@id), chf("shutter_start"), chf("shutter_end")) * f@TimeInc;
+```
+
 ## Keep by normals in VEX
 
 The Group node has a useful option to select by normals. Carlll on the CGWiki Discord was looking for a VEX equivalent.
