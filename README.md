@@ -49,17 +49,17 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 
 ## HDA: Volumetric Deform
 
-In rare cases, you need to deform an object inside another with respect to the change in volume. For example, animating muscle and tissue inside a body.
+Sometimes you need to deform an object inside another with respect to the change in volume, for example muscle inside a body.
 
 One way is converting the object to tetrahedrons, since tets have 3D primuvw coordinates for interpolation. Sadly this isn't always an option, because the triangulation changes when animated.
 
-A better approach is using [Positive Mean Value Coordinates](https://forums.odforce.net/topic/8722-pmvc-positive-mean-value-coordinates/), as demonstrated years ago by [Sibbarick](http://www.fourthwall.ndo.co.uk/HT_PGMVCdeformer.html).
+A better approach is using [Positive General Mean Value Coordinates](https://forums.odforce.net/topic/8722-pmvc-positive-mean-value-coordinates/), as implemented years ago by [Sibbarick](http://www.fourthwall.ndo.co.uk/HT_PGMVCdeformer.html).
 
-<img src="./images/mvccubes.gif?raw=true" height="300">
+<img src="./images/mvccubes.gif?raw=true" height="350">
 
 It works by casting rays in a sphere from each point, creating lines. Each line acts as a distance constraint, pulling the point as the walls move. It's almost like Point Deform with occlusion, where only the faces visible to a point light are used for deformation. Note this doesn't give good results on the outside of the object, only on the inside.
 
-<img src="./images/mvcraycast.gif?raw=true" height="300">
+<img src="./images/mvcraycast.gif?raw=true" height="500">
 
 ```js
 float tolerance = chf("tolerance");
@@ -94,7 +94,7 @@ for (int i = 0; i < samples; ++i) {
 }
 ```
 
-The code above captures and deforms in one step. It's slower since ray is only needed once.
+The version above captures and deforms in one step, which is slower since ray is only needed once.
 
 For better performance, try the HDA below! For copyright reasons, note this is fully based on Sibbarick's method.
 
