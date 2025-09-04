@@ -55,7 +55,11 @@ One way is converting the object to tetrahedrons, since tets have 3D primuvw coo
 
 A better approach is using [Positive Mean Value Coordinates](https://forums.odforce.net/topic/8722-pmvc-positive-mean-value-coordinates/), as demonstrated years ago by [Sibbarick](http://www.fourthwall.ndo.co.uk/HT_PGMVCdeformer.html).
 
+<img src="./images/mvccubes.gif?raw=true" height="300">
+
 It works by casting rays in a sphere from each point, creating lines. Each line acts as a distance constraint, pulling the point as the walls move. It's almost like Point Deform with occlusion, where only the faces visible to a point light are used for deformation. Note this doesn't give good results on the outside of the object, only on the inside.
+
+<img src="./images/mvcraycast.gif?raw=true" height="300">
 
 ```js
 float tolerance = chf("tolerance");
