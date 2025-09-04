@@ -53,7 +53,7 @@ In rare cases, you need to deform an object inside another with respect to the c
 
 One way is converting the object to tetrahedrons, since tets have 3D primuvw coordinates for interpolation. Sadly this isn't always an option, because the triangulation changes when animated.
 
-A better approach is using [Positive Mean Value Coordinates](https://forums.odforce.net/topic/8722-pmvc-positive-mean-value-coordinates/), as demonstrated many years ago by [Sibbarick](http://www.fourthwall.ndo.co.uk/HT_PGMVCdeformer.html).
+A better approach is using [Positive Mean Value Coordinates](https://forums.odforce.net/topic/8722-pmvc-positive-mean-value-coordinates/), as demonstrated years ago by [Sibbarick](http://www.fourthwall.ndo.co.uk/HT_PGMVCdeformer.html).
 
 It works by casting rays in a sphere from each point, creating lines. Each line acts as a distance constraint, pulling the point as the walls move. It's almost like Point Deform with occlusion, where only the faces visible to a point light are used for deformation. Note this doesn't give good results on the outside of the object, only on the inside.
 
@@ -90,7 +90,9 @@ for (int i = 0; i < samples; ++i) {
 }
 ```
 
-This version captures and deforms in one step. This is slow since raying is only needed once. For better performance, download the HDA below!
+The code above captures and deforms in one step. It's slower since ray is only needed once.
+
+For better performance, try the HDA below! For copyright reasons, note this is fully based on Sibbarick's method.
 
 | [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/mvc_deform.hiplc?raw=true) |
 | --- | --- |
