@@ -49,7 +49,7 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 
 ## HDA: Volumetric Deform
 
-Sometimes you need to deform an object inside another with respect to the change in volume, for example muscle inside a body.
+Sometimes you need to deform an object inside another with respect to the internal volume, for example muscle inside a body.
 
 One way is converting the object to tetrahedrons, since tets have 3D primuvw coordinates for interpolation. Sadly this isn't always an option, because the triangulation changes when animated.
 
