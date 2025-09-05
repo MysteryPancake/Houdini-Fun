@@ -51,6 +51,8 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 
 Sometimes you need to deform an object inside another with respect to the internal volume, for example muscle inside a body.
 
+<img src="./images/mvcpig.png?raw=true" width="700">
+
 One way is converting the object to tetrahedrons, since tets have 3D primuvw coordinates for interpolation. Sadly this isn't always an option, because the triangulation changes when animated.
 
 A better approach is using [Positive General Mean Value Coordinates](https://forums.odforce.net/topic/8722-pmvc-positive-mean-value-coordinates/), as implemented years ago by [Sibbarick](http://www.fourthwall.ndo.co.uk/HT_PGMVCdeformer.html).
