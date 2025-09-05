@@ -61,6 +61,8 @@ It works by casting rays in a sphere from each point, creating lines. Each line 
 
 <img src="./images/mvcraycast.gif?raw=true" height="500">
 
+The version below captures and deforms in one step, which is slower since ray is only needed once. The inputs are the same as Point Deform. The 1st input is geo to deform, the 2nd is the rest pose and the 3rd is the deformed pose.
+
 ```js
 float tolerance = chf("tolerance");
 int samples = chi("samples");
@@ -93,8 +95,6 @@ for (int i = 0; i < samples; ++i) {
     v@P += offsets[i] / weight_total;
 }
 ```
-
-The version above captures and deforms in one step, which is slower since ray is only needed once.
 
 For better performance, try the HDA below! For copyright reasons, note this is fully based on Sibbarick's method.
 
