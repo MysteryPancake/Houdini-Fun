@@ -673,6 +673,16 @@ if (prim >= 0) v@Cd = {1,0,0};
 | [Download the HIP file!](./hips/detect_overlapping_uvs.hiplc?raw=true) |
 | --- |
 
+## Getting Houdini version in VEX
+
+Igor Elovikov shared a top secret way to get the Houdini version in VEX. Similar macros are [buried in the VEX documentation](https://www.sidefx.com/docs/houdini/vex/vcc.html).
+
+`__vex_major` gets the major version and `__vex_minor` gets the minor version.
+
+```c
+printf("Houdini %d.%d\n", __vex_major, __vex_minor); 
+```
+
 ## Reusing code in multiple wrangles
 
 Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
