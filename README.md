@@ -103,7 +103,7 @@ For better performance, try the HDA below!
 | [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/mvc_deform.hiplc?raw=true) |
 | --- | --- |
 
-## HDA: Repair Cycles
+<h2><img src="./images/repair_cycles.svg?raw=true" height="32"> HDA: Repair Cycles</h2>
 
 KineFX often whinges when skeletons are cyclic ("Cycle Detected" errors). There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
 
