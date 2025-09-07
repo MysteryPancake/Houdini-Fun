@@ -96,11 +96,51 @@ for (int i = 0; i < samples; ++i) {
 }
 ```
 
-The version above captures and deforms in one step, which is slower since ray is only needed once. The inputs are the same as Point Deform. The 1st input is geo to deform, the 2nd is the rest pose and the 3rd is the deformed pose.
+The VEX above captures and deforms in one step, which is slower since ray is only needed once. The inputs are the same as Point Deform. The 1st input is geo to deform, the 2nd is the rest pose and the 3rd is the deformed pose.
 
 For better performance, try the HDA below!
 
 | [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/mvc_deform.hiplc?raw=true) |
+| --- | --- |
+
+## HDA: Repair Cycles
+
+KineFX often whinges when skeletons are cyclic. There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
+
+<img src="./images/cycle_detection.png?raw=true" height="400">
+
+If the skeleton actually has cycles, you'll need to detect and cut them. I turned this into a HDA, but you can use the VEX below:
+
+```js
+// Depth first search to detect graph cycles for cutting
+int n = i@numpt;
+int sums[];
+resize(sums, n);
+int stack[] = {0};
+
+// Also check if the stack is empty in case the final point has a cycle
+for (int i = 0; i < n || len(stack) > 0; ++i) {
+  
+  // Get the next point in the stack, or whatever point hasn't been visited yet
+  int current = len(stack) > 0 ? pop(stack, 0) : find(sums, 0);
+  
+  // If we've seen this point already, we found a cycle
+  if (++sums[current] > 1) {
+    // Group it to be split
+    setpointgroup(0, "cyclic", current, 1);
+    // Add an iteration since we skipped this one
+    ++n;
+    continue;
+  }
+  
+  // Add all the neighbours we haven't explored to the stack
+  foreach (int next; neighbours(0, current)) {
+    if (sums[next] == 0) insert(stack, 0, next);
+  }
+}
+```
+
+| [Download the HDA!](./hdas/MysteryPancake.repair_cycles.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/repair_cycles.hiplc?raw=true) |
 | --- | --- |
 
 ## Simple spring solver
@@ -582,48 +622,6 @@ Now the cross sections connect perfectly without any resampling!
 </p>
 
 | [Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc?raw=true) |
-| --- |
-
-## KineFX: Detect and Fix Cyclic Skeletons
-
-KineFX often whinges when skeletons are cyclic. There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
-
-If the skeleton actually has cycles, you'll need to detect cycles and cut them. I couldn't find a node for this, so I used VEX.
-
-```js
-// Depth first search to detect graph cycles for cutting
-int n = i@numpt;
-int sums[];
-resize(sums, n);
-int stack[] = {0};
-
-// Also check if the stack is empty in case the final point has a cycle
-for (int i = 0; i < n || len(stack) > 0; ++i) {
-  
-  // Get the next point in the stack, or whatever point hasn't been visited yet
-  int current = len(stack) > 0 ? pop(stack, 0) : find(sums, 0);
-  
-  // If we've seen this point already, we found a cycle
-  if (++sums[current] > 1) {
-    // Group it to be split
-    setpointgroup(0, "cyclic", current, 1);
-    // Add an iteration since we skipped this one
-    ++n;
-    continue;
-  }
-  
-  // Add all the neighbours we haven't explored to the stack
-  foreach (int next; neighbours(0, current)) {
-    if (sums[next] == 0) insert(stack, 0, next);
-  }
-}
-```
-
-I tried using PolyCut, but it doesn't cut all connections. Convert Line and Point Split seems to work though.
-
-<img src="./images/cycle_detection.png?raw=true" height="400">
-
-| [Download the HIP file!](./hips/cycle_detection.hip?raw=true) |
 | --- |
 
 ## Fitting UV islands
