@@ -107,9 +107,11 @@ For better performance, try the HDA below!
 
 KineFX often whinges when skeletons are cyclic. There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
 
+If the skeleton actually has cycles, you'll need to detect and cut them.
+
 <img src="./images/cycle_detection.png?raw=true" height="400">
 
-If the skeleton actually has cycles, you'll need to detect and cut them. I turned this into a HDA, but you can use the VEX below:
+I made a HDA for this, but otherwise you can use the VEX below:
 
 ```js
 // Depth first search to detect graph cycles for cutting
