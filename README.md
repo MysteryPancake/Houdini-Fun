@@ -675,13 +675,15 @@ if (prim >= 0) v@Cd = {1,0,0};
 
 ## Getting Houdini version in VEX
 
-Igor Elovikov shared a top secret way to get the Houdini version in VEX. Similar macros are [buried in the VEX documentation](https://www.sidefx.com/docs/houdini/vex/vcc.html).
+Igor Elovikov shared a top secret way to get the Houdini version in VEX.
 
 `__vex_major` gets the major version and `__vex_minor` gets the minor version.
 
 ```c
 printf("Houdini %d.%d\n", __vex_major, __vex_minor); 
 ```
+
+Even more macros are [buried in the VEX documentation](https://www.sidefx.com/docs/houdini/vex/vcc.html).
 
 ## Reusing code in multiple wrangles
 
