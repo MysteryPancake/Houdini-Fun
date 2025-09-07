@@ -51,7 +51,7 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 
 Sometimes you need to deform an object inside another with respect to the internal volume, for example muscle inside a body.
 
-<img src="./images/mvcpig.png?raw=true" width="700">
+<img src="./images/mvcpig.png?raw=true" width="600">
 
 One way is converting the object to tetrahedrons, since tets have 3D primuvw coordinates for interpolation. Sadly this isn't always an option, because the triangulation changes when animated.
 
@@ -61,7 +61,7 @@ A better approach is using [Positive General Mean Value Coordinates](https://for
 
 It works by casting rays in a sphere from each point, creating lines. Each line acts as a distance constraint, pulling the point as the walls move. It's almost like Point Deform with occlusion, where only the faces visible to a point light are used for deformation. Note this doesn't give good results on the outside of the object, only on the inside.
 
-<img src="./images/mvcraycast.gif?raw=true" height="500">
+<img src="./images/mvcraycast.gif?raw=true" height="450">
 
 ```js
 float tolerance = chf("tolerance");
@@ -107,11 +107,9 @@ For better performance, try the HDA below!
 
 KineFX often whinges when skeletons are cyclic. There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
 
-If the skeleton actually has cycles, you'll need to detect and cut them.
+If the skeleton actually has cycles, you need to detect and cut them. I made a HDA for this, but otherwise you can use the VEX below.
 
 <img src="./images/cycle_detection.png?raw=true" height="400">
-
-I made a HDA for this, but otherwise you can use the VEX below:
 
 ```js
 // Depth first search to detect graph cycles for cutting
