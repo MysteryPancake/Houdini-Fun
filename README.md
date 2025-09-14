@@ -34,6 +34,15 @@ Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me shar
 | [Download the HDA!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda?raw=true) | [Download the HIP file!](./hdas/fast_straight_skeleton.hip?raw=true) |
 | --- | --- |
 
+## HDA: Laplacian Filter
+
+Another thing you can do with the [Laplacian node](https://www.sidefx.com/docs/houdini//nodes/sop/laplacian.html) is an equalizer. Like with music, you can exaggerate or reduce certain frequencies.
+
+Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eigenspace Projection example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd)! I rewrote it in OpenCL for better performance.
+
+| [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/laplacian_filter.hiplc?raw=true) |
+| --- | --- |
+
 ## HDA: Rigid Piece Preroll
 
 Most preroll nodes use position difference only. This is fine for translation but not rotation.
