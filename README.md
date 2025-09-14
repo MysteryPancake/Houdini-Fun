@@ -36,9 +36,11 @@ Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me shar
 
 ## HDA: Laplacian Filter
 
-Another thing you can do with the [Laplacian node](https://www.sidefx.com/docs/houdini//nodes/sop/laplacian.html) is an equalizer. Like with music, you can exaggerate or reduce certain frequencies.
+Another thing you can do with the [Laplacian node](https://www.sidefx.com/docs/houdini//nodes/sop/laplacian.html) is an equalizer.
 
-Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eigenspace Projection example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd)! I rewrote it in OpenCL for better performance.
+Like with sound, you can exaggerate or reduce certain frequencies (eigenvectors) to get more or less detail.
+
+Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eigenspace Projection example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd)! I remade it in OpenCL for better performance.
 
 | [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/laplacian_filter.hiplc?raw=true) |
 | --- | --- |
