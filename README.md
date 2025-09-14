@@ -701,6 +701,14 @@ printf("Houdini %d.%d\n", __vex_major, __vex_minor);
 
 Even more macros are [buried in the VEX documentation](https://www.sidefx.com/docs/houdini/vex/vcc.html).
 
+## 1 warning generated
+
+Sometimes OpenCL spams the message "1 warning generated", but doesn't spam the actual warning.
+
+This can be fixed by setting the environment variable `HOUDINI_OCL_REPORT_BUILD_LOGS` to `1` before starting Houdini.
+
+Thanks to Lewis Saunders for this tip!
+
 ## Reusing code in multiple wrangles
 
 Most programming languages have ways to share and reuse code. C has `#include`, JavaScript has `import`, but what about VEX?
