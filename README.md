@@ -883,7 +883,7 @@ A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI usin
 
 ```js
 // Insert your camera position here
-vector cam_pos = fromNDC("/obj/cam1", {0, 0, 0});
+vector cam_pos = optransform("/obj/cam1") * {0, 0, 0};
 
 // John Kunz magic
 vector r = normalize(reflect(normalize(v@P - cam_pos), v@N));
