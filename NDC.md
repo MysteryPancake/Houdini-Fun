@@ -322,7 +322,7 @@ f@correlation = dot(v@N, camDir);
 <br clear="left" />
 
 ## Build your own NDC matrix
-You can use `perspective()` to build a matrix that has the same effect as `toNDC()`.
+You can use `perspective()` to build a matrix that has the same effect as `toNDC()` (assuming the camera is in perspective mode).
 
 Thanks to Igor Elovikov for sharing the code below! He noted this:
 
