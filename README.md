@@ -312,7 +312,7 @@ Recently they added a Pyro solver to Copernius, along with most of the features 
 
 For comparison, I remade the sourcing, dissipation, buoyancy and disturbance settings from regular Pyro in COPs.
 
-It would be cool to remake everything else, to get performance similar to the OpenCL (Minimal) mode on the Pyro solver.
+It would be fun to remake everything, for similar performance to the OpenCL (Minimal) mode on the Pyro solver.
 
 I can't be bothered myself, but you can use this file as a starting point!
 
