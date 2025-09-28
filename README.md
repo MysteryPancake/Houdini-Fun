@@ -306,6 +306,21 @@ If your "Life" changes per target, set a life attribute on each point.
 
 <img src="./images/aimbot.gif?raw=true" width="500">
 
+## Copernicus Pyro vs Regular Pyro
+
+Recently they added a Pyro solver to Copernius, along with most of the features of the regular Pyro solver. The advection method is different, but everything else is pretty much identical.
+
+For comparison, I remade the sourcing, dissipation, buoyancy and disturbance settings from regular Pyro in COPs.
+
+It would be cool to remake everything else, to get performance similar to the OpenCL (Minimal) mode on the Pyro solver.
+
+I can't be bothered myself, but you can use this file as a starting point!
+
+<img src="./images/cop_pyro_comparison.webp?raw=true" width="500">
+
+| [Download the HIP file!](./hips/cops_pyro_comparison.hiplc?raw=true) |
+| --- |
+
 ## Copernicus: Radial Blur
 
 Simple radial blur shader I made for Balthazar on the CGWiki Discord.
