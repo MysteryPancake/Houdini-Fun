@@ -373,6 +373,13 @@ You can get cool and organic looking shapes using opposing forces, like Relax an
 | [Download the HIP file!](./hips/spaghetti.hiplc?raw=true) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
 | --- | --- |
 
+## Fancy SDF Operations (smooth min, formula based, 4D)
+
+[![SDF tutorial](https://img.youtube.com/vi/xPrnFhfuuk4/mqdefault.jpg)](https://youtu.be/xPrnFhfuuk4)
+
+| [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
+| --- |
+
 ## Smooth steps
 
 Smoothstep's evil uncle, smooth steps. This helps for staggering animations, like points moving along lines.
