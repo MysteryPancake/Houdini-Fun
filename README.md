@@ -377,8 +377,10 @@ You can get cool and organic looking shapes using opposing forces, like Relax an
 
 [![SDF tutorial](https://img.youtube.com/vi/xPrnFhfuuk4/mqdefault.jpg)](https://youtu.be/xPrnFhfuuk4)
 
-| [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
-| --- |
+Also check out the [3D SDF](./Houdini_SDFs.md) and [4D SDF](./4D.md) pages!
+
+| [Download the HIP file!](./hips/smooth_min.hiplc?raw=true) | [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
+| --- | --- |
 
 ## Smooth steps
 
