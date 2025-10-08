@@ -446,9 +446,7 @@ Cwalrus on the Houdini & Chill Discord wanted to make a tornado travel around a 
 <img src="./images/tornado_head.gif?raw=true" width="500">
 
 ```js
-vector P = minpos(1, v@P);
-
-vector towards_dir = (P - v@P);
+vector towards_dir = (minpos(1, v@P) - v@P);
 v@v += towards_dir * chf("towards_strength");
 
 vector around_dir = normalize(cross(v@N, {0, 1, 0}));
