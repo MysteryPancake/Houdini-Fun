@@ -478,7 +478,7 @@ float max_frame = chi("max_frame");
 float contrast = chf("contrast");
 
 // Animation offset (normalized)
-float offset = fit(@Frame, min_frame, max_frame, -1./contrast, 1);
+float offset = fit(f@Frame, min_frame, max_frame, -1./contrast, 1);
 
 // Replace @dist with any normalized attribute you want to animate
 float blend = (f@dist - offset) * contrast;
