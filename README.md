@@ -458,7 +458,7 @@ v@v += around_dir * chf("around_strength");
 
 ## Transition within a fixed frame range
 
-Usually for growth solvers and breakdown animations, you want to fit an animation to fixed timing.
+For growth solvers and breakdown animations, you may want to fit an animation to fixed timing.
 
 The general approach is adding an offset to animate the attribute, then scaling it to sharpen the transition.
 
