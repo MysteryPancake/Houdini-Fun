@@ -416,7 +416,7 @@ To travel toward an object, get the closest surface position with `minpos()` or 
 
 If you have a Level Set or Isosurface volume, you can use `volumegradient()` instead.
 
-<img src="./images/vel_towards.webp?raw=true" width="500">
+<img src="./images/vel_towards.png?raw=true" width="500">
 
 ```js
 // Or xyzdist(1, v@P, prim, uv) then primuv(1, "P", prim, uv)
@@ -431,7 +431,7 @@ v@v = normalize(dir);
 
 To travel around an object you just need a cross product, or [two cross products](https://www.tokeru.com/cgwiki/JoyOfVex09.html#cross_product) to travel in one direction only.
 
-<img src="./images/vel_around.webp?raw=true" width="500">
+<img src="./images/vel_around.png?raw=true" width="500">
 
 ```js
 vector axis = {0, 0, 1};
