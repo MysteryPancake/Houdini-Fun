@@ -410,9 +410,9 @@ float frac_step = min(1, x % width * steepness); // Fractional component, lines
 float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
-### Velocity towards an object
+### Velocity toward an object
 
-To travel towards an object, get the closest surface position with `minpos()` or `xyzdist()`, then subtract the current position.
+To travel toward an object, get the closest surface position with `minpos()` or `xyzdist()`, then subtract the current position.
 
 If you have a Level Set or Isosurface volume, you can use `volumegradient()` instead.
 
