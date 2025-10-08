@@ -456,7 +456,7 @@ v@v += around_dir * chf("around_strength");
 | [Download the HIP file!](./hips/tornado_head.hiplc?raw=true) |
 | --- |
 
-## Animated transition within a fixed framerange
+## Transition within a fixed frame range
 
 Usually for growth solvers and breakdown animations, you want to fit an animation to fixed timing.
 
