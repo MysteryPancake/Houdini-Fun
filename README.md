@@ -410,6 +410,54 @@ float frac_step = min(1, x % width * steepness); // Fractional component, lines
 float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
+### Velocity towards an object
+
+To travel towards an object, get the closest surface position with `minpos()` or `xyzdist()`, then subtract the current position.
+
+If you have a Level Set or Isosurface volume, you can use `volumegradient()` instead.
+
+<img src="./images/vel_towards.webp?raw=true" width="500">
+
+```js
+// Or xyzdist(1, v@P, prim, uv) then primuv(1, "P", prim, uv)
+vector nearest = minpos(1, v@P);
+vector dir = nearest - v@P;
+
+// Optionally normalize the direction so it has a constant speed everywhere
+v@v = normalize(dir);
+```
+
+### Velocity around an object
+
+To travel around an object you just need a cross product, or [two cross products](https://www.tokeru.com/cgwiki/JoyOfVex09.html#cross_product) to travel in one direction only.
+
+<img src="./images/vel_around.webp?raw=true" width="500">
+
+```js
+vector axis = {0, 0, 1};
+vector dir = cross(v@N, axis);
+
+// Optionally normalize the direction so it has a constant speed everywhere
+v@v = normalize(dir);
+```
+
+Cwalrus on the Houdini & Chill Discord wanted to make a tornado travel around a head. This means combining both of the above.
+
+<img src="./images/tornado_head.gif?raw=true" width="500">
+
+```js
+vector P = minpos(1, v@P);
+
+vector towards_dir = (P - v@P);
+v@v += towards_dir * chf("towards_strength");
+
+vector around_dir = normalize(cross(v@N, {0, 1, 0}));
+v@v += around_dir * chf("around_strength");
+```
+
+| [Download the HIP file!](./hips/tornado_head.hiplc?raw=true) |
+| --- |
+
 ## Remove points by time after simulation
 
 Sometimes POP sims take ages to run, especially FLIP sims. This makes it annoying to get notes about timing changes.
@@ -719,7 +767,7 @@ Igor Elovikov shared a top secret way to get the Houdini version in VEX.
 
 `__vex_major` gets the major version and `__vex_minor` gets the minor version.
 
-```c
+```js
 printf("Houdini %d.%d\n", __vex_major, __vex_minor); 
 ```
 
