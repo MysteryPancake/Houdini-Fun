@@ -456,15 +456,52 @@ v@v += around_dir * chf("around_strength");
 | [Download the HIP file!](./hips/tornado_head.hiplc?raw=true) |
 | --- |
 
+## Animated transition within a fixed framerange
+
+Usually for growth solvers and breakdown animations, you want to fit an animation to fixed timing.
+
+The general approach is adding an offset to animate the attribute, then scaling it to sharpen the transition.
+
+```js
+mix = (attribute - offset) * contrast;
+```
+
+If you normalize the attribute (for example with Labs Normalize Float), it's easy to fit the timing exactly.
+
+<img src="./images/normalized_animation.webp?raw=true" width="600">
+
+```js
+float min_frame = chi("min_frame");
+float max_frame = chi("max_frame");
+
+// Sharpness of the edge
+float contrast = chf("contrast");
+
+// Animation offset (normalized)
+float offset = fit(@Frame, min_frame, max_frame, -1./contrast, 1);
+
+// Replace @dist with any normalized attribute you want to animate
+float blend = (f@dist - offset) * contrast;
+
+// Use clamp(blend, 0, 1) if you don't want to reshape it
+float mix = chramp("shape", blend);
+
+// Animate towards rest position
+v@P = lerp(v@P, v@rest, mix);
+```
+
+| [Download the HIP file!](./hips/normalized_animation.hiplc?raw=true) |
+| --- |
+
 ## Remove points by time after simulation
 
-Sometimes POP sims take ages to run, especially FLIP sims. This makes it annoying to get notes about timing changes.
+Some particle sims like FLIP or MPM take ages to run, making timing notes very annoying.
 
-I found a decent approach to avoid resimulation:
+Here's a simple hack to avoid resimulation:
 
 1. Simulate tons of points, way more than you need.
 2. After simulating, get the birth time of each point using `f@Time - f@age`.
-3. Cull points based on the birth time. There's 2 main ways to do it.
+3. Cull points based on the birth time. There's 2 main ways to do this.
 
 ### Keyframes over time
 
