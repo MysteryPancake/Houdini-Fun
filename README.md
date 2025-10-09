@@ -808,6 +808,27 @@ printf("Houdini %d.%d\n", __vex_major, __vex_minor);
 
 Even more macros are [buried in the VEX documentation](https://www.sidefx.com/docs/houdini/vex/vcc.html).
 
+## VEX preprocessors directives
+
+Since VEX is heavily inspired by C, it includes a bunch of preprocessor directives like `#define`, `#if`, `#endif`.
+
+You can use these as a party trick, or to avoid compiling code that isn't being used.
+
+```c
+#define my_var 1
+
+#if my_var == 0
+printf("THIS SHOULD NOT PRINT");
+#endif
+```
+
+```c
+#define hello "goodbye"
+printf(hello); // prints goodbye
+```
+
+There's a complete list of directives in the [VEX compiler docs](https://www.sidefx.com/docs/houdini/vex/vcc.html#pre-processor).
+
 ## 1 warning generated
 
 Sometimes OpenCL spams the message "1 warning generated", but doesn't spam the actual warning.
