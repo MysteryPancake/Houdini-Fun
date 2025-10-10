@@ -1528,7 +1528,7 @@ Another tip is setting the Voxel Scale to 1 (0.75 is the default). The Voxel Sca
 
 ## Meshing sand sims
 
-As well as water, Thibault Gauriau shared a ton of great advice for sand.
+As well as water, Thibault shared tons of great advice for sand.
 
 - Sand doesn't always need to be meshed, often it looks better rendered as points.
 - Unlike with water, sand always needs tons of points, usually around 30-40 million at least.
