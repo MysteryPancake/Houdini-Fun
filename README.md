@@ -1490,9 +1490,11 @@ v@v = normalize(rand(i@ptnum) - vector(0.5));
 
 <img src="./images/velocity_direction.png?raw=true" width="250">
 
-## Split vector magnitude and direction
+## Split vector length and direction
 
-Sometimes you need to change part of a vector but not the other, like to randomize velocity but inherit the magnitude. It's easy with rotation, but here's a more general approach:
+Sometimes you need to change part of a vector only, like to change the velocity direction without affecting the speed.
+
+Here's a general approach:
 
 ```js
 // Deconstruction
@@ -1505,6 +1507,36 @@ dir = sample_direction_uniform(rand(@ptnum));
 // Reconstruction, make sure direction is normalized
 v@v = dir * mag;
 ```
+
+Attribute Adjust Vector also lets you adjust the direction and length independently. Thanks to Graeme Phillips for this tip!
+
+## Meshing fluid sims (fractal meshing)
+
+Particle Fluid Surface by default often gives messy results. A much better approach comes from Thibault Gauriau.
+
+- Rather than meshing everything at once, split the point cloud by density and mesh each section separately.
+- Density can be measured using pcfind and counting the points within the radius.
+- Dense sections can be given a large voxel size. This means faster meshing and less high frequency noise.
+- Sparse sections can be given a small voxel size. This means slower meshing but more detail.
+- You can split it as many times as needed, but usually low, medium and high quality meshes are needed at minimum.
+- In most cases overlaps aren't a problem. You can merge all the meshes and render them together.
+- If you really need to, you can remesh it afterwards to prevent interior faces messing with light bounces.
+
+I think of this as a hierarchy or fractal meshing approach.
+
+Another tip is setting the Voxel Scale to 1 (0.75 is the default). The Voxel Scale is a multiplier for the pscale. Setting it to 1 prevents worrying about an unnecessary setting when meshing.
+
+## Meshing sand sims
+
+As well as water, Thibault Gauriau shared a ton of great advice for sand.
+
+- Sand doesn't always need to be meshed, often it looks better rendered as points.
+- Unlike with water, sand always needs tons of points, usually around 30-40 million at least.
+- Like with water, you can use the density. By mapping this to the pscale, you get a nice gradient from thick to thin as the particles spread out.
+- Add some outliers so 80% of the particles are smaller and 20% are larger. This makes a huge difference to realism.
+- Adding randomness to the particle scale makes a huge difference to realism.
+- For solid objects made of sand, it helps to scatter particles on the surface and slightly inside the surface as well.
+- Keep the specular rough on the material, around 0.5 or higher. This prevents fireflies due to intense reflections too.
 
 ## POP: Make particles look like fluid
 
