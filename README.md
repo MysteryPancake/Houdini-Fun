@@ -1533,10 +1533,10 @@ As well as water, Thibault Gauriau shared a ton of great advice for sand.
 - Sand doesn't always need to be meshed, often it looks better rendered as points.
 - Unlike with water, sand always needs tons of points, usually around 30-40 million at least.
 - Like with water, you can use the density. By mapping this to the pscale, you get a nice gradient from thick to thin as the particles spread out.
-- Add some outliers so 80% of the particles are smaller and 20% are larger. This makes a huge difference to realism.
-- Adding randomness to the particle scale makes a huge difference to realism.
-- For solid objects made of sand, it helps to scatter particles on the surface and slightly inside the surface as well.
-- Keep the specular rough on the material, around 0.5 or higher. This prevents fireflies due to intense reflections too.
+- Add outliers so 80% of the particles are smaller and 20% are larger. This makes a huge difference to realism.
+- Randomizing the pscale also makes a huge difference to realism.
+- For solid objects made of sand, it helps to scatter particles on the surface and slightly inside the surface.
+- Keep the specular rough, around 0.5 or higher. This looks more natural and prevents fireflies due to bright reflections.
 
 ## POP: Make particles look like fluid
 
