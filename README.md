@@ -478,7 +478,7 @@ f@surface -= chf("offset");
 
 [Domain repetition](https://iquilezles.org/articles/sdfrepetition/) means repeating a coordinate system. This means SDFs defined in that coordinate system will repeat too.
 
-<img src="./images/sdfs/domain_repetition.png" height="300">
+<img src="./images/sdfs/domain_repetition.png" height="250">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
