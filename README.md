@@ -399,7 +399,7 @@ The examples below are only for 3D volumes, but the same ideas work in any dimen
 
 SDFs give clean results for many common boolean operations. The versions below are from [Inigo Quilez](https://iquilezles.org/articles/distfunctions/).
 
-<img src="./images/sdfs/boolean_operations.png" height="250" align="left">
+<img src="./images/sdfs/boolean_operations.png" width="200" align="left">
 
 ```js
 // Common boolean operations, from https://iquilezles.org/articles/distfunctions
@@ -440,7 +440,7 @@ if (operation == 0) {
 
 Smooth min unions two SDFs together with smooth blending between them. The quadratic polynomial version below is from [Inigo Quilez](https://iquilezles.org/articles/smin/).
 
-<img src="./images/sdfs/smooth_min.png" height="250" align="left">
+<img src="./images/sdfs/smooth_min.png" width="200" align="left">
 
 ```js
 // Quadratic polynomial version, from https://iquilezles.org/articles/smin
@@ -466,7 +466,7 @@ f@surface = smin(dist, dist2, k);
 
 Expanding or contracting an SDF is very easy, just add an offset. The IsoOffset and VDB Reshape SDF nodes can be used for this too.
 
-<img src="./images/sdfs/erode_dilate.png" height="250" align="left">
+<img src="./images/sdfs/erode_dilate.png" width="200" align="left">
 
 ```js
 f@surface -= chf("offset");
@@ -478,7 +478,7 @@ f@surface -= chf("offset");
 
 [Domain repetition](https://iquilezles.org/articles/sdfrepetition/) means repeating a coordinate system. This means SDFs defined in that coordinate system will repeat too.
 
-<img src="./images/sdfs/domain_repetition.png" height="250" align="left">
+<img src="./images/sdfs/domain_repetition.png" height="300">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -490,8 +490,6 @@ float sdSphere( vector p; float s ) {
 vector p = (v@P % 2) - 1;
 f@surface = sdSphere(p, chf("radius"));
 ```
-
-<br clear="left" />
 
 ### 4D SDFs (Formula-based)
 
