@@ -377,10 +377,102 @@ You can get cool and organic looking shapes using opposing forces, like Relax an
 
 [![SDF tutorial](https://img.youtube.com/vi/xPrnFhfuuk4/mqdefault.jpg)](https://youtu.be/xPrnFhfuuk4)
 
-Also check out the [3D SDF](./Houdini_SDFs.md) and [4D SDF](./4D.md) pages!
-
 | [Download the HIP file!](./hips/smooth_min.hiplc?raw=true) | [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
 | --- | --- |
+
+### 3D SDFs
+
+Check my [3D SDF page](./Houdini_SDFs.md) for a bunch of 3D shapes from Inigo Quilez, and instructions on how to use them!
+
+[<img src="./images/sdfs/sdf_volumes.png?raw=true">](hips/sdf_volumes.hipnc?raw=true)
+
+### Boolean operations
+
+SDFs give clean results for many common boolean operations. The versions below are from [Inigo Quilez](https://iquilezles.org/articles/distfunctions/).
+
+```js
+// Common boolean operations, from https://iquilezles.org/articles/distfunctions
+float opUnion(float d1; float d2) {
+    return min(d1,d2);
+}
+
+float opSubtraction(float d1; float d2) {
+    return max(-d1,d2);
+}
+
+float opIntersection(float d1; float d2) {
+    return max(d1,d2);
+}
+
+float opXor(float d1; float d2) {
+    return max(min(d1,d2),-max(d1,d2));
+}
+
+float dist = f@surface;
+float dist2 = volumesample(1, 0, v@P);
+
+int operation = chi("operation");
+if (operation == 0) {
+    f@surface = opUnion(dist, dist2);
+} else if (operation == 1) {
+    f@surface = opSubtraction(dist, dist2);
+} else if (operation == 2) {
+    f@surface = opIntersection(dist, dist2);
+} else {
+    f@surface = opXor(dist, dist2);
+}
+```
+
+### Smooth min
+
+Smooth min unions two SDFs together with smooth blending between them. The quadratic polynomial version below is from [Inigo Quilez](https://iquilezles.org/articles/smin/).
+
+```js
+// Quadratic polynomial version, from https://iquilezles.org/articles/smin
+// a and b are two distances you want to blend, k is the smoothing factor
+float smin(float a; float b; float k) {
+    k *= 4.0;
+    float h = max( k-abs(a-b), 0.0 )/k;
+    return min(a,b) - h*h*k*(1.0/4.0);
+}
+
+// Any two distances stored in a level set volume
+float dist = f@surface;
+float dist2 = volumesample(1, 0, v@P);
+
+// k is the blending factor controlling the smoothing
+float k = chf("k");
+f@surface = smin(dist, dist2, k);
+```
+
+### Erode/dilate
+
+Expanding or contracting an SDF is very easy, just add an offset. The IsoOffset and VDB Reshape SDF nodes can be used for this too.
+
+```js
+f@surface -= chf("offset");
+```
+
+### Domain repetition
+
+[Domain repetition](https://iquilezles.org/articles/sdfrepetition/) means repeating a coordinate system. This means SDFs defined in that coordinate system will repeat too.
+
+```js
+// From https://iquilezles.org/articles/distfunctions
+float sdSphere( vector p; float s ) {
+        return length(p)-s;
+}
+
+// Repeat the coordinate system every 2 meters, then center it
+vector p = (v@P % 2) - 1;
+f@surface = sdSphere(p, chf("radius"));
+```
+
+### 4D SDFs
+
+SDFs aren't restricted to 3D. SDFs can be [generalized to any dimension](https://youtu.be/62-pRVZuS5c?si=7qqStYa-mcGfNS7L&t=387) if the formula allows it.
+
+Check [my 4D page](./4D.md) for more information on this, including some 4D SDFs you can play with!
 
 ## Smooth steps
 
