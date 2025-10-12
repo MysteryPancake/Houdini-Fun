@@ -382,7 +382,7 @@ Houdini supports SDFs in two places I know of:
 - 2D Copernicus volumes (for example SDF Shape node)
 - 3D Level Set/IsoSurface volumes (for example Level Set VDBs)
 
-The examples below are only for 3D volumes, but the same ideas apply in any dimension.
+The examples below are only for 3D volumes, but the same ideas work in any dimension.
 
 [![SDF tutorial](https://img.youtube.com/vi/xPrnFhfuuk4/mqdefault.jpg)](https://youtu.be/xPrnFhfuuk4)
 
