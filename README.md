@@ -476,14 +476,14 @@ f@surface -= chf("offset");
 
 ### Domain repetition
 
-[Domain repetition](https://iquilezles.org/articles/sdfrepetition/) means repeating a coordinate system. This means SDFs defined in that coordinate system will repeat too.
+[Domain repetition](https://iquilezles.org/articles/sdfrepetition/) means repeating a coordinate system. Any SDF defined in that coordinate system will repeat too.
 
 <img src="./images/sdfs/domain_repetition.png" height="250">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
-float sdSphere( vector p; float s ) {
-        return length(p)-s;
+float sdSphere(vector p; float s) {
+        return length(p) - s;
 }
 
 // Repeat the coordinate system every 2 meters, then center it
