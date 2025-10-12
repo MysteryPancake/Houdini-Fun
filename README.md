@@ -1668,7 +1668,7 @@ To get nicer clumps, a tip from Raphael Gadot is to use Attribute Blur set to "P
 
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
 
-A great fix comes from Raphael Gadot: Stabilise the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space. This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims.
+A great fix comes from Raphael Gadot: Stabilize the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space. This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims.
 
 ### 1. Relative gravity
 
@@ -1702,9 +1702,9 @@ Force Z = -point(-1, 0, "accel", 2)
 
 Make sure the force is "Set Always"!
 
-### 3. Stabilise (world to local)
+### 3. Stabilize (world to local)
 
-1. Pick a face on the collider you want to stabilise. Blast everything except that face.
+1. Pick a face on the collider you want to stabilize. Blast everything except that face.
 2. Time freeze that face with a Time Shift node.
 3. Use an Extract Transform node to compare the frozen face to the moving face. That tells you how the collider moves over time, allowing you to cancel out the movement.
 4. Pack everything else. Make sure to enable "No Point Velocities".
