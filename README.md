@@ -379,8 +379,8 @@ SDFs are a different way of representing geometry. Rather than polygons, they st
 
 Houdini supports SDFs in two places. Both are grid-based so they're more crusty than they should be:
 
-- 2D Copernicus volumes (for example SDF Shape node)
-- 3D Level Set/IsoSurface volumes (for example Level Set VDBs)
+- 2D Copernicus volumes (eg. SDF Shape node)
+- 3D Level Set/IsoSurface volumes (eg. Level Set VDBs)
 
 The examples below are only for 3D volumes, but the same ideas work in any dimension.
 
@@ -572,7 +572,7 @@ The general approach is adding an offset to animate the attribute, then scaling 
 mix = (attribute - offset) * contrast;
 ```
 
-If you normalize the attribute (for example with Labs Normalize Float), it's easy to fit the timing exactly.
+If you normalize the attribute (eg. with Labs Normalize Float), it's easy to fit the timing exactly.
 
 <img src="./images/normalized_animation.webp?raw=true" width="600">
 
