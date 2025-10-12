@@ -399,6 +399,8 @@ The examples below are only for 3D volumes, but the same ideas work in any dimen
 
 SDFs give clean results for many common boolean operations. The versions below are from [Inigo Quilez](https://iquilezles.org/articles/distfunctions/).
 
+<img src="./images/sdfs/boolean_operations.png" height="250" align="left">
+
 ```js
 // Common boolean operations, from https://iquilezles.org/articles/distfunctions
 float opUnion(float d1; float d2) {
@@ -432,9 +434,13 @@ if (operation == 0) {
 }
 ```
 
+<br clear="left" />
+
 ### Smooth min
 
 Smooth min unions two SDFs together with smooth blending between them. The quadratic polynomial version below is from [Inigo Quilez](https://iquilezles.org/articles/smin/).
+
+<img src="./images/sdfs/smooth_min.png" height="250" align="left">
 
 ```js
 // Quadratic polynomial version, from https://iquilezles.org/articles/smin
@@ -454,17 +460,25 @@ float k = chf("k");
 f@surface = smin(dist, dist2, k);
 ```
 
+<br clear="left" />
+
 ### Erode/dilate
 
 Expanding or contracting an SDF is very easy, just add an offset. The IsoOffset and VDB Reshape SDF nodes can be used for this too.
+
+<img src="./images/sdfs/erode_dilate.png" height="250" align="left">
 
 ```js
 f@surface -= chf("offset");
 ```
 
+<br clear="left" />
+
 ### Domain repetition
 
 [Domain repetition](https://iquilezles.org/articles/sdfrepetition/) means repeating a coordinate system. This means SDFs defined in that coordinate system will repeat too.
+
+<img src="./images/sdfs/domain_repetition.png" height="250" align="left">
 
 ```js
 // From https://iquilezles.org/articles/distfunctions
@@ -476,6 +490,8 @@ float sdSphere( vector p; float s ) {
 vector p = (v@P % 2) - 1;
 f@surface = sdSphere(p, chf("radius"));
 ```
+
+<br clear="left" />
 
 ### 4D SDFs (Formula-based)
 
@@ -522,7 +538,7 @@ To travel toward an object, get the closest surface position with `minpos()` or 
 
 If you have a Level Set or Isosurface volume, you can use `volumegradient()` instead.
 
-<img src="./images/vel_towards.png?raw=true" width="600">
+<img src="./images/vel_towards.png?raw=true" width="500">
 
 ```js
 // Or xyzdist(1, v@P, prim, uv) then primuv(1, "P", prim, uv)
@@ -537,7 +553,7 @@ v@v = normalize(dir);
 
 To travel around an object you just need a cross product, or [two cross products](https://www.tokeru.com/cgwiki/JoyOfVex09.html#cross_product) to travel in one direction only.
 
-<img src="./images/vel_around.png?raw=true" width="600">
+<img src="./images/vel_around.png?raw=true" width="500">
 
 ```js
 vector axis = {0, 0, 1};
@@ -549,7 +565,7 @@ v@v = normalize(dir);
 
 Cwalrus on the Houdini & Chill Discord wanted to make a tornado travel around a head. This means combining both of the above.
 
-<img src="./images/tornado_head.gif?raw=true" width="600">
+<img src="./images/tornado_head.gif?raw=true" width="500">
 
 ```js
 vector towards_dir = (minpos(1, v@P) - v@P);
@@ -574,7 +590,7 @@ mix = (attribute - offset) * contrast;
 
 If you normalize the attribute (eg. with Labs Normalize Float), it's easy to fit the timing exactly.
 
-<img src="./images/normalized_animation.webp?raw=true" width="600">
+<img src="./images/normalized_animation.webp?raw=true" width="500">
 
 ```js
 float min_frame = chi("min_frame");
