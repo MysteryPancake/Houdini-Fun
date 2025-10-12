@@ -8,11 +8,11 @@ These articles grew too long to fit here. They're the most interesting in my opi
 
 - [Vertex Block Descent in Houdini](https://github.com/MysteryPancake/Houdini-VBD)
 - [3D Signed Distance Functions](./Houdini_SDFs.md)
+- [4D Signed Distance Functions](./4D.md)
 - [Lerp and Fit](Lerp.md)
 - [Waveforms](./Waveforms.md)
 - [Easings](./Easings.md)
 - [Normalized Device Coordinates](./NDC.md)
-- [4D Geometry](./4D.md)
 - [`primuv()` and `xyzdist()` remake in VEX+OpenCL](./Primuv_Xyzdist.md)
 - [Extract Transform remake in VEX](./Extract_Transform.md)
 - [Time Smoothing](https://mysterypancake.github.io/Houdini-Fun/TimeSmoothing) (WIP, interactive!)
