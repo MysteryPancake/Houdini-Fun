@@ -373,7 +373,7 @@ You can get cool and organic looking shapes using opposing forces, like Relax an
 | [Download the HIP file!](./hips/spaghetti.hiplc?raw=true) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
 | --- | --- |
 
-## Fancy SDF Operations
+## Fancy SDF operations
 
 SDFs are a different way of representing geometry. Rather than polygons, they store the distance to the surface. This has many advantages like clean boolean operations, cheap infinite repetition and perfect representation for smooth shapes like spheres.
 
