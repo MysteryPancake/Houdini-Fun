@@ -375,9 +375,9 @@ You can get cool and organic looking shapes using opposing forces, like Relax an
 
 ## Fancy SDF Operations
 
-SDFs are a way to represent geometry using distances rather than triangles. This lets you perfectly represent smooth shapes like spheres.
+SDFs are a different way of representing geometry. Rather than polygons, they store the distance to the surface. This has many advantages like clean boolean operations, cheap infinite repetition and perfect representation for smooth shapes like spheres.
 
-Houdini supports SDFs in two places I know of:
+Houdini supports SDFs in two places. Both are grid-based so they're more crusty than they should be:
 
 - 2D Copernicus volumes (for example SDF Shape node)
 - 3D Level Set/IsoSurface volumes (for example Level Set VDBs)
@@ -391,7 +391,7 @@ The examples below are only for 3D volumes, but the same ideas work in any dimen
 
 ### 3D SDFs (Formula-based)
 
-Check my [3D SDF page](./Houdini_SDFs.md) for a bunch of 3D shapes from Inigo Quilez, and instructions on how to use them!
+[See my 3D SDF article](./Houdini_SDFs.md) for a bunch of 3D shapes from [Inigo Quilez](https://iquilezles.org/articles/distfunctions/), and instructions on how to use them!
 
 [<img src="./images/sdfs/sdf_volumes.png?raw=true">](hips/sdf_volumes.hipnc?raw=true)
 
@@ -479,9 +479,14 @@ f@surface = sdSphere(p, chf("radius"));
 
 ### 4D SDFs (Formula-based)
 
-SDFs aren't restricted to 3D. SDFs can be [generalized to any dimension](https://youtu.be/62-pRVZuS5c?si=7qqStYa-mcGfNS7L&t=387) if the formula allows it.
+SDFs aren't restricted to 3D. They can be [generalized to any dimension](https://youtu.be/62-pRVZuS5c?si=7qqStYa-mcGfNS7L&t=387) if the formula allows it.
 
-Check [my 4D page](./4D.md) for more information on this, including some 4D SDFs you can play with!
+[See my 4D SDF article](./4D.md) for more information on this, including 4D sphere and cube SDFs and 4D rotation matrices!
+
+<p align="left">
+	<img src="./images/4d/4dcube.gif" height="300">
+	<img src="./images/4d/cubeslice4d.gif" height="300">
+</p>
 
 ## Smooth steps
 
