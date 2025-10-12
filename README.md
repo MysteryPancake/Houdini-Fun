@@ -373,7 +373,7 @@ You can get cool and organic looking shapes using opposing forces, like Relax an
 | [Download the HIP file!](./hips/spaghetti.hiplc?raw=true) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
 | --- | --- |
 
-## Fancy SDF Operations (smooth min, formula based, 4D)
+## Fancy SDF Operations
 
 SDFs are a way to represent geometry using distances rather than triangles. This lets you perfectly represent smooth shapes like spheres.
 
@@ -389,7 +389,7 @@ The examples below are only for 3D volumes, but the same ideas work in any dimen
 | [Download the HIP file!](./hips/smooth_min.hiplc?raw=true) | [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
 | --- | --- |
 
-### 3D SDFs
+### 3D SDFs (Formula-based)
 
 Check my [3D SDF page](./Houdini_SDFs.md) for a bunch of 3D shapes from Inigo Quilez, and instructions on how to use them!
 
@@ -477,7 +477,7 @@ vector p = (v@P % 2) - 1;
 f@surface = sdSphere(p, chf("radius"));
 ```
 
-### 4D SDFs
+### 4D SDFs (Formula-based)
 
 SDFs aren't restricted to 3D. SDFs can be [generalized to any dimension](https://youtu.be/62-pRVZuS5c?si=7qqStYa-mcGfNS7L&t=387) if the formula allows it.
 
