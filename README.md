@@ -375,6 +375,15 @@ You can get cool and organic looking shapes using opposing forces, like Relax an
 
 ## Fancy SDF Operations (smooth min, formula based, 4D)
 
+SDFs are a way to represent geometry using distances rather than triangles. This lets you perfectly represent smooth shapes like spheres.
+
+Houdini supports SDFs in two places I know of:
+
+- 2D Copernicus volumes (for example SDF Shape node)
+- 3D Level Set/IsoSurface volumes (for example Level Set VDBs)
+
+The examples below are only for 3D volumes, but the same ideas apply in any dimension.
+
 [![SDF tutorial](https://img.youtube.com/vi/xPrnFhfuuk4/mqdefault.jpg)](https://youtu.be/xPrnFhfuuk4)
 
 | [Download the HIP file!](./hips/smooth_min.hiplc?raw=true) | [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
