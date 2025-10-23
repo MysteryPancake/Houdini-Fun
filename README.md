@@ -321,40 +321,6 @@ I can't be bothered myself, but you can use this file as a starting point!
 | [Download the HIP file!](./hips/cops_pyro_comparison.hiplc?raw=true) |
 | --- |
 
-## Copernicus: Radial Blur
-
-Simple radial blur shader I made for Balthazar on the CGWiki Discord.
-
-<img src="./images/cops/radial_blur.png?raw=true" width="600">
-
-```c
-#bind layer src? val=0
-#bind layer !&dst
-
-#bind parm quality int val=10
-#bind parm center float2 val=0
-#bind parm scale float val=0.2
-#bind parm rotation float val=0
-
-@KERNEL
-{
-    float2 offset = @P - @center;
-    float4 result = 0.;
-    float scale = 1;
-    
-    for (int i = 0; i <= @quality; ++i) {
-        result += @src.imageSample(offset * scale + @center) / (@quality + 1);
-        offset = rotate2D(offset, @rotation / @quality);
-        scale -= @scale / @quality;
-    }
-    
-    @dst.set(result);
-}
-```
-
-| [Download the HIP file!](./hips/cops/radial_blur.hiplc?raw=true) |
-| --- |
-
 ## Copernicus to Heightfield
 
 Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes? Heightfields!
