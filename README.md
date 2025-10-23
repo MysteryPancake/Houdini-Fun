@@ -7,6 +7,7 @@ Various Houdini tips and tricks I use a bunch. Hope someone finds this helpful!
 These articles grew too long to fit here. They're the most interesting in my opinion, so be sure to check them out!
 
 - [Vertex Block Descent in Houdini](https://github.com/MysteryPancake/Houdini-VBD)
+- [Houdini OpenCL](https://github.com/MysteryPancake/Houdini-OpenCL)
 - [3D Signed Distance Functions](./Houdini_SDFs.md)
 - [4D Signed Distance Functions](./4D.md)
 - [Lerp and Fit](Lerp.md)
