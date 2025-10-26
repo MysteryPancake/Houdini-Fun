@@ -53,6 +53,21 @@ Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eige
 | [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/laplacian_filter.hiplc?raw=true) |
 | --- | --- |
 
+## HDA: Plate Project
+
+[NDC coordinates](./NDC.md) are great for projecting plates (photos and videos) from the camera that took them, or [Ian Hubert projection tricks](https://www.youtube.com/watch?v=RxD6H3ri8RI).
+
+This HDA lets you project plates in 3 ways:
+
+1. Constant Z coordinate
+2. Varying Z coordinate using a depth map
+3. Raycasting to snap to the object
+
+Remember to remove lens distortion (undistort) the plate before using this HDA to get correct results.
+
+| [Download the HDA!](./hdas/MysteryPancake.plate_project.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/plate_project.hiplc?raw=true) |
+| --- | --- |
+
 ## HDA: Rigid Piece Preroll
 
 Most preroll nodes use position difference only. This is fine for translation but not rotation.
