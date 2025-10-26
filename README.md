@@ -63,7 +63,7 @@ This HDA lets you project plates in 3 ways:
 2. Varying Z coordinate using a depth map
 3. Raycasting to snap to the object
 
-Remember to remove the lens distortion from the plate before using this HDA to get correct results.
+Remember to remove lens distortion (undistort) the plate before using this HDA to get correct results.
 
 | [Download the HDA!](./hdas/MysteryPancake.plate_project.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/plate_project.hiplc?raw=true) |
 | --- | --- |
