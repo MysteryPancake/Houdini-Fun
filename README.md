@@ -60,8 +60,16 @@ Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eige
 This HDA lets you project plates in 3 ways:
 
 1. Constant Z coordinate
+
+<img src="./images/ndc/plate_project_constant.png?raw=true" width="500">
+
 2. Varying Z coordinate using a depth map
-3. Raycasting to snap to the object
+
+<img src="./images/ndc/plate_project_depth.png?raw=true" width="500">
+
+3. Raying onto the object
+
+<img src="./images/ndc/plate_project_cam.png?raw=true" width="500">
 
 Remember to remove lens distortion (undistort) the plate before using this HDA to get correct results.
 
