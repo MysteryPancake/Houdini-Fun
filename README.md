@@ -1116,7 +1116,7 @@ The facing ratio is how similar the ray direction is to the normal. It's great f
   <img src="./images/fresnel2.png?raw=true" height="300">
 </p>
 
-You can compute it using the [MtlX Facing Ratio node](https://www.sidefx.com/docs/houdini/nodes/vop/hmtlxfacingratio.html), or manually using VEX.
+You can compute it using the [MtlX Facing Ratio node](https://www.sidefx.com/docs/houdini/nodes/vop/hmtlxfacingratio.html), or manually using VEX:
 
 ```js
 string cam = chsop("cam");
@@ -1127,7 +1127,7 @@ vector camDir = normalize(v@P - camPos);
 f@fresnel = dot(v@N, camDir);
 ```
 
-The range is -1 to 1, where 1 is identical and -1 is opposite. You can map it into 0 to 1 range by replacing the last line.
+The range is -1 to 1, where 1 is identical and -1 is opposite. Replace the last line to map it into 0 to 1 range:
 
 ```js
 // 0 to 1 range
