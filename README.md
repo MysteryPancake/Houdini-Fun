@@ -1120,7 +1120,7 @@ You can compute it using the [MtlX Facing Ratio node](https://www.sidefx.com/doc
 
 ```js
 string cam = chsop("cam");
-vector camPos = optransform(cam) * {0,0,0};
+vector camPos = optransform(cam) * {0, 0, 0};
 vector camDir = normalize(v@P - camPos);
 
 // -1 to 1 range
