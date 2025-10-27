@@ -1109,7 +1109,7 @@ i@near_id = nearpoint("unwrap:uv opinput:0", chv("uv_coordinate"));
 
 ## Facing ratio / fresnel
 
-The facing ratio is how similar the ray direction is to the normal. It's useful for holograms, ghostly and fresnel-like shading.
+The facing ratio is how similar the ray direction and normal are. It's useful for holograms, ghostly and fresnel-like shading.
 
 <p align="left">
   <img src="./images/fresnel1.png?raw=true" height="300">
