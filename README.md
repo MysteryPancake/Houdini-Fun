@@ -1107,6 +1107,33 @@ i@near_id = nearpoint("unwrap:uv opinput:0", chv("uv_coordinate"));
 | [Download the HIP file!](./hips/geounwrap.hipnc?raw=true) |
 | --- |
 
+## Facing ratio / fresnel
+
+The facing ratio is how similar the camera direction is to the normal. It's useful for holograms, ghostly and fresnel-like effects.
+
+<p align="left">
+  <img src="./images/fresnel1.png?raw=true" height="250">
+  <img src="./images/fresnel2.png?raw=true" height="250">
+</p>
+
+You can compute it using the [MtlX Facing Ratio node](https://www.sidefx.com/docs/houdini/nodes/vop/hmtlxfacingratio.html), or manually using VEX.
+
+```js
+string cam = chsop("cam");
+vector camPos = optransform(cam) * {0,0,0};
+vector camDir = normalize(v@P - camPos);
+
+// -1 to 1 range
+f@fresnel = dot(v@N, camDir);
+```
+
+The range is -1 to 1, where 1 is identical and -1 is opposite. You can map it into 0 to 1 range by replacing the last line.
+
+```js
+// 0 to 1 range
+f@fresnel = dot(v@N, camDir) * 0.5 + 0.5; // or fit11(x, 0, 1)
+```
+
 ## Sampling environment maps
 
 A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI using VEX. It's a cheap way to get environment mapping without leaving the viewport.
