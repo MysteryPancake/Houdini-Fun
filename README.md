@@ -1109,11 +1109,11 @@ i@near_id = nearpoint("unwrap:uv opinput:0", chv("uv_coordinate"));
 
 ## Facing ratio / fresnel
 
-The facing ratio is how similar the ray direction is to the normal. It's useful for holograms, ghostly and fresnel-like effects.
+The facing ratio is how similar the ray direction is to the normal. It's useful for holograms, ghostly and fresnel-like shading.
 
 <p align="left">
-  <img src="./images/fresnel1.png?raw=true" height="250">
-  <img src="./images/fresnel2.png?raw=true" height="250">
+  <img src="./images/fresnel1.png?raw=true" height="300">
+  <img src="./images/fresnel2.png?raw=true" height="300">
 </p>
 
 You can compute it using the [MtlX Facing Ratio node](https://www.sidefx.com/docs/houdini/nodes/vop/hmtlxfacingratio.html), or manually using VEX.
