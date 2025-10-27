@@ -1131,7 +1131,7 @@ The range is -1 to 1, where 1 is identical and -1 is opposite. You can map it in
 
 ```js
 // 0 to 1 range
-f@fresnel = dot(v@N, camDir) * 0.5 + 0.5; // or fit11(x, 0, 1)
+f@fresnel = dot(v@N, camDir) * 0.5 + 0.5; // Or fit11(..., 0, 1)
 ```
 
 ## Sampling environment maps
@@ -1141,8 +1141,8 @@ A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI usin
 <img src="./images/hdrisample.png?raw=true" height="320">
 
 ```js
-// Insert your camera position here
-vector cam_pos = optransform("/obj/cam1") * {0, 0, 0};
+string cam = chsop("cam");
+vector cam_pos = optransform(cam) * {0, 0, 0};
 
 // John Kunz magic
 vector r = normalize(reflect(normalize(v@P - cam_pos), v@N));
