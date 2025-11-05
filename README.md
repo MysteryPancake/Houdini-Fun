@@ -41,7 +41,7 @@ Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me shar
 
 Another thing you can make with the [Laplacian node](https://www.sidefx.com/docs/houdini//nodes/sop/laplacian.html) is a geometry equalizer.
 
-Like with sound, you can exaggerate or reduce certain frequencies (eigenvectors) of the geometry.
+Like with sound, you can exaggerate or reduce certain frequencies (eigenvectors) of the geometry. This allows for various smoothing and sharpening effects, like a parametric EQ for geometry.
 
 Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eigenspace Projection example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd)! I remade it in OpenCL for better performance.
 
