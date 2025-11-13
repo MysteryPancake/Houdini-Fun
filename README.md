@@ -859,6 +859,93 @@ Now the cross sections connect perfectly without any resampling!
 | [Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc?raw=true) |
 | --- |
 
+## Facing ratio / fresnel
+
+The facing ratio is how similar the ray direction is to the normal. It's great for holograms, ghostly and fresnel-like effects.
+
+<p align="left">
+  <img src="./images/fresnel1.png?raw=true" height="300">
+  <img src="./images/fresnel2.png?raw=true" height="300">
+</p>
+
+You can compute it using the [MtlX Facing Ratio node](https://www.sidefx.com/docs/houdini/nodes/vop/hmtlxfacingratio.html), or manually using VEX:
+
+```js
+string cam = chsop("cam");
+vector camPos = optransform(cam) * {0, 0, 0};
+vector camDir = normalize(v@P - camPos);
+
+// -1 to 1 range
+f@fresnel = dot(v@N, camDir);
+```
+
+The range is -1 to 1, where 1 is identical and -1 is opposite. Replace the last line to map it into 0 to 1 range:
+
+```js
+// 0 to 1 range
+f@fresnel = dot(v@N, camDir) * 0.5 + 0.5; // Or fit11(..., 0, 1)
+```
+
+## Bilinear patches
+
+Fun fact! [Houdini interpolates quads as bilinear patches](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html), even though they're rendered as two triangles.
+
+This causes issues with scattering, raycasting, and anything involving `xyzdist()` or `primuv()` as seen below.
+
+<img src="./images/bilinear_patch.png?raw=true" height="300">
+
+It's surprisingly hard to find the closest point on a bilinear patch. One solution can be found in my [remake of `primuv()` and `xyzdist()`](./Primuv_Xyzdist.md).
+
+## Sampling environment maps
+
+A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI using VEX. It's a cheap way to get environment mapping without leaving the viewport.
+
+<img src="./images/hdrisample.png?raw=true" height="320">
+
+```js
+string cam = chsop("cam");
+vector cam_pos = optransform(cam) * {0, 0, 0};
+
+// John Kunz magic
+vector r = normalize(reflect(normalize(v@P - cam_pos), v@N));
+vector uv = set(atan2(-r.z, -r.x) / PI + 0.5, r.y * 0.5 + 0.5, 0);
+v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.y);
+```
+
+| [Download the HIP file!](./hips/hdrisample.hipnc?raw=true) |
+| --- |
+
+## Smoothing volumes with VEX
+
+Levin on the CGWiki Discord wanted to blur volumes in VEX. You can do it by sample neighbors in a box and averaging them together. This is slower than the built-in volume nodes, but might be useful one day:
+
+```js
+float density_sum = 0;
+int num_samples = 0;
+
+int voxel_radius = chi("voxel_radius");
+for (int x = -voxel_radius; x <= voxel_radius; ++x) {
+    for (int y = -voxel_radius; y <= voxel_radius; ++y) {
+        for (int z = -voxel_radius; z <= voxel_radius; ++z) {
+            // Sample voxel at offset index
+            vector voxel = set(i@ix + x, i@iy + y, i@iz + z);
+            float density = volumeindex(0, 0, voxel);
+
+            // Add to sum and sample count
+            density_sum += density;
+            ++num_samples;
+        }
+    }
+}
+
+f@density = density_sum / num_samples;
+```
+
+<img src="./images/volumesmoothing.png?raw=true" width="600">
+
+| [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true) |
+| --- |
+
 ## Fitting UV islands
 
 Sometimes you need to overlap UV islands and fit them to a full tile, like when slicing a sphere.
@@ -1105,83 +1192,6 @@ i@near_id = nearpoint("unwrap:uv opinput:0", chv("uv_coordinate"));
 ```
 
 | [Download the HIP file!](./hips/geounwrap.hipnc?raw=true) |
-| --- |
-
-## Facing ratio / fresnel
-
-The facing ratio is how similar the ray direction is to the normal. It's great for holograms, ghostly and fresnel-like effects.
-
-<p align="left">
-  <img src="./images/fresnel1.png?raw=true" height="300">
-  <img src="./images/fresnel2.png?raw=true" height="300">
-</p>
-
-You can compute it using the [MtlX Facing Ratio node](https://www.sidefx.com/docs/houdini/nodes/vop/hmtlxfacingratio.html), or manually using VEX:
-
-```js
-string cam = chsop("cam");
-vector camPos = optransform(cam) * {0, 0, 0};
-vector camDir = normalize(v@P - camPos);
-
-// -1 to 1 range
-f@fresnel = dot(v@N, camDir);
-```
-
-The range is -1 to 1, where 1 is identical and -1 is opposite. Replace the last line to map it into 0 to 1 range:
-
-```js
-// 0 to 1 range
-f@fresnel = dot(v@N, camDir) * 0.5 + 0.5; // Or fit11(..., 0, 1)
-```
-
-## Sampling environment maps
-
-A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI using VEX. It's a cheap way to get environment mapping without leaving the viewport.
-
-<img src="./images/hdrisample.png?raw=true" height="320">
-
-```js
-string cam = chsop("cam");
-vector cam_pos = optransform(cam) * {0, 0, 0};
-
-// John Kunz magic
-vector r = normalize(reflect(normalize(v@P - cam_pos), v@N));
-vector uv = set(atan2(-r.z, -r.x) / PI + 0.5, r.y * 0.5 + 0.5, 0);
-v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.y);
-```
-
-| [Download the HIP file!](./hips/hdrisample.hipnc?raw=true) |
-| --- |
-
-## Smoothing volumes with VEX
-
-Levin on the CGWiki Discord wanted to blur volumes in VEX. You can do it by sample neighbors in a box and averaging them together. This is slower than the built-in volume nodes, but might be useful one day:
-
-```js
-float density_sum = 0;
-int num_samples = 0;
-
-int voxel_radius = chi("voxel_radius");
-for (int x = -voxel_radius; x <= voxel_radius; ++x) {
-    for (int y = -voxel_radius; y <= voxel_radius; ++y) {
-        for (int z = -voxel_radius; z <= voxel_radius; ++z) {
-            // Sample voxel at offset index
-            vector voxel = set(i@ix + x, i@iy + y, i@iz + z);
-            float density = volumeindex(0, 0, voxel);
-
-            // Add to sum and sample count
-            density_sum += density;
-            ++num_samples;
-        }
-    }
-}
-
-f@density = density_sum / num_samples;
-```
-
-<img src="./images/volumesmoothing.png?raw=true" width="600">
-
-| [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true) |
 | --- |
 
 ## Split curve to individual lines and back again
