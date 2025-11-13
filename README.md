@@ -888,13 +888,15 @@ f@fresnel = dot(v@N, camDir) * 0.5 + 0.5; // Or fit11(..., 0, 1)
 
 ## Bilinear patches
 
-Fun fact! [Houdini interpolates quads as bilinear patches](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html), even though they're rendered as two triangles.
+Fun fact! [Quads are interpolated as bilinear patches](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html), even though they're rendered as two triangles.
 
 This causes issues with scattering, raycasting, and anything involving `xyzdist()` or `primuv()` as seen below.
 
 <img src="./images/bilinear_patch.png?raw=true" height="300">
 
-It's surprisingly hard to find the closest point on a bilinear patch. One solution can be found in my [remake of `primuv()` and `xyzdist()`](./Primuv_Xyzdist.md).
+The easiest fix is triangulating the geometry before scattering or raycasting.
+
+It's surprisingly hard to find the closest point on a bilinear patch. One solution can be found in my remake of [`primuv()` and `xyzdist()`](./Primuv_Xyzdist.md).
 
 ## Sampling environment maps
 
