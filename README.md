@@ -22,14 +22,13 @@ These articles grew too long to fit here. They're the most interesting in my opi
 - [Vexember 2023](./Vexember.md) (WIP)
 - [Sound Effects](./Sound.md) (WIP)
 
-## Cool HIP Files (Not Sponsored)
+## More Houdini Resources
 
 - [White Dog HIP files](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd?usp=drive_link)
 - [Lewis Saunders HIP files](https://github.com/lcrs/_.hips)
 - [Jake Rice HIP files](https://github.com/jakericedesigns/Assorted-Houdini-Demos)
 - [XAPKOHHEH HIP files](https://github.com/pedohorse/educational-hips)
 - [Junichiro Horikawa HIP files](https://github.com/jhorikawa/HoudiniHowtos)
-- 
 
 <h2><img src="./images/fast_straight_skeleton.svg?raw=true" height="32"> HDA: Fast Straight Skeleton 3D</h2>
 
