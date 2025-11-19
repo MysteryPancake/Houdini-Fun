@@ -386,7 +386,7 @@ The examples below are only for 3D volumes, but the same ideas work in any dimen
 
 [![SDF tutorial](https://img.youtube.com/vi/xPrnFhfuuk4/mqdefault.jpg)](https://youtu.be/xPrnFhfuuk4)
 
-| [Download the HIP file!](./hips/smooth_min.hiplc?raw=true) | [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
+| [Download the HIP file!](./hips/sdfs/smooth_min.hiplc?raw=true) | [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
 | --- | --- |
 
 ### 3D SDFs (Formula-based)
