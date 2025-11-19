@@ -462,6 +462,46 @@ f@surface = smin(dist, dist2, k);
 
 <br clear="left" />
 
+### Smooth min with color
+
+If you want to blend color (or any other attribute), you can use another `smin()` variant from [Inigo Quilez](https://www.shadertoy.com/view/MXfXzM).
+
+It returns the distance and the blending factor. The blending factor can be used with `lerp()` to blend two Cd volumes together.
+
+<img src="./images/sdfs/smooth_min_cd.png" width="200" align="left">
+
+```js
+// From https://www.shadertoy.com/view/MXfXzM
+// Returns the distance in .x and blending factor in .y
+vector2 smin( float a; float b; float k ) {
+    k *= 6.0;
+    float h = max( k-abs(a-b), 0.0 )/k;
+    float m = h*h*h*0.5;
+    float s = m*k*(1.0/3.0); 
+    return (a<b) ? set(a-s,m) : set(b-s,1.0-m);
+}
+
+float dist = f@surface;
+float dist2 = volumesample(1,"surface",v@P);
+
+vector Cd = v@Cd;
+vector Cd2 = volumesamplev(1,"Cd",v@P);
+
+float k = chf("k");
+vector2 dist_blend = smin(dist, dist2, k);
+
+f@surface = dist_blend.x;
+v@Cd = lerp(Cd, Cd2, dist_blend.y);
+```
+
+<br clear="left" />
+
+When converting the geometry to polygons, you can transfer the color from the Cd volume using `volumesamplev()`.
+
+```js
+v@Cd = volumesamplev(1,"Cd",v@P);
+```
+
 ### Erode/dilate
 
 Expanding or contracting an SDF is very easy, just add an offset. The IsoOffset and VDB Reshape SDF nodes can be used for this too.
