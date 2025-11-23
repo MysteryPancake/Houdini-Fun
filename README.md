@@ -372,7 +372,7 @@ An easy way is working subtractively. Take the base curve and resample it. This 
 
 ## Procedural Buildings
 
-These files are from 2023 when I was first learning procedural modelling in Houdini. They're messier and less optimized than usual.
+These files are from 2023 when I was first learning procedural modelling in Houdini, so they're messier and less optimized than usual.
 
 I remade a bunch of Sydney landmarks and turned them into HDAs for easy control.
 
@@ -383,7 +383,7 @@ I remade a bunch of Sydney landmarks and turned them into HDAs for easy control.
 
 ### Brick House
 
-I used the brick wall technique above, boolean intersections for the rooms and Poly Expand 2D for the roof. This was inspired by a [procedural house tutorial](https://www.sidefx.com/tutorials/procedural-house/).
+I used the brick wall technique above, boolean intersections for the rooms and Poly Expand 2D for the roof. Inspired by a [procedural house tutorial](https://www.sidefx.com/tutorials/procedural-house/).
 
 <img src="./images/building1.png?raw=true" width="600">
 
@@ -392,11 +392,38 @@ I used the brick wall technique above, boolean intersections for the rooms and P
 
 ### Dancing City
 
-I used Convex Hull to get more abstract shapes. This was inspired by an [Overwatch house tutorial](https://www.youtube.com/watch?v=uIe97023sDk).
+I used Convex Hull to get more abstract shapes, with power lines to add detail. Inspired by an [Overwatch house tutorial](https://www.youtube.com/watch?v=uIe97023sDk).
 
 <img src="./images/building2.png?raw=true" width="600">
 
 | [Download the HIP file!](./hips/Dancing_City.hipnc?raw=true) |
+| --- |
+
+### UTS Tower (HDA)
+
+Low poly replica of the UTS Tower (Building 1), with height and copy controls.
+
+<img src="./images/utstower.png?raw=true" width="600">
+
+| [Download the HDA!](./hdas/MysteryPancake.UTS.hdanc?raw=true) |
+| --- |
+
+### UTS Business School (HDA)
+
+Low poly replica of UTS Business School (Building 8), with scattering and noise controls.
+
+<img src="./images/businessschool.png?raw=true" width="600">
+
+| [Download the HDA!](./hdas/MysteryPancake.BusinessSchool.hdanc?raw=true) |
+| --- |
+
+### Centrepoint Tower (HDA)
+
+Low poly replica of the Sydney Tower Eye, with twisting and height controls.
+
+<img src="./images/centrepoint.png?raw=true" width="600">
+
+| [Download the HDA!](./hdas/MysteryPancake.Centrepoint.hdanc?raw=true) |
 | --- |
 
 ## Complex Growth in 2 nodes
