@@ -364,6 +364,41 @@ Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes?
 | [Video Tutorial](https://youtu.be/-zGjD4zaYMU) |
 | --- |
 
+## Alternating rows for brick walls
+
+The tricky part about modelling brick walls is the alternating pattern. Every second row is slid across by half a brick's width. How would you create this pattern?
+
+An easy way is working subtractively. Take the base curve and resample it. This gives you the first row. For the second row, subdivide the first. Use a "Group by Range" node to select every second point, then delete them with a "Dissolve" node.
+
+## Procedural Buildings
+
+These files are from 2023 when I was first learning procedural modelling in Houdini. They're messier and less optimized than usual.
+
+I remade a bunch of Sydney landmarks and turned them into HDAs for easy control.
+
+[![Procedural Buildings](https://img.youtube.com/vi/Kckh975WqQs/mqdefault.jpg)](https://youtu.be/Kckh975WqQs)
+
+| [Watch Video](https://youtu.be/Kckh975WqQs) |
+| --- |
+
+### Brick House
+
+I used the brick wall technique above, boolean intersections for the rooms and Poly Expand 2D for the roof. This was inspired by a [procedural house tutorial](https://www.sidefx.com/tutorials/procedural-house/).
+
+<img src="./images/building1.png?raw=true" width="600">
+
+| [Download the HIP file!](./hips/Brick_House.hipnc?raw=true) |
+| --- |
+
+### Dancing City
+
+I used Convex Hull to get more abstract shapes. This was inspired by an [Overwatch house tutorial](https://www.youtube.com/watch?v=uIe97023sDk).
+
+<img src="./images/building2.png?raw=true" width="600">
+
+| [Download the HIP file!](./hips/Dancing_City.hipnc?raw=true) |
+| --- |
+
 ## Complex Growth in 2 nodes
 
 You can get cool and organic looking shapes using opposing forces, like Relax and Attribute Blur.
@@ -1842,13 +1877,7 @@ This is faster than the new Motion Blur node, which caches the entire timeline a
 
 ## Attribute min / max / average...
 
-Use Attribute Promote set to "Detail" with the appropriate mode.
-
-## Alternating rows for brick walls
-
-The tricky part about modelling brick walls is the alternating pattern. Every second row is slid across by half a brick's width. How would you create this pattern?
-
-An easy way is working subtractively. Take the base curve and resample it. This gives you the first row. For the second row, subdivide the first. Use a "Group by Range" node to select every second point, then delete them with a "Dissolve" node.
+Use Attribute Promote set to "Detail" with the appropriate mode. The "Labs Attribute Normalize Float" and "Labs Attribute Normalize Vector" nodes are great for normalizing attributes.
 
 ## Access context geometry inside solver
 
