@@ -426,6 +426,17 @@ Low poly replica of the Sydney Tower Eye, with twisting and height controls.
 | [Download the HDA!](./hdas/MysteryPancake.Centrepoint.hdanc?raw=true) |
 | --- |
 
+## RBD Strandbeest
+
+Physically simulated strandbeest using the RBD Bullet Solver. It walks all by itself without any extra forces!
+
+I found a cool use of Vellum for this, it can repair the edge lengths based on [the ratios from Wikipedia](https://en.wikipedia.org/wiki/Jansen%27s_linkage).
+
+<img src="./images/strandbeest.webp?raw=true" width="600">
+
+| [Download the HIP file!](./hips/strandbeest_v1.hiplc?raw=true) |
+| --- |
+
 ## Complex Growth in 2 nodes
 
 You can get cool and organic looking shapes using opposing forces, like Relax and Attribute Blur.
