@@ -1951,3 +1951,14 @@ No idea if this affects density, but just in case here's the minimum:
 Particle Radius Scale = Grid Scale × (sqrt(3)/2)
 Grid Scale = Particle Radius Scale / (sqrt(3)/2)
 ```
+
+## Lewis Saunders: Hairgen From Lines
+
+This file was made by [Lewis Saunders](https://github.com/lcrs/_.hips), reuploaded with permission.
+
+Using hairgen to create geo at render time from guide hairs which are just SOPs lines, with random variation done inside the hairgen.
+
+<img src="./images/lcrs/Ls_HairgenFromLines.png?raw=true" width="600">
+
+| [Download the HIP file!](./hips/Ls_HairgenFromLines_v03.hiplc?raw=true) |
+| --- |
