@@ -1017,18 +1017,6 @@ The range is -1 to 1, where 1 is identical and -1 is opposite. Replace the last 
 f@fresnel = dot(v@N, camDir) * 0.5 + 0.5; // Or fit11(..., 0, 1)
 ```
 
-## Bilinear patches
-
-Fun fact! [Quads are interpolated as bilinear patches](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html), even though they're rendered as two triangles.
-
-This causes issues with scattering, raycasting, and anything involving `xyzdist()` or `primuv()` as seen below.
-
-<img src="./images/bilinear_patch.png?raw=true" height="300">
-
-The easiest fix is triangulating the geometry before scattering or raycasting.
-
-It's surprisingly hard to find the closest point on a bilinear patch. One solution can be found in my remake of [`primuv()` and `xyzdist()`](./Primuv_Xyzdist.md).
-
 ## Sampling environment maps
 
 A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI using VEX. It's a cheap way to get environment mapping without leaving the viewport.
@@ -1077,6 +1065,34 @@ f@density = density_sum / num_samples;
 <img src="./images/volumesmoothing.png?raw=true" width="600">
 
 | [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true) |
+| --- |
+
+## Bilinear patches
+
+Fun fact! [Quads are interpolated as bilinear patches](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html), even though they're rendered as two triangles.
+
+This causes issues with scattering, raycasting, and anything involving `xyzdist()` or `primuv()` as seen below.
+
+<img src="./images/bilinear_patch.png?raw=true" height="300">
+
+The easiest fix is triangulating the geometry before scattering or raycasting.
+
+It's surprisingly hard to find the closest point on a bilinear patch. One solution can be found in my remake of [`primuv()` and `xyzdist()`](./Primuv_Xyzdist.md).
+
+## Lloyd Relaxation (Point Relax)
+
+Lloyd Relaxation is popular for spreading points evenly across a surface, as used by the Point Relax node.
+
+It's a recursive process involving making a voronoi diagram, finding the centers and making another diagram:
+
+1. Voronoi Fracture with the initial points as the fracture points
+2. Find the center of each voronoi cell using Extract Centroid
+3. Voronoi Fracture with the centers as the fracture points
+4. Repeat steps 2-3 until the spacing is relaxed enough
+
+<img src="./images/lloyd_relaxation.webp?raw=true" width="400">
+
+| [Download the HIP file!](./hips/lloyd_relaxation.hiplc?raw=true) |
 | --- |
 
 ## Fitting UV islands
