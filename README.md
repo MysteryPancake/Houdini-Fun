@@ -1960,5 +1960,68 @@ Using hairgen to create geo at render time from guide hairs which are just SOPs 
 
 <img src="./images/lcrs/Ls_HairgenFromLines.png?raw=true" width="600">
 
-| [Download the HIP file!](./hips/Ls_HairgenFromLines_v03.hiplc?raw=true) |
+| [Download the HIP file!](./hips/lcrs/Ls_HairgenFromLines_v03.hiplc?raw=true) |
 | --- |
+
+## Lewis Saunders: Mantra Shadow Mask
+
+This file was made by [Lewis Saunders](https://github.com/lcrs/_.hips), reuploaded with permission.
+
+## Lewis Saunders: Mesh Divergence
+
+This file was made by [Lewis Saunders](https://github.com/lcrs/_.hips), reuploaded with permission.
+
+## Lewis Saunders: Motion Vectors
+
+This file was made by [Lewis Saunders](https://github.com/lcrs/_.hips), reuploaded with permission.
+
+Inline code snippet to output 2D motion vectors in absolute pixels, for 2D vector blur in comp.
+
+Works on both geometry and volumes, as seen in [Ls_VolumeMotionVectors](#lewis-saunders-volume-motion-vectors).
+
+<img src="./images/lcrs/Ls_MotionVectors.png?raw=true" width="600">
+
+```js
+// 2D motion vector output in absolute pixels, lewis@lewissaunders.com July 2018
+// Paste this in an Inline Code VOP, enable "Expand Expressions in Code"
+// Connect a Bind set to "vel", type Vector, to the first input
+// Set Output 1 Name to "mv", type Vector
+// Connect the output to a Bind Export set to the name used in Mantra's image planes
+// Make sure motion blur is enabled on the ROP, even if "Allow Image Motion Blur" is not
+vector ndcv = toNDC(getblurP(1.0)) - toNDC(getblurP(0.0));
+string engine; renderstate("renderer:renderengine", engine);
+if((engine == "raytrace" || engine == "pbrraytrace") && isbound("vel")) {
+    // When rendering volumes in raytrace mode the getblurP() method doesn't work, but we do the best we can
+    // It's correct for a static camera but there's no way to incorporate camera motion. For simple camera moves
+    // the camera motion vectors can be added to this in comp before the blur is done... to get solid vectors
+    // from a volume the density normally needs to be increased a lot anyway, and rendered as another pass, so
+    // it might be better to just do that pass in micropoly mode :)
+    vector p0 = getblurP(0.0);
+    vector framev = vel / $FPS;
+    vector camerav = vtransform("space:object", "space:camera", framev);
+    ndcv = toNDC(p0 + camerav) - toNDC(p0);
+}
+vector res; renderstate("image:resolution", res);
+ndcv *= set(res.x, res.y, 0.0);
+\$mv = ndcv;
+```
+
+| [Download the HIP file!](./hips/lcrs/Ls_MotionVectors_v01.hip?raw=true) |
+| --- |
+
+## Lewis Saunders: Pop Trails
+
+This file was made by [Lewis Saunders](https://github.com/lcrs/_.hips), reuploaded with permission.
+
+## Lewis Saunders: Volume Motion Vectors
+
+This file was made by [Lewis Saunders](https://github.com/lcrs/_.hips), reuploaded with permission.
+
+Inline code snippet to output 2D motion vectors in absolute pixels, as seen in [Ls_MotionVectors](#lewis-saunders-motion-vectors).
+
+Motion vectors for volumes are tricky because of transparency. A wispy bit of smoke moving fast will get motion vectors near 0 because it's not opaque enough for its true velocity colour to show. One solution is increasing the density so you only see the vel at the front of the volume.
+
+<img src="./images/lcrs/Ls_VolumeMotionVectors.png?raw=true" width="600">
+
+| [Download the HIP file!](./hips/lcrs/Ls_VolumeMotionVectors_v01.hipnc?raw=true) | [Download the other HIP file!](./hips/lcrs/Ls_VolumeMotionVectorsNodes_v01.hipnc?raw=true) |
+| --- | --- |
