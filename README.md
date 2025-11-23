@@ -364,6 +364,15 @@ Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes?
 | [Video Tutorial](https://youtu.be/-zGjD4zaYMU) |
 | --- |
 
+## Convert to Bricks
+
+The Labs PolySlice node produces a bunch of cross section curves. They can be resampled and used for fracturing, producing bricks.
+
+<img src="./images/bricken.png?raw=true" width="600">
+
+| [Download the HIP file!](./hips/bricken.hiplc?raw=true) |
+| --- |
+
 ## Procedural Buildings
 
 These files are from 2023 when I was first learning procedural modelling in Houdini, so they're messier and less optimized than usual.
@@ -384,7 +393,7 @@ The tricky part about brick walls is the alternating pattern. Every second row i
 To recreate this pattern you can work subtractively:
 
 1. Take the base curve and resample it. This gives you the first row.
-2. Subdivide the first row and use "Group by Range" to select every second point. Remove them with a "Dissolve" node. This gives you the second row.
+2. Subdivide the first row and use Group by Range to select every second point. Remove them with a Dissolve node. This gives you the second row.
 
 <img src="./images/building1.png?raw=true" width="600">
 
@@ -1916,7 +1925,7 @@ This is faster than the new Motion Blur node, which caches the entire timeline a
 
 ## Attribute min / max / average...
 
-Use Attribute Promote set to "Detail" with the appropriate mode. The "Labs Attribute Normalize Float" and "Labs Attribute Normalize Vector" nodes are great for normalizing attributes.
+Use Attribute Promote set to "Detail" with the appropriate mode. The Labs Attribute Normalize Float and Labs Attribute Normalize Vector nodes are great for normalizing attributes.
 
 ## Access context geometry inside solver
 
