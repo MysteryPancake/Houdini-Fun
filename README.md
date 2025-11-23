@@ -381,7 +381,7 @@ I remade a bunch of Sydney landmarks and turned them into HDAs for easy control.
 
 [![Procedural Buildings](https://img.youtube.com/vi/Kckh975WqQs/mqdefault.jpg)](https://youtu.be/Kckh975WqQs)
 
-| [Watch Video](https://youtu.be/Kckh975WqQs) |
+| [Video Demo](https://youtu.be/Kckh975WqQs) |
 | --- |
 
 ### Brick House
@@ -2124,4 +2124,19 @@ Motion vectors for volumes are tricky because of transparency. A wispy bit of sm
 <img src="./images/lcrs/Ls_VolumeMotionVectors.png?raw=true" width="600">
 
 | [Download the HIP file!](./hips/lcrs/Ls_VolumeMotionVectors_v01.hipnc?raw=true) | [Download the other HIP file!](./hips/lcrs/Ls_VolumeMotionVectorsNodes_v01.hipnc?raw=true) |
+| --- | --- |
+
+## Matt Ebb: Slices (HDAs)
+
+Matt Ebb did a talk on slicing 4D shapes to produce 3D cross sections. I found the HDAs after digging around online.
+
+- [Extrude Poly 4D](./hdas/mebb/sop_matt.dev.extrude_poly_4d.4.0.hdalc?raw=true)
+- [Extrude Tets 4D](./hdas/mebb/sop_matt.dev.extrude_tets_4d.4.0.hdalc?raw=true)
+- [Rotate 4D](./hdas/mebb/sop_matt.dev.rotate_4d.4.0.hdalc?raw=true)
+- [Slice Poly 4D](./hdas/mebb/sop_matt.dev.slice_poly_4d.4.0.hdalc?raw=true)
+- [Slice Tets 4D](./hdas/mebb/sop_matt.dev.slice_tets_4d.1.0.hdalc?raw=true)
+
+[![Slices talk](https://img.youtube.com/vi/WryM1E8E9qs/mqdefault.jpg)](https://youtu.be/WryM1E8E9qs)
+
+| [Video Demo](https://youtu.be/WryM1E8E9qs) | [Download the HDAs!](./hdas/mebb) |
 | --- | --- |
