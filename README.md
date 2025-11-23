@@ -426,7 +426,7 @@ Low poly replica of the Sydney Tower Eye, with twisting and height controls.
 | [Download the HDA!](./hdas/MysteryPancake.Centrepoint.hdanc?raw=true) |
 | --- |
 
-## RBD Strandbeest
+## Strandbeest
 
 Physically simulated strandbeest using the RBD Bullet Solver. It walks all by itself without any extra forces!
 
