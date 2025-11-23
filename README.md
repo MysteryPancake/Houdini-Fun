@@ -2013,6 +2013,13 @@ ndcv *= set(res.x, res.y, 0.0);
 
 This file was made by [Lewis Saunders](https://github.com/lcrs/_.hips), reuploaded with permission.
 
+Basic particle trail using a Trail SOP followed by an Add SOP set to connect points with a matching ID attribute.
+
+<img src="./images/lcrs/Ls_PopTrails.png?raw=true" width="600">
+
+| [Download the HIP file!](./hips/lcrs/Ls_PopTrails_v01.hipnc?raw=true) |
+| --- |
+
 ## Lewis Saunders: Volume Motion Vectors
 
 This file was made by [Lewis Saunders](https://github.com/lcrs/_.hips), reuploaded with permission.
