@@ -368,7 +368,7 @@ Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes?
 
 The Labs PolySlice node produces a bunch of cross section curves. They can be resampled and used for fracturing, producing bricks.
 
-<img src="./images/bricken.png?raw=true" width="600">
+<img src="./images/bricken.png?raw=true" width="500">
 
 | [Download the HIP file!](./hips/bricken.hiplc?raw=true) |
 | --- |
