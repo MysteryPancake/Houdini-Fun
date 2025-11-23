@@ -1087,7 +1087,7 @@ It's a recursive process involving making a voronoi diagram, finding the centers
 
 1. Voronoi Fracture with the initial points as the fracture points
 2. Find the center of each voronoi cell using Extract Centroid
-3. Voronoi Fracture with the centers as the fracture points
+3. Voronoi Fracture with those centers as the fracture points
 4. Repeat steps 2-3 until the spacing is relaxed enough
 
 <img src="./images/lloyd_relaxation.webp?raw=true" width="400">
