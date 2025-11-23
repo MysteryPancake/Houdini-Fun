@@ -364,12 +364,6 @@ Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes?
 | [Video Tutorial](https://youtu.be/-zGjD4zaYMU) |
 | --- |
 
-## Alternating rows for brick walls
-
-The tricky part about modelling brick walls is the alternating pattern. Every second row is slid across by half a brick's width. How would you create this pattern?
-
-An easy way is working subtractively. Take the base curve and resample it. This gives you the first row. For the second row, subdivide the first. Use a "Group by Range" node to select every second point, then delete them with a "Dissolve" node.
-
 ## Procedural Buildings
 
 These files are from 2023 when I was first learning procedural modelling in Houdini, so they're messier and less optimized than usual.
@@ -383,7 +377,14 @@ I remade a bunch of Sydney landmarks and turned them into HDAs for easy control.
 
 ### Brick House
 
-I used the brick wall technique above, boolean intersections for the rooms and Poly Expand 2D for the roof. Inspired by a [procedural house tutorial](https://www.sidefx.com/tutorials/procedural-house/).
+I used boolean intersections for the rooms and Poly Expand 2D for the roof. Inspired by a [procedural house tutorial](https://www.sidefx.com/tutorials/procedural-house/).
+
+The tricky part about brick walls is the alternating pattern. Every second row is slid across by half a brick's width.
+
+To recreate this pattern you can work subtractively:
+
+1. Take the base curve and resample it. This gives you the first row.
+2. Subdivide the first row and use "Group by Range" to select every second point. Remove them with a "Dissolve" node. This gives you the second row.
 
 <img src="./images/building1.png?raw=true" width="600">
 
@@ -392,7 +393,7 @@ I used the brick wall technique above, boolean intersections for the rooms and P
 
 ### Dancing City
 
-I used Convex Hull to get more abstract shapes, with power lines to add detail. Inspired by an [Overwatch house tutorial](https://www.youtube.com/watch?v=uIe97023sDk).
+I used Convex Hull to get interesting shapes, then added power lines for more detail. Inspired by an [Overwatch house tutorial](https://www.youtube.com/watch?v=uIe97023sDk).
 
 <img src="./images/building2.png?raw=true" width="600">
 
