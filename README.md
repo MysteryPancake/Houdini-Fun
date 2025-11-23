@@ -372,7 +372,7 @@ An easy way is working subtractively. Take the base curve and resample it. This 
 
 ## Procedural Buildings
 
-These files are from when I was learning procedural modelling in Houdini, so they aren't very clean.
+These files are from 2023 when I was first learning procedural modelling in Houdini. They're messier and less optimized than usual.
 
 I remade a bunch of Sydney landmarks and turned them into HDAs for easy control.
 
@@ -383,7 +383,7 @@ I remade a bunch of Sydney landmarks and turned them into HDAs for easy control.
 
 ### Brick House
 
-Used the brick wall technique above, boolean intersections and Poly Expand 2D for the roof, [inspired by a proeedural house tutorial](https://www.sidefx.com/tutorials/procedural-house/).
+I used the brick wall technique above, boolean intersections for the rooms and Poly Expand 2D for the roof. This was inspired by a [procedural house tutorial](https://www.sidefx.com/tutorials/procedural-house/).
 
 <img src="./images/building1.png?raw=true" width="600">
 
@@ -392,7 +392,7 @@ Used the brick wall technique above, boolean intersections and Poly Expand 2D fo
 
 ### Dancing City
 
-Used Convex Hull to get more abstract shapes, [inspired by an Overwatch house tutorial](https://www.youtube.com/watch?v=uIe97023sDk).
+I used Convex Hull to get more abstract shapes. This was inspired by an [Overwatch house tutorial](https://www.youtube.com/watch?v=uIe97023sDk).
 
 <img src="./images/building2.png?raw=true" width="600">
 
