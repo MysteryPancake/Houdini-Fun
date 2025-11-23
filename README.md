@@ -1863,7 +1863,7 @@ I remade a bunch of Sydney landmarks and turned them into HDAs for easy control.
 
 ### Brick house
 
-I used a combination of boolean intersections and the brick wall technique described above. Poly Expand 2D was used for the roof.
+Used the brick wall technique above, boolean intersections and Poly Expand 2D for the roof, [inspired by a proeedural house tutorial](https://www.sidefx.com/tutorials/procedural-house/).
 
 <img src="./images/building1.png?raw=true" width="600">
 
@@ -1872,7 +1872,7 @@ I used a combination of boolean intersections and the brick wall technique descr
 
 ### Dancing city
 
-I used Convex Hull to get more abstract shapes, [inspired by an Overwatch house tutorial](https://www.youtube.com/watch?v=uIe97023sDk).
+Used Convex Hull to get more abstract shapes, [inspired by an Overwatch house tutorial](https://www.youtube.com/watch?v=uIe97023sDk).
 
 <img src="./images/building2.png?raw=true" width="600">
 
