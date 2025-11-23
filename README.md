@@ -440,7 +440,7 @@ Low poly replica of the Sydney Tower Eye, with twisting and height controls.
 
 Physically simulated strandbeest using the RBD Bullet Solver. It walks all by itself without any extra forces!
 
-I found a cool use of Vellum for this, it can repair the edge lengths based on [the ratios from Wikipedia](https://en.wikipedia.org/wiki/Jansen%27s_linkage).
+I found a cool use of Vellum for this, it can fix the edge lengths based on [the ratios from Wikipedia](https://en.wikipedia.org/wiki/Jansen%27s_linkage).
 
 <img src="./images/strandbeest.webp?raw=true" width="600">
 
