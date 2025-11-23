@@ -2126,9 +2126,9 @@ Motion vectors for volumes are tricky because of transparency. A wispy bit of sm
 | [Download the HIP file!](./hips/lcrs/Ls_VolumeMotionVectors_v01.hipnc?raw=true) | [Download the other HIP file!](./hips/lcrs/Ls_VolumeMotionVectorsNodes_v01.hipnc?raw=true) |
 | --- | --- |
 
-## Matt Ebb: Slices (HDAs)
+## Matt Ebb: 4D Slices (HDAs)
 
-Matt Ebb did a talk on slicing 4D shapes to produce 3D cross sections. I found the HDAs after digging around online.
+A while ago Matt Ebb did a talk on slicing 4D shapes to produce 3D cross sections. After digging around online, I found the HDAs.
 
 - [Extrude Poly 4D](./hdas/mebb/sop_matt.dev.extrude_poly_4d.4.0.hdalc?raw=true)
 - [Extrude Tets 4D](./hdas/mebb/sop_matt.dev.extrude_tets_4d.4.0.hdalc?raw=true)
