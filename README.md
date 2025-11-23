@@ -1842,13 +1842,42 @@ This is faster than the new Motion Blur node, which caches the entire timeline a
 
 ## Attribute min / max / average...
 
-Use Attribute Promote set to "Detail" with the appropriate mode.
+Use Attribute Promote set to "Detail" with the appropriate mode. The "Labs Attribute Normalize Float" and "Labs Attribute Normalize Vector" nodes are great for normalizing attributes.
 
 ## Alternating rows for brick walls
 
 The tricky part about modelling brick walls is the alternating pattern. Every second row is slid across by half a brick's width. How would you create this pattern?
 
 An easy way is working subtractively. Take the base curve and resample it. This gives you the first row. For the second row, subdivide the first. Use a "Group by Range" node to select every second point, then delete them with a "Dissolve" node.
+
+## Procedural buildings
+
+These files are from when I was learning procedural modelling in Houdini, so they aren't very clean.
+
+I remade a bunch of Sydney landmarks and turned them into HDAs for easy control.
+
+[![Procedural Buildings](https://img.youtube.com/vi/Kckh975WqQs/mqdefault.jpg)](https://youtu.be/Kckh975WqQs)
+
+| [Watch Video](https://youtu.be/Kckh975WqQs) |
+| --- |
+
+### Brick house
+
+I used a combination of boolean intersections and the brick wall technique described above. Poly Expand 2D was used for the roof.
+
+<img src="./images/building1.png?raw=true" width="600">
+
+| [Download the HIP file!](./hips/Brick_House.hipnc?raw=true) |
+| --- |
+
+### Dancing city
+
+I used Convex Hull to get more abstract shapes, [inspired by an Overwatch house tutorial](https://www.youtube.com/watch?v=uIe97023sDk).
+
+<img src="./images/building2.png?raw=true" width="600">
+
+| [Download the HIP file!](./hips/Dancing_City.hipnc?raw=true) |
+| --- |
 
 ## Access context geometry inside solver
 
