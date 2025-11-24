@@ -411,7 +411,7 @@ I used Convex Hull to get interesting shapes, then added power lines for more de
 
 ### UTS Tower (HDA)
 
-Low poly replica of the UTS Tower (Building 1), with height and copy controls.
+Rough approximation of the [UTS Tower (Building 1)](https://en.wikipedia.org/wiki/UTS_Tower), with height and copy controls.
 
 <img src="./images/utstower.png?raw=true" width="600">
 
@@ -420,7 +420,7 @@ Low poly replica of the UTS Tower (Building 1), with height and copy controls.
 
 ### UTS Business School (HDA)
 
-Low poly replica of UTS Business School (Building 8), with scattering and noise controls.
+Rough approximation of [UTS Business School (Building 8)](https://maps.app.goo.gl/SfKhCxH8WsfLuPXQ8), with scattering and noise controls.
 
 <img src="./images/businessschool.png?raw=true" width="600">
 
@@ -429,7 +429,7 @@ Low poly replica of UTS Business School (Building 8), with scattering and noise 
 
 ### Centrepoint Tower (HDA)
 
-Low poly replica of the Sydney Tower Eye, with twisting and height controls.
+Rough approximation of the [Sydney Tower Eye](https://en.wikipedia.org/wiki/Sydney_Tower), with twisting and height controls.
 
 <img src="./images/centrepoint.png?raw=true" width="600">
 
