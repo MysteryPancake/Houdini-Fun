@@ -364,6 +364,38 @@ Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes?
 | [Video Tutorial](https://youtu.be/-zGjD4zaYMU) |
 | --- |
 
+## Copernicus: Velocity in UV space
+
+The Rasterize Setup node can flatten geometry to the UV map, but it doesn't transform certain attributes like velocity.
+
+Luckily it's easy to fix, simply add an Attribute Reorient node into Rasterize Setup. It rotates the velocity to respect the flattened position.
+
+For more accuracy, you can scale the velocity to respect the change in size from world to UV space. I approximated it by dividing the two areas.
+
+```js
+v@v *= f@uv_area / f@world_area;
+```
+
+<img src="./images/cops/cops_uv_velocity.webp?raw=true" width="600">
+
+| [Download the HIP file!](./hips/cops/cops_uv_velocity.hiplc?raw=true) |
+| --- |
+
+## Copernicus: Animated bars
+
+For Vexember 2025 on the CGWiki Discord, I decided to do the challenges in COPs instead of VEX. Swalsch's first challenge was creating a bar pattern.
+
+<img src="./images/cops/cops_bars.webp?raw=true" width="350">
+
+I layered a few ramps using a Threshold node to make horizontal bars and the Quantization node to make vertical bars.
+
+Afterwards used even more ramps to remap the timing, to get a speed ramp effect like in After Effects.
+
+<img src="./images/cops/cops_bars.png?raw=true" width="700">
+
+| [Download the HIP file!](./hips/cops/cops_bars.hiplc?raw=true) |
+| --- |
+
 ## Convert to Bricks
 
 The Labs PolySlice node produces a bunch of cross section curves. They can be resampled and used for fracturing, producing bricks.
