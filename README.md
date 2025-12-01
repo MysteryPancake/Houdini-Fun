@@ -376,12 +376,12 @@ For more accuracy, you can scale the velocity to respect the change in size from
 v@v *= f@uv_area / f@world_area;
 ```
 
-<img src="./images/cops/cops_uv_velocity.webp?raw=true" width="600">
+<img src="./images/cops/cops_uv_velocity.webp?raw=true" width="500">
 
 | [Download the HIP file!](./hips/cops/cops_uv_velocity.hiplc?raw=true) |
 | --- |
 
-## Copernicus: Animated bars
+## Copernicus: Animated Bars
 
 For Vexember 2025 on the CGWiki Discord, I decided to do the challenges in COPs instead of VEX. Swalsch's first challenge was creating a bar pattern.
 
