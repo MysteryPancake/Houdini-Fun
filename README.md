@@ -745,7 +745,7 @@ v@P = frac(set(.754877669, .569840296) * i@ptnum);
 | [Download the HIP file!](./hips/weyl_sequence.hiplc?raw=true) |
 | --- |
 
-## Flapping wings
+## Flying pigs
 
 Simple challenge from the CGWiki Discord, animating flapping wings using sine waves.
 
