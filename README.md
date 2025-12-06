@@ -685,6 +685,41 @@ float frac_step = min(1, x % width * steepness); // Fractional component, lines
 float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
+## Sierpinski Triangle (and more fractals)
+
+I saw an interesting [fractal construction method on Numberphile](https://www.youtube.com/watch?v=FnRhnZbDprE).
+
+It involves repeatedly adding points halfway between all the existing points in a feedback loop:
+
+```js
+for (int i = 0; i < npoints(1); ++i) {
+    vector pos = point(1, "P", i);
+    // Add a point halfway between us and the other point
+    vector half = lerp(v@P, pos, chf("mix"));
+    addpoint(0, half);
+}
+// Remove the original point
+removepoint(0, i@ptnum);
+```
+
+This works for a variety of fractals, including the Sierpinski Triangle and Menger Sponge.
+
+<p align="left">
+	<img src="./images/sierpinski.png" height="250">
+	<img src="./images/sierpinski2.png" height="250">
+</p>
+<p align="left">
+	<img src="./images/sierpinski3.png" height="250">
+	<img src="./images/sierpinski4.png" height="250">
+</p>
+<p align="left">
+	<img src="./images/sierpinski5.png" height="250">
+	<img src="./images/sierpinski6.png" height="250">
+</p>
+
+| [Download the HIP file!](./hips/sierpinski.hiplc?raw=true) |
+| --- |
+
 ## Weyl sequence
 
 Matt Ebb taught us about the [Weyl sequence](https://en.wikipedia.org/wiki/Weyl_sequence), also known as the Plastic sequence or R2 sequence. It's useful for [distributing points fairly evenly](https://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
