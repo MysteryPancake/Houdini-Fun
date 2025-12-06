@@ -1472,7 +1472,7 @@ First you need to disconnect the prims. This can be done with a Primitive Split 
 
 Next you can scale them with a Primitive Properties node. It can translate, rotate and scale prims relative to their center.
 
-Another way is using `prim()` and `lerp()`. If you use `prim()` on a point attribute like `v@P`, it computes the average. This is easier than using Attribute Promote or Extract Centroid.
+Another way is using `prim()` and `lerp()`. If you use `prim()` on a point attribute like `@P`, it returns the average. This avoids needing Attribute Promote or Extract Centroid.
 
 ```js
 vector center = prim(0, "P", i@primnum);
