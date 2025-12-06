@@ -1029,15 +1029,15 @@ The same code works for custom cross sections, though it's easier to use Copy to
 Just make sure the points are sorted and `cols` matches the point count of the cross section!
 
 <p align="left">
-  <img src="./images/sweep4.png?raw=true" width="30%">
-  <img src="./images/sweep5.png?raw=true" width="30%">
+  <img src="./images/sweep4.png?raw=true" width="40%">
+  <img src="./images/sweep5.png?raw=true" width="40%">
 </p>
 
 If `cols` doesn't match the point count, never fear. You'll get cool trippy looking shapes!
 
 <p align="left">
-  <img src="./images/sweepshape1.png?raw=true" width="30%">
-  <img src="./images/sweepshape2.png?raw=true" width="30%">
+  <img src="./images/sweepshape1.png?raw=true" width="40%">
+  <img src="./images/sweepshape2.png?raw=true" width="40%">
 </p>
 
 | [Download the HIP file!](./hips/vex_sweep.hiplc?raw=true) |
@@ -1090,8 +1090,8 @@ Now the cross sections connect perfectly without any resampling!
 The facing ratio is how similar the ray direction is to the normal. It's great for holograms, ghostly and fresnel-like effects.
 
 <p align="left">
-  <img src="./images/fresnel1.png?raw=true" width="30%">
-  <img src="./images/fresnel2.png?raw=true" width="30%">
+  <img src="./images/fresnel1.png?raw=true" width="40%">
+  <img src="./images/fresnel2.png?raw=true" width="40%">
 </p>
 
 You can compute it using the [MtlX Facing Ratio node](https://www.sidefx.com/docs/houdini/nodes/vop/hmtlxfacingratio.html), or manually using VEX:
