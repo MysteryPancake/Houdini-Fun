@@ -685,9 +685,9 @@ float frac_step = min(1, x % width * steepness); // Fractional component, lines
 float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
-## Weyl sequence / Plastic sequence
+## Weyl sequence
 
-Matt Ebb taught us about the [Weyl sequence](https://en.wikipedia.org/wiki/Weyl_sequence), also known as the plastic sequence or R2 sequence.
+Matt Ebb taught us about the [Weyl sequence](https://en.wikipedia.org/wiki/Weyl_sequence), also known as the Plastic sequence or R2 sequence.
 
 It [distributes points fairly evenly](https://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/), useful for scattering.
 
