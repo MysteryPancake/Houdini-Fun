@@ -782,13 +782,13 @@ The hard part is generating the initial paths. Below I used the constraints from
 
 ## Procedurally rolling wheels
 
-It's surprisingly hard to procedurally roll wheels along a curve without sliding issues.
+It's surprisingly hard to procedurally roll wheels along a curve without sliding.
 
 <img src="./images/rolling_wheels.webp?raw=true" width="400">
 
-The `primuv()` units for a curve are normalized between 0 and 1, but the wheel radius is in meters. To track the distance travelled you need meters, but how?
+The `primuv()` units for a curve are normalized between 0 and 1, but the wheel radius is in meters. You need meters to track the distance travelled, but how to get it?
 
-There's a little known function called [`primuvconvert()`](https://www.sidefx.com/docs/houdini/vex/functions/primuvconvert.html). It transforms between different coordinate systems, like normalized units to meters.
+There's a little known function called [`primuvconvert()`](https://www.sidefx.com/docs/houdini/vex/functions/primuvconvert.html). It transforms between `primuv()` coordinate systems, like normalized units to meters.
 
 ```js
 float wheel_radius = f@pscale;
