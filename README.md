@@ -745,7 +745,7 @@ v@P = frac(set(.754877669, .569840296) * i@ptnum);
 | [Download the HIP file!](./hips/weyl_sequence.hiplc?raw=true) |
 | --- |
 
-## Flying pigs
+## Flying pig
 
 Simple challenge from the CGWiki Discord, animating flapping wings using sine waves.
 
@@ -767,6 +767,17 @@ v@Cd = hsvtorgb(float(i@copynum)/10,1,1);
 ```
 
 | [Download the HIP file!](./hips/flyingpig.hiplc?raw=true) |
+| --- |
+
+## Veiny pig
+
+Find Shortest Path can help generate branched structures like trees or veins.
+
+The hard part is generating the initial paths. You can try using the constraints from a Voronoi Fracture node.
+
+<img src="./images/vein_pig.webp?raw=true" width="400">
+
+| [Download the HIP file!](./hips/vein_pig.hiplc?raw=true) |
 | --- |
 
 ## Velocity toward an object
