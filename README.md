@@ -773,7 +773,7 @@ v@Cd = hsvtorgb(float(i@copynum)/10,1,1);
 
 Find Shortest Path can help generate branched structures like trees or veins.
 
-The hard part is generating the initial paths. You can try using the constraints from a Voronoi Fracture node.
+The hard part is generating the initial paths. Below I used the constraints from a Voronoi Fracture node.
 
 <img src="./images/vein_pig.webp?raw=true" width="400">
 
