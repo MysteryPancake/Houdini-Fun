@@ -685,7 +685,32 @@ float frac_step = min(1, x % width * steepness); // Fractional component, lines
 float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 ```
 
-### Velocity toward an object
+## Weyl sequence / Plastic sequence
+
+Matt Ebb taught us about the [Weyl sequence](https://en.wikipedia.org/wiki/Weyl_sequence), also known as the plastic sequence or R2 sequence. It's useful for [distributing points fairly evenly](https://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
+
+<img src="./images/weyl_sequence.webp?raw=true" width="400">
+
+There's a nice implementation by [spalmer on ShaderToy](https://www.shadertoy.com/view/WXjXRt). It looks like this in VEX:
+
+```js
+// N.B. R2 based on plastic ratio, see http://bib.irb.hr/datoteka/628836.Plastic_Number_-_Construct.pdf
+// Or http://wikipedia.org/wiki/Plastic_ratio for construction details on solve(x*x*x - x = 1, x)
+float g = 9018811. / 6808099.; // Plastic ratio as a nice fraction
+vector2 weyl_r2 = 1. / set(g, g * g); // set(.754877669, .569840296)
+v@P = frac(weyl_r2 * i@ptnum);
+```
+
+Replacing the math with constants, it becomes even shorter:
+
+```js
+v@P = frac(set(.754877669, .569840296) * i@ptnum);
+```
+
+| [Download the HIP file!](./hips/weyl_sequence.hiplc?raw=true) |
+| --- |
+
+## Velocity toward an object
 
 To travel toward an object, get the closest surface position with `minpos()` or `xyzdist()`, then subtract the current position.
 
@@ -702,7 +727,10 @@ vector dir = nearest - v@P;
 v@v = normalize(dir);
 ```
 
-### Velocity around an object
+| [Download the HIP file!](./hips/tornado_head.hiplc?raw=true) |
+| --- |
+
+## Velocity around an object
 
 To travel around an object you just need a cross product, or [two cross products](https://www.tokeru.com/cgwiki/JoyOfVex09.html#cross_product) to travel in one direction only.
 
