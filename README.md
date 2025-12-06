@@ -1466,7 +1466,7 @@ float correlation = dot(dir, v@N);
 
 ## Scaling primitives towards their center
 
-For scaling grids or lines, it can be useful to scale prims towards their center.
+Sometimes it's useful to scale prims towards their center.
 
 First you need to disconnect the prims. This can be done with a Primitive Split node.
 
