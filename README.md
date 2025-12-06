@@ -766,7 +766,7 @@ f@Alpha = 0.2;
 v@Cd = hsvtorgb(float(i@copynum)/10,1,1);
 ```
 
-| [Download the HIP file!](./hips/flyingpig.hip?raw=true) |
+| [Download the HIP file!](./hips/flyingpig.hiplc?raw=true) |
 | --- |
 
 ## Velocity toward an object
