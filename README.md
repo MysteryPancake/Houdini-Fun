@@ -745,6 +745,30 @@ v@P = frac(set(.754877669, .569840296) * i@ptnum);
 | [Download the HIP file!](./hips/weyl_sequence.hiplc?raw=true) |
 | --- |
 
+## Flapping wings
+
+Simple challenge from the CGWiki Discord, animating flapping wings using sine waves.
+
+<img src="./images/flyingpig.gif?raw=true" width="400">
+
+I used `abs()` to make them flap symmetrically along the X axis, then slid a noise along the Z axis:
+
+```js
+float mirror = abs(v@P.x);
+float amp = chramp("falloff", abs(v@P.x));
+v@P.y += sin(mirror + v@P.z * 2 - f@Time * 2 * PI + i@copynum * 0.04) * amp;
+```
+
+I often use `hsvtorgb()` for rainbow gradients, changing the hue based on the copy number:
+
+```js
+f@Alpha = 0.2;
+v@Cd = hsvtorgb(float(i@copynum)/10,1,1);
+```
+
+| [Download the HIP file!](./hips/flyingpig.hip?raw=true) |
+| --- |
+
 ## Velocity toward an object
 
 To travel toward an object, get the closest surface position with `minpos()` or `xyzdist()`, then subtract the current position.
