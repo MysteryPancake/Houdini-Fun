@@ -54,8 +54,8 @@ Like with sound, you can exaggerate or reduce certain frequencies (eigenvectors)
 Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eigenspace Projection example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd)! I remade it in OpenCL for better performance.
 
 <p align="left">
-  <img src="./images/laplacianfilter.png?raw=true" height="250">
-  <img src="./images/laplacianfilter2.png?raw=true" height="250">
+  <img src="./images/laplacianfilter.png?raw=true" width="45%">
+  <img src="./images/laplacianfilter2.png?raw=true" width="45%">
 </p>
 
 | [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/laplacian_filter.hiplc?raw=true) |
@@ -705,16 +705,16 @@ removepoint(0, i@ptnum);
 This works for a variety of fractals, including the Sierpinski Triangle and Menger Sponge.
 
 <p align="left">
-	<img src="./images/sierpinski.png" height="250">
-	<img src="./images/sierpinski2.png" height="250">
+	<img src="./images/sierpinski.png" width="45%">
+	<img src="./images/sierpinski2.png" width="45%">
 </p>
 <p align="left">
-	<img src="./images/sierpinski3.png" height="250">
-	<img src="./images/sierpinski4.png" height="250">
+	<img src="./images/sierpinski3.png" width="45%">
+	<img src="./images/sierpinski4.png" width="45%">
 </p>
 <p align="left">
-	<img src="./images/sierpinski5.png" height="250">
-	<img src="./images/sierpinski6.png" height="250">
+	<img src="./images/sierpinski5.png" width="45%">
+	<img src="./images/sierpinski6.png" width="45%">
 </p>
 
 | [Download the HIP file!](./hips/sierpinski.hiplc?raw=true) |
@@ -1029,15 +1029,15 @@ The same code works for custom cross sections, though it's easier to use Copy to
 Just make sure the points are sorted and `cols` matches the point count of the cross section!
 
 <p align="left">
-  <img src="./images/sweep4.png?raw=true" height="250">
-  <img src="./images/sweep5.png?raw=true" height="250">
+  <img src="./images/sweep4.png?raw=true" width="30%">
+  <img src="./images/sweep5.png?raw=true" width="30%">
 </p>
 
 If `cols` doesn't match the point count, never fear. You'll get cool trippy looking shapes!
 
 <p align="left">
-  <img src="./images/sweepshape1.png?raw=true" height="300">
-  <img src="./images/sweepshape2.png?raw=true" height="300">
+  <img src="./images/sweepshape1.png?raw=true" width="30%">
+  <img src="./images/sweepshape2.png?raw=true" width="30%">
 </p>
 
 | [Download the HIP file!](./hips/vex_sweep.hiplc?raw=true) |
@@ -1078,8 +1078,8 @@ Set the destination group to all prims from 1 to the last:
 Now the cross sections connect perfectly without any resampling!
 
 <p align="left">
-  <img src="./images/sweep6.png?raw=true" height="200">
-  <img src="./images/sweep7.png?raw=true" height="200">
+  <img src="./images/sweep6.png?raw=true" width="45%">
+  <img src="./images/sweep7.png?raw=true" width="45%">
 </p>
 
 | [Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc?raw=true) |
@@ -1090,8 +1090,8 @@ Now the cross sections connect perfectly without any resampling!
 The facing ratio is how similar the ray direction is to the normal. It's great for holograms, ghostly and fresnel-like effects.
 
 <p align="left">
-  <img src="./images/fresnel1.png?raw=true" height="300">
-  <img src="./images/fresnel2.png?raw=true" height="300">
+  <img src="./images/fresnel1.png?raw=true" width="30%">
+  <img src="./images/fresnel2.png?raw=true" width="30%">
 </p>
 
 You can compute it using the [MtlX Facing Ratio node](https://www.sidefx.com/docs/houdini/nodes/vop/hmtlxfacingratio.html), or manually using VEX:
