@@ -1464,6 +1464,26 @@ float correlation = dot(dir, v@N);
 | [Download the HIP file!](./hips/inside.hipnc?raw=true) |
 | --- |
 
+## Scaling primitives towards their center
+
+For scaling grids or lines, it can be useful to scale prims towards their center.
+
+First you need to disconnect the prims. This can be done with a Primitive Split node.
+
+Next you can scale them with a Primitive Properties node. It can translate, rotate and scale prims relative to their center.
+
+Another way is using `prim()` and `lerp()`. If you use `prim()` on a point attribute like `v@P`, it computes the average. This is easier than using Attribute Promote or Extract Centroid.
+
+```js
+vector center = prim(0, "P", i@primnum);
+v@P = lerp(center, v@P, chf("scale"));
+```
+
+<img src="./images/scale_prims.png?raw=true" width="300">
+
+| [Download the HIP file!](./hips/scale_prims.hipnc?raw=true) |
+| --- |
+
 ## Collision geometry from nasty meshes
 
 It's always hard to get a decent sim when your collision geometry is on life support. Here's a few ways to clean it up!
