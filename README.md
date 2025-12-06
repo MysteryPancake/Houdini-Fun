@@ -1481,7 +1481,7 @@ v@P = lerp(center, v@P, chf("scale"));
 
 <img src="./images/scale_prims.png?raw=true" width="300">
 
-| [Download the HIP file!](./hips/scale_prims.hipnc?raw=true) |
+| [Download the HIP file!](./hips/scale_prims.hiplc?raw=true) |
 | --- |
 
 ## Collision geometry from nasty meshes
