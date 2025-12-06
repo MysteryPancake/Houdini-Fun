@@ -780,6 +780,39 @@ The hard part is generating the initial paths. Below I used the constraints from
 | [Download the HIP file!](./hips/vein_pig.hiplc?raw=true) |
 | --- |
 
+## Procedurally rolling wheels
+
+It's surprisingly hard to procedurally roll wheels along a curve without sliding issues.
+
+<img src="./images/rolling_wheels.webp?raw=true" width="400">
+
+The `primuv()` units for a curve are normalized between 0 and 1, but the wheel radius is in meters. To track the distance travelled you need meters, but how?
+
+There's a little known function called [`primuvconvert()`](https://www.sidefx.com/docs/houdini/vex/functions/primuvconvert.html). It transforms between different coordinate systems, like normalized units to meters.
+
+```js
+float wheel_radius = f@pscale;
+// Position along the curve in normalized coordinates (0-1)
+float offset = frac(chf("offset") + v@sourceprimuv.x);
+// Convert to relative coordinates, so point spacing along the curve doesn't affect it
+vector offset_normalized = set(primuvconvert(1, offset, i@sourceprim, PRIMUV_UNITLEN_TO_UNIT), 0, 0);
+// Distance travelled along the curve in meters
+float dist_travelled = primuvconvert(1, offset, i@sourceprim, PRIMUV_UNITLEN_TO_LEN);
+
+v@P = primuv(1, "P", i@sourceprim, offset_normalized);
+vector n = primuv(1, "N", i@sourceprim, offset_normalized);
+vector up = primuv(1, "up", i@sourceprim, offset_normalized);
+v@P += wheel_radius * up;
+
+float rotation = dist_travelled / wheel_radius;
+matrix3 m = maketransform(n, up);
+rotate(m, rotation, -cross(n, up));
+p@orient = quaternion(m);
+```
+
+| [Download the HIP file!](./hips/rolling_wheels.hiplc?raw=true) |
+| --- |
+
 ## Velocity toward an object
 
 To travel toward an object, get the closest surface position with `minpos()` or `xyzdist()`, then subtract the current position.
