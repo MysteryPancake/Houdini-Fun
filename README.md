@@ -745,6 +745,82 @@ v@P = frac(set(.754877669, .569840296) * i@ptnum);
 | [Download the HIP file!](./hips/weyl_sequence.hiplc?raw=true) |
 | --- |
 
+## Animated spiral
+
+Simple animation I made for Vexember 2025 on the CGWiki Discord.
+
+The core idea was picking the target prim to move towards by offsetting the current prim index with wrapping.
+
+The prims form a circle as they travel, even though I didn't use `sin()` or `cos()` anywhere.
+
+<img src="./images/animated_spiral.webp?raw=true" width="400">
+
+```js
+// From https://github.com/MysteryPancake/Houdini-Fun/blob/main/Easings.md
+float inOutBack(float x) {
+    float c1 = 1.70158;
+    float c2 = c1 * 1.525;
+    return x < 0.5
+        ? (pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
+        : (pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
+}
+
+// Offset and wrap the current primnum to get the target primnum
+int target_primnum = (i@primnum + chi("offset")) % i@numprim;
+
+// Our transform and the target's transform
+matrix source_transform = getpackedtransform(0, i@primnum);
+matrix target_transform = getpackedtransform(0, target_primnum);
+
+// Offset the animation based on each prim's index and the current time
+float mix = float(i@primnum - i@numprim) * chf("spacing");
+mix += f@Time * chf("speed");
+mix = inOutBack(clamp(mix, 0, 1));
+
+// Lerp from our transform to the target's transform
+matrix transform = slerp(source_transform, target_transform, mix);
+
+// Scale inwards towards the middle
+vector scale = set(1, 1, abs(mix - 0.5) * 2);
+prescale(transform, scale);
+
+setpackedtransform(0, i@primnum, transform);
+```
+
+I thought it'd be cool to pause in the middle for a staggering effect, then ramp the scale for even more staggering.
+
+<img src="./images/animated_spiral2.webp?raw=true" width="400">
+
+```js
+// Offset and wrap the current primnum to get the target primnum
+int target_primnum = (i@primnum + chi("offset")) % i@numprim;
+
+// Our transform and the target's transform
+matrix source_transform = getpackedtransform(0, i@primnum);
+matrix target_transform = getpackedtransform(0, target_primnum);
+
+// Offset the animation based on each prim's index and the current time
+float mix = float(i@primnum - i@numprim) * chf("spacing");
+mix += f@Time * chf("speed");
+mix = clamp(mix, 0, 1);
+
+// Lerp from our transform to the target's transform
+matrix transform = slerp(source_transform, target_transform, chramp("pos_easing", mix));
+
+// Scale inwards towards the middle
+vector scale = set(1, 1, chramp("size_easing", mix));
+prescale(transform, scale);
+
+setpackedtransform(0, i@primnum, transform);
+
+// Cycle hue based on the primnum, and blend them so the animation loops
+float hue = lerp(i@primnum, target_primnum, chramp("hue_easing", mix)) / i@numprim;
+v@Cd = hsvtorgb(hue, 1, .9) * 1.3;
+```
+
+| [Download the HIP file!](./hips/animated_spiral.hiplc?raw=true) |
+| --- |
+
 ## Flying pig
 
 Simple challenge from the CGWiki Discord, animating flapping wings using sine waves.
