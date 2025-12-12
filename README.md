@@ -745,11 +745,9 @@ v@P = frac(set(.754877669, .569840296) * i@ptnum);
 | [Download the HIP file!](./hips/weyl_sequence.hiplc?raw=true) |
 | --- |
 
-## Animated spiral
+## Spiral animation
 
-Simple animation I made for Vexember 2025 on the CGWiki Discord.
-
-The core idea was picking the target prim to move towards by offsetting the current prim index with wrapping.
+Made for Vexember 2025 on the CGWiki Discord. The core idea was picking the target prim to move towards by offsetting the current prim index with wrapping.
 
 The prims form a circle as they travel, even though I didn't use `sin()` or `cos()` anywhere.
 
