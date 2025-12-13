@@ -2117,7 +2117,7 @@ Make sure the force is "Set Always"!
 
 ### 2. Relative acceleration
 
-1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration". It's faster to do this after packing so it only trails one point.
+1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration".
 
 2. Add another Gravity Force node, using negative `@accel` as your force vector.
 
