@@ -1854,12 +1854,14 @@ It fixes tons of issues like broken collisions, VDBs jumping around, plus aliasi
 
 Extract Transform and Transform Pieces are your best friends.
 
-1. Use Time Shift to freeze the animated geometry. This is your rest pose.
-2. If possible, blast everything except a single prim for optimization.
-3. Use Extract Transform to calculate the transform from the animated prim to the frozen prim.
-5. Use Transform Pieces to stabilize the geometry. Make sure to tick "Invert Transformation"!
-6. Do stuff while it's stabilized.
-7. Use Transform Pieces to move the geometry back to the animated pose.
+1. If possible, blast everything except a single prim for optimization.
+2. Use Time Shift to freeze the animated geometry. This is your rest pose.
+3. Use Extract Transform to estimate the transform from the animated pose to the frozen pose.
+4. Use Transform Pieces to stabilize the geometry. Make sure to tick "Invert Transformation"!
+5. Do stuff while it's stabilized.
+6. Use Transform Pieces to move the geometry back to the animated pose.
+
+<img src="./images/extracttransform.png?raw=true" width="700">
 
 As well as Transform Pieces, you can set Extract Transform to output a matrix and transform manually in VEX:
 
@@ -1876,6 +1878,8 @@ v@P *= invert(mat);
 
 | [Download the HIP file!](./hips/extracttransform.hipnc?raw=true) |
 | --- |
+
+The same technique can be used to stabilize geometry, like making everything relative to the pelvis:
 
 <img src="./images/inverttransform.webp?raw=true" width="500">
 
@@ -1910,7 +1914,7 @@ v@P = primuv(1, "P", i@near_prim, v@near_uv);
 
 - Rivet is good for parenting objects to points. It only exists in the object context.
 - Copy to Points is good since it applies `@orient`, `@N` and `@up` attributes.
-- PolyHinge is good for parenting to edges, though no one really uses it.
+- PolyHinge is good for parenting to edges, but no one really uses it.
 
 ## Smoke / Fluids: Fix moving colliders
 
@@ -1922,7 +1926,7 @@ This works best for enclosed containers or pinned geometry, since it's hard to m
 
 <img src="./images/stabilized_flip_sim.webp?raw=true" width="500">
 
-| [Download the HIP file!](./hips/stabilized_flip_sim.hipnc?raw=true) |
+| [Download the HIP file!](./hips/stabilized_flip_sim.hiplc?raw=true) |
 | --- |
 
 ### 1. Relative gravity
@@ -1941,11 +1945,13 @@ Force Y = -9.81 * point(-1, 0, "up", 1)
 Force Z = -9.81 * point(-1, 0, "up", 2)
 ```
 
-Make sure the force is "Set Always"!
+Make sure the force operation is "Set Always"!
+
+<img src="./images/stabilized_gravity_force.png?raw=true" width="700">
 
 ### 2. Relative acceleration
 
-1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration".
+1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration" in "Central Difference" mode.
 
 2. Add another Gravity Force node, using negative `@accel` as your force vector.
 
@@ -1955,17 +1961,19 @@ Force Y = -point(-1, 0, "accel", 1)
 Force Z = -point(-1, 0, "accel", 2)
 ```
 
-Make sure the force is "Set Always"!
+Make sure the force operation is "Set Always"!
 
-### 3. Stabilize (world to local)
+<img src="./images/stabilized_accel_force.png?raw=true" width="700">
+
+### 3. Stabilize and unstabilize the container
 
 1. Freeze the container with a Time Shift node.
 2. Use Extract Transform to estimate the transform from the frozen to the moving container. This lets you transform everything relative to the container.
 3. Use a Transform Pieces node with the estimated transform to make everything relative. Make sure to enable "No Point Velocities" to prevent velocity being replaced.
 
-If you want to deal with open containers, the easiest way is to do a separate sim when the fluid exits the container. This is done by killing points outside the container, then feeding the killed points into the other sim. Make sure to nuke all point attributes to keep it clean for the next sim.
+<img src="./images/stabilize_world_to_local.png?raw=true" width="500">
 
-Another tip is use "Central Difference" when calculating the velocity. This gives the fluid more time to move away from the collider.
+If you want to deal with open containers, the easiest way is to do a separate sim when the fluid exits the container. This is done by killing points outside the container, then feeding the killed points into the other sim. Make sure to nuke all point attributes to keep it clean for the next sim.
 
 ## `primuv()` vs actual UVs
 
