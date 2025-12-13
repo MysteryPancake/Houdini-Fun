@@ -1971,7 +1971,7 @@ The same approach works for velocity too, though Raph's original file didn't inc
 
 1. Freeze the container with a Time Shift node.
 2. Use Extract Transform to estimate the transform from the frozen to the moving container. This lets you transform everything relative to the container.
-3. Use a Transform Pieces node with the estimated transform to make everything relative. Make sure to enable "No Point Velocities" to prevent velocity being replaced.
+3. Use a Transform Pieces node with the estimated transform to make everything relative. Enable "No Point Velocities" to prevent the velocity being recomputed.
 
 <img src="./images/stabilize_world_to_local.png?raw=true" width="500">
 
