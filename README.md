@@ -1912,6 +1912,61 @@ v@P = primuv(1, "P", i@near_prim, v@near_uv);
 - Copy to Points is good since it applies `@orient`, `@N` and `@up` attributes.
 - PolyHinge is good for parenting to edges, though no one really uses it.
 
+## Smoke / Fluids: Fix moving colliders
+
+Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
+
+A great fix comes from Raphael Gadot: Stabilize the collider, freeze it in place. Apply forces in relative space, then invert back to world space.
+
+This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims.
+
+<img src="./images/stabilized_flip_sim.webp?raw=true" width="500">
+
+| [Download the HIP file!](./hips/stabilized_flip_sim.hipnc?raw=true) |
+| --- |
+
+### 1. Relative gravity
+
+1. Add an `@up` vector in world space. The up vector gets transformed by Transform Pieces.
+
+```js
+v@up = {0, 1, 0};
+```
+
+2. Add a Gravity Force node to your sim. Use the transformed `@up` vector as your gravity force.
+
+```js
+Force X = -9.81 * point(-1, 0, "up", 0)
+Force Y = -9.81 * point(-1, 0, "up", 1)
+Force Z = -9.81 * point(-1, 0, "up", 2)
+```
+
+Make sure the force is "Set Always"!
+
+### 2. Relative acceleration
+
+1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration".
+
+2. Add another Gravity Force node, using negative `@accel` as your force vector.
+
+```js
+Force X = -point(-1, 0, "accel", 0)
+Force Y = -point(-1, 0, "accel", 1)
+Force Z = -point(-1, 0, "accel", 2)
+```
+
+Make sure the force is "Set Always"!
+
+### 3. Stabilize (world to local)
+
+1. Freeze the container with a Time Shift node.
+2. Use Extract Transform to estimate the transform from the frozen to the moving container. This lets you transform everything relative to the container.
+3. Use a Transform Pieces node with the estimated transform to make everything relative. Make sure to enable "No Point Velocities" to prevent velocity being replaced.
+
+If you want to deal with open containers, the easiest way is to do a separate sim when the fluid exits the container. This is done by killing points outside the container, then feeding the killed points into the other sim. Make sure to nuke all point attributes to keep it clean for the next sim.
+
+Another tip is use "Central Difference" when calculating the velocity. This gives the fluid more time to move away from the collider.
+
 ## `primuv()` vs actual UVs
 
 A common misconception is `primuv()` uses the actual UV map of the geometry. This would cause problems if the UVs overlapped.
@@ -2090,61 +2145,6 @@ As well as water, Thibault shared tons of great advice for sand.
 A key characteristic of fluid is how it sticks together, forming clumps and strands. POP Fluid tries to emulate this, but it doesn't look as good as FLIP.
 
 To get nicer clumps, a tip from Raphael Gadot is to use Attribute Blur set to "Proximity". Though it won't affect the motion, it looks incredible on still frames.
-
-## Smoke / Fluids: Fix moving colliders
-
-Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
-
-A great fix comes from Raphael Gadot: Stabilize the collider, freeze it in place. Simulate in local space, apply forces in relative space, then invert back to world space. This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims.
-
-### 1. Relative gravity
-
-1. Add an `@up` vector in world space (before Transform Pieces).
-
-```js
-v@up = {0, 1, 0};
-```
-
-2. Add a Gravity Force node to your sim (after Transform Pieces). Use the transformed `@up` vector as your gravity force.
-
-```js
-Force X = -9.81 * point(-1, 0, "up", 0)
-Force Y = -9.81 * point(-1, 0, "up", 1)
-Force Z = -9.81 * point(-1, 0, "up", 2)
-```
-
-Make sure the force is "Set Always"!
-
-### 2. Relative acceleration
-
-1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration".
-
-2. Add another Gravity Force node, using negative `@accel` as your force vector.
-
-```js
-Force X = -point(-1, 0, "accel", 0)
-Force Y = -point(-1, 0, "accel", 1)
-Force Z = -point(-1, 0, "accel", 2)
-```
-
-Make sure the force is "Set Always"!
-
-### 3. Stabilize (world to local)
-
-1. Pick a face on the collider you want to stabilize. Blast everything except that face.
-2. Time freeze that face with a Time Shift node.
-3. Use an Extract Transform node to compare the frozen face to the moving face. That tells you how the collider moves over time, allowing you to cancel out the movement.
-4. Pack everything else. Make sure to enable "No Point Velocities".
-5. Plug the Pack into a Transform Pieces node, then plug Extract Transform into the other input.
-6. You should see the collider frozen in place. If not, try swapping the Time Shift to the other input in your Extract Transform node.
-7. Unpack and do your sim in local space.
-8. Pack the sim result.
-9. Add another Transform Pieces node with the same Extract Transform input. This time, set it to "Invert Transformation" to go back to world space.
-10. Unpack the world space result.
-
-If you want to deal with open containers, the easiest way is to do a separate sim when the fluid exits the container. This is done by killing points outside the container, then feeding the killed points into the other sim. Make sure to nuke all point attributes to keep it clean for the next sim.
-
-Another tip is use "Central Difference" when calculating the velocity. This gives the fluid more time to move away from the collider.
 
 ## Cloth: Fix missing preroll
 
