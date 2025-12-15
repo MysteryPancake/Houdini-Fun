@@ -1965,8 +1965,6 @@ Make sure the force operation is "Set Always"!
 
 <img src="./images/stabilized_accel_force.png?raw=true" width="700">
 
-The same approach works for velocity too, though Raph's original file didn't include it.
-
 ### Stabilize and unstabilize the container
 
 1. Freeze the container with a Time Shift node.
