@@ -1920,7 +1920,7 @@ v@P = primuv(1, "P", i@near_prim, v@near_uv);
 
 Fluids often screw up whenever colliders move, like water in a moving cup or smoke in an elevator. Either the collider deletes the volume as it moves, or velocity doesn't transfer properly from the collider.
 
-A great fix comes from Raphael Gadot: Stabilize the collider, freeze it in place. Apply forces in relative space, then invert back to world space.
+A great fix comes from Raphael Gadot: [Stabilize the collider, freeze it in place](https://www.youtube.com/watch?v=WyiOFOj-55g&t=1192s). Apply forces in relative space, then invert back to world space.
 
 This works best for enclosed containers or pinned geometry, since it's hard to mix local and world sims.
 
@@ -1929,7 +1929,7 @@ This works best for enclosed containers or pinned geometry, since it's hard to m
 | [Download the HIP file!](./hips/stabilized_flip_sim.hiplc?raw=true) |
 | --- |
 
-### 1. Relative gravity
+### Relative gravity
 
 1. Add an `@up` vector in world space. The up vector gets transformed by Transform Pieces.
 
@@ -1949,7 +1949,7 @@ Make sure the force operation is "Set Always"!
 
 <img src="./images/stabilized_gravity_force.png?raw=true" width="700">
 
-### 2. Relative acceleration
+### Relative acceleration
 
 1. Add a Trail node set to "Calculate Velocity", then enable "Calculate Acceleration" in "Central Difference" mode.
 
@@ -1965,11 +1965,11 @@ Make sure the force operation is "Set Always"!
 
 <img src="./images/stabilized_accel_force.png?raw=true" width="700">
 
-### 3. Stabilize and unstabilize the container
+### Stabilize and unstabilize the container
 
 1. Freeze the container with a Time Shift node.
 2. Use Extract Transform to estimate the transform from the frozen to the moving container. This lets you transform everything relative to the container.
-3. Use a Transform Pieces node with the estimated transform to make everything relative. Make sure to enable "No Point Velocities" to prevent velocity being replaced.
+3. Use a Transform Pieces node with the estimated transform to make everything relative. Enable "No Point Velocities" to prevent the velocity being recomputed.
 
 <img src="./images/stabilize_world_to_local.png?raw=true" width="500">
 
