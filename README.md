@@ -2125,7 +2125,7 @@ Attribute Adjust Vector also lets you adjust the direction and length independen
 Particle Fluid Surface by default often gives messy results. A much better approach comes from Thibault Gauriau.
 
 - Rather than meshing everything at once, split the point cloud by density and mesh each section separately.
-- Density can be measured using pcfind and counting the points within the radius.
+- Density can be measured with Point Cloud Measure, or `pcfind()` and counting points within the radius.
 - Dense sections can be given a large voxel size. This means faster meshing and less high frequency noise.
 - Sparse sections can be given a small voxel size. This means slower meshing but more detail.
 - You can split it as many times as needed, but usually low, medium and high quality meshes are needed at minimum.
