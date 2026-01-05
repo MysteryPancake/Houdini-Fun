@@ -1689,6 +1689,126 @@ v@P = lerp(center, v@P, chf("scale"));
 | [Download the HIP file!](./hips/scale_prims.hiplc?raw=true) |
 | --- |
 
+## Splitting a triangle into regions
+
+Malmer on the Houdini & Chill Discord wanted to split a triangle into 3 regions as seen below.
+
+<img src="./images/triangle_regions.webp?raw=true" width="400">
+
+It's a surprisingly tricky problem, so each of us came up with different solutions. I thought they were interesting enough to share.
+
+My solution was manually defining 3 planes using cross products and dot products. [ShaderToy version here!](https://www.shadertoy.com/view/W32fWt)
+
+```js
+// 3D version by me
+vector A = point(1, "P", 0);
+vector B = point(1, "P", 1);
+vector C = point(1, "P", 2);
+
+// Incenter, seems more accurate than (A+B+C)/3
+float a = length(B-C);
+float b = length(C-A);
+float c = length(A-B);
+vector center = (a*A + b*B + c*C)/(a+b+c);
+
+// Triangle normal, flipped so the result goes towards the edges
+vector N = -normalize(cross(B - A, C - A));
+
+// Planes from the center towards each corner
+vector CA = cross(center - A, v@P - A);
+vector CB = cross(center - B, v@P - B);
+vector CC = cross(center - C, v@P - C);
+
+v@Cd = {1, 0, 0};
+
+// Color one side of the center-A plane
+if (dot(CA, N) > 0) {
+    v@Cd = {0, 1, 0};
+}
+
+// Color between the center-B and center-C planes
+if (dot(CB, N) > 0 && dot(CC, N) < 0) {
+    v@Cd = {0, 0, 1};
+}
+```
+
+Jake Rice came up with several solutions. The first involved `atan2()` and `sort()`, both of which tend to be slow.
+
+```js
+// atan2() version by Jake Rice
+vector a = point(1, "P", 0);
+vector b = point(1, "P", 1);
+vector c = point(1, "P", 2);
+
+float A = length(b-c);
+float B = length(c-a);
+float C = length(a-b);
+vector center = (a*A + b*B + c*C)/(A+B+C);
+a -= center;
+b -= center;
+c -= center;
+
+float ang_a = atan2(a.z, a.x);
+float ang_b = atan2(b.z, b.x);
+float ang_c = atan2(c.z, c.x);
+
+vector dir_center = @P - center;
+float ang_p = atan2(dir_center.z, dir_center.x);
+
+float angs[] = sort(float[](array(ang_a, ang_b, ang_c)));
+
+if (ang_p < angs[0]) {
+    v@Cd = {0, 0, 1};
+} else if (ang_p <= angs[1]) {
+    v@Cd = {1, 0, 0};
+} else if (ang_p <= angs[2]) {
+    v@Cd = {0, 1, 0};
+} else {
+    v@Cd = {0, 0, 1};
+}
+```
+
+The second was optimized for 2D only, similar to my 3D version except the cross products are replaced with `(y, -x)`.
+
+```js
+// 2D optimized version by Jake Rice
+vector a = point(1, "P", 0);
+vector b = point(1, "P", 1);
+vector c = point(1, "P", 2);
+
+// Make 2d vectors. honestly this probably loses some time :)
+vector2 A = set(a.x, a.z);
+vector2 B = set(b.x, b.z);
+vector2 C = set(c.x, c.z);
+vector2 p = set(@P.x, @P.z);
+
+// Incenter where the bisectors meet
+float lenAB = length(B-A);
+float lenBC = length(C-B);
+float lenCA = length(A-C);
+vector2 center=(lenBC*A + lenCA*B + lenAB*C)/(lenAB+lenBC+lenCA);
+
+vector2 reverse = {1,-1};
+vector2 e0 = (A - center).yx * reverse; 
+vector2 e1 = (B - center).yx * reverse;
+vector2 e2 = (C - center).yx * reverse;
+
+v@Cd = {1, 0, 0};
+
+if(dot(p - A, e0) < 0){ 
+    v@Cd = {0, 1, 0};
+}
+
+// We need to make sure this envelope is always oriented towards the B-C edge
+float sign = dot(A - B, (C - B).yx * reverse);
+if(dot(p - B, e1) * sign > 0 && dot(p - C, e2) * sign < 0){
+    v@Cd = {0, 0, 1};
+}
+```
+
+| [Download the HIP file!](./hips/triangle_regions.hiplc?raw=true) |
+| --- |
+
 ## Collision geometry from nasty meshes
 
 It's always hard to get a decent sim when your collision geometry is on life support. Here's a few ways to clean it up!
