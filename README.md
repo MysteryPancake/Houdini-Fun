@@ -395,6 +395,58 @@ Afterwards used even more ramps to remap the timing, to get a speed ramp effect 
 | [Download the HIP file!](./hips/cops/cops_bars.hiplc?raw=true) |
 | --- |
 
+## Copernicus: Texture Baker in VEX
+
+Before the Bake Geometry Textures node was invented, I made a bootleg version in VEX.
+
+It gives similar results (top row) to the real thing (bottom row), but much slower and hackier.
+
+<img src="./images/cops/cops_diy_baker.png?raw=true" width="700">
+
+```js
+// Dumb hack to get the world position from the UV coordinate
+vector pos = relbbox(0, v@P);
+vector uv_to_P = uvsample(1, "P", "uv", pos);
+
+float maxdist = chf("max_distance");
+int mode = chi("mode");
+
+int prim;
+vector uv;
+
+if (mode == 0) {
+    // Nearest surface
+    xyzdist(2, uv_to_P, prim, uv, maxdist);
+} else if (mode == 1) {
+    // Raycast
+    vector dir = vector(uvsample(1, "N", "uv", pos)) * maxdist;
+    // Ray forwards
+    vector tmp;
+    prim = intersect(2, uv_to_P, dir, tmp, uv);
+    if (prim < 0) {
+        // Ray backwards
+        prim = intersect(2, uv_to_P, -dir, tmp, uv);
+    }
+}
+
+// No hit
+if (prim < 0) return;
+
+// Rotate 90 degrees on X to match Blender
+vector4 rotation = eulertoquaternion(radians(chv("rotation")),0);
+
+// World position
+v@position = qrotate(rotation, primuv(2, "P", prim, uv));
+
+// World normals
+vector normal = qrotate(rotation, primuv(2, "N", prim, uv));
+// Map (-1, 1) range to (0, 1) range
+v@normal = normalize(normal) * 0.5 + 0.5;
+```
+
+| [Download the HIP file!](./hips/cops/cops_diy_baker.hiplc?raw=true) |
+| --- |
+
 ## Convert to Bricks
 
 The Labs PolySlice node produces a bunch of cross section curves. They can be resampled and used for fracturing, producing bricks.
