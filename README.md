@@ -688,20 +688,7 @@ float smooth_steps = int_step + frac_step; // Both combined, smooth steps
 
 I saw an interesting [fractal construction method on Numberphile](https://www.youtube.com/watch?v=FnRhnZbDprE).
 
-It involves repeatedly adding points halfway between all the existing points in a feedback loop:
-
-```js
-for (int i = 0; i < npoints(1); ++i) {
-    vector pos = point(1, "P", i);
-    // Add a point halfway between us and the other point
-    vector half = lerp(v@P, pos, chf("mix"));
-    addpoint(0, half);
-}
-// Remove the original point
-removepoint(0, i@ptnum);
-```
-
-This works for a variety of fractals, including the Sierpinski Triangle and Menger Sponge.
+It works for a variety of fractals, including the Sierpinski Triangle and Menger Sponge.
 
 <p align="left">
 	<img src="./images/sierpinski.png" width="45%">
@@ -715,6 +702,19 @@ This works for a variety of fractals, including the Sierpinski Triangle and Meng
 	<img src="./images/sierpinski5.png" width="45%">
 	<img src="./images/sierpinski6.png" width="45%">
 </p>
+
+It involves repeatedly adding points halfway between all the existing points in a feedback loop:
+
+```js
+for (int i = 0; i < npoints(1); ++i) {
+    vector pos = point(1, "P", i);
+    // Add a point halfway between us and the other point
+    vector half = lerp(v@P, pos, chf("mix"));
+    addpoint(0, half);
+}
+// Remove the original point
+removepoint(0, i@ptnum);
+```
 
 | [Download the HIP file!](./hips/sierpinski.hiplc?raw=true) |
 | --- |
