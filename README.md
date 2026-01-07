@@ -349,9 +349,9 @@ It would be fun to remake everything, for similar performance to the OpenCL (Min
 
 I can't be bothered myself, but you can use this file as a starting point!
 
-<img src="./images/cop_pyro_comparison.webp?raw=true" width="500">
+<img src="./images/cops/cop_pyro_comparison.webp?raw=true" width="500">
 
-| [Download the HIP file!](./hips/cops_pyro_comparison.hiplc?raw=true) |
+| [Download the HIP file!](./hips/cops/cops_pyro_comparison.hiplc?raw=true) |
 | --- |
 
 ## Copernicus to Heightfield
