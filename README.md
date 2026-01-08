@@ -972,7 +972,7 @@ vector dir = cross(v@N, axis);
 v@v = normalize(dir);
 ```
 
-Cwalrus on the Houdini & Chill Discord wanted to make a tornado travel around a head. This means combining both of the above.
+Cwalrus on Discord wanted to make a tornado travel around a head. This means combining both of the above.
 
 <img src="./images/tornado_head.gif?raw=true" width="500">
 
@@ -1742,7 +1742,7 @@ v@P = lerp(center, v@P, chf("scale"));
 
 ## Splitting a triangle into regions
 
-Malmer on the Houdini & Chill Discord wanted to split a triangle into 3 regions as seen below.
+Malmer on Discord wanted to split a triangle into 3 regions as seen below.
 
 <img src="./images/triangle_regions.webp?raw=true" width="400">
 
