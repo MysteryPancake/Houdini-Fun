@@ -559,7 +559,7 @@ The examples below are only for 3D volumes, but the same ideas work in any dimen
 
 [See my 3D SDF article](./Houdini_SDFs.md) for a bunch of 3D shapes from [Inigo Quilez](https://iquilezles.org/articles/distfunctions/), and instructions on how to use them!
 
-[<img src="./images/sdfs/sdf_volumes.png?raw=true">](hips/sdf_volumes.hipnc?raw=true)
+[<img src="./images/sdfs/sdf_volumes.png?raw=true">](hips/sdfs/sdf_volumes.hipnc?raw=true)
 
 ### Boolean operations
 
@@ -1065,7 +1065,7 @@ I used this ramp for the demo above:
 
 <img src="./images/remove_post_sim_ramp.png?raw=true" width="600">
 
-| [Download the HIP file!](./hips/pop_remove_post_sim.hipnc?raw=true) |
+| [Download the HIP file!](./hips/pop_remove_post_sim.hiplc?raw=true) |
 | --- |
 
 ## Generating circles
