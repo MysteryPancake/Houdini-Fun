@@ -361,10 +361,10 @@
 								<a href="#method-2-convolution">Convolution</a> (gaussian blur, box blur, sharpening, used for images)
 							</li>
 							<li>
-								<a href="#method-3-biquad-filters">Biquad filters</a> (low pass, high pass, butterworth... used for audio)
+								<a href="#method-3-iir-filters">IIR filters</a> (low pass, high pass, butterworth... used for audio)
 							</li>
 							<li>
-								<a href="#method-4-sinc-convolution">Sinc convolution</a> (ideal low pass, high pass... used for audio)
+								<a href="#method-4-fir-filters">FIR filters</a> (ideal low pass, high pass... used for audio)
 							</li>
 						</ol>
 					</section>
@@ -1295,7 +1295,7 @@ v@P = pos_total;</code></pre>
 						<img src="./images/smoothing/proximityconvolve.webp" width="480" class="mb-3 mw-100">
 						<p>This looks similar to Edge Transport, which makes sense since both are distance-based methods.</p>
 						<p>Anyway, back on track. Let's jump to lerp's big brother, biquad filters!</p>
-						<h2 id="method-3-biquad-filters">Method 3: Biquad filters</h2>
+						<h2 id="method-3-iir-filters">Method 3: IIR filters</h2>
 						<p>Biquad filters are super popular for music and sound design. They're used for most digital EQs, so when you boost the bass or cut the treble, you're probably using a biquad filter. They give full control over the frequency response with very little effort.</p>
 						<p>Have a play with the demo below. Try to get a feel for how time and frequency interact.</p>
 						<p class="mb-2">
@@ -2431,9 +2431,9 @@ v@y1 = v@P;</code></pre>
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
-						<h2 id="method-4-sinc-convolution">Method 4: Sinc convolution</h2>
+						<h2 id="method-4-fir-filters">Method 4: FIR filters</h2>
 						<p>
-							<b>Note Houdini's built-in <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter node</a> works for sinc convolution!</b>
+							<b>Note Houdini's built-in <a href="https://www.sidefx.com/docs/houdini/nodes/chop/pass.html" target="_blank">Pass Filter node</a> works for FIR filters!</b>
 						</p>
 						<p>FIR filters are the perfect marriage of convolution and biquad filters. It's convolution with the most powerful kernel in the world!</p>
 						<p>To understand them, let's go back to lerp. Remember how I said lerp is an IIR lowpass? What does IIR even mean?</p>
