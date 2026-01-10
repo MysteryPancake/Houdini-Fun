@@ -321,6 +321,28 @@ f@correlation = dot(v@N, camDir);
 
 <br clear="left" />
 
+## Cull occluded geometry
+
+You can remove occluded geometry by raying towards the camera to see if any collisions occur.
+
+If no hit occurs, it must be visible to the camera. Otherwise it's occluded and can be removed.
+
+<img src="./images/ndc/ndccull3.png" width="300" align="left">
+
+```js
+string cam = chsop("cam");
+vector camPos = fromNDC(cam, {0, 0, 0});
+vector camDir = camPos - v@P;
+
+// Ray towards the camera and see if we hit the 2nd input
+vector p, uvw;
+if (intersect(1, v@P, camDir, p, uvw) >= 0) {
+    removepoint(0, i@ptnum);
+}
+```
+
+<br clear="left" />
+
 ## Build your own NDC matrix
 You can use `perspective()` to build a matrix that has the same effect as `toNDC()` (assuming the camera is in perspective mode).
 
