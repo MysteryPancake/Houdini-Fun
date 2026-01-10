@@ -2307,7 +2307,7 @@ setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 
 ### Align Translation + Rotation + Scale + Shear
 
-To solve the full 4x4 matrix, it's easier to use a completely different approach. You can solve it as a linear least squares problem.
+To solve the full 4x4 matrix, it's easier to use a different approach. You can solve it as a linear least squares problem.
 
 ```js
 // Detail Wrangle: Solve full 4x4 matrix
