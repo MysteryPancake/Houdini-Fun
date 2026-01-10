@@ -2158,7 +2158,7 @@ Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 
 
 If you want to use the actual UVs, use `uvsample()` instead.
 
-# Extract Transform in VEX
+## Extract Transform in VEX
 
 Ever wanted to remake Extract Transform in VEX? Turns out it's based on [the Umeyama algorithm](https://nghiaho.com/?page_id=671).
 
@@ -2171,7 +2171,7 @@ The algorithm works like this:
 | [Download the HIP file!](./hips/extract_transform_svd.hiplc?raw=true) |
 | --- |
 
-## Align Translation
+### Align Translation
 
 Aligning the translation is easy. The best translation happens when you align the center of mass (average) of each point cloud.
 
@@ -2198,7 +2198,7 @@ translate(transform, (target_centroid - source_centroid) / n);
 setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 ```
 
-## Align Translation + Rotation
+### Align Translation + Rotation
 
 Aligning the rotation is harder. You need to build a covariance matrix, then solve it with SVD.
 
@@ -2247,7 +2247,7 @@ translate(transform, target_centroid - source_centroid);
 setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 ```
 
-## Align Translation + Rotation + Scale
+### Align Translation + Rotation + Scale
 
 Aligning the scale is even harder. One popular way is the [Umeyama algorithm](https://stackoverflow.com/a/32244818).
 
@@ -2302,6 +2302,36 @@ matrix transform = set(R);
 translate(transform, target_centroid - (R * source_centroid));
 
 // 7. Add point for Transform Pieces to use
+setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
+```
+
+### Align Translation + Rotation + Scale + Shear
+
+To solve the full 4x4 matrix, it's easier to use a completely different approach.
+
+You can solve it as a linear least squares problem using some fancy math.
+
+```js
+// Detail Wrangle: Solve full 4x4 matrix
+// Input 1: Source
+// Input 2: Target
+
+// 1. Assemble A and b to solve x in b=x*A
+matrix A = 0; // 4x4 normal equations matrix
+matrix b = 0; // 3x4 right hand side
+
+float n = npoints(1);
+for (int i = 0; i < n; ++i) {
+    vector4 source = vector(point(1, "P", i));
+    vector target = point(2, "P", i); 
+    A += outerproduct(source, source);
+    b += outerproduct(target, source);
+}
+
+// 2. Solve x using least squares
+matrix transform = transpose(b * invert(A));
+
+// 3. Add point for Transform Pieces to use
 setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
 ```
 
