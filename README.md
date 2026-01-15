@@ -112,6 +112,9 @@ It works by casting rays in a sphere from each point, creating lines. Each line 
 
 <img src="./images/mvcraycast.gif?raw=true" height="450">
 
+| [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/mvc_deform.hiplc?raw=true) |
+| --- | --- |
+
 ```js
 float tolerance = chf("tolerance");
 int samples = chi("samples");
@@ -145,12 +148,9 @@ for (int i = 0; i < samples; ++i) {
 }
 ```
 
-The VEX above captures and deforms in one step, which is slower since ray is only needed once. The inputs are the same as Point Deform. The 1st input is geo to deform, the 2nd is the rest pose and the 3rd is the deformed pose.
+The VEX above captures and deforms in one step, which is slower since ray is only needed once.
 
-For better performance, try the HDA below!
-
-| [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/mvc_deform.hiplc?raw=true) |
-| --- | --- |
+The inputs are the same as Point Deform. The 1st input is geo to deform, the 2nd is the rest pose and the 3rd is the deformed pose.
 
 <h2><img src="./images/repair_cycles.svg?raw=true" height="32"> HDA: Repair Cycles</h2>
 
@@ -159,6 +159,9 @@ KineFX often whinges when skeletons are cyclic ("Cycle Detected" errors). There'
 If the skeleton actually has cycles, you need to detect and cut them. I made a HDA for this, but otherwise you can use the VEX below.
 
 <img src="./images/cycle_detection.png?raw=true" height="400">
+
+| [Download the HDA!](./hdas/MysteryPancake.repair_cycles.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/repair_cycles.hiplc?raw=true) |
+| --- | --- |
 
 ```js
 // Depth first search to detect graph cycles for cutting
@@ -188,9 +191,6 @@ for (int i = 0; i < n || len(stack) > 0; ++i) {
   }
 }
 ```
-
-| [Download the HDA!](./hdas/MysteryPancake.repair_cycles.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/repair_cycles.hiplc?raw=true) |
-| --- | --- |
 
 ## Simple spring solver
 
@@ -403,6 +403,9 @@ It gives similar results (top row) to the real thing (bottom row), but much slow
 
 <img src="./images/cops/cops_diy_baker.png?raw=true" width="700">
 
+| [Download the HIP file!](./hips/cops/cops_diy_baker.hiplc?raw=true) |
+| --- |
+
 ```js
 // Dumb hack to get the world position from the UV coordinate
 vector pos = relbbox(0, v@P);
@@ -443,9 +446,6 @@ vector normal = qrotate(rotation, primuv(2, "N", prim, uv));
 // Map (-1, 1) range to (0, 1) range
 v@normal = normalize(normal) * 0.5 + 0.5;
 ```
-
-| [Download the HIP file!](./hips/cops/cops_diy_baker.hiplc?raw=true) |
-| --- |
 
 ## Convert to Bricks
 
@@ -532,7 +532,7 @@ I found a cool use of Vellum for this, it can fix the edge lengths based on [the
 
 ## Complex Growth in 2 nodes
 
-You can get cool and organic looking shapes using opposing forces, like Relax and Attribute Blur.
+You can get cool organic looking shapes using opposing forces, like Relax and Attribute Blur.
 
 [![Growth tutorial](https://img.youtube.com/vi/h0TUYC2WNXY/mqdefault.jpg)](https://youtu.be/h0TUYC2WNXY)
 
@@ -755,6 +755,9 @@ It works for a variety of fractals, including the Sierpinski Triangle and Menger
 	<img src="./images/sierpinski6.png" width="45%">
 </p>
 
+| [Download the HIP file!](./hips/sierpinski.hiplc?raw=true) |
+| --- |
+
 It involves repeatedly adding points halfway between all the existing points in a feedback loop:
 
 ```js
@@ -768,14 +771,14 @@ for (int i = 0; i < npoints(1); ++i) {
 removepoint(0, i@ptnum);
 ```
 
-| [Download the HIP file!](./hips/sierpinski.hiplc?raw=true) |
-| --- |
-
 ## Weyl sequence
 
 Matt Ebb taught us about the [Weyl sequence](https://en.wikipedia.org/wiki/Weyl_sequence), also known as the Plastic sequence or R2 sequence. It's useful for [distributing points fairly evenly](https://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/).
 
 <img src="./images/weyl_sequence.webp?raw=true" width="400">
+
+| [Download the HIP file!](./hips/weyl_sequence.hiplc?raw=true) |
+| --- |
 
 There's a nice implementation by [spalmer on ShaderToy](https://www.shadertoy.com/view/WXjXRt). It looks like this in VEX:
 
@@ -792,9 +795,6 @@ Replacing the math with constants, it becomes even shorter:
 ```js
 v@P = frac(set(.754877669, .569840296) * i@ptnum);
 ```
-
-| [Download the HIP file!](./hips/weyl_sequence.hiplc?raw=true) |
-| --- |
 
 ## Spiral animation
 
@@ -840,6 +840,9 @@ I thought it'd be cool to pause in the middle for a staggering effect, then ramp
 
 <img src="./images/animated_spiral2.webp?raw=true" width="400">
 
+| [Download the HIP file!](./hips/animated_spiral.hiplc?raw=true) |
+| --- |
+
 ```js
 // Offset and wrap the current primnum to get the target primnum
 int target_primnum = (i@primnum + chi("offset")) % i@numprim;
@@ -867,14 +870,14 @@ float hue = lerp(i@primnum, target_primnum, chramp("hue_easing", mix)) / i@numpr
 v@Cd = hsvtorgb(hue, 1, .9) * 1.3;
 ```
 
-| [Download the HIP file!](./hips/animated_spiral.hiplc?raw=true) |
-| --- |
-
 ## Flying pig
 
 Simple challenge from the CGWiki Discord, animating flapping wings using sine waves.
 
 <img src="./images/flyingpig.gif?raw=true" width="400">
+
+| [Download the HIP file!](./hips/flyingpig.hiplc?raw=true) |
+| --- |
 
 I used `abs()` to make them flap symmetrically along the X axis, then slid a noise along the Z axis:
 
@@ -890,9 +893,6 @@ I often use `hsvtorgb()` for rainbow gradients, changing the hue based on the co
 f@Alpha = 0.2;
 v@Cd = hsvtorgb(float(i@copynum)/10,1,1);
 ```
-
-| [Download the HIP file!](./hips/flyingpig.hiplc?raw=true) |
-| --- |
 
 ## Veiny pig
 
@@ -910,6 +910,9 @@ The hard part is generating the initial paths. Below I used the constraints from
 It's surprisingly hard to procedurally roll wheels along a curve without sliding.
 
 <img src="./images/rolling_wheels.webp?raw=true" width="400">
+
+| [Download the HIP file!](./hips/rolling_wheels.hiplc?raw=true) |
+| --- |
 
 The `primuv()` units for a curve are normalized between 0 and 1, but the wheel radius is in meters. You need meters to track the distance travelled, but how to get it?
 
@@ -935,9 +938,6 @@ rotate(m, rotation, -cross(n, up));
 p@orient = quaternion(m);
 ```
 
-| [Download the HIP file!](./hips/rolling_wheels.hiplc?raw=true) |
-| --- |
-
 ## Velocity toward an object
 
 To travel toward an object, get the closest surface position with `minpos()` or `xyzdist()`, then subtract the current position.
@@ -945,6 +945,9 @@ To travel toward an object, get the closest surface position with `minpos()` or 
 If you have a Level Set or Isosurface volume, you can use `volumegradient()` instead.
 
 <img src="./images/vel_towards.png?raw=true" width="500">
+
+| [Download the HIP file!](./hips/tornado_head.hiplc?raw=true) |
+| --- |
 
 ```js
 // Or xyzdist(1, v@P, prim, uv) then primuv(1, "P", prim, uv)
@@ -954,9 +957,6 @@ vector dir = nearest - v@P;
 // Optionally normalize the direction so it has a constant speed everywhere
 v@v = normalize(dir);
 ```
-
-| [Download the HIP file!](./hips/tornado_head.hiplc?raw=true) |
-| --- |
 
 ## Velocity around an object
 
@@ -976,6 +976,9 @@ Cwalrus on Discord wanted to make a tornado travel around a head. This means com
 
 <img src="./images/tornado_head.gif?raw=true" width="500">
 
+| [Download the HIP file!](./hips/tornado_head.hiplc?raw=true) |
+| --- |
+
 ```js
 vector towards_dir = (minpos(1, v@P) - v@P);
 v@v += towards_dir * chf("towards_strength");
@@ -983,9 +986,6 @@ v@v += towards_dir * chf("towards_strength");
 vector around_dir = normalize(cross(v@N, {0, 1, 0}));
 v@v += around_dir * chf("around_strength");
 ```
-
-| [Download the HIP file!](./hips/tornado_head.hiplc?raw=true) |
-| --- |
 
 ## Transition within a fixed frame range
 
@@ -1000,6 +1000,9 @@ mix = (attribute - offset) * contrast;
 If you normalize the attribute (eg. with Labs Normalize Float), it's easy to fit the timing exactly.
 
 <img src="./images/normalized_animation.webp?raw=true" width="500">
+
+| [Download the HIP file!](./hips/normalized_animation.hiplc?raw=true) |
+| --- |
 
 ```js
 float min_frame = chi("min_frame");
@@ -1020,9 +1023,6 @@ float mix = chramp("shape", blend);
 // Animate towards rest position
 v@P = lerp(v@P, v@rest, mix);
 ```
-
-| [Download the HIP file!](./hips/normalized_animation.hiplc?raw=true) |
-| --- |
 
 ## Remove points by time after simulation
 
@@ -1311,6 +1311,9 @@ A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI usin
 
 <img src="./images/hdrisample.png?raw=true" height="320">
 
+| [Download the HIP file!](./hips/hdrisample.hipnc?raw=true) |
+| --- |
+
 ```js
 string cam = chsop("cam");
 vector cam_pos = optransform(cam) * {0, 0, 0};
@@ -1321,12 +1324,16 @@ vector uv = set(atan2(-r.z, -r.x) / PI + 0.5, r.y * 0.5 + 0.5, 0);
 v@Cd = texture("$HFS/houdini/pic/hdri/HDRIHaven_skylit_garage_2k.rat", uv.x, uv.y);
 ```
 
-| [Download the HIP file!](./hips/hdrisample.hipnc?raw=true) |
-| --- |
-
 ## Smoothing volumes with VEX
 
-Levin on the CGWiki Discord wanted to blur volumes in VEX. You can do it by sample neighbors in a box and averaging them together. This is slower than the built-in volume nodes, but might be useful one day:
+Levin on the CGWiki Discord wanted to blur volumes in VEX.
+
+<img src="./images/volumesmoothing.png?raw=true" width="600">
+
+| [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true) |
+| --- |
+
+To do this, you can sample the neighbors in a box and average them. It's much slower than the built-in volume nodes though.
 
 ```js
 float density_sum = 0;
@@ -1349,11 +1356,6 @@ for (int x = -voxel_radius; x <= voxel_radius; ++x) {
 
 f@density = density_sum / num_samples;
 ```
-
-<img src="./images/volumesmoothing.png?raw=true" width="600">
-
-| [Download the HIP file!](./hips/volume_smoothing.hiplc?raw=true) |
-| --- |
 
 ## Bilinear patches
 
@@ -1387,6 +1389,13 @@ It's a recursive process involving making a voronoi diagram, finding the centers
 
 Sometimes you need to overlap UV islands and fit them to a full tile, like when slicing a sphere.
 
+|Before|After|
+|---|---|
+|<img src="./images/uvfitting1.png?raw=true" height="200">|<img src="./images/uvfitting2.png?raw=true" height="200">|
+
+| [Download the HIP file!](./hips/uv_island_fitting.hiplc?raw=true) |
+| --- |
+
 This is hard to do with Houdini's built-in nodes, so here's a manual approach.
 
 1. Use Attribute Promote to get the min and max of the UV attribute. If there's multiple islands, go per piece by connectivity.
@@ -1396,16 +1405,14 @@ This is hard to do with Houdini's built-in nodes, so here's a manual approach.
 v@uv = invlerp(v@uv, v@uvmin, v@uvmax); // Or v@uv = fit(v@uv, v@uvmin, v@uvmax, 0, 1);
 ```
 
-|Before|After|
-|---|---|
-|<img src="./images/uvfitting1.png?raw=true" height="200">|<img src="./images/uvfitting2.png?raw=true" height="200">|
-
-| [Download the HIP file!](./hips/uv_island_fitting.hiplc?raw=true) |
-| --- |
-
 ## Detect overlapping UVs
 
 It's hard to prevent `uvintersect()` and `xyzdist()` from snapping to themselves. This is painful for detecting overlapping UVs and self collisions.
+
+<img src="./images/overlapping_uvs.png?raw=true" height="300">
+
+| [Download the HIP file!](./hips/detect_overlapping_uvs.hiplc?raw=true) |
+| --- |
 
 One workaround is using the group argument to exclude nearby prims, like those connected to the current point.
 
@@ -1426,11 +1433,6 @@ vector pos, primuv;
 int prim = uvintersect(0, grp, "uv", orig, dir, pos, primuv);
 if (prim >= 0) v@Cd = {1,0,0};
 ```
-
-<img src="./images/overlapping_uvs.png?raw=true" height="300">
-
-| [Download the HIP file!](./hips/detect_overlapping_uvs.hiplc?raw=true) |
-| --- |
 
 ## Getting Houdini version in VEX
 
@@ -1746,6 +1748,9 @@ Malmer on Discord wanted to split a triangle into 3 regions as seen below.
 
 <img src="./images/triangle_regions.webp?raw=true" width="400">
 
+| [Download the HIP file!](./hips/triangle_regions.hiplc?raw=true) |
+| --- |
+
 It's a surprisingly tricky problem, so each of us came up with different solutions. I thought they were interesting enough to share.
 
 My solution was manually defining 3 planes using cross products and dot products. [ShaderToy version here!](https://www.shadertoy.com/view/W32fWt)
@@ -1856,9 +1861,6 @@ if(dot(p - B, e1) * sign > 0 && dot(p - C, e2) * sign < 0){
     v@Cd = {0, 0, 1};
 }
 ```
-
-| [Download the HIP file!](./hips/triangle_regions.hiplc?raw=true) |
-| --- |
 
 ## Collision geometry from nasty meshes
 
@@ -2685,6 +2687,9 @@ Works on both geometry and volumes, as seen in [Ls_VolumeMotionVectors](#lewis-s
 
 <img src="./images/lcrs/Ls_MotionVectors.png?raw=true" width="600">
 
+| [Download the HIP file!](./hips/lcrs/Ls_MotionVectors_v01.hip?raw=true) |
+| --- |
+
 ```js
 // 2D motion vector output in absolute pixels, lewis@lewissaunders.com July 2018
 // Paste this in an Inline Code VOP, enable "Expand Expressions in Code"
@@ -2709,9 +2714,6 @@ vector res; renderstate("image:resolution", res);
 ndcv *= set(res.x, res.y, 0.0);
 \$mv = ndcv;
 ```
-
-| [Download the HIP file!](./hips/lcrs/Ls_MotionVectors_v01.hip?raw=true) |
-| --- |
 
 ## Lewis Saunders: Pop Trails
 
