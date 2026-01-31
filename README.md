@@ -2341,6 +2341,14 @@ Usually liquids resting on a surface have a small gap due to the collision geome
 
 A tip from Raphael Gadot is to transfer normals from the surface onto the liquid with some falloff. This greatly improves the blending.
 
+## Karma: Render storage saving
+
+When rendering with Karma, avoid using [SOP Import](https://www.sidefx.com/docs/houdini/nodes/lop/sopimport.html). It writes tons of USD data to disk that already exists as bgeo.
+
+It's better to use [Geometry Sequence](https://www.sidefx.com/docs/houdini/nodes/lop/geometrysequence.html) instead. It stores the bgeo path in the USD file instead, and loads it directly from disk.
+
+This makes the USD file much smaller and likely improves the render time too. Thanks Matt Ebb for this tip!
+
 ## Optimize everything
 
 Is your scene slow? Don't blame Houdini, it's likely you haven't optimized properly.
