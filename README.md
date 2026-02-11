@@ -2222,12 +2222,13 @@ target_centroid /= n;
 source_centroid /= n;
 
 // 2. Build covariance matrix
-matrix3 covariance = ident();
+matrix3 covariance = 0;
 for (int i = 0; i < n; ++i) {
     vector source_diff = point(1, "P", i) - source_centroid;
     vector target_diff = point(2, "P", i) - target_centroid;
     covariance += outerproduct(target_diff, source_diff);
 }
+covariance /= n;
 
 // 3. Solve rotation with SVD
 matrix3 U;
@@ -2243,7 +2244,7 @@ if (determinant(R) < 0) {
 
 // 5. Combine translation and rotation into 4x4 matrix
 matrix transform = set(R);
-translate(transform, target_centroid - source_centroid);
+translate(transform, target_centroid - (R * source_centroid));
 
 // 6. Add point for Transform Pieces to use
 setpointattrib(0, "transform", addpoint(0, {0, 0, 0}), transform);
@@ -2274,7 +2275,7 @@ source_centroid /= n;
 
 // 2. Build covariance matrix
 float deviation = 0;
-matrix3 covariance = ident();
+matrix3 covariance = 0;
 for (int i = 0; i < n; ++i) {
     vector source_diff = point(1, "P", i) - source_centroid;
     vector target_diff = point(2, "P", i) - target_centroid;
