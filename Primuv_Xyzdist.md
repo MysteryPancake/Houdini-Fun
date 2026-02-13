@@ -1,6 +1,6 @@
 # Houdini `xyzdist()` + `primuv()` Remake
 
-Ever wondered how `primuv()` and `xyzdist()` work? Me neither, but for performance reasons I had to remake them both.
+Ever wondered how `primuv()` and `xyzdist()` work? Me neither, but for performance reasons I had to remake them in VEX and OpenCL.
 
 ## `xyzdist()`
 
