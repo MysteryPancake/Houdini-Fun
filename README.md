@@ -1640,8 +1640,10 @@ You need to be careful with this approach, since the position is only defined on
 <img src="./images/volumedeform3.png?raw=true" width="400">
 
 ```js
-vector p = volumesample(0, "rest", v@P);
-f@density = chramp("density", noise(p*10));
+// Sample the coordinate system inside the volume
+vector rest = volumesamplev(0, "rest", v@P);
+// Sample noise based on this coordinate system
+f@density = chramp("density", noise(rest*8));
 ```
 
 ## Overlapping cables without intersection
