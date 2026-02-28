@@ -66,15 +66,15 @@ Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eige
 
 This HDA lets you project plates in 3 ways:
 
-1. Constant Z coordinate
+### 1. Constant Z coordinate
 
 <img src="./images/ndc/plate_project_constant.png?raw=true" width="500">
 
-2. Varying Z coordinate using a depth map
+### 2. Varying Z coordinate using a depth map
 
 <img src="./images/ndc/plate_project_depth.png?raw=true" width="500">
 
-3. Raying onto the object
+### 3. Raying onto the object
 
 <img src="./images/ndc/plate_project_cam.png?raw=true" width="500">
 
@@ -1541,7 +1541,7 @@ Surprisingly it's tricky to display text based on an attribute or VEX snippet. H
 | [Download the HIP file!](./hips/font_vex.hiplc?raw=true) |
 | --- |
 
-### Expressions
+### 1. Expressions
 
 Igor Elovikov told us about a top secret Houdini feature, multiline expressions!
 
@@ -1562,7 +1562,7 @@ return result;
 
 Igor used `strcat()` to join the strings. I found adding works too, it doesn't need typecasting unlike VEX!
 
-### Detail attribute
+### 2. Detail attribute
 
 If you want to use VEX, never fear! Make a detail attribute, add it as a spare input, then use `details()` to display it as text.
 
@@ -1609,6 +1609,34 @@ printf( // Print all entries of the 4x4 matrix
 ```
 
 Thanks to WaffleboyTom for this tip!
+
+## Deforming volumes
+
+Khomatech on the CGWiki Discord wanted to deform volumes with noise baked in. Here's a few ways to do it!
+
+<img src="./images/volumedeform.webp?raw=true" width="500">
+
+| [Download the HIP file!](./hips/volumedeform.hiplc?raw=true) |
+| --- |
+
+### 1. Volume Deform
+
+The most accurate way is using the Volume Deform node. It can even scale the density to match the change in volume.
+
+### 2. Rasterizing Points
+
+A faster but less accurate way is putting noise on points, then turning them into a volume with Rasterize Attributes.
+
+### 3. Rest Volume
+
+A hacky way is creating a volume to store the position, then applying noise based on the coordinate system in this volume.
+
+You need to be careful with this method, since the rest position is only defined on the surface of the geometry.
+
+```js
+vector p = volumesample(0, "rest", v@P);
+f@density = chramp("density", noise(p*10));
+```
 
 ## Overlapping cables without intersection
 
@@ -1904,7 +1932,7 @@ if(dot(p - B, e1) * sign > 0 && dot(p - C, e2) * sign < 0){
 
 It's always hard to get a decent sim when your collision geometry is on life support. Here's a few ways to clean it up!
 
-### Particle Fluid Surface
+### 1. Particle Fluid Surface
 
 Good for point clouds! VDB from Particles works too, but not as smoothly.
 
@@ -1913,7 +1941,7 @@ Good for point clouds! VDB from Particles works too, but not as smoothly.
 | [Download the HIP file!](./hips/decent_collision.hiplc?raw=true) |
 | --- |
 
-### Extrude
+### 2. Extrude
 
 Good for flat surfaces! For more control, use point normals to set the extrusion direction.
 
@@ -1943,13 +1971,13 @@ Often it's nice to organise geometry by snapping it to the floor. Here's a few w
 | [Download the HIP file!](./hips/snaptofloor.hipnc?raw=true) |
 | --- |
 
-### Match Size
+### 1. Match Size
 
 The easiest way is using a Match Size node with "Justify Y" set to "Min". It snaps the position only, and won't affect the rotation.
 
 <img src="./images/centersnap.png?raw=true" width="600">
 
-### Dihedral
+### 2. Dihedral
 
 To affect the rotation too, swalsch suggested using `dihedral()`. You can use it to rotate the normal towards a down vector.
 
@@ -1996,7 +2024,7 @@ matrix3 rotMat = dihedral(normalSum / primCount, {0, -1, 0});
 v@P *= rotMat;
 ```
 
-### Extract Transform
+### 3. Extract Transform
 
 The hackiest way is abusing Extract Transform. You flatten the prims to the floor, then approximate the transform for it.
 
