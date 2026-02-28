@@ -1621,17 +1621,23 @@ Khomatech on the CGWiki Discord wanted to deform volumes with noise baked in. He
 
 ### 1. Volume Deform
 
-The most accurate way is using the Volume Deform node. It can even scale the density to match the change in volume.
+The best way is using the Volume Deform node. It can even scale the density to match the change in volume.
+
+<img src="./images/volumedeform1.png?raw=true" width="400">
 
 ### 2. Rasterizing Points
 
-A faster but less accurate way is putting noise on points, then turning them into a volume with Rasterize Attributes.
+A fast approximation is putting noise on points, then turning them into a volume with Rasterize Attributes.
+
+<img src="./images/volumedeform2.png?raw=true" width="400">
 
 ### 3. Rest Volume
 
-A hacky way is creating a volume to store the position, then applying noise based on the coordinate system in this volume.
+A hacky way is creating a volume to store the position, then applying noise by sampling the coordinate system in this volume.
 
-You need to be careful with this method, since the rest position is only defined on the surface of the geometry.
+You need to be careful with this approach, since the position is only defined on the surface of the geometry.
+
+<img src="./images/volumedeform3.png?raw=true" width="400">
 
 ```js
 vector p = volumesample(0, "rest", v@P);
