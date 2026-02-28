@@ -1280,7 +1280,7 @@ Now the cross sections connect perfectly without any resampling!
 
 ## POP Curve Force in VEX
 
-Many effects require animating points towards, around and along curves. You can use POP Curve Force node for this.
+Many effects require animating towards, around or along curves. You can use POP Curve Force node for this.
 
 For more control, you can use Orientation Along Curve to compute the normal, then manually calculate the forces:
 
