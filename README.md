@@ -1633,7 +1633,7 @@ A fast approximation is putting noise on points, then turning them into a volume
 
 ### 3. Rest Volume
 
-A hacky way is creating a volume to store the position, then applying noise by sampling the coordinate system in this volume.
+A hacky way is creating a volume to store the coordinate system, then applying noise by sampling it.
 
 You need to be careful with this approach, since the position is only defined on the surface of the geometry.
 
