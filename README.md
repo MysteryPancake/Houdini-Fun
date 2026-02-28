@@ -1574,37 +1574,37 @@ If you want to use VEX, never fear! Make a detail attribute, add it as a spare i
 
 ## Shorthand for matrix indexing
 
-The regular way of indexing matrix values is using `getcomp()` and `setcomp()`, which is quite ugly:
+The regular way of indexing matrix entries is using `getcomp()` and `setcomp()`, which is quite ugly:
 
 ```js
 matrix M;
 setcomp(M, 123, 0, 1); // M[0][1] = 123;
-printf(
+printf( // Print all entries of the 4x4 matrix
     "%f %f %f %f\n"
     "%f %f %f %f\n"
     "%f %f %f %f\n"
     "%f %f %f %f\n",
-    getcomp(M, 0, 0), getcomp(M, 0, 1), getcomp(M, 0, 2), getcomp(M, 0, 3), // column 0
-    getcomp(M, 1, 0), getcomp(M, 1, 1), getcomp(M, 1, 2), getcomp(M, 1, 3), // column 1
-    getcomp(M, 2, 0), getcomp(M, 2, 1), getcomp(M, 2, 2), getcomp(M, 2, 3), // column 2
-    getcomp(M, 3, 0), getcomp(M, 3, 1), getcomp(M, 3, 2), getcomp(M, 3, 3)  // column 3
+    getcomp(M, 0, 0), getcomp(M, 0, 1), getcomp(M, 0, 2), getcomp(M, 0, 3), // Column 0
+    getcomp(M, 1, 0), getcomp(M, 1, 1), getcomp(M, 1, 2), getcomp(M, 1, 3), // Column 1
+    getcomp(M, 2, 0), getcomp(M, 2, 1), getcomp(M, 2, 2), getcomp(M, 2, 3), // Column 2
+    getcomp(M, 3, 0), getcomp(M, 3, 1), getcomp(M, 3, 2), getcomp(M, 3, 3)  // Column 3
 );
 ```
 
-A nice shorthand is using the swizzling syntax like `M.xy`:
+A nice shorthand is using the swizzling syntax like `M.xy`. Only 4x4 matrices support `.w`:
 
 ```js
 matrix M;
 M.xy = 123; // M[0][1] = 123;
-printf(
+printf( // Print all entries of the 4x4 matrix
     "%f %f %f %f\n"
     "%f %f %f %f\n"
     "%f %f %f %f\n"
     "%f %f %f %f\n",
-    M.xx, M.xy, M.xz, M.xw, // column 0
-    M.yx, M.yy, M.yz, M.yw, // column 1
-    M.zx, M.zy, M.zz, M.zw, // column 2
-    M.wx, M.wy, M.wz, M.ww  // column 3
+    M.xx, M.xy, M.xz, M.xw, // Column 0
+    M.yx, M.yy, M.yz, M.yw, // Column 1
+    M.zx, M.zy, M.zz, M.zw, // Column 2
+    M.wx, M.wy, M.wz, M.ww  // Column 3
 );
 ```
 
