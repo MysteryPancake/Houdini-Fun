@@ -1278,6 +1278,36 @@ Now the cross sections connect perfectly without any resampling!
 | [Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc?raw=true) |
 | --- |
 
+## POP Curve Force in VEX
+
+Many effects require animating points towards, around and along curves. You can use POP Curve Force node for this.
+
+For more control, you can use Orientation Along Curve to compute the normal, then manually calculate the forces:
+
+<img src="./images/curve_forces.webp?raw=true" height="400">
+
+| [Download the HIP file!](./hips/curve_forces.hiplc?raw=true) |
+| --- |
+
+```js
+int prim; vector uv;
+float dist = xyzdist(1, v@P, prim, uv);
+
+vector P = primuv(1, "P", prim, uv);
+vector N = primuv(1, "N", prim, uv);
+vector suction_dir = normalize(P - v@P);
+
+float forward = chf("forward_scale") * chramp("forward_falloff", dist);
+float suction = chf("suction_scale") * chramp("suction_falloff", dist);
+float orbit = chf("orbit_scale") * chramp("orbit_falloff", dist);
+
+v@v += N * forward * f@TimeInc;
+v@v += suction_dir * suction * f@TimeInc;
+v@v += cross(suction_dir, N) * orbit * f@TimeInc;
+
+v@P += v@v * f@TimeInc;
+```
+
 ## Facing ratio / fresnel
 
 The facing ratio is how similar the ray direction is to the normal. It's great for holograms, ghostly and fresnel-like effects.
