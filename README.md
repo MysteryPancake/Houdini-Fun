@@ -1518,13 +1518,13 @@ Certain characters like spaces aren't allowed in variable names, so try not to i
 
 When making new attributes with VEX, you can use a special syntax to set the default value.
 
-Normally you'd use something like below. This makes an attribute called `@myvar` with a value of `123`, defaulting to `0`.
+Normally you'd use something like below. This makes an attribute called `@myvar` with a value of `123`, defaulting to `0`:
 
 ```js
 f@myvar = 123;
 ```
 
-By putting the type before the name, it makes an attribute called `@myvar` with a value of `123`, defaulting to `123`.
+By putting the type before the name, it makes an attribute called `@myvar` with a value of `123`, defaulting to `123`:
 
 ```js
 float @myvar = 123;
@@ -1571,6 +1571,44 @@ If you want to use VEX, never fear! Make a detail attribute, add it as a spare i
 ```
 
 <img src="./images/fontvex2.png?raw=true" width="800">
+
+## Shorthand for matrix indexing
+
+The regular way of indexing matrix values is using `getcomp()` and `setcomp()`, which is quite ugly:
+
+```js
+matrix M;
+setcomp(M, 123, 0, 1); // M[0][1] = 123;
+printf(
+    "%f %f %f %f\n"
+    "%f %f %f %f\n"
+    "%f %f %f %f\n"
+    "%f %f %f %f\n",
+    getcomp(M, 0, 0), getcomp(M, 0, 1), getcomp(M, 0, 2), getcomp(M, 0, 3), // column 0
+    getcomp(M, 1, 0), getcomp(M, 1, 1), getcomp(M, 1, 2), getcomp(M, 1, 3), // column 1
+    getcomp(M, 2, 0), getcomp(M, 2, 1), getcomp(M, 2, 2), getcomp(M, 2, 3), // column 2
+    getcomp(M, 3, 0), getcomp(M, 3, 1), getcomp(M, 3, 2), getcomp(M, 3, 3)  // column 3
+);
+```
+
+A nice shorthand is using the swizzling syntax like `M.xy`:
+
+```js
+matrix M;
+M.xy = 123; // M[0][1] = 123;
+printf(
+    "%f %f %f %f\n"
+    "%f %f %f %f\n"
+    "%f %f %f %f\n"
+    "%f %f %f %f\n",
+    M.xx, M.xy, M.xz, M.xw, // column 0
+    M.yx, M.yy, M.yz, M.yw, // column 1
+    M.zx, M.zy, M.zz, M.zw, // column 2
+    M.wx, M.wy, M.wz, M.ww  // column 3
+);
+```
+
+Thanks to WaffleboyTom for this tip!
 
 ## Overlapping cables without intersection
 
