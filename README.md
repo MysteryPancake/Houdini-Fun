@@ -356,7 +356,9 @@ I can't be bothered myself, but you can use this file as a starting point!
 
 ## Copernicus: Eikonal Contour Plotting
 
-The Eikonal node in Copernicus expands from darker areas to lighter areas. It's great for trippy effects and contour plotting!
+The Eikonal node expands from darker areas into lighter areas, and tells you how long it took.
+
+It's great for generating SDFs, trippy effects and contour plotting!
 
 <p align="left">
   <img src="./images/cops/cops_eikonal.webp?raw=true" height="280">
