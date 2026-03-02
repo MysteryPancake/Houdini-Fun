@@ -354,6 +354,18 @@ I can't be bothered myself, but you can use this file as a starting point!
 | [Download the HIP file!](./hips/cops/cops_pyro_comparison.hiplc?raw=true) |
 | --- |
 
+## Copernicus: Eikonal
+
+The Eikonal node in Copernicus expands from darker areas to lighter areas. It's great for trippy effects and contour plotting!
+
+<p align="left">
+  <img src="./images/cops/cops_eikonal.webp?raw=true" height="280">
+  <img src="./images/cops/cops_eikonal2.webp?raw=true" height="280">
+</p>
+
+| [Download the HIP file!](./hips/cops/cops_eikonal.hiplc?raw=true) |
+| --- |
+
 ## Copernicus to Heightfield
 
 Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes? Heightfields!
