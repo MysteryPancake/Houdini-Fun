@@ -365,8 +365,8 @@ It's great for generating SDFs, trippy effects and contour plotting!
   <img src="./images/cops/cops_eikonal2.webp?raw=true" height="280">
 </p>
 
-| [Download the HIP file!](./hips/cops/cops_eikonal.hiplc?raw=true) |
-| --- |
+| [Download the HIP file!](./hips/cops/cops_eikonal.hiplc?raw=true) | [Video Tutorial](https://youtu.be/s_av9vihvY0) |
+| --- | --- |
 
 ## Copernicus to Heightfield
 
