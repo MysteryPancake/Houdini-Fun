@@ -104,7 +104,7 @@ Sometimes you need to deform an object inside another with respect to the intern
 
 One way is converting the object to tetrahedrons, since tets have 3D primuvw coordinates for interpolation. Sadly this isn't always an option, because the triangulation changes when animated.
 
-A better approach is using [Positive General Mean Value Coordinates](https://forums.odforce.net/topic/8722-pmvc-positive-mean-value-coordinates/), as implemented years ago by [Sibbarick](http://www.fourthwall.ndo.co.uk/HT_PGMVCdeformer.html).
+A better approach is using [Positive Mean Value Coordinates](https://forums.odforce.net/topic/8722-pmvc-positive-mean-value-coordinates/), as implemented years ago by [Sibbarick](http://www.fourthwall.ndo.co.uk/HT_PGMVCdeformer.html).
 
 <img src="./images/mvccubes.gif?raw=true" height="350">
 
@@ -112,8 +112,8 @@ It works by casting rays in a sphere from each point, creating lines. Each line 
 
 <img src="./images/mvcraycast.gif?raw=true" height="450">
 
-| [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/mvc_deform.hiplc?raw=true) |
-| --- | --- |
+| [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc?raw=true) | [Download the HIP file!](./hdas/mvc_deform.hiplc?raw=true) | [Bonus MVC demos!](./hips/mvc_demos.hiplc?raw=true) |
+| --- | --- | --- |
 
 ```js
 float tolerance = chf("tolerance");
@@ -563,6 +563,35 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 
 | [Download the HIP file!](./hips/spaghetti.hiplc?raw=true) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
 | --- | --- |
+
+## No More Point Deform
+
+Many people default to using Point Deform for everything, but there's much better approaches depending what you're doing.
+
+| [Download the HIP file!](./hips/deform_methods.hiplc?raw=true) |
+| --- |
+
+### 1. Point Deform
+
+Point Deform only respects the points of the geometry. It computes a transform for each point, then basically does a weighted average of the nearest transforms.
+
+This leads to errors whenever the surface stretches or squashes, since it has no awareness of the surface itself.
+
+### 2. Surface Deform
+
+Surface Deform respects the surface of the geometry. It's based on [primitive UVs](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html) plus an offset.
+
+Another great option is [Momme Carl's Skin Deformer](https://momme.gumroad.com/l/skindeformer). It gives similar but often much smoother results.
+
+### 3. Volumetric Deform
+
+Tetrahedrons are the closest thing to a true volumetric representation of geometry in Houdini.
+
+Unlike regular geometry, tets have 3D primitive UV coordinates. If you ray inside a tetrahedron, the interpolation respects their volume.
+
+Tetrahedrons aren't always an option due to the triangulation changing. [In this case you can try the Volumetric Deform HDA!](#hda-volumetric-deform)
+
+<img src="./images/mvccubes.gif?raw=true" height="350">
 
 ## Fancy SDF operations
 
