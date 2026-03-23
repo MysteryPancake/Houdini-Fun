@@ -570,10 +570,10 @@ Lots of people love using Point Deform for everything. This makes me cry tears o
 
 There's much better ways to deform things depending what you're doing!
 
-<img src="./images/no_point_deform.jpg?raw=true" width="400">
+[![Point Deform tutorial](https://img.youtube.com/vi/FKUJcXB33oM/mqdefault.jpg)](https://youtu.be/FKUJcXB33oM)
 
-| [Download the HIP file!](./hips/deform_methods.hiplc?raw=true) |
-| --- |
+| [Download the HIP file!](./hips/deform_methods.hiplc?raw=true) | [Video Tutorial](https://youtu.be/FKUJcXB33oM) |
+| --- | --- |
 
 ### 1. Point Deformation
 
