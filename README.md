@@ -368,6 +368,17 @@ It's great for generating SDFs, trippy effects and contour plotting!
 | [Download the HIP file!](./hips/cops/cops_eikonal.hiplc?raw=true) | [Video Tutorial](https://youtu.be/s_av9vihvY0) |
 | --- | --- |
 
+## Coperncius: Pig Paint
+
+Using the Stamp Points node with the Flow Block to get a nice flowing paint effect.
+
+I painted strokes from dark to light along a tangent field to mimic how it works in real life.
+
+<img src="./images/cops/cops_pig_paint.webp?raw=true" height="350">
+
+| [Download the HIP file!](./hips/cops/cops_pig_paint.hiplc?raw=true) |
+| --- |
+
 ## Copernicus to Heightfield
 
 Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes? Heightfields!
