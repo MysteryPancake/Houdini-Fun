@@ -370,7 +370,7 @@ It's great for generating SDFs, trippy effects and contour plotting!
 
 ## Coperncius: Pig Paint
 
-Using the Stamp Points node with the Flow Block to get a nice flowing paint effect.
+Using the Stamp Points node with the Flow Block to get a somewhat realistic flowing paint effect.
 
 I painted strokes from dark to light along a tangent field to mimic how it works in real life.
 
