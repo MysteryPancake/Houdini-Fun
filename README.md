@@ -564,7 +564,7 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 | [Download the HIP file!](./hips/spaghetti.hiplc?raw=true) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
 | --- | --- |
 
-## No More Point Deform
+## No More Point Deform!
 
 Lots of people love using Point Deform for everything. This makes me cry tears of pain.
 
