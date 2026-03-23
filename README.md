@@ -583,7 +583,7 @@ It computes a transform for each point on the rest geometry, then basically does
 
 <img src="./images/point_deform.jpg?raw=true" width="600">
 
-This leads to errors if there aren't many points on the rest geometry, since it fully relies on points.
+This leads to errors if there aren't many points on the rest geometry, since it relies fully on points.
 
 <img src="./images/point_deform_error1.jpg?raw=true" width="600">
 
@@ -631,7 +631,9 @@ Unlike regular geometry, tets have 3D primitive UV coordinates. If you ray insid
 
 <img src="./images/tets_primuvs.jpg?raw=true" width="600">
 
-Tetrahedrons aren't always an option due to the triangulation changing. [In this case you can try the Volumetric Deform HDA!](#hda-volumetric-deform)
+Tetrahedrons aren't always an option due to the triangulation changing.
+
+[In this case, try the Volumetric Deform HDA!](#hda-volumetric-deform)
 
 <img src="./images/mvccubes.gif?raw=true" height="350">
 
@@ -643,7 +645,9 @@ You can copy their transform directly using a Transform Pieces node. Simply plug
 
 <img src="./images/transform_pieces.jpg?raw=true" width="600">
 
-If the geometry isn't packed but it deforms in a rigid way, you should try Extract Transform. [See how to use it in this section!](#rigid-geometry)
+If the geometry isn't packed but it deforms in a rigid way, you should use Extract Transform.
+
+[See how to use Extract Transform here!](#rigid-geometry)
 
 ### 5. Volume/VDB Deformation
 
@@ -651,7 +655,7 @@ Volumes can be deformed using the Volume Deform node. It comes with a Lattice Fr
 
 <img src="./images/volume_deform.jpg?raw=true" width="600">
 
-Another approach is turning the volume into points, deforming the points, then rasterizing them with Volume Rasterize Attributes. This is fast, but gives low quality results.
+Another approach is turning the volume into points, deforming the points, then rasterizing them with Volume Rasterize Attributes. This is faster, but gives lower quality results.
 
 <img src="./images/volume_rasterize_deform.jpg?raw=true" width="600">
 
