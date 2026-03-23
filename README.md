@@ -566,26 +566,26 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 
 ## No More Point Deform
 
-Many people default to using Point Deform for everything. This makes me cry tears of pain.
+Many people love using Point Deform for everything. This makes me cry.
 
-There's much better ways to deform things depending what you're doing!
+There's much better ways to deform things depending what you're doing.
 
 | [Download the HIP file!](./hips/deform_methods.hiplc?raw=true) |
 | --- |
 
-### 1. Point Deform
+### 1. Point Deformation
 
 Point Deform only respects the points of the geometry. It computes a transform for each point, then basically does a weighted average of the nearest transforms.
 
 This leads to errors whenever the surface stretches or squashes, since it has no awareness of the surface itself.
 
-### 2. Surface Deform
+### 2. Surface Deformation
 
 Surface Deform respects the surface of the geometry. It's based on [primitive UVs](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html) plus an offset.
 
 Another great option is [Momme Carl's Skin Deformer](https://momme.gumroad.com/l/skindeformer). It gives similar but often much smoother results.
 
-### 3. Volumetric Deform
+### 3. Volumetric Deformation
 
 Tetrahedrons are the closest thing to a true volumetric representation of geometry in Houdini.
 
@@ -594,6 +594,20 @@ Unlike regular geometry, tets have 3D primitive UV coordinates. If you ray insid
 Tetrahedrons aren't always an option due to the triangulation changing. [In this case you can try the Volumetric Deform HDA!](#hda-volumetric-deform)
 
 <img src="./images/mvccubes.gif?raw=true" height="350">
+
+### 4. Rigid Deformation
+
+Rigid objects like packed primitives are easy to deform, since they come with transforms stored in their intrinsics. (`intrinsic:packedfulltransform` among others).
+
+You can copy their transform directly using a Transform Pieces node. Simply plug the packed primitive into the 2nd input.
+
+If the geometry isn't packed but it deforms in a rigid way, you should try Extract Transform. [See how to use it in this section!](#rigid-geometry)
+
+### 5. Volume/VDB Deformation
+
+Volumes can be deformed using the Volume Deform node. It comes with a Lattice From Volume node. Once you've deformed the lattice, it rebuilds the volume with respect to the lattice deformation.
+
+Another approach is turning the volume into points, deforming the points, then rasterizing them with Volume Rasterize Attributes. This is fast, but gives low quality results.
 
 ## Fancy SDF operations
 
