@@ -566,7 +566,9 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 
 ## No More Point Deform
 
-Many people default to using Point Deform for everything, but there's much better approaches depending what you're doing.
+Many people default to using Point Deform for everything. This makes me cry tears of pain.
+
+There's much better ways to deform things depending what you're doing!
 
 | [Download the HIP file!](./hips/deform_methods.hiplc?raw=true) |
 | --- |
