@@ -609,7 +609,7 @@ It's great for preventing intersections for thin surfaces like cloth.
 
 <img src="./images/surface_deform_cloth.jpg?raw=true" width="600">
 
-Another option is [Momme Carl's Skin Deformer](https://momme.gumroad.com/l/skindeformer). It gives similar but often much smoother results.
+Another option is [Momme Carl's Wrap Deformer](https://momme.gumroad.com/l/cfxwrap). It gives similar but often much smoother results.
 
 #### `primuv()` vs actual UVs
 
