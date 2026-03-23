@@ -566,30 +566,70 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 
 ## No More Point Deform
 
-Many people love using Point Deform for everything. This makes me cry.
+Lots of people love using Point Deform for everything. This makes me cry tears of pain.
 
-There's much better ways to deform things depending what you're doing.
+There's much better ways to deform things depending what you're doing!
+
+<img src="./images/no_point_deform.jpg?raw=true" width="400">
 
 | [Download the HIP file!](./hips/deform_methods.hiplc?raw=true) |
 | --- |
 
 ### 1. Point Deformation
 
-Point Deform only respects the points of the geometry. It computes a transform for each point, then basically does a weighted average of the nearest transforms.
+Point Deform only respects the points of the geometry, not the surface between the points or the internal volume.
 
-This leads to errors whenever the surface stretches or squashes, since it has no awareness of the surface itself.
+It computes a transform for each point on the rest geometry, then basically does a weighted average of the nearest transforms.
+
+<img src="./images/point_deform.jpg?raw=true" width="600">
+
+This leads to errors if there aren't many points on the rest geometry, since it fully relies on points.
+
+<img src="./images/point_deform_error1.jpg?raw=true" width="600">
+
+It also leads to errors if the surface stretches or squashes, since it has no idea the surface exists.
+
+<img src="./images/point_deform_error2.jpg?raw=true" width="600">
+
+To fix this, we need to use a different coordinate system that respects the surface of the geometry.
 
 ### 2. Surface Deformation
 
-Surface Deform respects the surface of the geometry. It's based on [primitive UVs](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html) plus an offset.
+[Primitive UVs](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html) are a fantastic coordinate system for surfaces. They're used by many nodes, including Scatter, Ray, `xyzdist()` and `primuv()`.
 
-Another great option is [Momme Carl's Skin Deformer](https://momme.gumroad.com/l/skindeformer). It gives similar but often much smoother results.
+<img src="./images/primitive_uvs.jpg?raw=true" width="600">
+
+They combine a primitive index with an intrinsic UV coordinate to make a fully unique mapping for each primitive. Don't get them confused with regular UV coordinates, which aren't always unique!
+
+[Surface Deform](https://www.sidefx.com/docs/houdini/nodes/sop/surfacedeform.html) is based on [primitive UVs](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html), but also includes the offset from the surface.
+
+<img src="./images/surface_deform.jpg?raw=true" width="600">
+
+It's great for preventing intersections for thin surfaces like cloth.
+
+<img src="./images/surface_deform_cloth.jpg?raw=true" width="600">
+
+Another option is [Momme Carl's Skin Deformer](https://momme.gumroad.com/l/skindeformer). It gives similar but often much smoother results.
+
+#### `primuv()` vs actual UVs
+
+A common misconception is `primuv()` uses the actual UV map of the geometry. This would cause problems if the UVs overlapped.
+
+Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 0 to 1 per prim. Since each prim is separated by index, it'll never overlap.
+
+|Regular UVs|Intrinsic UVS|
+|---|---|
+|<img src="./images/regularuv.png?raw=true" width="300">|<img src="./images/primuv.png?raw=true" width="300">|
+
+If you want to use the actual UVs, use `uvsample()` instead.
 
 ### 3. Volumetric Deformation
 
 Tetrahedrons are the closest thing to a true volumetric representation of geometry in Houdini.
 
 Unlike regular geometry, tets have 3D primitive UV coordinates. If you ray inside a tetrahedron, the interpolation respects their volume.
+
+<img src="./images/tets_primuvs.jpg?raw=true" width="600">
 
 Tetrahedrons aren't always an option due to the triangulation changing. [In this case you can try the Volumetric Deform HDA!](#hda-volumetric-deform)
 
@@ -601,13 +641,19 @@ Rigid objects like packed primitives are easy to deform, since they come with tr
 
 You can copy their transform directly using a Transform Pieces node. Simply plug the packed primitive into the 2nd input.
 
+<img src="./images/transform_pieces.jpg?raw=true" width="600">
+
 If the geometry isn't packed but it deforms in a rigid way, you should try Extract Transform. [See how to use it in this section!](#rigid-geometry)
 
 ### 5. Volume/VDB Deformation
 
 Volumes can be deformed using the Volume Deform node. It comes with a Lattice From Volume node. Once you've deformed the lattice, it rebuilds the volume with respect to the lattice deformation.
 
+<img src="./images/volume_deform.jpg?raw=true" width="600">
+
 Another approach is turning the volume into points, deforming the points, then rasterizing them with Volume Rasterize Attributes. This is fast, but gives low quality results.
+
+<img src="./images/volume_rasterize_deform.jpg?raw=true" width="600">
 
 ## Fancy SDF operations
 
@@ -2321,18 +2367,6 @@ Make sure the force operation is "Set Always"!
 <img src="./images/stabilize_world_to_local.png?raw=true" width="500">
 
 If you want to deal with open containers, the easiest way is to do a separate sim when the fluid exits the container. This is done by killing points outside the container, then feeding the killed points into the other sim. Make sure to nuke all point attributes to keep it clean for the next sim.
-
-## `primuv()` vs actual UVs
-
-A common misconception is `primuv()` uses the actual UV map of the geometry. This would cause problems if the UVs overlapped.
-
-Instead it uses intrinsic UVs. Intrinsic UVs are indexed by prim and range from 0 to 1 per prim. Since each prim is separated by index, it'll never overlap.
-
-|Regular UVs|Intrinsic UVS|
-|---|---|
-|<img src="./images/regularuv.png?raw=true" width="300">|<img src="./images/primuv.png?raw=true" width="300">|
-
-If you want to use the actual UVs, use `uvsample()` instead.
 
 ## Extract Transform in VEX
 
