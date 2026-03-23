@@ -566,7 +566,7 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 
 ## No More Point Deform!
 
-Lots of people love using Point Deform for everything. This makes me cry tears of pain.
+Many people love using Point Deform for everything. This makes me cry tears of pain.
 
 There's much better ways to deform things depending what you're doing!
 
