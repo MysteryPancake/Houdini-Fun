@@ -649,9 +649,9 @@ If the geometry isn't packed but it deforms in a rigid way, you can use Extract 
 
 Extract Transform takes two point clouds and estimates the transform it took to move one to the other. It assumes the topology is the same, so the points must have the same order and count.
 
-Extract Transform is based on the Umeyama algorithm, which finds the best translation, then rotation, then scale. [For details on how it works, see my VEX remake here!](#extract-transform-in-vex)
+Extract Transform is based on the Umeyama algorithm. [For details on how it works, see my VEX remake here!](#extract-transform-in-vex)
 
-[I also remade Extract Transform in Blender](https://www.youtube.com/watch?v=tcx4XNoqSlY) thanks to the new Singular Value Decomposition node added in Blender 5.1.
+[I also remade Extract Transform in Blender](https://www.youtube.com/watch?v=tcx4XNoqSlY) thanks to the new SVD node in Blender 5.1.
 
 ### 5. Volume/VDB Deformation
 
