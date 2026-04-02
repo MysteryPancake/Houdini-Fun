@@ -2976,5 +2976,5 @@ A while ago Matt Ebb did a talk on slicing 4D shapes to produce 3D cross section
 
 [![Slices talk](https://img.youtube.com/vi/WryM1E8E9qs/mqdefault.jpg)](https://youtu.be/WryM1E8E9qs)
 
-| [Video Demo](https://youtu.be/WryM1E8E9qs) | [Download the HDAs!](./hdas/mebb) |
+| [Video Demo](https://youtu.be/WryM1E8E9qs) | [Download the HDAs!](../../raw/refs/heads/main/hdas/mebb) |
 | --- | --- |
