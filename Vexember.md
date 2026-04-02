@@ -293,7 +293,7 @@ Finally, add a VDB Convert node to turn it from a volume into polygons.
 
 I did this for every SDF I could find. [You can find them all here!](./Houdini_SDFs.md)
 
-<img src="./images/sdfs/sdf_volumes.png?raw=true">
+<img src="./images/sdfs/sdf_volumes.png">
 
 ## Day 2: Voronoi
 TODO (mention circular scatter and generalised SDF formula)
