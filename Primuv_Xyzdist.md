@@ -14,7 +14,7 @@ Most of the code below is from [*Real-Time Collision Detection* by Christer Eric
 
 It also includes [my own method](https://www.shadertoy.com/view/W3GXR3) to find the closest point on a bilinear patch, which turns out to be the same as [vchizhov's method](https://www.shadertoy.com/view/M32SDG).
 
-| [Download the HIP file!](./hips/xyzdist_diy.hiplc?raw=true) |
+| [Download the HIP file!](./hips/xyzdist_diy.hiplc) |
 | --- |
 
 ### `xyzdist()` in VEX
@@ -674,7 +674,7 @@ kernel void testXyzdist(
 
 The functions below are designed for `@P`, but can be used on any other attribute by swapping `vector` to that attribute's type.
 
-| [Download the HIP file!](./hips/primuv_diy.hiplc?raw=true) |
+| [Download the HIP file!](./hips/primuv_diy.hiplc) |
 | --- |
 
 ### `primuv()` in VEX
@@ -885,7 +885,7 @@ Since I was using this code for collision handling, I also needed the surface no
 
 Note the tetrahedral normals don't match Houdini. I wanted them to be planar, so they face outwards instead of interpolating.
 
-| [Download the HIP file!](./hips/primuvn_diy.hiplc?raw=true) |
+| [Download the HIP file!](./hips/primuvn_diy.hiplc) |
 | --- |
 
 ```js
