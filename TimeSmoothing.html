@@ -756,7 +756,7 @@
 						<p>Here's before and after. It smooths out most of the noise, but reduces the range of motion too much.</p>
 						<img src="./images/smoothing/lerpsmoothsolver.webp" width="640" class="mw-100">
 						<div class="my-2">
-							<a href="./hips/smoothing/lerp_smooth_solver.hipnc?raw=true" target="_blank">
+							<a href="./hips/smoothing/lerp_smooth_solver.hipnc" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
@@ -788,7 +788,7 @@ for (int frame = 1; frame &lt; trail_length; ++frame) {
 						<p>Here's before and after. It looks pretty similar, but jitters more since it keeps forgetting past samples.</p>
 						<img src="./images/smoothing/lerpsmoothtrail.webp" width="640" class="mw-100">
 						<div class="my-2">
-							<a href="./hips/smoothing/lerp_smooth_trail.hipnc?raw=true" target="_blank">
+							<a href="./hips/smoothing/lerp_smooth_trail.hipnc" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
@@ -837,7 +837,7 @@ v@P = pos[trail_length / 2];</code></pre>
 						<p>Thanks to looking into the future, we can anticipate motion before it even happens. Here's a demo with the linear phase version in green and the original version in red.</p>
 						<img src="./images/smoothing/lerpsmoothtraillinear.webp" width="480" class="mw-100">
 						<div class="my-2">
-							<a href="./hips/smoothing/lerp_smooth_trail_linear.hipnc?raw=true" target="_blank">
+							<a href="./hips/smoothing/lerp_smooth_trail_linear.hipnc" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
@@ -1106,7 +1106,7 @@ v@P = pos_total / f@kernel_sum;</code></pre>
 							</tr>
 						</table>
 						<div class="my-2">
-							<a href="./hips/smoothing/convolution_smoothing.hipnc?raw=true" target="_blank">
+							<a href="./hips/smoothing/convolution_smoothing.hipnc" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
@@ -1135,7 +1135,7 @@ for (int i = 0; i < trail_length; ++i) {
 }</code></pre>
 						<img src="./images/smoothing/convolutionspringy.webp" width="640" class="mw-100">
 						<div class="my-2">
-							<a href="./hips/smoothing/convolution_springy.hipnc?raw=true" target="_blank">
+							<a href="./hips/smoothing/convolution_springy.hipnc" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
@@ -1183,7 +1183,7 @@ v@P = pos_total;</code></pre>
 							</tr>
 						</table>
 						<div class="my-2">
-							<a href="./hips/smoothing/convolution_custom.hipnc?raw=true" target="_blank">
+							<a href="./hips/smoothing/convolution_custom.hipnc" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
@@ -1195,7 +1195,7 @@ v@P = pos_total;</code></pre>
 						<p>Here's a demo with gaussian blur in blue and box blur in green. Box blur tends to blur more aggressively since it uses all samples equally.</p>
 						<img src="./images/smoothing/convolutionblurs.webp" width="640" class="mw-100">
 						<div class="my-2">
-							<a href="./hips/smoothing/convolution_blurs.hipnc?raw=true" target="_blank">
+							<a href="./hips/smoothing/convolution_blurs.hipnc" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
@@ -1203,7 +1203,7 @@ v@P = pos_total;</code></pre>
 						<p>Going off track for a bit, I started wondering what happens if you convolve geometry instead of time.</p>
 						<p>Convolution just needs neighbours and weights. Let's sample a bunch of nearby points, multiply them by weights and add them together. Just like Attribute Blur, we could do it by connectivity or proximity.</p>
 						<div class="my-2">
-							<a href="./hips/smoothing/convolution_topology.hipnc?raw=true" target="_blank">
+							<a href="./hips/smoothing/convolution_topology.hipnc" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
@@ -1263,7 +1263,7 @@ if (chi("normalize_kernel")) {
 v@P = pos_total;</code></pre>
 						<p>Here's a demo using a gaussian kernel. The features get smoothed by different amounts since I didn't consider edge lengths.</p>
 						<img src="./images/smoothing/connectivityconvolve.webp" width="480" class="mb-3 mw-100">
-						<p>A much faster method is using Group Expand or Edge Transport in a For-Each Point loop. It's hard to explain here, so I included both methods in <a href="./hips/smoothing/convolution_topology.hipnc?raw=true" target="_blank">the HIP file</a>.</p>
+						<p>A much faster method is using Group Expand or Edge Transport in a For-Each Point loop. It's hard to explain here, so I included both methods in <a href="./hips/smoothing/convolution_topology.hipnc" target="_blank">the HIP file</a>.</p>
 						<p>Group Expand is identical to the VEX method, while Edge Transport sums the edge lengths. By considering edge lengths you can see the smoothing is evenly distributed across the entire geometry, reducing the distortion of the features.</p>
 						<img src="./images/smoothing/connectivityconvolve2.webp" width="480" class="mw-100">
 						<h4>Option 2: Proximity</h4>
@@ -2412,7 +2412,7 @@ v@y2 = v@y1;
 v@y1 = v@P;</code></pre>
 						<img src="./images/smoothing/biquadsolver.webp" width="480" class="mw-100">
 						<div class="my-2">
-							<a href="./hips/smoothing/biquad_single.hiplc?raw=true" target="_blank">
+							<a href="./hips/smoothing/biquad_single.hiplc" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
@@ -2427,7 +2427,7 @@ v@y1 = v@P;</code></pre>
 						<h4>Stacking filters</h4>
 						<p>TODO: FINISH THIS</p>
 						<div class="my-2">
-							<a href="./hips/smoothing/biquad_equalizer.hipnc?raw=true" target="_blank">
+							<a href="./hips/smoothing/biquad_equalizer.hipnc" target="_blank">
 								<button class="btn btn-primary"><i class="bi bi-download"></i> Download HIP file</button>
 							</a>
 						</div>
