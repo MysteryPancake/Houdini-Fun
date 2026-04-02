@@ -41,7 +41,7 @@ Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me shar
 
 <img src="./images/straight_skeletons.png" height="300">
 
-| [Download the HDA!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda) | [Download the HIP file!](./hdas/fast_straight_skeleton.hip) |
+| [Download the HDA!](../../raw/refs/heads/main/hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda) | [Download the HIP file!](../../raw/refs/heads/main/hdas/fast_straight_skeleton.hip) |
 | --- | --- |
 
 ## HDA: Laplacian Filter
@@ -57,7 +57,7 @@ Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eige
   <img src="./images/laplacianfilter2.png" width="45%">
 </p>
 
-| [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc) | [Download the HIP file!](./hdas/laplacian_filter.hiplc) |
+| [Download the HDA!](../../raw/refs/heads/main/hdas/MysteryPancake.laplacian_filter.1.0.hdalc) | [Download the HIP file!](../../raw/refs/heads/main/hdas/laplacian_filter.hiplc) |
 | --- | --- |
 
 ## HDA: Plate Project
@@ -80,7 +80,7 @@ This HDA lets you project plates in 3 ways:
 
 Remember to remove lens distortion (undistort) the plate before using this HDA to get correct results.
 
-| [Download the HDA!](./hdas/MysteryPancake.plate_project.1.0.hdalc) | [Download the HIP file!](./hdas/plate_project.hiplc) |
+| [Download the HDA!](../../raw/refs/heads/main/hdas/MysteryPancake.plate_project.1.0.hdalc) | [Download the HIP file!](../../raw/refs/heads/main/hdas/plate_project.hiplc) |
 | --- | --- |
 
 ## HDA: Rigid Piece Preroll
@@ -93,7 +93,7 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 
 <img src="./images/rigidpreroll.gif" height="300">
 
-| [Download the HDA!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda) | [Download the HIP file!](./hdas/rigid_piece_preroll.hip) |
+| [Download the HDA!](../../raw/refs/heads/main/hdas/MysteryPancake.rigid_piece_preroll.1.0.hda) | [Download the HIP file!](../../raw/refs/heads/main/hdas/rigid_piece_preroll.hip) |
 | --- | --- |
 
 ## HDA: Volumetric Deform
@@ -112,7 +112,7 @@ It works by casting rays in a sphere from each point, creating lines. Each line 
 
 <img src="./images/mvcraycast.gif" height="450">
 
-| [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc) | [Download the HIP file!](./hdas/mvc_deform.hiplc) | [Bonus MVC demos!](./hips/mvc_demos.hiplc) |
+| [Download the HDA!](../../raw/refs/heads/main/hdas/MysteryPancake.volumetric_deform.1.0.hdalc) | [Download the HIP file!](../../raw/refs/heads/main/hdas/mvc_deform.hiplc) | [Bonus MVC demos!](../../raw/refs/heads/main/hips/mvc_demos.hiplc) |
 | --- | --- | --- |
 
 ```js
@@ -160,7 +160,7 @@ If the skeleton actually has cycles, you need to detect and cut them. I made a H
 
 <img src="./images/cycle_detection.png" height="400">
 
-| [Download the HDA!](./hdas/MysteryPancake.repair_cycles.1.0.hdalc) | [Download the HIP file!](./hdas/repair_cycles.hiplc) |
+| [Download the HDA!](../../raw/refs/heads/main/hdas/MysteryPancake.repair_cycles.1.0.hdalc) | [Download the HIP file!](../../raw/refs/heads/main/hdas/repair_cycles.hiplc) |
 | --- | --- |
 
 ```js
@@ -328,7 +328,7 @@ Use the same method as before, but sample the target's position forwards in time
 
 <img src="./images/aimbot_moving.gif" width="500">
 
-| [Download the HIP file!](./hips/aimbot.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/aimbot.hipnc) |
 | --- |
 
 ### Hit multiple targets
@@ -351,7 +351,7 @@ I can't be bothered myself, but you can use this file as a starting point!
 
 <img src="./images/cops/cop_pyro_comparison.webp" width="500">
 
-| [Download the HIP file!](./hips/cops/cops_pyro_comparison.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/cops/cops_pyro_comparison.hiplc) |
 | --- |
 
 ## Copernicus: Eikonal Contour Plotting
@@ -365,7 +365,7 @@ It's great for generating SDFs, trippy effects and contour plotting!
   <img src="./images/cops/cops_eikonal2.webp" height="280">
 </p>
 
-| [Download the HIP file!](./hips/cops/cops_eikonal.hiplc) | [Video Tutorial](https://youtu.be/s_av9vihvY0) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/cops/cops_eikonal.hiplc) | [Video Tutorial](https://youtu.be/s_av9vihvY0) |
 | --- | --- |
 
 ## Coperncius: Pig Paint
@@ -376,7 +376,7 @@ I painted strokes from dark to light along a tangent field to mimic how it works
 
 <img src="./images/cops/cops_pig_paint.webp" height="350">
 
-| [Download the HIP file!](./hips/cops/cops_pig_paint.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/cops/cops_pig_paint.hiplc) |
 | --- |
 
 ## Copernicus to Heightfield
@@ -402,7 +402,7 @@ v@v *= f@uv_area / f@world_area;
 
 <img src="./images/cops/cops_uv_velocity.webp" width="500">
 
-| [Download the HIP file!](./hips/cops/cops_uv_velocity.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/cops/cops_uv_velocity.hiplc) |
 | --- |
 
 ## Copernicus: Animated Bars
@@ -417,7 +417,7 @@ Afterwards used even more ramps to remap the timing, to get a speed ramp effect 
 
 <img src="./images/cops/cops_bars.png" width="700">
 
-| [Download the HIP file!](./hips/cops/cops_bars.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/cops/cops_bars.hiplc) |
 | --- |
 
 ## Copernicus: Texture Baker in VEX
@@ -428,7 +428,7 @@ It gives similar results (top row) to the real thing (bottom row), but much slow
 
 <img src="./images/cops/cops_diy_baker.png" width="700">
 
-| [Download the HIP file!](./hips/cops/cops_diy_baker.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/cops/cops_diy_baker.hiplc) |
 | --- |
 
 ```js
@@ -478,7 +478,7 @@ The Labs PolySlice node produces a bunch of cross section curves. They can be re
 
 <img src="./images/bricken.png" width="500">
 
-| [Download the HIP file!](./hips/bricken.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/bricken.hiplc) |
 | --- |
 
 ## Procedural Buildings
@@ -505,7 +505,7 @@ To recreate this pattern you can work subtractively:
 
 <img src="./images/building1.png" width="600">
 
-| [Download the HIP file!](./hips/Brick_House.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/Brick_House.hipnc) |
 | --- |
 
 ### Dancing City
@@ -514,7 +514,7 @@ I used Convex Hull to get interesting shapes, then added power lines for more de
 
 <img src="./images/building2.png" width="600">
 
-| [Download the HIP file!](./hips/Dancing_City.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/Dancing_City.hipnc) |
 | --- |
 
 ### UTS Tower (HDA)
@@ -523,7 +523,7 @@ Rough approximation of the [UTS Tower (Building 1)](https://en.wikipedia.org/wik
 
 <img src="./images/utstower.png" width="600">
 
-| [Download the HDA!](./hdas/MysteryPancake.UTS.hdanc) |
+| [Download the HDA!](../../raw/refs/heads/main/hdas/MysteryPancake.UTS.hdanc) |
 | --- |
 
 ### UTS Business School (HDA)
@@ -532,7 +532,7 @@ Rough approximation of [UTS Business School (Building 8)](https://maps.app.goo.g
 
 <img src="./images/businessschool.png" width="600">
 
-| [Download the HDA!](./hdas/MysteryPancake.BusinessSchool.hdanc) |
+| [Download the HDA!](../../raw/refs/heads/main/hdas/MysteryPancake.BusinessSchool.hdanc) |
 | --- |
 
 ### Centrepoint Tower (HDA)
@@ -541,7 +541,7 @@ Rough approximation of the [Sydney Tower Eye](https://en.wikipedia.org/wiki/Sydn
 
 <img src="./images/centrepoint.png" width="600">
 
-| [Download the HDA!](./hdas/MysteryPancake.Centrepoint.hdanc) |
+| [Download the HDA!](../../raw/refs/heads/main/hdas/MysteryPancake.Centrepoint.hdanc) |
 | --- |
 
 ## Strandbeest
@@ -552,7 +552,7 @@ I found a cool use of Vellum for this, it can fix the edge lengths based on [the
 
 <img src="./images/strandbeest.webp" width="600">
 
-| [Download the HIP file!](./hips/strandbeest_v1.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/strandbeest_v1.hiplc) |
 | --- |
 
 ## Complex Growth in 2 nodes
@@ -561,7 +561,7 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 
 [![Growth tutorial](https://img.youtube.com/vi/h0TUYC2WNXY/mqdefault.jpg)](https://youtu.be/h0TUYC2WNXY)
 
-| [Download the HIP file!](./hips/spaghetti.hiplc) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/spaghetti.hiplc) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
 | --- | --- |
 
 ## No More Point Deform!
@@ -572,7 +572,7 @@ There's much better ways to deform things depending what you're doing!
 
 [![Point Deform tutorial](https://img.youtube.com/vi/FKUJcXB33oM/mqdefault.jpg)](https://youtu.be/FKUJcXB33oM)
 
-| [Download the HIP file!](./hips/deform_methods.hiplc) | [Video Tutorial](https://youtu.be/FKUJcXB33oM) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/deform_methods.hiplc) | [Video Tutorial](https://youtu.be/FKUJcXB33oM) |
 | --- | --- |
 
 ### 1. Point Deformation
@@ -676,7 +676,7 @@ The examples below are only for 3D volumes, but the same ideas work in any dimen
 
 [![SDF tutorial](https://img.youtube.com/vi/xPrnFhfuuk4/mqdefault.jpg)](https://youtu.be/xPrnFhfuuk4)
 
-| [Download the HIP file!](./hips/sdfs/smooth_min.hiplc) | [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/sdfs/smooth_min.hiplc) | [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
 | --- | --- |
 
 ### 3D SDFs (Formula-based)
@@ -879,7 +879,7 @@ It works for a variety of fractals, including the Sierpinski Triangle and Menger
 	<img src="./images/sierpinski6.png" width="45%">
 </p>
 
-| [Download the HIP file!](./hips/sierpinski.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/sierpinski.hiplc) |
 | --- |
 
 It involves repeatedly adding points halfway between all the existing points in a feedback loop:
@@ -901,7 +901,7 @@ Matt Ebb taught us about the [Weyl sequence](https://en.wikipedia.org/wiki/Weyl_
 
 <img src="./images/weyl_sequence.webp" width="400">
 
-| [Download the HIP file!](./hips/weyl_sequence.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/weyl_sequence.hiplc) |
 | --- |
 
 There's a nice implementation by [spalmer on ShaderToy](https://www.shadertoy.com/view/WXjXRt). It looks like this in VEX:
@@ -964,7 +964,7 @@ I thought it'd be cool to pause in the middle for a staggering effect, then ramp
 
 <img src="./images/animated_spiral2.webp" width="400">
 
-| [Download the HIP file!](./hips/animated_spiral.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/animated_spiral.hiplc) |
 | --- |
 
 ```js
@@ -1000,7 +1000,7 @@ Simple challenge from the CGWiki Discord, animating flapping wings using sine wa
 
 <img src="./images/flyingpig.gif" width="400">
 
-| [Download the HIP file!](./hips/flyingpig.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/flyingpig.hiplc) |
 | --- |
 
 I used `abs()` to make them flap symmetrically along the X axis, then slid a noise along the Z axis:
@@ -1026,7 +1026,7 @@ The hard part is generating the initial paths. Below I used the constraints from
 
 <img src="./images/vein_pig.webp" width="400">
 
-| [Download the HIP file!](./hips/vein_pig.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/vein_pig.hiplc) |
 | --- |
 
 ## Procedurally rolling wheels
@@ -1035,7 +1035,7 @@ It's surprisingly hard to procedurally roll wheels along a curve without sliding
 
 <img src="./images/rolling_wheels.webp" width="400">
 
-| [Download the HIP file!](./hips/rolling_wheels.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/rolling_wheels.hiplc) |
 | --- |
 
 The `primuv()` units for a curve are normalized between 0 and 1, but the wheel radius is in meters. You need meters to track the distance travelled, but how to get it?
@@ -1070,7 +1070,7 @@ If you have a Level Set or Isosurface volume, you can use `volumegradient()` ins
 
 <img src="./images/vel_towards.png" width="500">
 
-| [Download the HIP file!](./hips/tornado_head.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/tornado_head.hiplc) |
 | --- |
 
 ```js
@@ -1100,7 +1100,7 @@ Cwalrus on Discord wanted to make a tornado travel around a head. This means com
 
 <img src="./images/tornado_head.gif" width="500">
 
-| [Download the HIP file!](./hips/tornado_head.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/tornado_head.hiplc) |
 | --- |
 
 ```js
@@ -1125,7 +1125,7 @@ If you normalize the attribute (eg. with Labs Normalize Float), it's easy to fit
 
 <img src="./images/normalized_animation.webp" width="500">
 
-| [Download the HIP file!](./hips/normalized_animation.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/normalized_animation.hiplc) |
 | --- |
 
 ```js
@@ -1189,7 +1189,7 @@ I used this ramp for the demo above:
 
 <img src="./images/remove_post_sim_ramp.png" width="600">
 
-| [Download the HIP file!](./hips/pop_remove_post_sim.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/pop_remove_post_sim.hiplc) |
 | --- |
 
 ## Generating circles
@@ -1253,7 +1253,7 @@ addprim(0, "poly", points);
 
 <br clear="left" />
 
-| [Download the HIP file!](./hips/circle.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/circle.hipnc) |
 | --- |
 
 ## Sweep in VEX
@@ -1357,7 +1357,7 @@ If `cols` doesn't match the point count, never fear. You'll get cool trippy look
   <img src="./images/sweepshape2.png" width="40%">
 </p>
 
-| [Download the HIP file!](./hips/vex_sweep.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/vex_sweep.hiplc) |
 | --- |
 
 ## Sweep varying cross sections
@@ -1399,7 +1399,7 @@ Now the cross sections connect perfectly without any resampling!
   <img src="./images/sweep7.png" width="45%">
 </p>
 
-| [Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/sweep_varying_cross_sections.hiplc) |
 | --- |
 
 ## POP Curve Force in VEX
@@ -1410,7 +1410,7 @@ For more control, you can use Orientation Along Curve to compute the normal, the
 
 <img src="./images/curve_forces.webp" height="400">
 
-| [Download the HIP file!](./hips/curve_forces.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/curve_forces.hiplc) |
 | --- |
 
 ```js
@@ -1465,7 +1465,7 @@ A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI usin
 
 <img src="./images/hdrisample.png" height="320">
 
-| [Download the HIP file!](./hips/hdrisample.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/hdrisample.hipnc) |
 | --- |
 
 ```js
@@ -1484,7 +1484,7 @@ Levin on the CGWiki Discord wanted to blur volumes in VEX.
 
 <img src="./images/volumesmoothing.png" width="600">
 
-| [Download the HIP file!](./hips/volume_smoothing.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/volume_smoothing.hiplc) |
 | --- |
 
 To do this, you can sample the neighbors in a box and average them. It's much slower than the built-in volume nodes though.
@@ -1536,7 +1536,7 @@ It's a recursive process involving making a voronoi diagram, finding the centers
 
 <img src="./images/lloyd_relaxation.webp" width="400">
 
-| [Download the HIP file!](./hips/lloyd_relaxation.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/lloyd_relaxation.hiplc) |
 | --- |
 
 ## Fitting UV islands
@@ -1547,7 +1547,7 @@ Sometimes you need to overlap UV islands and fit them to a full tile, like when 
 |---|---|
 |<img src="./images/uvfitting1.png" height="200">|<img src="./images/uvfitting2.png" height="200">|
 
-| [Download the HIP file!](./hips/uv_island_fitting.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/uv_island_fitting.hiplc) |
 | --- |
 
 This is hard to do with Houdini's built-in nodes, so here's a manual approach.
@@ -1565,7 +1565,7 @@ It's hard to prevent `uvintersect()` and `xyzdist()` from snapping to themselves
 
 <img src="./images/overlapping_uvs.png" height="300">
 
-| [Download the HIP file!](./hips/detect_overlapping_uvs.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/detect_overlapping_uvs.hiplc) |
 | --- |
 
 One workaround is using the group argument to exclude nearby prims, like those connected to the current point.
@@ -1648,7 +1648,7 @@ v@P = addToPos(v@P);
 
 **UPDATE:** Van and WaffleboyTom said this is evil since it causes the code to recompile. Use if you dare!
 
-| [Download the HIP file!](./hips/including_vex_code.hip) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/including_vex_code.hip) |
 | --- |
 
 ## Dynamic attribute names
@@ -1665,7 +1665,7 @@ i@`chs("var_name")` = 123;
 
 Certain characters like spaces aren't allowed in variable names, so try not to include them!
 
-| [Download the HIP file!](./hips/vex_var_names.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/vex_var_names.hiplc) |
 | --- |
 
 ## Default values in VEX
@@ -1692,7 +1692,7 @@ This is a feature [buried in the documentation](https://www.sidefx.com/docs/houd
 
 Surprisingly it's tricky to display text based on an attribute or VEX snippet. Here's a few ways to do it!
 
-| [Download the HIP file!](./hips/font_vex.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/font_vex.hiplc) |
 | --- |
 
 ### 1. Expressions
@@ -1770,7 +1770,7 @@ Khomatech on the CGWiki Discord wanted to deform volumes with noise baked in. He
 
 <img src="./images/volumedeform.webp" width="500">
 
-| [Download the HIP file!](./hips/volumedeform.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/volumedeform.hiplc) |
 | --- |
 
 ### 1. Volume Deform
@@ -1816,7 +1816,7 @@ The key is making sure the points aren't coplanar, otherwise they spread in 2D o
 
 <img src="./images/overlapped_cables.png" width="500">
 
-| [Download the HIP file!](./hips/overlapping_cables.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/overlapping_cables.hiplc) |
 | --- |
 
 ## Nearest point to any attribute
@@ -1858,7 +1858,7 @@ The direct way is using unwrap to replace the context:
 i@near_id = nearpoint("unwrap:uv opinput:0", chv("uv_coordinate"));
 ```
 
-| [Download the HIP file!](./hips/geounwrap.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/geounwrap.hipnc) |
 | --- |
 
 ## Split curve to individual lines and back again
@@ -1915,7 +1915,7 @@ Spot the difference. On the left is the Group node, on the right is VEX.
 
 <img src="./images/keepbynormals2.png" width="500">
 
-| [Download the HIP file!](./hips/keepbynormals.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/keepbynormals.hiplc) |
 | --- |
 
 ## Select inside or outside
@@ -1947,7 +1947,7 @@ float correlation = dot(dir, v@N);
 
 <img src="./images/inside.png" width="250">
 
-| [Download the HIP file!](./hips/inside.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/inside.hipnc) |
 | --- |
 
 ## Scaling primitives towards their center
@@ -1967,7 +1967,7 @@ v@P = lerp(center, v@P, chf("scale"));
 
 <img src="./images/scale_prims.png" width="300">
 
-| [Download the HIP file!](./hips/scale_prims.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/scale_prims.hiplc) |
 | --- |
 
 ## Splitting a triangle into regions
@@ -1976,7 +1976,7 @@ Malmer on Discord wanted to split a triangle into 3 regions as seen below.
 
 <img src="./images/triangle_regions.webp" width="400">
 
-| [Download the HIP file!](./hips/triangle_regions.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/triangle_regions.hiplc) |
 | --- |
 
 It's a surprisingly tricky problem, so each of us came up with different solutions. I thought they were interesting enough to share.
@@ -2100,7 +2100,7 @@ Good for point clouds! VDB from Particles works too, but not as smoothly.
 
 <img src="./images/decentcollision.png" width="600">
 
-| [Download the HIP file!](./hips/decent_collision.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/decent_collision.hiplc) |
 | --- |
 
 ### 2. Extrude
@@ -2111,7 +2111,7 @@ Good for flat surfaces! For more control, use point normals to set the extrusion
 
 <img src="./images/decentcollision2.png" width="400">
 
-| [Download the HIP file!](./hips/decent_collision2.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/decent_collision2.hiplc) |
 | --- |
 
 ## Applying orient to packed prims
@@ -2130,7 +2130,7 @@ Thanks to WaffleboyTom for this tip!
 
 Often it's nice to organise geometry by snapping it to the floor. Here's a few ways to do it!
 
-| [Download the HIP file!](./hips/snaptofloor.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/snaptofloor.hipnc) |
 | --- |
 
 ### 1. Match Size
@@ -2277,14 +2277,14 @@ v@P *= invert(mat);
 
 <img src="./images/extracttransform.webp" width="500">
 
-| [Download the HIP file!](./hips/extracttransform.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/extracttransform.hipnc) |
 | --- |
 
 The same technique can be used to stabilize geometry, like making everything relative to the pelvis:
 
 <img src="./images/inverttransform.webp" width="500">
 
-| [Download the HIP file!](./hips/inverttransform.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/inverttransform.hipnc) |
 | --- |
 
 ### Bendy geometry
@@ -2327,7 +2327,7 @@ This works best for enclosed containers or pinned geometry, since it's hard to m
 
 <img src="./images/stabilized_flip_sim.webp" width="500">
 
-| [Download the HIP file!](./hips/stabilized_flip_sim.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/stabilized_flip_sim.hiplc) |
 | --- |
 
 ### Relative gravity
@@ -2386,7 +2386,7 @@ The algorithm works like this:
 2. Find the best rotation using [Singular Value Decomposition (SVD)](https://www.sidefx.com/docs/houdini/vex/functions/svddecomp.html)
 3. Find the best scale using [the Umeyama algorithm](https://nghiaho.com/?page_id=671).
 
-| [Download the HIP file!](./hips/extract_transform_svd.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/extract_transform_svd.hiplc) |
 | --- |
 
 ### Align Translation
@@ -2741,7 +2741,7 @@ Cloth sims work best with preroll starting in a neutral rest pose. For example, 
 
 <img src="./images/fbxtransition.webp" height="320">
 
-| [Download the HIP file!](./hips/fbxtransition.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/fbxtransition.hipnc) |
 | --- |
 
 ### Without FBX
@@ -2824,7 +2824,7 @@ Using hairgen to create geo at render time from guide hairs which are just SOPs 
 
 <img src="./images/lcrs/Ls_HairgenFromLines.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_HairgenFromLines_v03.hiplc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/lcrs/Ls_HairgenFromLines_v03.hiplc) |
 | --- |
 
 ## Lewis Saunders: Mantra Shadow Mask
@@ -2835,7 +2835,7 @@ Making a shadow map by grabbing the direct shadow AOV from the PBR Lighting VOP,
 
 <img src="./images/lcrs/Ls_MantraShadowMask.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_MantraShadowMask_v01.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/lcrs/Ls_MantraShadowMask_v01.hipnc) |
 | --- |
 
 ## Lewis Saunders: Mesh Divergence
@@ -2846,7 +2846,7 @@ The Measure node can compute the gradient of an attribute, but the divergence of
 
 <img src="./images/lcrs/Ls_MeshDivergence.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_MeshDivergence.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/lcrs/Ls_MeshDivergence.hipnc) |
 | --- |
 
 Jake Rice notes:
@@ -2912,7 +2912,7 @@ Works on both geometry and volumes, as seen in [Ls_VolumeMotionVectors](#lewis-s
 
 <img src="./images/lcrs/Ls_MotionVectors.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_MotionVectors_v01.hip) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/lcrs/Ls_MotionVectors_v01.hip) |
 | --- |
 
 ```js
@@ -2948,7 +2948,7 @@ Basic particle trail using a Trail SOP followed by an Add SOP set to connect poi
 
 <img src="./images/lcrs/Ls_PopTrails.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_PopTrails_v01.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/lcrs/Ls_PopTrails_v01.hipnc) |
 | --- |
 
 ## Lewis Saunders: Volume Motion Vectors
@@ -2961,20 +2961,20 @@ Motion vectors for volumes are tricky because of transparency. A wispy bit of sm
 
 <img src="./images/lcrs/Ls_VolumeMotionVectors.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_VolumeMotionVectors_v01.hipnc) | [Download the other HIP file!](./hips/lcrs/Ls_VolumeMotionVectorsNodes_v01.hipnc) |
+| [Download the HIP file!](../../raw/refs/heads/main/hips/lcrs/Ls_VolumeMotionVectors_v01.hipnc) | [Download the other HIP file!](../../raw/refs/heads/main/hips/lcrs/Ls_VolumeMotionVectorsNodes_v01.hipnc) |
 | --- | --- |
 
 ## Matt Ebb: 4D Slices (HDAs)
 
 A while ago Matt Ebb did a talk on slicing 4D shapes to produce 3D cross sections. After digging around online, I found the HDAs.
 
-- [Extrude Poly 4D](./hdas/mebb/sop_matt.dev.extrude_poly_4d.4.0.hdalc)
-- [Extrude Tets 4D](./hdas/mebb/sop_matt.dev.extrude_tets_4d.4.0.hdalc)
-- [Rotate 4D](./hdas/mebb/sop_matt.dev.rotate_4d.4.0.hdalc)
-- [Slice Poly 4D](./hdas/mebb/sop_matt.dev.slice_poly_4d.4.0.hdalc)
-- [Slice Tets 4D](./hdas/mebb/sop_matt.dev.slice_tets_4d.1.0.hdalc)
+- [Extrude Poly 4D](../../raw/refs/heads/main/hdas/mebb/sop_matt.dev.extrude_poly_4d.4.0.hdalc)
+- [Extrude Tets 4D](../../raw/refs/heads/main/hdas/mebb/sop_matt.dev.extrude_tets_4d.4.0.hdalc)
+- [Rotate 4D](../../raw/refs/heads/main/hdas/mebb/sop_matt.dev.rotate_4d.4.0.hdalc)
+- [Slice Poly 4D](../../raw/refs/heads/main/hdas/mebb/sop_matt.dev.slice_poly_4d.4.0.hdalc)
+- [Slice Tets 4D](../../raw/refs/heads/main/hdas/mebb/sop_matt.dev.slice_tets_4d.1.0.hdalc)
 
 [![Slices talk](https://img.youtube.com/vi/WryM1E8E9qs/mqdefault.jpg)](https://youtu.be/WryM1E8E9qs)
 
-| [Video Demo](https://youtu.be/WryM1E8E9qs) | [Download the HDAs!](./hdas/mebb) |
+| [Video Demo](https://youtu.be/WryM1E8E9qs) | [Download the HDAs!](../../raw/refs/heads/main/hdas/mebb) |
 | --- | --- |
