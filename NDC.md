@@ -30,7 +30,7 @@ vector worldPos = fromNDC(chsop("cam"), ndcPos);
 
 Here's some NDC tricks you can play with.
 
-| [Download the HIP file!](./hips/ndc/ndcfun.hipnc?raw=true) |
+| [Download the HIP file!](./hips/ndc/ndcfun.hipnc) |
 | --- |
 
 ## Get the camera position
