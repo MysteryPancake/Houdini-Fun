@@ -214,7 +214,7 @@ Since the plane is flattened on Z in NDC space, this is easy. Just subtract the 
 
 ```js
 string cam = chsop("cam");
-vector camPos = fromNDC(cam, {0, 0, 0});
+vector camPos = fromNDC(cam, {0, 0, 0}); // or {0, 0, 0} * optransform(cam);
 
 // Projection direction
 v@N = normalize(v@P - camPos);
@@ -230,7 +230,7 @@ For arbitrary geometry, the same idea applies. Convert to NDC space, flatten Z a
 
 ```js
 string cam = chsop("cam");
-vector camPos = fromNDC(cam, {0, 0, 0});
+vector camPos = fromNDC(cam, {0, 0, 0}); // or {0, 0, 0} * optransform(cam);
 
 // Flatten Z axis in NDC space
 vector ndcPos = toNDC(cam, v@P);
@@ -312,7 +312,7 @@ Using this as the Clip attribute, you clear any geometry facing away from the ca
 string cam = chsop("cam");
 
 // dot() finds correlation between the normal direction and camera direction
-vector camPos = fromNDC(cam, {0, 0, 0});
+vector camPos = fromNDC(cam, {0, 0, 0}); // or {0, 0, 0} * optransform(cam);
 vector camDir = normalize(camPos - v@P);
 
 // Use this attribute with Clip
@@ -331,7 +331,7 @@ If no hit occurs, it must be visible to the camera. Otherwise it's occluded and 
 
 ```js
 string cam = chsop("cam");
-vector camPos = fromNDC(cam, {0, 0, 0});
+vector camPos = fromNDC(cam, {0, 0, 0}); // or {0, 0, 0} * optransform(cam);
 vector camDir = camPos - v@P;
 
 // Ray towards the camera and see if we hit the 2nd input
