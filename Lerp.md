@@ -140,7 +140,7 @@ float fit01_diy(float value; float nmin; float nmax) {
 ```
 
 ## `fit10()`
-`fit01()` is the same as `fit()` except the range is hardcoded as 1 to 0.
+`fit10()` is the same as `fit()` except the range is hardcoded as 1 to 0.
 
 ```js
 float fit10_diy(float value; float nmin; float nmax) {
