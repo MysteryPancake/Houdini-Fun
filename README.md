@@ -405,6 +405,23 @@ v@v *= f@uv_area / f@world_area;
 | [Download the HIP file!](./hips/cops/cops_uv_velocity.hiplc) |
 | --- |
 
+## Copernicus: Blurring and sharpening volumes
+
+The Blur and Sharpen nodes in Copernicus don't just work on images, they work on 3D volumes too!
+
+<img src="./images/cops/cops_blur_sharpen_volume.png" width="500">
+
+It even works on Level Set (SDF) volumes!
+
+<img src="./images/cops/cops_blur_sharpen_sdf.png" width="500">
+
+| [Download the HIP file!](./hips/cops/cops_blurring_sharpening.hiplc) |
+| --- |
+
+Also, the Sharpen node uses a method called [Unsharp Mask](https://en.wikipedia.org/wiki/Unsharp_masking), often found on [/r/shittyhdr](https://www.reddit.com/r/shittyHDR/).
+
+It involves subtracting a blurred version of the image to increase the sharp content, like a high shelf FIR kernel in signal processing.
+
 ## Copernicus: Animated Bars
 
 For Vexember 2025 on the CGWiki Discord, I decided to do the challenges in COPs instead of VEX. Swalsch's first challenge was creating a bar pattern.
