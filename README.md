@@ -420,7 +420,7 @@ It even works on Level Set (SDF) volumes!
 
 Also, the Sharpen node uses a method called [Unsharp Mask](https://en.wikipedia.org/wiki/Unsharp_masking), often found on [/r/shittyhdr](https://www.reddit.com/r/shittyHDR/).
 
-It involves subtracting a blurred version of the image to increase the sharp content, like a high shelf FIR kernel in signal processing.
+It involves subtracting a blurred version of the image, which increases the amount of sharp content.
 
 ## Copernicus: Animated Bars
 
