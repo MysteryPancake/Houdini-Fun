@@ -2569,8 +2569,8 @@ matrix b = 0; // 3x4 right hand side
 
 float n = npoints(1);
 for (int i = 0; i < n; ++i) {
-    vector4 source = vector(point(1, "P", i));
-    vector target = point(2, "P", i); 
+    vector4 source = vector(point(1, "P", i)); // This sets source.w = 1, important for correct results
+    vector target = point(2, "P", i);
     A += outerproduct(source, source);
     b += outerproduct(target, source);
 }
