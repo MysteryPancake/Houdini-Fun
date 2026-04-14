@@ -354,9 +354,9 @@ I can't be bothered myself, but you can use this file as a starting point!
 | [Download the HIP file!](./hips/cops/cops_pyro_comparison.hiplc) |
 | --- |
 
-## Copernicus to SOP attribute
+## Copernicus texture to SOP attribute
 
-Sometimes you need to make an attribute from a Copernicus texture. You just need Attribute From Map.
+You can use Attribute From Map to make a SOP attribute from a Copernicus texture.
 
 Textures in Copernicus are 2D volumes, so you can set Attribute From Map to "Volume" with the COP connected to the 2nd input.
 
