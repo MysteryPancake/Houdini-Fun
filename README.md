@@ -354,7 +354,7 @@ I can't be bothered myself, but you can use this file as a starting point!
 | [Download the HIP file!](./hips/cops/cops_pyro_comparison.hiplc) |
 | --- |
 
-## Copernicus texture to SOP attribute
+## Copernicus: Texture to SOP Attribute
 
 You can use Attribute From Map to make a SOP attribute from a Copernicus texture.
 
@@ -381,7 +381,7 @@ It's great for generating SDFs, trippy effects and contour plotting!
 | [Download the HIP file!](./hips/cops/cops_eikonal.hiplc) | [Video Tutorial](https://youtu.be/s_av9vihvY0) |
 | --- | --- |
 
-## Coperncius: Pig Paint
+## Copernicus: Pig Paint
 
 Using the Stamp Points node with the Flow Block to get a somewhat realistic flowing paint effect.
 
