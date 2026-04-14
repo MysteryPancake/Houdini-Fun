@@ -354,6 +354,19 @@ I can't be bothered myself, but you can use this file as a starting point!
 | [Download the HIP file!](./hips/cops/cops_pyro_comparison.hiplc) |
 | --- |
 
+## Copernicus to SOP attribute
+
+Sometimes you need to make an attribute from a Copernicus texture. You just need Attribute From Map.
+
+Textures in Copernicus are 2D volumes, so you can set Attribute From Map to "Volume" with the COP connected to the 2nd input.
+
+Just remember to check the volume name matches the COP output, otherwise it displays black!
+
+<img src="./images/cops/cops_to_sops.png" width="500">
+
+| [Download the HIP file!](./hips/cops/cops_to_sops.hiplc) |
+| --- |
+
 ## Copernicus: Eikonal Contour Plotting
 
 The Eikonal node expands from darker areas into lighter areas, and tells you how long it took.
