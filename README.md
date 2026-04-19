@@ -1464,11 +1464,11 @@ v@P += v@v * f@TimeInc;
 
 ## Camera position and normal
 
-The simplest way to get the camera position [without using NDC coordinates](./NDC.md) is by using `optransform()`.
+The simplest way to get the camera position [without using NDC coordinates](./NDC.md) is using `optransform()`.
 
-You can multiply by `{0,0,0}` to get the origin, or by `{0,0,-1}` to get the direction (once converted to `matrix3`).
+You can multiply it by `{0,0,0}` to get the origin, or by `{0,0,-1}` to get the direction (once converted to `matrix3`).
 
-<img src="./images/cam_pos_normal.png" width="500">
+<img src="./images/cam_pos_normal.png" width="600">
 
 | [Download the HIP file!](./hips/cam_pos_normal.hiplc) |
 | --- |
