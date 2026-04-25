@@ -982,6 +982,27 @@ Replacing the math with constants, it becomes even shorter:
 v@P = frac(set(.754877669, .569840296) * i@ptnum);
 ```
 
+## Demeyer circle grid
+
+Sunset333 on the CGWiki Discord wanted to remake a [circle animation by Mario Demeyer](https://www.instagram.com/p/DWBvVI5gpAq).
+
+Jakob suggested using recursive subdivision or a quadtree [similar to Matt Taylor](https://www.youtube.com/watch?v=GhquYJ9m1Oc).
+
+I took a different approach, just using a tile split into 4 regions with different colors.
+
+<img src="./images/circle_grid_demeyer3.png" width="200">
+
+I used 2 noises to animate the center offset of each tile along the X and Y axes.
+
+<img src="./images/circle_grid_demeyer.webp" width="400">
+
+Then copied a circle onto each of the tiles. Using a shader for this would be much faster.
+
+<img src="./images/circle_grid_demeyer2.webp" width="400">
+
+| [Download the HIP file!](./hips/circle_grid_demeyer.hiplc) |
+| --- |
+
 ## Spiral animation
 
 Made for Vexember 2025 on the CGWiki Discord. The core idea was picking the target prim to move towards by offsetting the current prim index with wrapping.
