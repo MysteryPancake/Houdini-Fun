@@ -343,6 +343,46 @@ if (intersect(1, v@P, camDir, p, uvw) >= 0) {
 
 <br clear="left" />
 
+## Group occluded geometry
+
+Jonas Hagenvald on Discord wanted to group geometry that isn't visible for the entire the shot.
+
+It's easiest using a solver to accumulate the visibility based on whichever conditions you need.
+
+<img src="./images/ndc/group_occluded.webp" width="400">
+
+| [Download the HIP file!](./hips/ndc/group_occluded.hiplc) |
+| --- |
+
+For an object to be visible it should meet two conditions, not occluded and inside the camera frustum.
+
+### 1. Not occluded
+
+To check whether the object is occluded, you can ray backwards towards the camera position.
+
+If you hit something, the object won't be visible from camera.
+
+```js
+// Ray direction towards the camera to see if we hit anything (meaning we're occluded)
+vector camPos = optransform(chsop("cam"))*{0,0,0};
+v@camDir = normalize(camPos-v@P);
+```
+
+### 2. Inside the camera frustum
+
+To check whether the object is inside the camera frustum, you can use NDC coordinates as seen above.
+
+```js
+// Objects are also occluded if outside the camera frustum, since they won't be visible
+vector ndcPos = toNDC(chsop("cam"), v@P);
+float padding = chf("padding");
+if (ndcPos.x < -padding || ndcPos.x > 1 + padding // Remove outside 0-1 on X (with padding)
+ || ndcPos.y < -padding || ndcPos.y > 1 + padding // Remove outside 0-1 on Y (with padding)
+ || ndcPos.z >= 0) { // Remove behind camera (positive Z)
+    i@group_occluded = 1;
+}
+```
+
 ## Build your own NDC matrix
 You can use `perspective()` to build a matrix that has the same effect as `toNDC()` (assuming the camera is in perspective mode).
 
