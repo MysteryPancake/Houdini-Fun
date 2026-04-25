@@ -505,7 +505,7 @@ Qwak on Discord wanted to avoid UV seams when rasterizing points. One way is mak
 
 In VEX you can convert from UV to world space using `uvsample()`, so the distance becomes 3D rather than 2D.
 
-<img src="./images/cops/cops_rasterize_world_space.png" width="700">
+<img src="./images/cops/cops_rasterize_world_space.png" width="600">
 
 | [Download the HIP file!](./hips/cops/cops_rasterize_world_space.hiplc) |
 | --- |
