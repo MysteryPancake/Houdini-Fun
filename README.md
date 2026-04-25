@@ -984,7 +984,7 @@ v@P = frac(set(.754877669, .569840296) * i@ptnum);
 
 ## Demeyer circle grid
 
-Sunset333 on the CGWiki Discord wanted to remake a [circle animation by Mario Demeyer](https://www.instagram.com/p/DWBvVI5gpAq).
+Sunset333 on the CGWiki Discord wanted to remake [this circle animation by Mario Demeyer](https://www.instagram.com/p/DWBvVI5gpAq).
 
 Jakob suggested using recursive subdivision or a quadtree [similar to Matt Taylor](https://www.youtube.com/watch?v=GhquYJ9m1Oc).
 
@@ -1001,6 +1001,17 @@ Then copied a circle onto each of the tiles. Using a shader for this would be mu
 <img src="./images/circle_grid_demeyer2.webp" width="400">
 
 | [Download the HIP file!](./hips/circle_grid_demeyer.hiplc) |
+| --- |
+
+## Demeyer carved waves
+
+Sunset333 on the CGWiki Discord also wanted to remake [this wave animation by Mario Demeyer](https://www.instagram.com/p/DES1076uvFV).
+
+I used `sin()` and `cos()` for the waves, then Carve to change the length of each curve based on noise.
+
+<img src="./images/carved_waves_demeyer.webp" width="400">
+
+| [Download the HIP file!](./hips/carved_waves_demeyer.hiplc) |
 | --- |
 
 ## Spiral animation
