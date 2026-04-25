@@ -534,6 +534,23 @@ float circle = fit(dist, radius, radius + softness, 1, 0);
 v@C = nearest_Cd * circle;
 ```
 
+## Concave hull
+
+Often you need to make a clean sealed mesh without holes.
+
+- Remesh to Grid gives a decent result, but tends to produce internal holes.
+- Convex Hull (Shrinkwrap) prevents holes, but doesn't preserve small concave areas.
+
+To preserve concave areas, you can use Remesh followed by Ray in a feedback loop.
+
+<p align="left">
+  <img src="./images/concave_hull.png" height="300">
+  <img src="./images/concave_hull.webp" height="300">
+</p>
+
+| [Download the HIP file!](./hips/concave_hull.hiplc) |
+| --- |
+
 ## Convert to bricks
 
 The Labs PolySlice node produces a bunch of cross section curves. They can be resampled and used for fracturing, producing bricks.
