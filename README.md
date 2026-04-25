@@ -392,6 +392,17 @@ I painted strokes from dark to light along a tangent field to mimic how it works
 | [Download the HIP file!](./hips/cops/cops_pig_paint.hiplc) |
 | --- |
 
+## Copernicus: Concentric Circles
+
+Mark Reynolds on the CGWiki Discord wanted to make a pattern with concentric circles.
+
+This pattern is a [common visualizer for 2D SDFs](https://iquilezles.org/articles/distgradfunctions2d/). It's also called shells or isosurfaces of an SDF.
+
+<img src="./images/cops/cops_concentric_circles.png" width="600">
+
+| [Download the HIP file!](./hips/cops/cops_concentric_circles.hiplc) |
+| --- |
+
 ## Copernicus to Heightfield
 
 Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes? Heightfields!
