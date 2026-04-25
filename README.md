@@ -501,9 +501,9 @@ v@normal = normalize(normal) * 0.5 + 0.5;
 
 ## Copernicus: Rasterize Points in World Space
 
-Qwak on Discord was wondering how to avoid UV seams when rasterizing points. One way is making a custom rasterizer in VEX.
+Qwak on Discord wanted to avoid UV seams when rasterizing points. One way is making a custom rasterizer in VEX.
 
-In VEX, you can convert from UV space to world space using `uvsample()`, so the distance becomes 3D rather than 2D.
+In VEX you can convert from UV to world space using `uvsample()`, so the distance becomes 3D rather than 2D.
 
 <img src="./images/cops/cops_rasterize_world_space.png" width="700">
 
