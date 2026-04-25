@@ -462,28 +462,25 @@ It gives similar results (top row) to the real thing (bottom row), but much slow
 | --- |
 
 ```js
-// Dumb hack to get the world position from the UV coordinate
-vector pos = relbbox(0, v@P);
-vector uv_to_P = uvsample(1, "P", "uv", pos);
-
+// Convert an input UV coordinate to the world position
+vector uv_to_world = uvsample(1, "P", "uv", v@uv);
 float maxdist = chf("max_distance");
 int mode = chi("mode");
 
 int prim;
 vector uv;
-
 if (mode == 0) {
     // Nearest surface
-    xyzdist(2, uv_to_P, prim, uv, maxdist);
+    xyzdist(2, uv_to_world, prim, uv, maxdist);
 } else if (mode == 1) {
     // Raycast
-    vector dir = vector(uvsample(1, "N", "uv", pos)) * maxdist;
+    vector dir = vector(uvsample(1, "N", "uv", v@uv)) * maxdist;
     // Ray forwards
     vector tmp;
-    prim = intersect(2, uv_to_P, dir, tmp, uv);
+    prim = intersect(2, uv_to_world, dir, tmp, uv);
     if (prim < 0) {
         // Ray backwards
-        prim = intersect(2, uv_to_P, -dir, tmp, uv);
+        prim = intersect(2, uv_to_world, -dir, tmp, uv);
     }
 }
 
