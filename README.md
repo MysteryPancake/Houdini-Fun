@@ -201,7 +201,7 @@ Need to overshoot an animation or smooth it over time to reduce bumps? Introduci
   <img src="./images/springsolver.gif" height="280">
 </p>
 
-### Recursive Version
+### Recursive version
 
 I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next you apply damping to stop it going too crazy.
 
@@ -257,7 +257,7 @@ v@v *= damping;
 v@P += v@v * f@TimeInc;
 ```
 
-### Non-Recursive Version
+### Non-recursive version
 
 An easy approximation is an [oscillator with an exponential falloff](https://www.desmos.com/calculator/hepyprgxwq). This is basically damped harmonic motion.
 
@@ -339,7 +339,7 @@ If your "Life" changes per target, set a life attribute on each point.
 
 <img src="./images/aimbot.gif" width="500">
 
-## Copernicus Pyro vs Regular Pyro
+## Copernicus pyro vs regular pyro
 
 Recently they added a Pyro solver to Copernius, along with most of the features of the regular Pyro solver. The advection method is different, but everything else is pretty much identical.
 
@@ -354,7 +354,7 @@ I can't be bothered myself, but you can use this file as a starting point!
 | [Download the HIP file!](./hips/cops/cops_pyro_comparison.hiplc) |
 | --- |
 
-## Copernicus: Texture to SOP Attribute
+## Copernicus: Texture to SOP attribute
 
 You can use Attribute From Map to make a SOP attribute from a Copernicus texture.
 
@@ -367,7 +367,7 @@ Just remember to check the volume name matches the COP output, otherwise it disp
 | [Download the HIP file!](./hips/cops/cops_to_sops.hiplc) |
 | --- |
 
-## Copernicus: Eikonal Contour Plotting
+## Copernicus: Eikonal contour plotting
 
 The Eikonal node expands from darker areas into lighter areas, and tells you how long it took.
 
@@ -381,7 +381,7 @@ It's great for generating SDFs, trippy effects and contour plotting!
 | [Download the HIP file!](./hips/cops/cops_eikonal.hiplc) | [Video Tutorial](https://youtu.be/s_av9vihvY0) |
 | --- | --- |
 
-## Copernicus: Pig Paint
+## Copernicus: Pig paint
 
 Using the Stamp Points node with the Flow Block to get a somewhat realistic flowing paint effect.
 
@@ -392,7 +392,7 @@ I painted strokes from dark to light along a tangent field to mimic how it works
 | [Download the HIP file!](./hips/cops/cops_pig_paint.hiplc) |
 | --- |
 
-## Copernicus: Concentric Circles
+## Copernicus: Concentric circles
 
 Mark Reynolds on the CGWiki Discord wanted to make a pattern with concentric circles.
 
@@ -403,7 +403,7 @@ This pattern is a [common visualizer for 2D SDFs](https://iquilezles.org/article
 | [Download the HIP file!](./hips/cops/cops_concentric_circles.hiplc) |
 | --- |
 
-## Copernicus to Heightfield
+## Copernicus to heightfield
 
 Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes? Heightfields!
 
@@ -446,7 +446,7 @@ Also, the Sharpen node uses a method called [Unsharp Mask](https://en.wikipedia.
 
 It involves subtracting a blurred version of the image, which increases the amount of sharp content.
 
-## Copernicus: Animated Bars
+## Copernicus: Animated bars
 
 For Vexember 2025 on the CGWiki Discord, I decided to do the challenges in COPs instead of VEX. Swalsch's first challenge was creating a bar pattern.
 
@@ -461,7 +461,7 @@ Afterwards used even more ramps to remap the timing, to get a speed ramp effect 
 | [Download the HIP file!](./hips/cops/cops_bars.hiplc) |
 | --- |
 
-## Copernicus: Texture Baker in VEX
+## Copernicus: Texture baker in VEX
 
 Before the Bake Geometry Textures node was invented, I made a bootleg version in VEX.
 
@@ -510,7 +510,7 @@ vector normal = qrotate(rotation, primuv(2, "N", prim, uv));
 v@normal = normalize(normal) * 0.5 + 0.5;
 ```
 
-## Copernicus: Rasterize Points in World Space
+## Copernicus: Rasterize points in world space
 
 Qwak on Discord wanted to avoid UV seams when rasterizing points. One way is making a custom rasterizer in VEX.
 
@@ -534,7 +534,7 @@ float circle = fit(dist, radius, radius + softness, 1, 0);
 v@C = nearest_Cd * circle;
 ```
 
-## Convert to Bricks
+## Convert to bricks
 
 The Labs PolySlice node produces a bunch of cross section curves. They can be resampled and used for fracturing, producing bricks.
 
@@ -617,7 +617,7 @@ I found a cool use of Vellum for this, it can fix the edge lengths based on [the
 | [Download the HIP file!](./hips/strandbeest_v1.hiplc) |
 | --- |
 
-## Complex Growth in 2 nodes
+## Complex growth in 2 nodes
 
 You can get cool organic looking shapes using opposing forces, like Relax and Attribute Blur.
 
@@ -626,7 +626,7 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 | [Download the HIP file!](./hips/spaghetti.hiplc) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
 | --- | --- |
 
-## No More Point Deform!
+## No more Point Deform!
 
 People love using Point Deform for everything. This makes me cry tears of pain.
 
