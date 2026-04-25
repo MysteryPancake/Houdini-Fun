@@ -499,6 +499,30 @@ vector normal = qrotate(rotation, primuv(2, "N", prim, uv));
 v@normal = normalize(normal) * 0.5 + 0.5;
 ```
 
+## Copernicus: Rasterize Points in World Space
+
+Qwak on Discord was wondering how to avoid UV seams when rasterizing points. One way is making a custom rasterizer in VEX.
+
+In VEX, you can convert from UV space to world space using `uvsample()`, so the distance becomes 3D rather than 2D.
+
+<img src="./images/cops/cops_rasterize_world_space.png" width="700">
+
+| [Download the HIP file!](./hips/cops/cops_rasterize_world_space.hiplc) |
+| --- |
+
+```js
+vector uv_to_world = uvsample(1, "P", "uv", v@C);
+int nearest_pt = nearpoint(2, uv_to_world);
+vector nearest_P = point(2, "P", nearest_pt);
+vector nearest_Cd = point(2, "Cd", nearest_pt);
+
+float radius = chf("radius");
+float softness = chf("softness");
+float dist = distance(uv_to_world, nearest_P);
+float circle = fit(dist, radius, radius + softness, 1, 0);
+v@C = nearest_Cd * circle;
+```
+
 ## Convert to Bricks
 
 The Labs PolySlice node produces a bunch of cross section curves. They can be resampled and used for fracturing, producing bricks.
