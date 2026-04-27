@@ -1639,6 +1639,53 @@ for (int x = -voxel_radius; x <= voxel_radius; ++x) {
 f@density = density_sum / num_samples;
 ```
 
+## Windowed normalize
+
+Pawel Grzelak on Discord wanted to normalize noise so the peaks and valleys trend towards the top and bottom.
+
+Toadstorm suggested using an Envelope CHOP and dividing the signal by the envelope.
+
+I had a similar idea using a rectangular envelope, [inspired by a rolling average](https://en.wikipedia.org/wiki/Moving_average).
+
+<img src="./images/normalize_windowed.webp" width="600">
+
+| [Download the HIP file!](./hips/normalize_windowed.hiplc) |
+| --- |
+
+First each point gets the min and max of its neighbours within a rectangular rolling window.
+
+This is like convolution with a rectangular kernel, except storing the min and max rather than a weighted sum.
+
+```js
+int window_size = chi("window_size");
+f@min = 1e50;
+f@max = -1e50;
+
+// Get the min and max within a rectangular window centered at the current point
+for (int i = -window_size; i <= window_size; ++i) {
+    // Clamp so it doesn't read out of range points
+    int index = clamp(i@ptnum+i, 0, i@numpt-1);
+    vector P = point(0, "P", index);
+    f@min = min(f@min, P.y);
+    f@max = max(f@max, P.y);
+}
+```
+
+Next you can use Attribute Blur to smooth out the `f@min` and `f@max` attributes.
+
+This approximates using a smoother envelope, like a gaussian kernel.
+
+Finally you can normalize the current value between `f@min` and `f@max`. [`invlerp()` is useful for this](./Lerp.md).
+
+```js
+// Normalize (min, max) range to (0, 1) range
+// Same as efit(v@P.y, f@min, f@max, 0, 1);
+float normalized = invlerp(v@P.y, f@min, f@max);
+v@P.y = lerp(v@P.y, normalized, chf("blend"));
+```
+
+Another way is using a [ballistics filter](https://docs.juce.com/master/classjuce_1_1dsp_1_1BallisticsFilter.html), like with audio compressors and dynamics processors.
+
 ## Bilinear patches
 
 Fun fact! [Quads are interpolated as bilinear patches](https://www.sidefx.com/docs/houdini/model/primitive_spaces.html), even though they're rendered as two triangles.
@@ -2097,53 +2144,6 @@ v@P = lerp(center, v@P, chf("scale"));
 
 | [Download the HIP file!](./hips/scale_prims.hiplc) |
 | --- |
-
-## Windowed normalize
-
-Pawel Grzelak on Discord wanted to normalize noise so the peaks and valleys trend towards the top and bottom.
-
-Toadstorm suggested using an Envelope CHOP and dividing the signal by the envelope.
-
-I had a similar idea using a rectangular envelope, [inspired by a rolling average](https://en.wikipedia.org/wiki/Moving_average).
-
-<img src="./images/normalize_windowed.webp" width="600">
-
-| [Download the HIP file!](./hips/normalize_windowed.hiplc) |
-| --- |
-
-Firstly each point gets the min and max of its neighbours within a rectangular rolling window.
-
-This is like convolution with a rectangular kernel, except storing the min and max rather than a weighted sum.
-
-```js
-int window_size = chi("window_size");
-f@min = 1e50;
-f@max = -1e50;
-
-// Get the min and max within a rectangular window centered at the current point
-for (int i = -window_size; i <= window_size; ++i) {
-    // Clamp so it doesn't read out of range points
-    int index = clamp(i@ptnum+i, 0, i@numpt-1);
-    vector P = point(0, "P", index);
-    f@min = min(f@min, P.y);
-    f@max = max(f@max, P.y);
-}
-```
-
-Next you can use Attribute Blur to smooth out the `f@min` and `f@max` attributes.
-
-This approximates using a smoother envelope than rectangular, like a gaussian kernel.
-
-Finally you can normalize the current value to the range between `f@min` and `f@max`.
-
-```js
-// Normalize (min, max) range to (0, 1) range
-// Same as efit(v@P.y, f@min, f@max, 0, 1);
-float normalized = invlerp(v@P.y, f@min, f@max);
-v@P.y = lerp(v@P.y, normalized, chf("blend"));
-```
-
-Another way is using a [ballistics filter](https://docs.juce.com/master/classjuce_1_1dsp_1_1BallisticsFilter.html), like with audio compressors and dynamics processors.
 
 ## Splitting a triangle into regions
 
