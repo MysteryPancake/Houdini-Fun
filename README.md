@@ -2111,7 +2111,9 @@ I had a similar idea using a rectangular envelope, [inspired by a rolling averag
 | [Download the HIP file!](./hips/normalize_windowed.hiplc) |
 | --- |
 
-Each point gets the min and max of its neighbours within a rectangular rolling window. This is like convolution with a rectangular kernel.
+Firstly each point gets the min and max of its neighbours within a rectangular rolling window.
+
+This is like convolution with a rectangular kernel, except storing the min and max rather than a weighted sum.
 
 ```js
 int window_size = chi("window_size");
@@ -2128,7 +2130,9 @@ for (int i = -window_size; i <= window_size; ++i) {
 }
 ```
 
-Now you can use Attribute Blur to smooth out the `f@min` and `f@max` attributes. This approximates using a smoother envelope, like a gaussian kernel.
+Next you can use Attribute Blur to smooth out the `f@min` and `f@max` attributes.
+
+This approximates using a smoother envelope than rectangular, like a gaussian kernel.
 
 Finally you can normalize the current value to the range between `f@min` and `f@max`.
 
@@ -2139,7 +2143,7 @@ float normalized = invlerp(v@P.y, f@min, f@max);
 v@P.y = lerp(v@P.y, normalized, chf("blend"));
 ```
 
-Another way would be using a [ballistics filter](https://docs.juce.com/master/classjuce_1_1dsp_1_1BallisticsFilter.html), like with audio compressors and dynamics processors.
+Another way is using a [ballistics filter](https://docs.juce.com/master/classjuce_1_1dsp_1_1BallisticsFilter.html), like with audio compressors and dynamics processors.
 
 ## Splitting a triangle into regions
 
