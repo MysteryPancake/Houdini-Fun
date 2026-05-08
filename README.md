@@ -534,7 +534,7 @@ float circle = fit(dist, radius, radius + softness, 1, 0);
 v@C = nearest_Cd * circle;
 ```
 
-## Gaussian splats data format
+## Gaussian splat data format
 
 Gaussian splats are a point cloud of blurry spheres used to represent blurry objects.
 
@@ -557,11 +557,9 @@ In these matrices, the first coefficient (DC offset) represents the view-indepen
 
 The remaining coefficients represent the view-dependent differences in color (like specular).
 
-<img src="./images/gs_bee.png" width="700">
-
 Check the "bake_raw_values" wrangle in the Bake GSplat node for more details on the format.
 
-<img src="./images/gs_format.png" width="400">
+<img src="./images/gaussian_splats/gs_bee.png" width="700">
 
 To get the first coefficient (like diffuse) to match with `v@Cd`, it needs to be remapped.
 
@@ -586,6 +584,56 @@ diffuse = (diffuse - 0.5) / SH_C0;
 4@GS_SPH_R.xx = diffuse.r;
 4@GS_SPH_G.xx = diffuse.g;
 4@GS_SPH_B.xx = diffuse.b;
+```
+
+## Gaussian splat diffuse and specular visualization
+
+To visualize the diffuse-like and specular-like components, you can simply set them to 0.
+
+Remember the first coefficient needs to be remapped beforehand, since it doesn't start at 0 like the others.
+
+<img src="./images/gaussian_splats/gs_viz.png" width="700">
+
+| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_viz.hiplc) |
+| --- |
+
+```js
+float SH_C0 = 0.28209479177387814;
+int viz_mode = chi("visualize");
+if (viz_mode == 1) {
+    // View independent coefficients (like diffuse)
+    float r = 4@GS_SPH_R.xx, g = 4@GS_SPH_G.xx, b = 4@GS_SPH_B.xx;
+    4@GS_SPH_R = 4@GS_SPH_G = 4@GS_SPH_B = 0;
+    4@GS_SPH_R.xx = r;
+    4@GS_SPH_G.xx = g;
+    4@GS_SPH_B.xx = b;
+    
+} else if (viz_mode == 2) {
+    // View dependent coefficients (like specular)
+    4@GS_SPH_R.xx = 4@GS_SPH_G.xx = 4@GS_SPH_B.xx = -0.5 / SH_C0;
+    
+} else if (viz_mode == 3) {
+    // View dependent magnitude (like specular)
+    vector specular = 0;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            // Skip diffuse coefficient
+            if (i == 0 && j == 0) continue;
+            float cr = getcomp(4@GS_SPH_R, i, j);
+            float cg = getcomp(4@GS_SPH_G, i, j);
+            float cb = getcomp(4@GS_SPH_B, i, j);
+            // Frobenius norm
+            specular += set(cr * cr, cg * cg, cb * cb);
+        }
+    }
+    // L2 norm
+    if (chi("linearize_magnitude")) specular = sqrt(specular);
+    4@GS_SPH_R = 4@GS_SPH_G = 4@GS_SPH_B = 0;
+    specular = (specular - 0.5) / SH_C0;
+    4@GS_SPH_R.xx = specular.r;
+    4@GS_SPH_G.xx = specular.g;
+    4@GS_SPH_B.xx = specular.b;
+}
 ```
 
 ## Concave hull
