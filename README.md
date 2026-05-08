@@ -590,7 +590,7 @@ diffuse = (diffuse - 0.5) / SH_C0;
 
 To visualize the diffuse-like and specular-like components separately, you can set them to 0.
 
-Note the definition of 0 is different for the first coefficient, since it's remapped unlike the others.
+Note the meaning of 0 is different for the first coefficient, since it's remapped unlike the others.
 
 <img src="./images/gaussian_splats/gs_viz.png" width="700">
 
