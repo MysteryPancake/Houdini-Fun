@@ -682,7 +682,7 @@ diffuse = (diffuse - 0.5) / SH_C0;
 
 Karma doesn't currently support relighting gaussian splats. Splats can only cast shadows, but not on themselves.
 
-A workaround is transferring the lighting from a proxy model. This supports advanced effects like secondary bounces and self-shadowing.
+One workaround is transferring the lighting from a proxy model. This supports advanced effects like secondary bounces and self-shadowing.
 
 As a bonus, you can use the proxy for shadow casting. This is much faster than using splats for shadow casting.
 
@@ -691,6 +691,12 @@ To transfer the lighting, you can use the [Karma Texture Baker](https://www.side
 It doesn't have a preset for specular, but you can use the [LPE expression for combined glossy diffuse](https://www.sidefx.com/docs/houdini/solaris/support/lpe.html#lpelist): `C<RG>.*[LO]`
 
 The textures can be sampled using `colormap()` in VEX, then multiplied by the splat colors to tint them.
+
+<img src="./images/gaussian_splats/gs_relit2.png" width="500">
+
+You can even animate the model and lighting and have everything interact correctly!
+
+<img src="./images/gaussian_splats/gs_relit.webp" width="500">
 
 | [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_relighting.hiplc) | [Download the splat!](./hips/gaussian_splats/scorpion_splat.ply) |
 | --- | --- |
