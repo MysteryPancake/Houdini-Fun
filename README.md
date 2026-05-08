@@ -616,7 +616,7 @@ if (viz_mode == 1) {
     
 } else if (viz_mode == 2) {
     // View dependent coefficients (like specular)
-    4@GS_SPH_R.xx = 4@GS_SPH_G.xx = 4@GS_SPH_B.xx = -0.5 / SH_C0;
+    4@GS_SPH_R.xx = 4@GS_SPH_G.xx = 4@GS_SPH_B.xx = (chf("midtone") - 0.5) / SH_C0;
     
 } else if (viz_mode == 3) {
     // View dependent magnitude (like specular)
