@@ -542,7 +542,9 @@ If they only have a `v@Cd` attribute, they don't change color depending on the v
 
 If they have spherical harmonic coefficients (`4@GS_SPH_*` attributes), they can change color depending on the viewing angle (like specular).
 
-This lets them represent view-dependent effects like specular lighting and reflections.
+| With `v@Cd` only | With `4@GS_SPH_*` attributes |
+| --- | --- |
+| <img src="./images/gaussian_splats/gs_diffuse.webp" width="350"> | <img src="./images/gaussian_splats/gs_specular.webp" width="350"> |
 
 Houdini stores gaussian splats using 4x4 matrices containing the coefficients for the red, green and blue channels.
 
