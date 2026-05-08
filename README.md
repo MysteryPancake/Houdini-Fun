@@ -590,7 +590,7 @@ diffuse = (diffuse - 0.5) / SH_C0;
 4@GS_SPH_B.xx = diffuse.b;
 ```
 
-## Gaussian splat diffuse and specular visualization
+## Gaussian splat component visualization
 
 To visualize the diffuse-like and specular-like components separately, you can set them to 0.
 
