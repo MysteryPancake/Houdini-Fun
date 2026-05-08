@@ -553,9 +553,9 @@ Houdini stores gaussian splats using 4x4 matrices containing the coefficients fo
 | `4@GS_SPH_G` | `sRGB` | Spherical harmonic coefficients for green | Takes priority over `v@Cd` |
 | `4@GS_SPH_B` | `sRGB` | Spherical harmonic coefficients for blue | Takes priority over `v@Cd` |
 
-In these matrices, the first value (DC offset) represents the view-independent color (like diffuse).
+In these matrices, the first coefficient (DC offset) represents the view-independent color (like diffuse).
 
-The remaining values represent the view-dependent difference in color (like specular).
+The remaining coefficients represent the view-dependent differences in color (like specular).
 
 <img src="./images/gs_bee.png" width="700">
 
@@ -563,14 +563,29 @@ Check the "bake_raw_values" wrangle in the Bake GSplat node for more details on 
 
 <img src="./images/gs_format.png" width="400">
 
-To get the first coefficient (like diffuse) in `scene_linear` colorspace, you need to remap and convert it from `sRGB`.
+To get the first coefficient (like diffuse) to match with `v@Cd`, it needs to be remapped.
+
+### First coefficient to `v@Cd`
 
 ```js
 float SH_C0 = 0.28209479177387814;
 // Undo the remapping done in the Bake GSplats node
 vector diffuse = 0.5 + SH_C0 * set(4@GS_SPH_R.xx, 4@GS_SPH_G.xx, 4@GS_SPH_B.xx);
 // Convert from sRGB to scene_linear colorspace to match v@Cd
-diffuse = ocio_transform("sRGB", "scene_linear", diffuse);
+v@Cd = ocio_transform("sRGB", "scene_linear", diffuse);
+```
+
+### `v@Cd` to first coefficient
+
+```js
+float SH_C0 = 0.28209479177387814;
+// Convert from scene_linear to sRGB colorspace to match 4@GS_SPH_*
+vector diffuse = ocio_transform("scene_linear", "sRGB", v@Cd);
+// Redo the remapping done in the Bake GSplats node
+diffuse = (diffuse - 0.5) / SH_C0;
+4@GS_SPH_R.xx = diffuse.r;
+4@GS_SPH_G.xx = diffuse.g;
+4@GS_SPH_B.xx = diffuse.b;
 ```
 
 ## Concave hull
