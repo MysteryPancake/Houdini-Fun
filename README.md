@@ -600,8 +600,8 @@ Note the meaning of 0 is different for the first coefficient, since it's remappe
 
 The model in this screenshot and HIP file is ["Scorpion spec" by scant3d](https://superspl.at/scene/8a8b3c0f).
 
-| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_viz.hiplc) |
-| --- |
+| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_viz.hiplc) | [Download the splat!](./hips/gaussian_splats/scorpion_splat.ply) |
+| --- | --- |
 
 ```js
 float SH_C0 = 0.28209479177387814;
