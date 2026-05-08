@@ -588,9 +588,9 @@ diffuse = (diffuse - 0.5) / SH_C0;
 
 ## Gaussian splat diffuse and specular visualization
 
-To visualize the diffuse-like and specular-like components, you can simply set them to 0.
+To visualize the diffuse-like and specular-like components separately, you can set them to 0.
 
-Remember the first coefficient needs to be remapped beforehand, since it doesn't start at 0 like the others.
+Note the definition of 0 is different for the first coefficient, since it's remapped unlike the others.
 
 <img src="./images/gaussian_splats/gs_viz.png" width="700">
 
