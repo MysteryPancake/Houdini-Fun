@@ -534,6 +534,45 @@ float circle = fit(dist, radius, radius + softness, 1, 0);
 v@C = nearest_Cd * circle;
 ```
 
+## Gaussian splats data format
+
+Gaussian splats are a point cloud of blurry spheres used to represent blurry objects.
+
+If they only have a `v@Cd` attribute, they don't change color depending on the viewing angle (like diffuse).
+
+If they have spherical harmonic coefficients (`4@GS_SPH_*` attributes), they can change color depending on the viewing angle (like specular).
+
+This lets them represent view-dependent effects like specular lighting and reflections.
+
+Houdini stores gaussian splats using 4x4 matrices containing the coefficients for the red, green and blue channels.
+
+| Attribute | Colorspace | Meaning | Notes |
+| --- | --- | --- | --- |
+| `v@Cd` | `scene_linear` | Base color (like diffuse) | First value in the SPH matrices (after remapping) |
+| `4@GS_SPH_R` | `sRGB` | Spherical harmonic coefficients for red | Takes priority over `v@Cd` |
+| `4@GS_SPH_G` | `sRGB` | Spherical harmonic coefficients for green | Takes priority over `v@Cd` |
+| `4@GS_SPH_B` | `sRGB` | Spherical harmonic coefficients for blue | Takes priority over `v@Cd` |
+
+In these matrices, the first value (DC offset) represents the view-independent color (like diffuse).
+
+The remaining values represent the view-dependent difference in color (like specular).
+
+<img src="./images/gs_bee.png" width="700">
+
+Check the "bake_raw_values" wrangle in the Bake GSplat node for more details on the format.
+
+<img src="./images/gs_format.png" width="400">
+
+To get the first coefficient (like diffuse) in `scene_linear` colorspace, you need to remap and convert it from `sRGB`.
+
+```js
+float SH_C0 = 0.28209479177387814;
+// Undo the remapping done in the Bake GSplats node
+vector diffuse = 0.5 + SH_C0 * set(4@GS_SPH_R.xx, 4@GS_SPH_G.xx, 4@GS_SPH_B.xx);
+// Convert from sRGB to scene_linear colorspace to match v@Cd
+diffuse = ocio_transform("sRGB", "scene_linear", diffuse);
+```
+
 ## Concave hull
 
 Often you need to make a clean sealed mesh without holes.
