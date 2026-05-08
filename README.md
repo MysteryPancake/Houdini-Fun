@@ -553,9 +553,9 @@ Houdini stores gaussian splats using 4x4 matrices containing the coefficients fo
 | `4@GS_SPH_G` | `sRGB` | Spherical harmonic coefficients for green | Takes priority over `v@Cd` |
 | `4@GS_SPH_B` | `sRGB` | Spherical harmonic coefficients for blue | Takes priority over `v@Cd` |
 
-In these matrices, the first coefficient (DC offset) represents the view-independent color (like diffuse).
+In these matrices, the first value (DC offset) represents the view-independent color (like diffuse).
 
-The remaining coefficients represent the view-dependent differences in color (like specular).
+The other values represent the view-dependent differences in color (like specular).
 
 Check the "bake_raw_values" wrangle in the Bake GSplat node for more details on the format.
 
