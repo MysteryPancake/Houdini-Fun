@@ -678,6 +678,76 @@ diffuse = (diffuse - 0.5) / SH_C0;
 4@GS_SPH_B.xx = diffuse.b;
 ```
 
+## Gaussian splat relighting
+
+Karma doesn't currently support relighting gaussian splats. Splats can only cast shadows, but not on themselves.
+
+A workaround is transferring the lighting from a proxy model. This supports advanced effects like secondary bounces and self-shadowing.
+
+As a bonus, you can use the proxy for shadow casting. This is much faster than using splats for shadow casting.
+
+To transfer the lighting, you can use the [Karma Texture Baker](https://www.sidefx.com/docs/houdini/nodes/lop/karmatexturebaker.html) to bake diffuse and specular lighting textures.
+
+It doesn't have a preset for specular, but you can use the [LPE expression for combined glossy diffuse](https://www.sidefx.com/docs/houdini/solaris/support/lpe.html#lpelist): `C<RG>.*[LO]`
+
+The textures can be sampled using `colormap()` in VEX, then multiplied by the splat colors to tint them.
+
+| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_relighting.hiplc) | [Download the splat!](./hips/gaussian_splats/scorpion_splat.ply) |
+| --- | --- |
+
+```js
+// Get the closest UV coordinate on the proxy mesh
+int prim; vector prim_uv;
+xyzdist(1, v@P, prim, prim_uv);
+vector uv = primuv(1, "uv", prim, prim_uv);
+
+// Get the baked colors in scene_linear at that UV coordinate
+vector diffuse_light = colormap(chs("diffuse_texture"), uv, "srccolorspace", chs("diffuse_colorspace"));
+vector specular_light = colormap(chs("specular_texture"), uv, "srccolorspace", chs("specular_colorspace"));
+
+float diffuse_mix = chf("diffuse_mix");
+float specular_mix = chf("specular_mix");
+
+// Store the view-independent coefficient (like diffuse) before any changes
+// It's in sRGB and remapped by Bake GSplats, so undo this first
+float SH_C0 = 0.28209479177387814;
+vector diffuse = 0.5 + SH_C0 * set(4@GS_SPH_R.xx, 4@GS_SPH_G.xx, 4@GS_SPH_B.xx);
+diffuse = ocio_transform("sRGB", "scene_linear", diffuse);
+
+// Change the view-dependent coefficients (like specular)
+vector specular_scale = chi("scale_specular_by_diffuse") ? diffuse_light : specular_light;
+specular_scale = ocio_transform("scene_linear", "sRGB", specular_scale);
+4@GS_SPH_R *= specular_scale.r * specular_mix;
+4@GS_SPH_G *= specular_scale.g * specular_mix;
+4@GS_SPH_B *= specular_scale.b * specular_mix;
+
+// Change the view-independent coefficient (like diffuse)
+// This line below is to blend to neutral only when the mix factor is below 1
+#define LERP_BELOW(x, fac) (fac > 1 ? x * fac : lerp(1, x, fac))
+vector out_diffuse = diffuse * LERP_BELOW(diffuse_light, diffuse_mix);
+v@Cd *= LERP_BELOW(diffuse_light, diffuse_mix);
+
+// Not physically accurate but can look nice
+if (chi("add_specular_to_diffuse")) {
+    out_diffuse += specular_light * specular_mix;
+    v@Cd += specular_light * specular_mix;
+}
+
+// Remap it back again
+out_diffuse = ocio_transform("scene_linear", "sRGB", out_diffuse);
+out_diffuse = (out_diffuse - 0.5) / SH_C0;
+4@GS_SPH_R.xx = out_diffuse.r;
+4@GS_SPH_G.xx = out_diffuse.g;
+4@GS_SPH_B.xx = out_diffuse.b;
+
+// For AOVs, the unlit color and baked lighting
+v@GS_Albedo = diffuse;
+v@GS_Diffuse = diffuse_light;
+v@GS_Specular = specular_light;
+v@GS_Cd = v@Cd;
+f@GS_Mask = 1;
+```
+
 ## Concave hull
 
 Often you need to make a clean sealed mesh without holes.
