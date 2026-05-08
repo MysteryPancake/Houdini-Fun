@@ -561,6 +561,8 @@ Check the "bake_raw_values" wrangle in the Bake GSplat node for more details on 
 
 <img src="./images/gaussian_splats/gs_bee.png" width="700">
 
+The model in this screenshot is ["Brown-banded carder bumblebee (Bombus humilis)" by macroscans](https://superspl.at/scene/65ff2330).
+
 To get the first coefficient (like diffuse) to match with `v@Cd`, it needs to be remapped.
 
 ### First coefficient to `v@Cd`
@@ -593,6 +595,8 @@ To visualize the diffuse-like and specular-like components separately, you can s
 Note the meaning of 0 is different for the first coefficient, since it's remapped unlike the others.
 
 <img src="./images/gaussian_splats/gs_viz.png" width="700">
+
+The model in this screenshot and HIP file is ["Scorpion spec" by scant3d](https://superspl.at/scene/8a8b3c0f).
 
 | [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_viz.hiplc) |
 | --- |
