@@ -642,6 +642,42 @@ if (viz_mode == 1) {
 }
 ```
 
+## Gaussian splat recoloring
+
+To recolor and adjust the intensity of the diffuse and specular components, it needs some remapping.
+
+<img src="./images/gaussian_splats/gs_recolor.png" width="700">
+
+| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_recolor.hiplc) | [Download the splat!](./hips/gaussian_splats/scorpion_splat.ply) |
+| --- | --- |
+
+```js
+vector diffuse_color = chv("diffuse_color") * chf("diffuse_mix");
+vector specular_color = chv("specular_color") * chf("specular_mix");
+
+// Undo remap and convert from sRGB to scene_linear
+float SH_C0 = 0.28209479177387814;
+vector diffuse = 0.5 + SH_C0 * set(4@GS_SPH_R.xx, 4@GS_SPH_G.xx, 4@GS_SPH_B.xx);
+diffuse = ocio_transform("sRGB", "scene_linear", diffuse);
+
+// Recolor diffuse coefficients
+v@Cd *= diffuse_color;
+diffuse *= diffuse_color;
+
+// Recolor specular coefficients
+specular_color = ocio_transform("scene_linear", "sRGB", specular_color);
+4@GS_SPH_R *= specular_color.r;
+4@GS_SPH_G *= specular_color.g;
+4@GS_SPH_B *= specular_color.b;
+
+// Convert from scene_linear to sRGB and remap
+diffuse = ocio_transform("scene_linear", "sRGB", diffuse);
+diffuse = (diffuse - 0.5) / SH_C0;
+4@GS_SPH_R.xx = diffuse.r;
+4@GS_SPH_G.xx = diffuse.g;
+4@GS_SPH_B.xx = diffuse.b;
+```
+
 ## Concave hull
 
 Often you need to make a clean sealed mesh without holes.
