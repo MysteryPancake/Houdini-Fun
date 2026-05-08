@@ -694,7 +694,7 @@ The textures can be sampled using `colormap()` in VEX, then multiplied by the sp
 
 <img src="./images/gaussian_splats/gs_relit2.png" width="500">
 
-You can even animate the model and lighting and have everything interact correctly!
+You can even animate the model and lighting and everything works correctly!
 
 <img src="./images/gaussian_splats/gs_relit.webp" width="500">
 
