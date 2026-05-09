@@ -698,8 +698,8 @@ You can even animate the model and lighting!
 
 <img src="./images/gaussian_splats/gs_relit.webp" width="500">
 
-| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_relighting.hiplc) | [Download the splat!](./hips/gaussian_splats/scorpion_splat.ply) |
-| --- | --- |
+| [HIP file (Scorpion version)](./hips/gaussian_splats/gaussian_splat_relighting.hiplc) | [Scorpion splat](./hips/gaussian_splats/scorpion_splat.ply) | [HIP file (Beetle version)](./hips/gaussian_splats/gaussian_splat_relighting2.hiplc) | [Beetle splat](./hips/gaussian_splats/beetle_splat.ply) |
+| --- | --- | --- | --- |
 
 ```js
 // Get the closest UV coordinate on the proxy mesh
