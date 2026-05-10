@@ -697,7 +697,7 @@ The textures can be sampled using `colormap()` in VEX, then multiplied by the sp
 | [Video Tutorial](https://youtu.be/BtbgwKK-WkY) |
 | --- |
 
-You can even animate the model and lighting!
+You can even animate the splats and lighting!
 
 <img src="./images/gaussian_splats/gs_relit.webp" width="500">
 
