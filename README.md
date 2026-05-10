@@ -692,7 +692,10 @@ It doesn't have a preset for specular, but you can use the [LPE expression for c
 
 The textures can be sampled using `colormap()` in VEX, then multiplied by the splat colors to tint them.
 
-<img src="./images/gaussian_splats/gs_relit2.png" width="500">
+[![Relighting tutorial](https://img.youtube.com/vi/BtbgwKK-WkY/mqdefault.jpg)](https://youtu.be/BtbgwKK-WkY)
+
+| [Video Tutorial](https://youtu.be/BtbgwKK-WkY) |
+| --- |
 
 You can even animate the model and lighting!
 
