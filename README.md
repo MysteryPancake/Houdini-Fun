@@ -590,6 +590,12 @@ diffuse = (diffuse - 0.5) / SH_C0;
 4@GS_SPH_B.xx = diffuse.b;
 ```
 
+You might be wondering why `v@Cd` is in `scene_linear` colorspace, but the `4@GS_SPH_*` attributes are in `sRGB` colorspace.
+
+SideFX said it's because the training is typically done in `sRGB`.
+
+> The `4@GS_SPH` attributes are stored in sRGB because 3DGS training optimizes directly against sRGB camera images, so the coefficients are inherently calibrated to that space. As for why we can't convert them to linear: the sRGB→linear transform is nonlinear, meaning it can't be distributed through a linear combination of basis functions. So instead, we evaluate the SH color in sRGB space first, then convert the resulting color to the scene's color space.
+
 ## Gaussian splat components
 
 To visualize the diffuse-like and specular-like components separately, you can set them to 0.
