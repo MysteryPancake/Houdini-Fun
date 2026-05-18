@@ -546,6 +546,8 @@ If they have spherical harmonic coefficients (`4@GS_SPH_*` attributes), they can
 | --- | --- |
 | <img src="./images/gaussian_splats/gs_diffuse.webp" width="350"> | <img src="./images/gaussian_splats/gs_specular.webp" width="350"> |
 
+The model in this screenshot is ["Brown-banded carder bumblebee (Bombus humilis)" by macroscans](https://superspl.at/scene/65ff2330).
+
 Houdini stores gaussian splats using 4x4 matrices containing the coefficients for the red, green and blue channels.
 
 | Attribute | Colorspace | Meaning | Notes |
@@ -562,8 +564,6 @@ The other values represent the view-dependent differences in color (like specula
 Check the "bake_raw_values" wrangle in the Bake GSplat node for more details on the format.
 
 <img src="./images/gaussian_splats/gs_bee.png" width="700">
-
-The model in this screenshot is ["Brown-banded carder bumblebee (Bombus humilis)" by macroscans](https://superspl.at/scene/65ff2330).
 
 To get the first coefficient (like diffuse) to match with `v@Cd`, it needs to be remapped.
 
