@@ -546,6 +546,8 @@ If they have spherical harmonic coefficients (`4@GS_SPH_*` attributes), they can
 | --- | --- |
 | <img src="./images/gaussian_splats/gs_diffuse.webp" width="350"> | <img src="./images/gaussian_splats/gs_specular.webp" width="350"> |
 
+The model in this screenshot is ["Brown-banded carder bumblebee (Bombus humilis)" by macroscans](https://superspl.at/scene/65ff2330).
+
 Houdini stores gaussian splats using 4x4 matrices containing the coefficients for the red, green and blue channels.
 
 | Attribute | Colorspace | Meaning | Notes |
@@ -562,8 +564,6 @@ The other values represent the view-dependent differences in color (like specula
 Check the "bake_raw_values" wrangle in the Bake GSplat node for more details on the format.
 
 <img src="./images/gaussian_splats/gs_bee.png" width="700">
-
-The model in this screenshot is ["Brown-banded carder bumblebee (Bombus humilis)" by macroscans](https://superspl.at/scene/65ff2330).
 
 To get the first coefficient (like diffuse) to match with `v@Cd`, it needs to be remapped.
 
@@ -590,6 +590,12 @@ diffuse = (diffuse - 0.5) / SH_C0;
 4@GS_SPH_B.xx = diffuse.b;
 ```
 
+You might be wondering why `v@Cd` is in `scene_linear` colorspace, but the `4@GS_SPH_*` attributes are in `sRGB` colorspace.
+
+SideFX said it's because the training is typically done in `sRGB`.
+
+> The `4@GS_SPH` attributes are stored in sRGB because 3DGS training optimizes directly against sRGB camera images, so the coefficients are inherently calibrated to that space. As for why we can't convert them to linear: the sRGB→linear transform is nonlinear, meaning it can't be distributed through a linear combination of basis functions. So instead, we evaluate the SH color in sRGB space first, then convert the resulting color to the scene's color space.
+
 ## Gaussian splat components
 
 To visualize the diffuse-like and specular-like components separately, you can set them to 0.
@@ -600,7 +606,7 @@ Note the meaning of 0 is different for the first coefficient, since it's remappe
 
 The model in this screenshot and HIP file is ["Scorpion spec" by scant3d](https://superspl.at/scene/8a8b3c0f).
 
-| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_viz.hiplc) | [Download the splat!](./hips/gaussian_splats/scorpion_splat.ply) |
+| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_viz.hiplc) | [Download the splat!](https://superspl.at/scene/8a8b3c0f) |
 | --- | --- |
 
 ```js
@@ -648,7 +654,7 @@ To recolor and adjust the intensity of the diffuse and specular components, it n
 
 <img src="./images/gaussian_splats/gs_recolor.png" width="700">
 
-| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_recolor.hiplc) | [Download the splat!](./hips/gaussian_splats/scorpion_splat.ply) |
+| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_recolor.hiplc) | [Download the splat!](https://superspl.at/scene/8a8b3c0f) |
 | --- | --- |
 
 ```js
@@ -692,13 +698,16 @@ It doesn't have a preset for specular, but you can use the [LPE expression for c
 
 The textures can be sampled using `colormap()` in VEX, then multiplied by the splat colors to tint them.
 
-<img src="./images/gaussian_splats/gs_relit2.png" width="500">
+[![Relighting tutorial](https://img.youtube.com/vi/BtbgwKK-WkY/mqdefault.jpg)](https://youtu.be/BtbgwKK-WkY)
 
-You can even animate the model and lighting!
+| [Video Tutorial](https://youtu.be/BtbgwKK-WkY) |
+| --- |
+
+You can even animate the splats and lighting!
 
 <img src="./images/gaussian_splats/gs_relit.webp" width="500">
 
-| [HIP file (Scorpion version)](./hips/gaussian_splats/gaussian_splat_relighting.hiplc) | [Scorpion splat](./hips/gaussian_splats/scorpion_splat.ply) | [HIP file (Beetle version)](./hips/gaussian_splats/gaussian_splat_relighting2.hiplc) | [Beetle splat](./hips/gaussian_splats/beetle_splat.ply) |
+| [HIP file (Scorpion version)](./hips/gaussian_splats/gaussian_splat_relighting.hiplc) | [Scorpion splat](https://superspl.at/scene/8a8b3c0f) | [HIP file (Beetle version)](./hips/gaussian_splats/gaussian_splat_relighting2.hiplc) | [Beetle splat](https://superspl.at/scene/e38961ae) |
 | --- | --- | --- | --- |
 
 ```js
