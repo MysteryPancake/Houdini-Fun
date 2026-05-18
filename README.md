@@ -606,7 +606,7 @@ Note the meaning of 0 is different for the first coefficient, since it's remappe
 
 The model in this screenshot and HIP file is ["Scorpion spec" by scant3d](https://superspl.at/scene/8a8b3c0f).
 
-| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_viz.hiplc) | [Download the splat!](./hips/gaussian_splats/scorpion_splat.ply) |
+| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_viz.hiplc) | [Download the splat!](https://superspl.at/scene/8a8b3c0f) |
 | --- | --- |
 
 ```js
@@ -654,7 +654,7 @@ To recolor and adjust the intensity of the diffuse and specular components, it n
 
 <img src="./images/gaussian_splats/gs_recolor.png" width="700">
 
-| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_recolor.hiplc) | [Download the splat!](./hips/gaussian_splats/scorpion_splat.ply) |
+| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_recolor.hiplc) | [Download the splat!](https://superspl.at/scene/8a8b3c0f) |
 | --- | --- |
 
 ```js
@@ -707,7 +707,7 @@ You can even animate the splats and lighting!
 
 <img src="./images/gaussian_splats/gs_relit.webp" width="500">
 
-| [HIP file (Scorpion version)](./hips/gaussian_splats/gaussian_splat_relighting.hiplc) | [Scorpion splat](./hips/gaussian_splats/scorpion_splat.ply) | [HIP file (Beetle version)](./hips/gaussian_splats/gaussian_splat_relighting2.hiplc) | [Beetle splat](./hips/gaussian_splats/beetle_splat.ply) |
+| [HIP file (Scorpion version)](./hips/gaussian_splats/gaussian_splat_relighting.hiplc) | [Scorpion splat](https://superspl.at/scene/8a8b3c0f) | [HIP file (Beetle version)](./hips/gaussian_splats/gaussian_splat_relighting2.hiplc) | [Beetle splat](https://superspl.at/scene/e38961ae) |
 | --- | --- | --- | --- |
 
 ```js
