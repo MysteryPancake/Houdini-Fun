@@ -3,7 +3,7 @@
 
 If you've ever wondered how they work, look no further. I remade them on my [After Effects Fun](https://github.com/MysteryPancake/After-Effects-Fun) page, so let's port them to VEX!
 
-For a great resource on deriving them yourself, check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://youtu.be/-Ii3MrJFBkQ?t=5599) videos!
+For a great resource on deriving them yourself, check out [Simon](https://www.youtube.com/watch?v=YJB1QnEmlTs) and [Freya's](https://youtu.be/R6UB7mVO3fY?si=9c8iQPoq_Q0rAnbK&t=638) videos!
 
 ## `lerp()`
 [Lerp](https://en.wikipedia.org/wiki/Linear_interpolation) takes two values and does a weighted sum based on a factor.
