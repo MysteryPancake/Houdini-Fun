@@ -809,6 +809,93 @@ v@GS_Cd = v@Cd;
 f@GS_Mask = 1;
 ```
 
+## Gaussian splat SPH evaluation
+
+I tried using spheres to view the colors stored in the spherical harmonics, like an environment map per point.
+
+To get the color given the viewing angle, [you need to compute it](https://github.com/graphdeco-inria/diff-gaussian-rasterization/blob/main/cuda_rasterizer/forward.cu) based on the coefficients stored in the `GS_SPH_*` attributes.
+
+<img src="./images/gaussian_splats/gs_evaluate_sph.png" width="700">
+
+| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_evaluation.hiplc) | [Download the splat!](https://superspl.at/scene/e38961ae) |
+| --- | --- |
+
+```js
+// Computes the color in the view_dir direction based on the harmonics
+// pt is the reference for the center of each sphere
+int pt = i@index;
+int degree = chi("degrees");
+vector pos = point(1, "P", pt);
+vector4 orient = point(1, "orient", pt);
+vector4 restorient = point(1, "restorient", pt);
+
+// Reorient to respect changes in rotation
+// Houdini doesn't always do this, but it really should
+vector view_dir = normalize(v@P - pos);
+if (chi("reorient")) {
+    view_dir = qrotate(qmultiply(restorient, qinvert(orient)), view_dir);
+}
+
+float SPH_R[] = point(1, "GS_SPH_R", pt);
+float SPH_G[] = point(1, "GS_SPH_G", pt);
+float SPH_B[] = point(1, "GS_SPH_B", pt);
+vector sh[];
+for (int i = 0; i < 16; i++) {
+    sh[i] = set(SPH_R[i], SPH_G[i], SPH_B[i]);
+}
+
+// Spherical harmonics coefficients
+float SH_C0 = 0.28209479177387814;
+float SH_C1 = 0.4886025119029199;
+float SH_C2[] = {
+    1.0925484305920792,
+    -1.0925484305920792,
+    0.31539156525252005,
+    -1.0925484305920792,
+    0.5462742152960396
+};
+float SH_C3[] = {
+    -0.5900435899266435,
+    2.890611442640554,
+    -0.4570457994644658,
+    0.3731763325901154,
+    -0.4570457994644658,
+    1.445305721320277,
+    -0.5900435899266435
+};
+
+// From github.com/graphdeco-inria/diff-gaussian-rasterization/blob/main/cuda_rasterizer/forward.cu
+v@Cd = SH_C0 * sh[0];
+float x = view_dir.x, y = view_dir.y, z = view_dir.z;
+
+if (degree >= 1) {
+    v@Cd += -SH_C1 * y * sh[1] + SH_C1 * z * sh[2] - SH_C1 * x * sh[3];
+    if (degree >= 2) {
+        float xx = x*x, yy = y*y, zz = z*z;
+        float xy = x*y, yz = y*z, xz = x*z;
+        v@Cd += SH_C2[0] * xy           * sh[4] +
+                  SH_C2[1] * yz           * sh[5] +
+                  SH_C2[2] * (2*zz-xx-yy) * sh[6] +
+                  SH_C2[3] * xz           * sh[7] +
+                  SH_C2[4] * (xx-yy)      * sh[8];
+        if (degree >= 3) {
+            v@Cd += SH_C3[0] * y * (3*xx-yy)        * sh[9]  +
+                    SH_C3[1] * xy * z               * sh[10] +
+                    SH_C3[2] * y * (4*zz-xx-yy)     * sh[11] +
+                    SH_C3[3] * z * (2*zz-3*xx-3*yy) * sh[12] +
+                    SH_C3[4] * x * (4*zz-xx-yy)     * sh[13] +
+                    SH_C3[5] * z * (xx-yy)          * sh[14] +
+                    SH_C3[6] * x * (xx-3*yy)        * sh[15];
+        }
+    }
+}
+
+v@Cd += 0.5;
+if (chi("linearize_color")) {
+    v@Cd = ocio_transform("sRGB", "scene_linear", v@Cd);
+}
+```
+
 ## Concave hull
 
 Often you need to make a clean sealed mesh without holes.
