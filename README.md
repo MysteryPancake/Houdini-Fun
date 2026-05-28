@@ -403,7 +403,24 @@ This pattern is a [common visualizer for 2D SDFs](https://iquilezles.org/article
 | [Download the HIP file!](./hips/cops/cops_concentric_circles.hiplc) |
 | --- |
 
-## Copernicus to heightfield
+## Copernicus: Dot patterns
+
+Danial on the CGWiki Discord wanted to make a dot pattern with offset rows.
+
+Sadly the Scatter Shapes node doesn't have an offset option, but the Tile Pattern node does.
+
+Tile Pattern doesn't have an option to set the scale per shape, but you can use a Threshold node to remove dark areas.
+
+<img src="./images/cops/cops_dots_threshold.png" width="600">
+
+An easier way is using the Stamp Points node, which directly supports `@pscale` along with many common attributes.
+
+<img src="./images/cops/cops_dots_stamp.png" width="600">
+
+| [Download the HIP file!](./hips/cops/cops_dot_patterns.hiplc) |
+| --- |
+
+## Copernicus to Heightfield
 
 Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes? Heightfields!
 
