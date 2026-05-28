@@ -809,7 +809,7 @@ v@GS_Cd = v@Cd;
 f@GS_Mask = 1;
 ```
 
-## Gaussian splat SPH evaluation
+## Gaussian splat spherical harmonics evaluation
 
 I tried using spheres to view the colors stored in the spherical harmonics, like an environment map per point.
 
