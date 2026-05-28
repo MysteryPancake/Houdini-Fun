@@ -1119,8 +1119,8 @@ This makes it easy to use the intrinsic UV coordinates as the regular UV coordin
 // Replace v@uv with the primitive UVs
 pointprimuv(0, i@ptnum, i@primnum, v@uv);
 
-// Optionally prevent overlapping
-// v@uv.x += i@primnum;
+// Optionally prevent overlaps
+v@uv.x += i@primnum;
 ```
 
 ## Fancy SDF operations
