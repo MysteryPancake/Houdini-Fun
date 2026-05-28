@@ -420,14 +420,43 @@ An easier way is using the Stamp Points node, which directly supports `@pscale` 
 | [Download the HIP file!](./hips/cops/cops_dot_patterns.hiplc) |
 | --- |
 
-## Copernicus to Heightfield
+## Copernicus to heightfield
 
-Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes? Heightfields!
+Florian Dheer on the CGWiki Discord wanted to turn a Copernicus image into a heightfield. 
 
 [![Heightfield tutorial](https://img.youtube.com/vi/-zGjD4zaYMU/mqdefault.jpg)](https://youtu.be/-zGjD4zaYMU)
 
-| [Video Tutorial](https://youtu.be/-zGjD4zaYMU) |
-| --- |
+| [Download the HIP file!](./hips/cops/cops_to_heightfield.hiplc) | [Video Tutorial](https://youtu.be/-zGjD4zaYMU) |
+| --- | --- |
+
+Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes? Heightfields!
+
+Because of this, you can use Primitive Properties to change the visualizer from "Image" to "Heightfield".
+
+Remember to name the volume "height" to make it compatible with other nodes, such as Heightfield Noise.
+
+<img src="./images/cops/cops_heightfield_viz.png" width="600">
+
+If using images, make sure to convert them from RGBA to Mono, since heightfields store mono data (1 float instead of 4).
+
+<img src="./images/cops/cops_heightfield_mono.png" width="600">
+
+To allow multiple outputs, untick "Single Output" on the COP Network SOP. Each primitive is a separate volume/heightfield.
+
+<img src="./images/cops/cops_heightfield_multi.png" width="600">
+
+Another method suggested by Nikola D is using the Heightfield Layer node. This outputs a mask volume as well as a height volume.
+
+<img src="./images/cops/cops_heightfield_layer.png" width="600">
+
+Another method is using `volumesample()` in VEX to transfer the data to a blank heightfield.
+
+<img src="./images/cops/cops_heightfield_vex.png" width="600">
+
+```js
+vector pos = fit(v@P, getbbox_min(0), getbbox_max(0), getbbox_min(1), getbbox_max(1));
+f@height = volumesample(1, chi("volume_index"), pos);
+```
 
 ## Copernicus: Velocity in UV space
 
