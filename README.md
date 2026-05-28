@@ -1104,6 +1104,25 @@ Another approach is turning the volume into points, deforming the points, then r
 
 <img src="./images/volume_rasterize_deform.jpg" width="600">
 
+## `pointprimuv()`
+
+SideFX recently added a useful function called `pointprimuv()`. It gets the intrinsic UV coordinates for a point.
+
+This makes it easy to use the intrinsic UV coordinates as the regular UV coordinates.
+
+<img src="./images/pointprimuv.png" width="600">
+
+| [Download the HIP file!](./hips/pointprimuv.hiplc) |
+| --- |
+
+```js
+// Replace v@uv with the primitive UVs
+pointprimuv(0, i@ptnum, i@primnum, v@uv);
+
+// Optionally prevent overlapping
+// v@uv.x += i@primnum;
+```
+
 ## Fancy SDF operations
 
 SDFs are a different way of representing geometry. Rather than polygons, they store the distance to the surface. This has many advantages like clean boolean operations, cheap infinite repetition and perfect representation for smooth shapes like spheres.
