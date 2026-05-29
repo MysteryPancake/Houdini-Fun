@@ -1623,6 +1623,40 @@ vector around_dir = normalize(cross(v@N, {0, 1, 0}));
 v@v += around_dir * chf("around_strength");
 ```
 
+## Timeshift pause and play
+
+To pause and play an animation, you can increment a time attribute in a solver when a condition is met.
+
+Note Timeshift doesn't normally work in foreach loops. To fix it, you need to use Fetch Input [as described on CGWiki](https://tokeru.com/cgwiki/ForLoops.html#loop_with_timeshift).
+
+<img src="./images/timeshift_freeze.webp" width="500">
+
+| [Download the HIP file!](./hips/timeshift_freeze.hiplc) |
+| --- |
+
+First store the current time and the time until the next movement.
+
+```js
+f@time_until_move = 0;
+f@current_time = 0;
+```
+
+Next add `@TimeInc` whenever you want the time to progress forwards, such as when a random condition is met.
+
+```js
+if (f@time_until_move <= 0) {
+    // Increase the frame
+    f@current_time += f@TimeInc;
+    // Add a delay every now and then
+    if (rand(f@Time*46.3 + i@primnum*12.8) > 0.9) {
+        f@time_until_move = 15.0 / $FPS;
+    }
+} else {
+    // Wait and don't change the frame
+    f@time_until_move -= f@TimeInc;
+}
+```
+
 ## Transition within a fixed frame range
 
 For growth solvers and breakdown animations, you may want to fit an animation to fixed timing.
