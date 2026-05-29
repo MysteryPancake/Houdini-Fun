@@ -2285,6 +2285,61 @@ If you want to use VEX, never fear! Make a detail attribute, add it as a spare i
 
 <img src="./images/fontvex2.png" width="800">
 
+## Coloring text from the Font node
+
+The Font node has an "Add Text Attributes" option. This adds a `@textindex` attribute to each letter.
+
+With this attribute, you can use `find(...)` or [regex](https://www.sidefx.com/docs/houdini/vex/functions/re_findall.html) to get the characters to color by index.
+
+<img src="./images/font_color.png" width="800">
+
+| [Download the HIP file!](./hips/vex_color_text.hiplc) |
+| --- |
+
+```js
+void find_and_color(string haystack; string needle; vector color_attr; vector color; int index) {
+    int matches[] = find(haystack, needle);
+    int len = strlen(needle);
+    foreach (int found; matches) {
+        if (index >= found && index < found + len) {
+            color_attr = color;
+        }
+    }
+}
+
+string full_text = chs("full_text");
+find_and_color(full_text, "red", v@Cd, {1,0,0}, i@textindex);
+find_and_color(full_text, "yellow", v@Cd, {1,1,0}, i@textindex);
+find_and_color(full_text, "green", v@Cd, {0,1,0}, i@textindex);
+find_and_color(full_text, "blue", v@Cd, {0,0,1}, i@textindex);
+find_and_color(full_text, "purple", v@Cd, {.5,0,1}, i@textindex);
+```
+
+What about $${\color{red}\*changing \space the \space color\*}$$ between certain characters $${\color{yellow}/like \space this/}$$?
+
+You could loop through each character of the text, toggling a color change each time the character occurs.
+
+<img src="./images/font_trigger.png" width="800">
+
+| [Download the HIP file!](./hips/vex_color_text.hiplc) |
+| --- |
+
+```js
+string full_text = chs("full_text");
+int toggle_red = 0, toggle_yellow = 0;
+for (int i = 0; i <= i@textindex; i++) {
+    // Reset to white
+    v@Cd = {1,1,1};
+    // Toggle color state when hitting a trigger character (* or /)
+    string char = full_text[i];
+    if (char == "*") toggle_red = !toggle_red;
+    if (char == "/") toggle_yellow = !toggle_yellow;
+    // When in a color state, change the color
+    if (toggle_red || char == "*") v@Cd = {1,0,0};
+    if (toggle_yellow || char == "/") v@Cd = {1,1,0};
+}
+```
+
 ## Shorthand for matrix indexing
 
 The regular way of indexing matrix entries is using `getcomp()` and `setcomp()`, which is quite ugly:
