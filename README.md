@@ -2867,7 +2867,7 @@ This affects position and rotation, but isn't as good as `dihedral()` since it w
 
 ## Splitting geometry in a solver
 
-Gio Gargiulo wanted to separate two streams of geometry in a solver without using a Split node.
+Gio Gargiulo on Discord wanted to process two geometry separately in a solver without using a Split node.
 
 Using a DOP solver, you can add two separate SOP Geometry, then target them separately with two different SOP Solvers.
 
