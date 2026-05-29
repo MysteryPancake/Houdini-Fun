@@ -203,7 +203,9 @@ Need to overshoot an animation or smooth it over time to reduce bumps? Introduci
 
 ### Recursive version
 
-I stole this from an article on [2D wave simulation](https://gamedevelopment.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t) by Michael Hoffman. The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next you apply damping to stop it going too crazy.
+I stole this from [Michael Hoffman's 2D wave simulation article](https://code.tutsplus.com/make-a-splash-with-dynamic-2d-water-effects--gamedev-236t), then updated it based on [Daniel Holden's spring article](https://theorangeduck.com/page/spring-roll-call).
+
+The idea is to set a target position and set the acceleration towards the target. This causes a natural overshoot when the object flies past the target, since the velocity takes time to flip. Next you apply damping to stop it going too crazy.
 
 First add a target position to your geometry:
 
@@ -215,17 +217,19 @@ Next add a solver. Inside the solver, add a point wrangle with this VEX:
 
 ```js
 float freq = 100.0;
-float damping = 5.0;
-
-// Dampen velocity to prevent infinite overshoot (done first to avoid distorting the acceleration)
-v@v /= 1.0 + damping * f@TimeInc;
+float damping = 1.0;
 
 // Find direction towards target
-vector dir = v@targetP - v@P;
+vector dir = v@opinput1_P - v@P;
 
-// Accelerate towards it (@TimeInc to handle substeps)
-v@accel = dir * freq;
-v@v += v@accel * f@TimeInc;
+// Accelerate towards it
+v@v += dir * freq * f@TimeInc;
+
+// Dampen velocity to prevent infinite overshoot
+v@v /= 1.0 + damping * f@TimeInc;
+// Or v@v -= damping * v@v * f@TimeInc;
+
+// Integrate position using velocity
 v@P += v@v * f@TimeInc;
 ```
 
@@ -236,9 +240,9 @@ To adjust motion over time, plug the current geometry into the second input and 
 vector dir = v@opinput1_P - v@P;
 ```
 
-**UPDATE:** The spring solver in [MOPs](https://www.motionoperators.com/) uses Hooke's law.
+**UPDATE:** The spring solver in [MOPs](https://www.motionoperators.com/) uses a similar formula based on Hooke's law.
 <br>
-This is more physically accurate, but I don't know how to make it substep independent.
+Their formula includes mass, but it behaves differently depending on the substeps.
 
 ```js
 float mass = 1.0;
