@@ -227,7 +227,6 @@ v@v += dir * freq * f@TimeInc;
 
 // Dampen velocity to prevent infinite overshoot
 v@v /= 1.0 + damping * f@TimeInc;
-// Or v@v -= damping * v@v * f@TimeInc;
 
 // Integrate position using velocity
 v@P += v@v * f@TimeInc;
