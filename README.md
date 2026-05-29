@@ -992,15 +992,15 @@ Rough approximation of the [Sydney Tower Eye](https://en.wikipedia.org/wiki/Sydn
 
 Dennis Weyel on the CGWiki Discord challenged us to recreate a powdery explosion.
 
-<img src="./images/chalk_reference.png" width="400">
+<img src="./images/chalk_reference.png" width="500">
 
 Philipp Welsing got nice results with MPM, including a nice feeling of stacking layers.
 
-<img src="./images/chalk_mpm.jpg" width="350">
+<img src="./images/chalk_mpm.jpg" width="400">
 
 I took a much simpler approach, flattening a Pyro Burst Source and manually scattering large rocks.
 
-<img src="./images/chalk.png" width="800">
+<img src="./images/chalk.png" width="500">
 
 | [Download the HIP file!](./hips/chalk.hiplc) |
 | --- |
