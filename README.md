@@ -2025,9 +2025,7 @@ f@density = density_sum / num_samples;
 
 ## Normalizing volume density to camera
 
-Volume density accumulates as each layer stacks up relative to each camera ray.
-
-To prevent this, you can divide by the total density along the ray to normalize it.
+Volume density accumulates as each layer stacks up. To prevent this, you could divide by the total density along each ray to normalize it.
 
 <img src="./images/normalize_density.webp" width="600">
 
