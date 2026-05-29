@@ -2023,6 +2023,37 @@ for (int x = -voxel_radius; x <= voxel_radius; ++x) {
 f@density = density_sum / num_samples;
 ```
 
+## Normalizing volume density to camera
+
+Volume density accumulates as each layer stacks up relative to the camera. To prevent this, you can divide by the total density to normalize it.
+
+<img src="./images/normalize_density.webp" width="600">
+
+| [Download the HIP file!](./hips/normalize_density.hiplc) |
+| --- |
+
+```js
+matrix cam = optransform(chsop("cam"));
+vector origin = cam * {0, 0, 0};
+vector dir = normalize(v@P - origin);
+
+// Sum the density along the camera ray
+float total_density = 0;
+for (float dist = chf("start_dist"); dist < chf("end_dist"); dist += chf("step_size")) {
+    vector pos = origin + dir * dist;
+    float density = volumesample(0, 0, pos);
+    total_density += density;
+    // For debugging, draw the sampled points
+    if (chi("draw_points")) addpoint(0, origin + dir * dist);
+}
+
+// Normalize by total density
+float threshold = chf("threshold");
+if (total_density > threshold) {
+    f@density *= threshold / total_density * chf("scale");
+}
+```
+
 ## Windowed normalize
 
 Pawel Grzelak on Discord wanted to normalize noise so the peaks and valleys trend towards the top and bottom.
