@@ -998,7 +998,7 @@ Philipp Welsing got nice results with MPM, including a nice feeling of stacking 
 
 <img src="./images/chalk_mpm.jpg" width="350">
 
-I took a much simpler approach, just flattening a Pyro Burst Source and manually scattering key rocks.
+I took a much simpler approach, flattening a Pyro Burst Source and manually scattering large rocks.
 
 <img src="./images/chalk.png" width="800">
 
