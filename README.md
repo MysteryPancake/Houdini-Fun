@@ -2865,6 +2865,19 @@ This affects position and rotation, but isn't as good as `dihedral()` since it w
 
 <img src="./images/floorextracttransform.png" height="480">
 
+## Splitting geometry in a solver
+
+Gio Gargiulo wanted to separate two streams of geometry in a solver without using a Split node.
+
+Using a DOP solver, you can add two separate SOP Geometry, then target them separately with two different SOP Solvers.
+
+This is how Vellum handles Geometry and Constraint Geometry separately.
+
+<img src="./images/split_multisolver.png" width="800">
+
+| [Download the HIP file!](./hips/split_multisolver.hiplc) |
+| --- |
+
 ## FEM: Using real world physical units
 
 Unlike the RBD Solver, the FEM Solver doesn't list real world physical units. How do you use measurements with it?
