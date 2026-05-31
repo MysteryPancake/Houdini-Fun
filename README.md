@@ -366,7 +366,7 @@ The X and Z axes can be projected onto the nearest plane defined by the `@orient
 
 ### Point noise along curves
 
-After remapping, you can offset the Y coordinate to animate noise along the curve.
+After inverting, you can offset the Y coordinate to animate noise along the curve.
 
 <img src="./images/noise_along_curve_points.webp" width="500">
 
@@ -392,6 +392,10 @@ float y = primuvconvert(1, uv.x, prim, PRIMUV_UNIT_TO_LEN);
 float z = dot(offset, up);
 v@rest = set(x, y, z);
 ```
+
+The inverted coordinate system roughly straightens out the curve.
+
+<img src="./images/curve_unroll.webp" width="400">
 
 ### Volume noise along curves
 
