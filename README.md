@@ -348,14 +348,25 @@ Often it's useful to animate things along curves, like noises or geometry.
 
 Path Deform works for this, but another approach is making a coordinate system along the curve.
 
-A 3D coordinate system has 3 axes, X, Y and Z. We want these axes to travel along the curve somehow.
+A 3D coordinate system has 3 axes, X, Y and Z. We want to map these axes along the curve.
 
 Orient Along Curve gives us `@orient` and `@up` vectors to build an orthogonal frame, similar to PolyFrame.
 
-First we need to map the original coordinates to the equivalent curve coordinates defined by the frame.
+<img src="./images/transform_to_curve.png" width="400">
 
-- The Y axis can be the nearest primitive UV of the curve, found using `xyzdist()`.
-- The X and Z axes can be projected onto a plane defined by `@orient` and `@up`.
+First we need the inverse mapping, to convert the original coordinate to the equivalent curve coordinate.
+
+The Y axis can be the nearest primitive UV of the curve, found using `xyzdist()`.
+
+<img src="./images/curve_nearest_points.png" width="400">
+
+The X and Z axes can be projected onto the nearest plane defined by the `@orient` and `@up` vectors.
+
+<img src="./images/curve_frame_planes.png" width="400">
+
+### Point noise along curves
+
+After remapping, you can offset the Y coordinate to animate noise along the curve.
 
 <img src="./images/noise_along_curve_points.webp" width="500">
 
@@ -381,6 +392,8 @@ float y = primuvconvert(1, uv.x, prim, PRIMUV_UNIT_TO_LEN);
 float z = dot(offset, up);
 v@rest = set(x, y, z);
 ```
+
+### Volume noise along curves
 
 The same approach works for volumes, we just use the coordinate as the position to sample noise.
 
@@ -413,6 +426,8 @@ v@rest.y -= f@Time;
 f@density *= chramp("remap", pnoise(v@rest * 8, 8*3));
 ```
 
+### Forward and inverse mapping
+
 As well as the inverse transform, the forward transform can be used to map objects back onto the curve.
 
 <img src="./images/pig_along_curve.webp" width="500">
@@ -420,7 +435,7 @@ As well as the inverse transform, the forward transform can be used to map objec
 | [Download the HIP file!](./hips/coords_along_curve.hiplc) |
 | --- |
 
-### Inverse transform
+#### Inverse transform
 
 ```js
 xyzdist(1, v@P, i@prim, v@primuv);
@@ -440,7 +455,7 @@ float z = dot(offset, up);
 v@P = set(x, y, z);
 ```
 
-### Forward transform
+#### Forward transform
 
 ```js
 // Forward transform, unstraighten curve
