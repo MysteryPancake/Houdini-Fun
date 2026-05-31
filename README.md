@@ -352,9 +352,9 @@ A 3D coordinate system has 3 axes, X, Y and Z. We want to map these axes along t
 
 Orient Along Curve gives us `@orient` and `@up` vectors to build an orthogonal frame, similar to PolyFrame.
 
-<img src="./images/transform_to_curve.png" width="400">
-
 First we need the inverse mapping, to convert the original coordinate to the equivalent curve coordinate.
+
+<img src="./images/transform_to_curve.png" width="400">
 
 The Y axis can be the nearest primitive UV of the curve, found using `xyzdist()`.
 
@@ -395,7 +395,7 @@ v@rest = set(x, y, z);
 
 ### Volume noise along curves
 
-The same approach works for volumes, we just use the coordinate as the position to sample noise.
+The same approach works for volumes, just use the coordinate as the sample position for noise.
 
 <img src="./images/noise_along_curve_volume.webp" width="500">
 
@@ -426,7 +426,7 @@ v@rest.y -= f@Time;
 f@density *= chramp("remap", pnoise(v@rest * 8, 8*3));
 ```
 
-### Forward and inverse mapping
+### Forward and inverse transforms
 
 As well as the inverse transform, the forward transform can be used to map objects back onto the curve.
 
