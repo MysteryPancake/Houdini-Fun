@@ -395,7 +395,7 @@ v@rest = set(x, y, z);
 
 ### Volume noise along curves
 
-The same approach works for volumes, we just use the coordinate as the position to sample noise.
+The same approach works for volumes, just use the coordinate as the sample position for noise.
 
 <img src="./images/noise_along_curve_volume.webp" width="500">
 
@@ -426,7 +426,7 @@ v@rest.y -= f@Time;
 f@density *= chramp("remap", pnoise(v@rest * 8, 8*3));
 ```
 
-### Forward and inverse mapping
+### Forward and inverse transforms
 
 As well as the inverse transform, the forward transform can be used to map objects back onto the curve.
 
