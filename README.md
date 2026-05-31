@@ -342,6 +342,115 @@ If your "Life" changes per target, set a life attribute on each point.
 
 <img src="./images/aimbot.gif" width="500">
 
+## Coordinate system along curves
+
+Often it's useful to animate things along curves, like noises or geometry.
+
+Path Deform works for this, but another approach is making a coordinate system along the curve.
+
+A 3D coordinate system has 3 axes, X, Y and Z. We want these axes to travel along the curve somehow.
+
+Orient Along Curve gives us `@orient` and `@up` vectors to build an orthogonal frame, similar to PolyFrame.
+
+First we need to map the original coordinates to the equivalent curve coordinates defined by the frame.
+
+- The Y axis can be the nearest primitive UV of the curve, found using `xyzdist()`.
+- The X and Z axes can be projected onto a plane defined by `@orient` and `@up`.
+
+<img src="./images/noise_along_curve_points.webp" width="500">
+
+| [Download the HIP file!](./hips/coords_along_curve.hiplc) |
+| --- |
+
+```js
+int prim;
+vector uv;
+xyzdist(1, v@P, prim, uv);
+
+// Inverse transform, straighten curve
+vector P = primuv(1, "P", prim, uv);
+vector out = primuv(1, "out", prim, uv);
+vector up = primuv(1, "up", prim, uv);
+vector offset = v@P - P;
+
+// Project onto out vector
+float x = dot(offset, out);
+// uv.x is curveu, this is curveu * length
+float y = primuvconvert(1, uv.x, prim, PRIMUV_UNIT_TO_LEN);
+// Project onto up vector
+float z = dot(offset, up);
+v@rest = set(x, y, z);
+```
+
+The same approach works for volumes, we just use the coordinate as the position to sample noise.
+
+<img src="./images/noise_along_curve_volume.webp" width="500">
+
+| [Download the HIP file!](./hips/coords_along_curve.hiplc) |
+| --- |
+
+```js
+int prim;
+vector uv;
+xyzdist(1, v@P, prim, uv);
+
+// Inverse transform, straighten curve
+vector P = primuv(1, "P", prim, uv);
+vector out = primuv(1, "out", prim, uv);
+vector up = primuv(1, "up", prim, uv);
+vector offset = v@P - P;
+
+// Project onto out vector
+float x = dot(offset, out);
+// uv.x is curveu, this is curveu * length
+float y = primuvconvert(1, uv.x, prim, PRIMUV_UNIT_TO_LEN);
+// Project onto up vector
+float z = dot(offset, up);
+v@rest = set(x, y, z);
+
+// Animate along curve
+v@rest.y -= f@Time;
+f@density *= chramp("remap", pnoise(v@rest * 8, 8*3));
+```
+
+As well as the inverse transform, the forward transform can be used to map objects back onto the curve.
+
+<img src="./images/pig_along_curve.webp" width="500">
+
+| [Download the HIP file!](./hips/coords_along_curve.hiplc) |
+| --- |
+
+### Inverse transform
+
+```js
+xyzdist(1, v@P, i@prim, v@primuv);
+
+// Inverse transform, straighten curve
+vector P = primuv(1, "P", i@prim, v@primuv);
+vector out = primuv(1, "out", i@prim, v@primuv);
+vector up = primuv(1, "up", i@prim, v@primuv);
+vector offset = v@P - P;
+
+// Project onto out vector
+float x = dot(offset, out);
+// uv.x is curveu, this is curveu * length
+float y = primuvconvert(1, v@primuv.x, i@prim, PRIMUV_UNIT_TO_LEN);
+// Project onto up vector
+float z = dot(offset, up);
+v@P = set(x, y, z);
+```
+
+### Forward transform
+
+```js
+// Forward transform, unstraighten curve
+v@primuv.x = primuvconvert(1, v@P.y, i@prim, PRIMUV_LEN_TO_UNIT);
+vector P = primuv(1, "P", i@prim, v@primuv);
+vector out = primuv(1, "out", i@prim, v@primuv);
+vector up = primuv(1, "up", i@prim, v@primuv);
+v@P = P + out * v@P.x + up * v@P.z;
+```
+
 ## Copernicus pyro vs regular pyro
 
 Recently they added a Pyro solver to Copernius, along with most of the features of the regular Pyro solver. The advection method is different, but everything else is pretty much identical.
