@@ -352,9 +352,9 @@ A 3D coordinate system has 3 axes, X, Y and Z. We want to map these axes along t
 
 Orient Along Curve gives us `@orient` and `@up` vectors to build an orthogonal frame, similar to PolyFrame.
 
-<img src="./images/transform_to_curve.png" width="400">
-
 First we need the inverse mapping, to convert the original coordinate to the equivalent curve coordinate.
+
+<img src="./images/transform_to_curve.png" width="400">
 
 The Y axis can be the nearest primitive UV of the curve, found using `xyzdist()`.
 
