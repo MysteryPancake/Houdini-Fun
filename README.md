@@ -1155,9 +1155,9 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 
 ## Vellum growth
 
-2swap makes [beautiful videos](https://www.youtube.com/watch?v=YGLNyHd2w10) about graph theory. They include animations of adding and removing edges.
+2swap makes [beautiful videos](https://www.youtube.com/watch?v=YGLNyHd2w10) about graph theory, with animations of adding and removing edges.
 
-You can do this in Vellum using a SOP Solver to change the topology, then repairing the constraint geometry to match.
+In Vellum you can use a SOP Solver to change the topology, then repair the constraint geometry to match.
 
 <img src="./images/vellum_growth.webp" width="400">
 
