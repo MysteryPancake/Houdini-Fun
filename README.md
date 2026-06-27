@@ -1153,6 +1153,96 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 | [Download the HIP file!](./hips/spaghetti.hiplc) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
 | --- | --- |
 
+## Vellum growth
+
+2swap makes [beautiful videos](https://www.youtube.com/watch?v=YGLNyHd2w10) about graph theory. They include animations of adding and removing edges.
+
+You can do this in Vellum using a SOP Solver to change the topology, then repairing the constraint geometry to match.
+
+<img src="./images/vellum_growth.webp" width="400">
+
+| [Download the HIP file!](./hips/vellum_growth.hiplc) |
+| --- |
+
+### Splitting a connection
+
+You can use Point Split or PolySplit, or the VEX below.
+
+```js
+// Randomly pick a prim to split
+int target = floor(rand(f@Frame) * nprimitives(0));
+
+// Get the points of the prim (assuming 2 points)
+int pts[] = primpoints(0, target);
+
+// Add a new point to connect to, inheriting @mass and @v
+int new_pt = addpoint(0, pts[0]);
+
+// Add 2 prims connected to the new point
+int new_prim = addprim(0, "polyline", new_pt, pts[0]);
+addprim(0, "polyline", new_pt, pts[1]);
+
+// Make brighter for animation
+setprimattrib(0, "Cd", new_prim, 20);
+
+// Remove the original prim
+removeprim(0, target, 0);
+```
+
+### Adding a new connection
+
+You can use an Add node, or the VEX below.
+
+```js
+// Randomly pick a point to connect a prim to
+int target = floor(rand(f@Frame) * npoints(0));
+
+// Add a new point to connect to, inheriting @mass and @v
+int new_pt = addpoint(0, target);
+
+// Add a prim connected to the new point
+int new_prim = addprim(0, "polyline", new_pt, target);
+
+// Make brighter for animation
+setprimattrib(0, "Cd", new_prim, 20);
+```
+
+### Removing a connection
+
+You can use a Blast or Delete node, or the VEX below.
+
+```js
+// Randomly remove a prim
+removeprim(0, floor(rand(f@Frame) * nprimitives(0)), 1);
+```
+
+### Repairing constraints
+
+After changing the geometry, the constraint geometry needs to be repaired so it has the same point count.
+
+For constraints with matching topology like distance, you can change them the same as the regular geometry.
+
+For constraints with different topology like angle, it's easier to completely replace them with a Vellum Constraints node.
+
+<img src="./images/vellum_replace_constraints.png" width="500">
+
+After replacing the constraints, some attributes like `@restlength` won't be correct.
+
+### Fixing `@restlength`
+
+When new constraints are added, their default `@restlength` won't be correct. It needs to be replaced.
+
+- For distance (stretch) constraints `@restlength` is the target distance, like 0.5 meters between points.
+- For angle (bend) constraints `@restlength` is the rest angle, like 0 degrees for a flat line.
+
+```js
+// Distance constraints should aim to be 0.5 meters long
+float target_length = 0.5;
+// Angle constraints should aim to be straight
+float target_angle = 0;
+f@restlength = s@type == "distance" ? target_length : target_angle;
+```
+
 ## No more Point Deform!
 
 People love using Point Deform for everything. This makes me cry tears of pain.
