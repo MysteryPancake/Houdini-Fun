@@ -1226,11 +1226,9 @@ For constraints with different topology like angle, it's easier to completely re
 
 <img src="./images/vellum_replace_constraints.png" width="500">
 
-After replacing the constraints, some attributes like `@restlength` won't be correct.
+After replacing the constraints, some attributes like `@restlength` are incorrect.
 
 ### Fixing `@restlength`
-
-When new constraints are added, their default `@restlength` won't be correct. It needs to be replaced.
 
 - For distance (stretch) constraints `@restlength` is the target distance, like 0.5 meters between points.
 - For angle (bend) constraints `@restlength` is the rest angle, like 0 degrees for a flat line.
