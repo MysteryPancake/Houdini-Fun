@@ -1144,15 +1144,6 @@ I found a cool use of Vellum for this, it can fix the edge lengths based on [the
 | [Download the HIP file!](./hips/creatures/strandbeest_v1.hiplc) |
 | --- |
 
-## Complex growth in 2 nodes
-
-You can get cool organic looking shapes using opposing forces, like Relax and Attribute Blur.
-
-[![Growth tutorial](https://img.youtube.com/vi/h0TUYC2WNXY/mqdefault.jpg)](https://youtu.be/h0TUYC2WNXY)
-
-| [Download the HIP file!](./hips/spaghetti.hiplc) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
-| --- | --- |
-
 ## Vellum growth
 
 2swap makes [beautiful videos](https://www.youtube.com/watch?v=YGLNyHd2w10) about graph theory, with animations of adding and removing edges.
@@ -1162,6 +1153,11 @@ To do this in Vellum, you can use a SOP Solver to change the topology, then repa
 <img src="./images/creatures/vellum_growth.webp" width="400">
 
 | [Download the HIP file!](./hips/creatures/vellum_growth.hiplc) |
+| --- |
+
+<img src="./images/creatures/vellum_growth2.webp" width="400">
+
+| [Download the HIP file!](./hips/creatures/vellum_growth2.hiplc) |
 | --- |
 
 ### Splitting a connection
@@ -1240,6 +1236,15 @@ float target_length = 0.5;
 float target_angle = 0;
 f@restlength = s@type == "distance" ? target_length : target_angle;
 ```
+
+## Complex growth in 2 nodes
+
+You can get cool organic looking shapes using opposing forces, like Relax and Attribute Blur.
+
+[![Growth tutorial](https://img.youtube.com/vi/h0TUYC2WNXY/mqdefault.jpg)](https://youtu.be/h0TUYC2WNXY)
+
+| [Download the HIP file!](./hips/spaghetti.hiplc) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
+| --- | --- |
 
 ## No more Point Deform!
 
