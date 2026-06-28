@@ -1139,9 +1139,9 @@ Physically simulated strandbeest using the RBD Bullet Solver. It walks all by it
 
 I found a cool use of Vellum for this, it can fix the edge lengths based on [the ratios from Wikipedia](https://en.wikipedia.org/wiki/Jansen%27s_linkage).
 
-<img src="./images/strandbeest.webp" width="600">
+<img src="./images/creatures/strandbeest.webp" width="600">
 
-| [Download the HIP file!](./hips/strandbeest_v1.hiplc) |
+| [Download the HIP file!](./hips/creatures/strandbeest_v1.hiplc) |
 | --- |
 
 ## Complex growth in 2 nodes
@@ -1159,9 +1159,9 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 
 To do this in Vellum, you can use a SOP Solver to change the topology, then repair the constraint geometry to match.
 
-<img src="./images/vellum_growth.webp" width="400">
+<img src="./images/creatures/vellum_growth.webp" width="400">
 
-| [Download the HIP file!](./hips/vellum_growth.hiplc) |
+| [Download the HIP file!](./hips/creatures/vellum_growth.hiplc) |
 | --- |
 
 ### Splitting a connection
@@ -1224,7 +1224,7 @@ For constraints with matching topology like distance, you can change them the sa
 
 For constraints with different topology like angle, it's easier to completely replace them with a Vellum Constraints node.
 
-<img src="./images/vellum_replace_constraints.png" width="500">
+<img src="./images/creatures/vellum_replace_constraints.png" width="500">
 
 After replacing the constraints, some attributes like `@restlength` are incorrect.
 
