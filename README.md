@@ -1150,15 +1150,13 @@ I found a cool use of Vellum for this, it can fix the edge lengths based on [the
 
 To do this in Vellum, you can use a SOP Solver to change the topology, then repair the constraint geometry to match.
 
-<img src="./images/creatures/vellum_growth.webp" width="400">
+<p align="left">
+	<img src="./images/creatures/vellum_growth.webp" width="45%">
+	<img src="./images/creatures/vellum_growth2.webp" width="45%">
+</p>
 
-| [Download the HIP file!](./hips/creatures/vellum_growth.hiplc) |
-| --- |
-
-<img src="./images/creatures/vellum_growth2.webp" width="400">
-
-| [Download the HIP file!](./hips/creatures/vellum_growth2.hiplc) |
-| --- |
+| [Download growth HIP!](./hips/creatures/vellum_growth.hiplc) | [Download walking HIP!](./hips/creatures/vellum_growth2.hiplc) |
+| --- | --- |
 
 ### Splitting a connection
 
