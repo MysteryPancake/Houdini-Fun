@@ -1749,6 +1749,52 @@ f@Alpha = 0.2;
 v@Cd = hsvtorgb(float(i@copynum)/10,1,1);
 ```
 
+## Gilbert tesselations
+
+A [gilbert tesselation](https://en.wikipedia.org/wiki/Gilbert_tessellation) is basically a bunch of lines that extend outwards until they collide.
+
+It makes some cool looking cracking and growth patterns. By snapping to the surface each step, you can move around a 3D object.
+
+You can check for collisions using `intersect()` or `intersect_all()` in VEX. Once an intersection is detected, the point stops moving.
+
+<img src="./images/gilbert_minpos.webp" width="500">
+
+| [Download the HIP file!](./hips/gilbert_minpos.hiplc) |
+| --- |
+
+
+```js
+float tol = chf("tolerance");
+vector step = v@N * chf("stepsize") * f@speed;
+int prim[];
+vector p[];
+vector uvw[];
+// For some reason this removes hits unless the last arg is -1
+int total = intersect_all(0, v@P, step, p, prim, uvw, tol, -1);
+
+// Remove hits for us (there will be duplicates)
+for (int i = 0; i < total; ++i) {
+    int idx = find(prim, i@primnum);
+    if (idx < 0) {
+        break;
+    } else {
+        removeindex(prim, idx);
+        removeindex(uvw, idx);
+    }
+}
+
+if (len(prim) > 0) {
+    v@P = primuv(0, "P", prim[0], uvw[0]);
+    i@group_hit = 1;
+} else {
+    int pt = addpoint(0, i@ptnum);
+    setpointattrib(0, "P", pt, minpos(1, v@P + step));
+    addprim(0, "polyline", i@ptnum, pt); // Extend line
+    setpointgroup(0, "hit", pt, 0); // New point should keep moving
+    i@group_hit = 1; // Current point should stop moving
+}
+```
+
 ## Veiny pig
 
 Find Shortest Path can help generate branched structures like trees or veins.
