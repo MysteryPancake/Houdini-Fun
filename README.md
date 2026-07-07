@@ -1753,9 +1753,46 @@ v@Cd = hsvtorgb(float(i@copynum)/10,1,1);
 
 A [gilbert tesselation](https://en.wikipedia.org/wiki/Gilbert_tessellation) is basically a bunch of lines that extend outwards until they collide.
 
-It makes some cool looking cracking and growth patterns. By snapping to the surface each step, you can move around a 3D object.
+It makes some cool looking cracking and growth patterns.
 
 You can check for collisions using `intersect()` or `intersect_all()` in VEX. Once an intersection is detected, the point stops moving.
+
+### 2D version
+
+| [Download the HIP file!](./hips/gilbert.hiplc) |
+| --- |
+
+```js
+float tol = chf("tolerance");
+vector step = v@N * chf("stepsize") * f@speed;
+int prim[];
+vector p[];
+vector uvw[];
+// For some reason this removes hits unless the last arg is -1
+int total = intersect_all(0, v@P, step, p, prim, uvw, tol, -1);
+
+// Remove hits for us (there will be duplicates)
+for (int i = 0; i < total; ++i) {
+    int idx = find(prim, i@primnum);
+    if (idx < 0) {
+        break;
+    } else {
+        removeindex(prim, idx);
+        removeindex(uvw, idx);
+    }
+}
+
+if (len(prim) > 0) {
+    v@P = primuv(0, "P", prim[0], uvw[0]);
+    i@group_hit = 1;
+} else {
+    v@P += step;
+}
+```
+
+### 3D version
+
+By snapping to the surface each step, you can move around a 3D object.
 
 <img src="./images/gilbert_minpos.webp" width="500">
 
@@ -1796,6 +1833,17 @@ if (len(prim) > 0) {
     i@group_hit = 1; // Current point should stop moving
 }
 ```
+
+## STIT tesselations
+
+A [STIT tesselation](https://www.lebesgue.fr/sites/default/files/attach/Nagel_Rennes16.pdf) looks very similar to a [Gilbert tesselation](#gilbert-tesselations).
+
+The difference is a Gilbert tesselation is made by extending lines, but a STIT tesselation is made by recursively cutting faces at different angles (like recursive subdivision).
+
+You can even cut the internal volume of the object to cut it into pieces, like with a regular voronoi fracture.
+
+| [Download the HIP file!](./hips/gilbert.hiplc) |
+| --- |
 
 ## Veiny pig
 
