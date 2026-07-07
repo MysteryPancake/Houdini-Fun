@@ -1810,6 +1810,9 @@ By snapping to the surface each step, you can move around a 3D object.
 
 
 ```js
+// Only move after a certain time (optional)
+if (f@Time < f@delay) return;
+
 float tolerance = chf("collision_tolerance");
 vector step = v@N * chf("step_size") * f@speed;
 int prim[];
@@ -1832,15 +1835,18 @@ for (int i = 0; i < total; ++i) {
 if (len(prim) > 0) {
     // We hit a line, move our position to the collision position
     v@P = primuv(0, "P", prim[0], uvw[0]);
-    i@group_hit = 1;
 } else {
     // We hit nothing, add a point and extend the line
     int pt = addpoint(0, i@ptnum);
     setpointattrib(0, "P", pt, minpos(1, v@P + step));
-    addprim(0, "polyline", i@ptnum, pt); // Extend line
-    setpointgroup(0, "hit", pt, 0); // New point should keep moving
-    i@group_hit = 1; // Current point should stop moving
+    // Extend line
+    addprim(0, "polyline", i@ptnum, pt);
+    // New point should keep moving
+    setpointgroup(0, "hit", pt, 0);
 }
+
+// Current point should stop moving
+i@group_hit = 1;
 ```
 
 ## STIT tesselations
