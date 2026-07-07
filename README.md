@@ -1759,6 +1759,15 @@ You can check for collisions using `intersect()` or `intersect_all()` in VEX. On
 
 ### 2D version
 
+<p align="left">
+	<img src="./images/gilbert1.webp" width="45%">
+	<img src="./images/gilbert2.webp" width="45%">
+</p>
+<p align="left">
+	<img src="./images/gilbert3.webp" width="45%">
+	<img src="./images/gilbert4.webp" width="45%">
+</p>
+
 | [Download the HIP file!](./hips/gilbert.hiplc) |
 | --- |
 
