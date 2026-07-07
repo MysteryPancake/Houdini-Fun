@@ -1838,9 +1838,11 @@ if (len(prim) > 0) {
 
 A [STIT tesselation](https://www.lebesgue.fr/sites/default/files/attach/Nagel_Rennes16.pdf) looks very similar to a [Gilbert tesselation](#gilbert-tesselations).
 
-The difference is a Gilbert tesselation is made by extending lines, but a STIT tesselation is made by recursively cutting faces at different angles (like recursive subdivision).
+The difference is a Gilbert tesselation is made by extending lines, while a STIT tesselation is made by recursively cutting faces (like recursive subdivision).
 
-You can even cut the internal volume of the object to cut it into pieces, like with a regular voronoi fracture.
+<img src="./images/stit_cuts.webp" width="400">
+
+You can even cut with respect to the internal volume, like a regular voronoi fracture.
 
 <img src="./images/stit_cube.webp" width="400">
 
