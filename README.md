@@ -1751,9 +1751,7 @@ v@Cd = hsvtorgb(float(i@copynum)/10,1,1);
 
 ## Gilbert tesselations
 
-A [gilbert tesselation](https://en.wikipedia.org/wiki/Gilbert_tessellation) is basically a bunch of lines that extend outwards until they collide.
-
-It makes some cool looking cracking and growth patterns.
+A [gilbert tesselation](https://en.wikipedia.org/wiki/Gilbert_tessellation) is basically a bunch of lines that extend outwards until they collide. It makes cool looking cracking and growth patterns.
 
 You can check for collisions using `intersect()` or `intersect_all()` in VEX. Once an intersection is detected, the point stops moving.
 
