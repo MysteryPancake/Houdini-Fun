@@ -1808,7 +1808,6 @@ By snapping to the surface each step, you can move around a 3D object.
 | [Download the HIP file!](./hips/gilbert_minpos.hiplc) |
 | --- |
 
-
 ```js
 // Only move after a certain time (optional)
 if (f@Time < f@delay) return;
