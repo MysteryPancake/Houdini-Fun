@@ -1794,7 +1794,7 @@ if (len(prim) > 0) {
 
 By snapping to the surface each step, you can move around a 3D object.
 
-<img src="./images/gilbert_minpos.webp" width="500">
+<img src="./images/gilbert_minpos.webp" width="400">
 
 | [Download the HIP file!](./hips/gilbert_minpos.hiplc) |
 | --- |
@@ -1841,6 +1841,8 @@ A [STIT tesselation](https://www.lebesgue.fr/sites/default/files/attach/Nagel_Re
 The difference is a Gilbert tesselation is made by extending lines, but a STIT tesselation is made by recursively cutting faces at different angles (like recursive subdivision).
 
 You can even cut the internal volume of the object to cut it into pieces, like with a regular voronoi fracture.
+
+<img src="./images/stit_cube.webp" width="400">
 
 | [Download the HIP file!](./hips/gilbert.hiplc) |
 | --- |
