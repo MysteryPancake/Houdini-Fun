@@ -1764,13 +1764,13 @@ You can check for collisions using `intersect()` or `intersect_all()` in VEX. On
 
 
 ```js
-float tol = chf("tolerance");
-vector step = v@N * chf("stepsize") * f@speed;
+float tolerance = chf("collision_tolerance");
+vector step = v@N * chf("step_size") * f@speed;
 int prim[];
 vector p[];
 vector uvw[];
-// For some reason this removes hits unless the last arg is -1
-int total = intersect_all(0, v@P, step, p, prim, uvw, tol, -1);
+// Check for collisions, for some reason this removes hits unless the last arg is -1
+int total = intersect_all(0, v@P, step, p, prim, uvw, tolerance, -1);
 
 // Remove hits for us (there will be duplicates)
 for (int i = 0; i < total; ++i) {
@@ -1784,9 +1784,11 @@ for (int i = 0; i < total; ++i) {
 }
 
 if (len(prim) > 0) {
+    // We hit a line, move our position to the collision position
     v@P = primuv(0, "P", prim[0], uvw[0]);
     i@group_hit = 1;
 } else {
+    // We hit nothing, add a point and extend the line
     int pt = addpoint(0, i@ptnum);
     setpointattrib(0, "P", pt, minpos(1, v@P + step));
     addprim(0, "polyline", i@ptnum, pt); // Extend line
