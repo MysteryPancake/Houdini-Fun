@@ -214,9 +214,9 @@ vector dir = volumegradient(1,0,v@P);
 v@P -= (dist - iso) * normalize(dir);
 ```
 
-Doing this in a for loop with blurring each step, you get a nice deformation effect.
+Doing this in a for loop with blurring each step, you get a nice deintersection effect.
 
-Note this doesn't always deintersect correctly! For better results, use the Detangle node instead.
+Note this doesn't consider faces, so it doesn't always work! Use a Detangle node for more reliable results.
 
 <p align="left">
 	<img src="./images/hdas/deintersect1.webp" height="280">
