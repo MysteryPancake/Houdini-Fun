@@ -195,3 +195,24 @@ float waveCustom(float freq; float time) {
 Draw a waveform with a ramp. Samples are between 0 and 1.
 
 <br clear="right"/>
+
+## Patterns
+
+Here's an example of a pattern made with a triangle wave.
+
+<img src="./images/waveforms/triangle_wave.png" width="400">
+
+| [Download the HIP file!](./hips/triangle_wave.hiplc) |
+| --- |
+
+```js
+float triangle(float x; float scale; float spacing) {
+    return max(0, 0.5 - abs(x % spacing / scale - 0.5)) * 2;
+}
+
+float freqx = chf("horizontal_frequency");
+float freqy = chf("vertical_frequency");
+float amp = chf("amplitude");
+float spacing = chf("spacing");
+v@Cd = triangle(v@P.x + triangle(v@P.z, freqx, freqx) * amp, freqy, spacing);
+```
