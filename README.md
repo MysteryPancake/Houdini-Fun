@@ -192,6 +192,40 @@ for (int i = 0; i < n || len(stack) > 0; ++i) {
 }
 ```
 
+## HDA: Deintersect
+
+A classic way to avoid intersections is using an SDF. If the object has a negative distance, it's inside.
+
+```js
+// Negative signed distance means we're inside the object
+i@group_inside = volumesample(1,0,v@P) < chf("isosurface");
+```
+
+Once inside, you can push it out to the nearest point above the surface using the SDF gradient.
+
+```js
+// Sample the distance from the surface
+float dist = volumesample(1,0,v@P);
+float iso = chf("isosurface");
+if (dist >= iso) return;
+
+// Move above the surface based on the SDF gradient
+vector dir = volumegradient(1,0,v@P);
+v@P -= (dist - iso) * normalize(dir);
+```
+
+Doing this in a for loop with blurring each step, you get a nice deformation effect.
+
+Note this doesn't always deintersect correctly! For better results, use the Detangle node instead.
+
+<p align="left">
+	<img src="./images/hdas/deintersect1.webp" height="280">
+	<img src="./images/hdas/deintersect2.webp" height="280">
+</p>
+
+| [Download the HDA!](./hdas/MysteryPancake.deintersect.1.0.hda) | [Download the HIP file!](./hdas/deintersect.hiplc) |
+| --- | --- |
+
 ## Simple spring solver
 
 Need to overshoot an animation or smooth it over time to reduce bumps? Introducing the simple spring solver!
