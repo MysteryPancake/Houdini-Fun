@@ -29,7 +29,7 @@ These articles grew too long to fit here. They're the most interesting in my opi
 - [XAPKOHHEH HIP files](https://github.com/pedohorse/educational-hips)
 - [Junichiro Horikawa HIP files](https://github.com/jhorikawa/HoudiniHowtos)
 
-<h2><img src="./images/fast_straight_skeleton.svg" height="32"> HDA: Fast Straight Skeleton 3D</h2>
+<h2><img src="./images/hdas/fast_straight_skeleton.svg" height="32"> HDA: Fast Straight Skeleton 3D</h2>
 
 They added a new [Laplacian node](https://www.sidefx.com/docs/houdini//nodes/sop/laplacian.html) to Houdini 20.5. You can do cool [frequency-based tricks](https://houdinigubbins.wordpress.com/2017/07/05/spectral-analysis/) with it.
 
@@ -39,7 +39,7 @@ The second lowest frequency (or eigenvector) is called the Fiedler vector. It fo
 
 Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me share this and suggesting improvements! It's based on his [Curve Skeleton example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd).
 
-<img src="./images/straight_skeletons.png" height="300">
+<img src="./images/hdas/straight_skeletons.png" height="300">
 
 | [Download the HDA!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda) | [Download the HIP file!](./hdas/fast_straight_skeleton.hip) |
 | --- | --- |
@@ -53,8 +53,8 @@ Like with sound, you can exaggerate or reduce certain frequencies (eigenvectors)
 Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eigenspace Projection example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd)! I remade it in OpenCL for better performance.
 
 <p align="left">
-  <img src="./images/laplacianfilter.png" width="45%">
-  <img src="./images/laplacianfilter2.png" width="45%">
+  <img src="./images/hdas/laplacianfilter.png" width="45%">
+  <img src="./images/hdas/laplacianfilter2.png" width="45%">
 </p>
 
 | [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc) | [Download the HIP file!](./hdas/laplacian_filter.hiplc) |
@@ -68,15 +68,15 @@ This HDA lets you project plates in 3 ways:
 
 ### 1. Constant Z coordinate
 
-<img src="./images/ndc/plate_project_constant.png" width="500">
+<img src="./images/hdas/plate_project_constant.png" width="500">
 
 ### 2. Varying Z coordinate using a depth map
 
-<img src="./images/ndc/plate_project_depth.png" width="500">
+<img src="./images/hdas/plate_project_depth.png" width="500">
 
 ### 3. Raying onto the object
 
-<img src="./images/ndc/plate_project_cam.png" width="500">
+<img src="./images/hdas/plate_project_cam.png" width="500">
 
 Remember to remove lens distortion (undistort) the plate before using this HDA to get correct results.
 
@@ -91,7 +91,7 @@ Extract Transform can be used to estimate the rotation difference too. This give
 
 This HDA works on single and multiple pieces, either packed or unpacked. For packed pieces, it uses their intrinsic transforms.
 
-<img src="./images/rigidpreroll.gif" height="300">
+<img src="./images/hdas/rigidpreroll.gif" height="300">
 
 | [Download the HDA!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda) | [Download the HIP file!](./hdas/rigid_piece_preroll.hip) |
 | --- | --- |
@@ -100,17 +100,17 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 
 Sometimes you need to deform an object inside another with respect to the internal volume, for example muscle inside a body.
 
-<img src="./images/mvcpig.png" width="600">
+<img src="./images/hdas/mvcpig.png" width="600">
 
 One way is converting the object to tetrahedrons, since tets have 3D primuvw coordinates for interpolation. Sadly this isn't always an option, because the triangulation changes when animated.
 
 A better approach is using [Positive Mean Value Coordinates](https://forums.odforce.net/topic/8722-pmvc-positive-mean-value-coordinates/), as implemented years ago by [Sibbarick](http://www.fourthwall.ndo.co.uk/HT_PGMVCdeformer.html).
 
-<img src="./images/mvccubes.gif" height="350">
+<img src="./images/hdas/mvccubes.gif" height="350">
 
 It works by casting rays in a sphere from each point, creating lines. Each line acts as a distance constraint, pulling the point as the walls move. It's almost like Point Deform with occlusion, where only the faces visible to a point light are used for deformation. Note this doesn't give good results on the outside of the object, only on the inside.
 
-<img src="./images/mvcraycast.gif" height="450">
+<img src="./images/hdas/mvcraycast.gif" height="450">
 
 | [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc) | [Download the HIP file!](./hdas/mvc_deform.hiplc) | [Bonus MVC demos!](./hips/mvc_demos.hiplc) |
 | --- | --- | --- |
@@ -152,13 +152,13 @@ The VEX above captures and deforms in one step, which is slower since ray is onl
 
 The inputs are the same as Point Deform. The 1st input is geo to deform, the 2nd is the rest pose and the 3rd is the deformed pose.
 
-<h2><img src="./images/repair_cycles.svg" height="32"> HDA: Repair Cycles</h2>
+<h2><img src="./images/hdas/repair_cycles.svg" height="32"> HDA: Repair Cycles</h2>
 
 KineFX often whinges when skeletons are cyclic ("Cycle Detected" errors). There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
 
 If the skeleton actually has cycles, you need to detect and cut them. I made a HDA for this, but otherwise you can use the VEX below.
 
-<img src="./images/cycle_detection.png" height="400">
+<img src="./images/hdas/cycle_detection.png" height="400">
 
 | [Download the HDA!](./hdas/MysteryPancake.repair_cycles.1.0.hdalc) | [Download the HIP file!](./hdas/repair_cycles.hiplc) |
 | --- | --- |
@@ -1315,7 +1315,7 @@ Tetrahedrons aren't always an option due to the triangulation changing.
 
 [In this case, try the Volumetric Deform HDA!](#hda-volumetric-deform)
 
-<img src="./images/mvccubes.gif" height="350">
+<img src="./images/hdas/mvccubes.gif" height="350">
 
 ### 4. Rigid Deformation
 
