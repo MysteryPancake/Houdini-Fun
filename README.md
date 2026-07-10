@@ -2024,6 +2024,45 @@ if (f@time_until_move <= 0) {
 }
 ```
 
+## Cubic bezier
+
+Cubic bezier can be a useful interpolation function. Here's 2 versions if you ever need it.
+
+### 2D version
+
+<img src="./images/cubicbezier_2d.png" width="400">
+
+| [Download the HIP file!](./hips/cubic_bezier.hiplc) |
+| --- |
+
+```js
+vector2 cubic_bezier(float t; float a; float b; float c; float d) {
+    return 3 * pow(1 - t, 2) * t * set(a, b) + 3 * (1 - t) * pow(t, 2) * set(c, d) + pow(t, 3);
+}
+
+// Get values from https://cubic-bezier.com
+v@P = cubic_bezier(v@P.x,.1,.6,.8,.6);
+```
+
+### 3D version
+
+<img src="./images/cubicbezier_3d.png" width="400">
+
+| [Download the HIP file!](./hips/cubic_bezier.hiplc) |
+| --- |
+
+```js
+vector cubic_bezier(float t; vector a; vector b; vector c; vector d) {
+    return pow(1 - t, 3) * a + 3 * pow(1 - t, 2) * t * b + 3 * (1 - t) * pow(t, 2) * c + pow(t, 3) * d;
+}
+
+vector a = point(1, "P", 0);
+vector b = point(1, "P", 1);
+vector c = point(1, "P", 2);
+vector d = point(1, "P", 3);
+v@P = cubic_bezier(v@P.x, a, b, c, d);
+```
+
 ## Transition within a fixed frame range
 
 For growth solvers and breakdown animations, you may want to fit an animation to fixed timing.
