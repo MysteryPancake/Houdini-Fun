@@ -1805,7 +1805,7 @@ You can check for collisions using `intersect()` or `intersect_all()` in VEX. On
 
 ```js
 float tolerance = chf("collision_tolerance");
-vector step = v@N * chf("step_size") * f@speed;
+vector step = v@N * chf("step_size") * f@speed * f@TimeInc;
 int prim[];
 vector p[];
 vector uvw[];
@@ -1847,7 +1847,7 @@ By snapping to the surface each step, you can move around a 3D object.
 if (f@Time < f@delay) return;
 
 float tolerance = chf("collision_tolerance");
-vector step = v@N * chf("step_size") * f@speed;
+vector step = v@N * chf("step_size") * f@speed * f@TimeInc;
 int prim[];
 vector p[];
 vector uvw[];
