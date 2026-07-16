@@ -2,6 +2,8 @@
 
 Ever wondered how `primuv()` and `xyzdist()` work? Me neither, but for performance reasons I had to remake them in VEX and OpenCL.
 
+**UPDATE: [SideFX added BVH functions to OpenCL!](https://www.sidefx.com/docs/houdini22.0/vex/ocl.html#feature-flags) This is no longer needed!**
+
 ## `xyzdist()`
 
 `xyzdist()` uses an acceleration structure (likely BVH), which I can't recreate easily in VEX or OpenCL.
