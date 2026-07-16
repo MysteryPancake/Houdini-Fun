@@ -6,7 +6,7 @@ Ever wondered how `primuv()` and `xyzdist()` work? Me neither, but for performan
 
 ## `xyzdist()`
 
-`xyzdist()` uses an acceleration structure (likely BVH), which I can't recreate easily in VEX or OpenCL.
+`xyzdist()` uses an acceleration structure (likely BVH), which I can't recreate easily in VEX.
 
 For this reason, the functions below only work when you know the primnum already. It returns the nearest surface position and primuvw.
 
@@ -18,6 +18,27 @@ It also includes [my own method](https://www.shadertoy.com/view/W3GXR3) to find 
 
 | [Download the HIP file!](./hips/xyzdist_diy.hiplc) |
 | --- |
+
+### UPDATE: `xyzdist()` in OpenCL using BVH
+
+```c
+// Requires Houdini 22
+#bind point &P float3
+#bind point &Cd float3
+#bind point pts name=P float3 input=1 bvh
+
+@KERNEL
+{
+    uint prim;
+    float3 uv;
+    @pts.xyzdist(@P, prim, uv);
+    
+    // closestpttriangle() currently returns the wrong primitive UV coordiantes, corrected below
+    float3 p = @pts.minpos(@P);
+    @P.set(p);
+    @Cd.set((float3)(uv.y, uv.z, 0));
+}
+```
 
 ### `xyzdist()` in VEX
 
