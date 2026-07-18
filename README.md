@@ -585,6 +585,17 @@ An easier way is using the Stamp Points node, which directly supports `@pscale` 
 | [Download the HIP file!](./hips/cops/cops_dot_patterns.hiplc) |
 | --- |
 
+## Coperncius: FFT patterns
+
+The new [Fast Fourier Transform node](https://www.sidefx.com/docs/houdini/nodes/cop/fft.html) turns images into frequencies, and frequencies into images.
+
+By giving it random shapes, you get trippy patterns like [Chladni Cymatic Patterns](https://www.sidefx.com/docs/houdini/nodes/cop/chladni.html).
+
+<img src="./images/cops/cops_fft_fun.webp" width="350">
+
+| [Download the HIP file!](./hips/cops/cops_fft_fun.hiplc) |
+| --- |
+
 ## Copernicus to heightfield
 
 Florian Dheer on the CGWiki Discord wanted to turn a Copernicus image into a heightfield. 
