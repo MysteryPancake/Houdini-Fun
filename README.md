@@ -991,6 +991,8 @@ I tried using spheres to view the colors stored in the spherical harmonics, like
 
 To get the color given the viewing angle, [you need to compute it](https://github.com/graphdeco-inria/diff-gaussian-rasterization/blob/main/cuda_rasterizer/forward.cu) based on the coefficients stored in the `GS_SPH_*` attributes.
 
+<img src="./images/gaussian_splats/gs_degrees.png" width="500">
+
 <img src="./images/gaussian_splats/gs_evaluate_sph.png" width="700">
 
 | [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_evaluation.hiplc) | [Download the splat!](https://superspl.at/scene/e38961ae) |
