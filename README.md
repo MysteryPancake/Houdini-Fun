@@ -999,7 +999,7 @@ You can rasterize other attributes like normals and position by renaming them to
 
 With these 3 passes, you can use a [Light](https://www.sidefx.com/docs/houdini/nodes/cop/light.html) node to approximate the primary lighting based on the normals.
 
-Note this doesn't use raytracing, so it's missing the physical effects of baked lighting like shadows and secondary bounces.
+Note this doesn't use raytracing, so it's missing the shadows and secondary bounces you get with baked lighting.
 
 <img src="./images/gaussian_splats/cops_relight_splat.png" width="700">
 
