@@ -985,6 +985,27 @@ v@GS_Cd = v@Cd;
 f@GS_Mask = 1;
 ```
 
+## Gaussian splat relighting in Copernicus
+
+In Houdini 22 they added a [Rasterize GSplats](https://www.sidefx.com/docs/houdini/nodes/cop/rasterizegsplats.html) node.
+
+It turns splats directly into an image, including a few other passes like color and depth.
+
+You can rasterize other attributes like normals and position by renaming them to color (Cd).
+
+| Colors | Normals | Position |
+| --- | --- | --- |
+| <img src="./images/gaussian_splats/cops_Cd.png"> | <img src="./images/gaussian_splats/cops_N.png"> | <img src="./images/gaussian_splats/cops_P.png"> |
+
+With these 3 passes, you can use a [Light](https://www.sidefx.com/docs/houdini/nodes/cop/light.html) node to approximate the primary lighting based on the normals.
+
+Note this doesn't use raytracing, so it's missing the physical effects of baked lighting like shadows and secondary bounces.
+
+<img src="./images/gaussian_splats/cops_relight_splat.png" width="700">
+
+| [Download the HIP file!](./hips/gaussian_splats/cops_relight_splat.hiplc) |
+| --- |
+
 ## Gaussian splat spherical harmonics evaluation
 
 I tried using spheres to view the colors stored in the spherical harmonics, like an environment map per point.
