@@ -154,7 +154,9 @@ The inputs are the same as Point Deform. The 1st input is geo to deform, the 2nd
 
 <h2><img src="./images/hdas/repair_cycles.svg" height="32"> HDA: Repair Cycles</h2>
 
-KineFX often whinges when skeletons are cyclic ("Cycle Detected" errors). There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
+KineFX often whinges when skeletons are cyclic (Hierarchy traversal failed: computeHierarchyResult.FoundCycle).
+
+There's a [good section on CGWiki](https://www.tokeru.com/cgwiki/HoudiniKinefx.html#rig_from_labs_straight_skeleton) to fix this, but it only works if there truly aren't cycles.
 
 If the skeleton actually has cycles, you need to detect and cut them. I made a HDA for this, but otherwise you can use the VEX below.
 
