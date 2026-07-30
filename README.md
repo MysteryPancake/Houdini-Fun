@@ -947,11 +947,17 @@ vector specular_light = colormap(chs("specular_texture"), uv, "srccolorspace", c
 float diffuse_mix = chf("diffuse_mix");
 float specular_mix = chf("specular_mix");
 
+vector diffuse;
+float SH_C0 = 0.28209479177387814;
+
 // Store the view-independent coefficient (like diffuse) before any changes
 // It's in sRGB and remapped by Bake GSplats, so undo this first
-float SH_C0 = 0.28209479177387814;
-vector diffuse = 0.5 + SH_C0 * set(4@GS_SPH_R.xx, 4@GS_SPH_G.xx, 4@GS_SPH_B.xx);
-diffuse = ocio_transform("sRGB", "scene_linear", diffuse);
+if (haspointattrib(0, "GS_SPH_R")) {
+    diffuse = 0.5 + SH_C0 * set(4@GS_SPH_R.xx, 4@GS_SPH_G.xx, 4@GS_SPH_B.xx);
+    diffuse = ocio_transform("sRGB", "scene_linear", diffuse);
+} else {
+    diffuse = v@Cd;
+}
 
 // Change the view-dependent coefficients (like specular)
 vector specular_scale = chi("scale_specular_by_diffuse") ? diffuse_light : specular_light;
