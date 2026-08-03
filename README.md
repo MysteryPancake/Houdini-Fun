@@ -910,7 +910,7 @@ diffuse = (diffuse - 0.5) / SH_C0;
 
 ## Gaussian splat relighting
 
-**UPDATE: Houdini 22 added a [Labs Relight GSplats](https://www.sidefx.com/docs/houdini/nodes/lop/labs--relight_gsplats.html) node. Currently it loops over the lights in VEX rather than using raytracing. This only supports primary lighting and shadows, not bounce lighting. The method below is more work to setup, but it supports bounce lighting and advanced raytraced effects.**
+**UPDATE: Houdini 22 added a [Labs Relight GSplats](https://www.sidefx.com/docs/houdini/nodes/lop/labs--relight_gsplats.html) node. Currently it loops over the lights in VEX rather than using raytracing. This only supports primary lighting and shadows, not bounce lighting. My method below is more work to setup, but it supports bounce lighting and other raytraced effects.**
 
 Karma doesn't currently support relighting gaussian splats. Splats can only cast shadows, but not on themselves.
 
