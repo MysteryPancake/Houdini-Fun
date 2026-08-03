@@ -3719,6 +3719,16 @@ Usually liquids resting on a surface have a small gap due to the collision geome
 
 A tip from Raphael Gadot is to transfer normals from the surface onto the liquid with some falloff. This greatly improves the blending.
 
+## Karma: Better quality lighting
+
+Karma has only 1 diffuse sample by default. This isn't even enough for global illumination.
+
+For better quality lighting, try using up to 4 diffuse samples.
+
+Thanks to Philipp Welsing on the CGWiki Discord for this tip!
+
+<img src="./images/diffuse_limit.jpg">
+
 ## Karma: Render storage saving
 
 When rendering with Karma, avoid using [SOP Import](https://www.sidefx.com/docs/houdini/nodes/lop/sopimport.html). It writes tons of USD data to disk that already exists as bgeo.
