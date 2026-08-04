@@ -3728,6 +3728,14 @@ Thanks to Philipp Welsing on the CGWiki Discord for this tip!
 
 <img src="./images/diffuse_limit.jpg">
 
+## Copernicus: Fix performance monitoring
+
+The performance monitor in Copernicus often gives unreliable results. SideFX shared some information that might help:
+
+> You're right that COPs run asynchronously on the GPU, and the performance monitor simply captures the time it takes to submit that GPU work. The OpenCL COP, however, has the Timing Messages toggle that forces it to sync up and produces correct timings. The report with this parameter enabled should be a reliable measurement of how long the work actually took.
+>
+> Note that you'll want to disable this parameter when not profiling, since the aforementioned sync up can slow down execution of the entire network.
+
 ## Karma: Render storage saving
 
 When rendering with Karma, avoid using [SOP Import](https://www.sidefx.com/docs/houdini/nodes/lop/sopimport.html). It writes tons of USD data to disk that already exists as bgeo.
