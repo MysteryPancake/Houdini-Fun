@@ -3730,7 +3730,9 @@ Thanks to Philipp Welsing on the CGWiki Discord for this tip!
 
 ## Copernicus: Fix performance monitoring
 
-The performance monitor in Copernicus often gives unreliable results. SideFX shared some information that might help:
+The performance monitor in Copernicus often doesn't work properly, giving unreliable results.
+
+SideFX shared some information that might help:
 
 > You're right that COPs run asynchronously on the GPU, and the performance monitor simply captures the time it takes to submit that GPU work. The OpenCL COP, however, has the Timing Messages toggle that forces it to sync up and produces correct timings. The report with this parameter enabled should be a reliable measurement of how long the work actually took.
 >
@@ -3775,7 +3777,7 @@ Make sure to combine each VDB pair separately, then feed all pairs into a merge 
 
 ## Be careful with typecasting
 
-I used to do this to generate random velocities between -0.5 and 0.5. See if you can spot the problem.
+I used to do this to generate random velocities between -0.5 and 0.5. See if you can spot the problem:
 
 ```js
 v@v = rand(i@ptnum) - 0.5;
