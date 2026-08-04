@@ -987,12 +987,11 @@ out_diffuse = (out_diffuse - 0.5) / SH_C0;
 4@GS_SPH_G.xx = out_diffuse.g;
 4@GS_SPH_B.xx = out_diffuse.b;
 
-// For AOVs, the unlit color and baked lighting
+// Optional AOVs for the unlit color and baked lighting
 v@GS_Albedo = diffuse;
 v@GS_Diffuse = diffuse_light;
 v@GS_Specular = specular_light;
-v@GS_Cd = v@Cd;
-f@GS_Mask = 1;
+v@N = primuv(1, "N", prim, uv);
 ```
 
 ## Gaussian splat relighting in Copernicus
