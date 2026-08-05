@@ -3939,7 +3939,7 @@ Cloth sims work best with preroll starting in a neutral rest pose. For example, 
 
 ### Without FBX
 
-Try using my [Fast Straight Skeleton 3D](#-fast-straight-skeleton-3d) HDA! It gives you rest and deforming skeletons you can use with Joint Capture Biharmonic.
+Try using my [Fast Straight Skeleton 3D HDA](#-hda-fast-straight-skeleton-3d)! It gives you rest and deforming skeletons you can use with Joint Capture Biharmonic.
 
 To blend from T-Pose to animated, plug the animation into the first input and the T-Pose into the second input. Then blend the two skeletons with Skeleton Blend.
 
