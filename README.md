@@ -60,7 +60,7 @@ Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eige
 | [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc) | [Download the HIP file!](./hdas/laplacian_filter.hiplc) |
 | --- | --- |
 
-## HDA: Plate Project
+<h2><img src="./images/hdas/plate_project.png" height="32"> HDA: Plate Project</h2>
 
 [NDC coordinates](./NDC.md) are great for projecting plates (photos and videos) from the camera that took them, or [Ian Hubert projection tricks](https://www.youtube.com/watch?v=RxD6H3ri8RI).
 
@@ -83,7 +83,7 @@ Remember to remove lens distortion (undistort) the plate before using this HDA t
 | [Download the HDA!](./hdas/MysteryPancake.plate_project.1.0.hdalc) | [Download the HIP file!](./hdas/plate_project.hiplc) |
 | --- | --- |
 
-## HDA: Rigid Piece Preroll
+<h2><img src="./images/hdas/rigid_preroll.png" height="32"> HDA: Rigid Piece Preroll</h2>
 
 Most preroll nodes use position difference only. This is fine for translation but not rotation.
 
@@ -96,7 +96,7 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 | [Download the HDA!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda) | [Download the HIP file!](./hdas/rigid_piece_preroll.hiplc) |
 | --- | --- |
 
-## HDA: Volumetric Deform
+<h2><img src="./images/hdas/volumetric_deform.png" height="32"> HDA: Volumetric Deform</h2>
 
 Sometimes you need to deform an object inside another with respect to the internal volume, for example muscle inside a body.
 
@@ -1405,7 +1405,7 @@ Unlike regular geometry, tets have 3D primitive UV coordinates. If you ray insid
 
 Tetrahedrons aren't always an option due to the triangulation changing.
 
-[In this case, try the Volumetric Deform HDA!](#hda-volumetric-deform)
+[In this case, try the Volumetric Deform HDA!](#-hda-volumetric-deform)
 
 <img src="./images/hdas/mvccubes.gif" height="350">
 
@@ -3941,7 +3941,7 @@ Cloth sims work best with preroll starting in a neutral rest pose. For example, 
 
 ### Without FBX
 
-Try using my node [Fast Straight Skeleton 3D](./hdas)! It gives you rest and deforming skeletons you can use with Joint Capture Biharmonic.
+Try using my [Fast Straight Skeleton 3D](#-fast-straight-skeleton-3d) HDA! It gives you rest and deforming skeletons you can use with Joint Capture Biharmonic.
 
 To blend from T-Pose to animated, plug the animation into the first input and the T-Pose into the second input. Then blend the two skeletons with Skeleton Blend.
 
