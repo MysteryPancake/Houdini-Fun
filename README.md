@@ -576,7 +576,7 @@ The same can be done in Copernicus using a Slap Comp Block.
 
 <img src="./images/cops/edge_blend_pos.png" width="400">
 
-3. Sample the image at the distorted coordinate using the Position Sample node.
+3. Sample the image at the distorted coordinate using the Position Sample node.<br>Blend multiple octaves of noise to smooth out the transition.
 
 <img src="./images/cops/edge_blending.png" width="400">
 
