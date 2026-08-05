@@ -93,7 +93,7 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 
 <img src="./images/hdas/rigidpreroll.gif" height="300">
 
-| [Download the HDA!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda) | [Download the HIP file!](./hdas/rigid_piece_preroll.hip) |
+| [Download the HDA!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda) | [Download the HIP file!](./hdas/rigid_piece_preroll.hiplc) |
 | --- | --- |
 
 ## HDA: Volumetric Deform
