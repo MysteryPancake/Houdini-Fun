@@ -228,7 +228,7 @@ Note this doesn't consider faces, so it doesn't always work! Use a Detangle node
 | [Download the HDA!](./hdas/MysteryPancake.deintersect.1.0.hda) | [Download the HIP file!](./hdas/deintersect.hiplc) |
 | --- | --- |
 
-## HDA: Unbake GSplats (WIP)
+## HDA: Unbake GSplats
 
 This node does the opposite of the [Bake GSplats node](https://www.sidefx.com/docs/houdini/nodes/sop/bakegsplat.html).
 
