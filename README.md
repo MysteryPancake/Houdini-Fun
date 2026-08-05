@@ -1403,9 +1403,7 @@ Unlike regular geometry, tets have 3D primitive UV coordinates. If you ray insid
 
 <img src="./images/tets_primuvs.jpg" width="600">
 
-Tetrahedrons aren't always an option due to the triangulation changing.
-
-[In this case, try the Volumetric Deform HDA!](#-hda-volumetric-deform)
+Tetrahedrons aren't always an option due to the triangulation changing. In this case, [try the Volumetric Deform HDA](#-hda-volumetric-deform)!
 
 <img src="./images/hdas/mvccubes.gif" height="350">
 
