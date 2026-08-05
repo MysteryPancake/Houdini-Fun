@@ -48,7 +48,7 @@ Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me shar
 
 Another thing you can make with the [Laplacian node](https://www.sidefx.com/docs/houdini//nodes/sop/laplacian.html) is a geometry equalizer.
 
-Like with sound, you can exaggerate or reduce certain frequencies (eigenvectors) of the geometry for blurring and sharpening effects.
+You can exaggerate or reduce certain frequencies (eigenvectors) of the geometry for blurring and sharpening effects.
 
 <img src="./images/hdas/laplacian_filter.webp" width="500">
 
