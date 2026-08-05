@@ -570,15 +570,15 @@ The same can be done in Copernicus using a Slap Comp Block.
 
 1. Use the position and depth AOVs to make a blurry mask near the edges. Scale the blur by `1/depth` to keep it roughly the same radius in 3D.
 
-<img src="./images/cops/edge_blend_mask.png" width="400">
+<img src="./images/cops/edge_blend_mask.png" width="500">
 
 2. Distort the position inside the mask using Fractal Noise 3D. This keeps the noise locked in 3D space.
 
-<img src="./images/cops/edge_blend_pos.png" width="400">
+<img src="./images/cops/edge_blend_pos.png" width="500">
 
 3. Sample the image at the distorted coordinate using the Position Sample node. Blend multiple octaves of noise to smooth out the transition.
 
-<img src="./images/cops/edge_blending.png" width="400">
+<img src="./images/cops/edge_blending.png" width="500">
 
 | [Download the HIP file!](./hips/cops/cops_edge_blend.hiplc) |
 | --- |
