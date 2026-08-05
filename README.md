@@ -50,12 +50,11 @@ Another thing you can make with the [Laplacian node](https://www.sidefx.com/docs
 
 Like with sound, you can exaggerate or reduce certain frequencies (eigenvectors) of the geometry for blurring and sharpening effects.
 
+<img src="./images/hdas/laplacian_filter.webp" width="500">
+
 Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eigenspace Projection example](https://drive.google.com/drive/folders/1gFYlmsFgpeihmcqZLFITvYQIW5mpYyJd)! I remade it in OpenCL for better performance.
 
-<p align="left">
-  <img src="./images/hdas/laplacianfilter.png" width="45%">
-  <img src="./images/hdas/laplacianfilter2.png" width="45%">
-</p>
+<img src="./images/hdas/laplacianfilter.png" width="500">
 
 | [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc) | [Download the HIP file!](./hdas/laplacian_filter.hiplc) |
 | --- | --- |
