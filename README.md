@@ -234,10 +234,7 @@ This node does the opposite of the [Bake GSplats node](https://www.sidefx.com/do
 It converts the Houdini attributes: `GS_SPH_*`, `Cd`, `GS_Alpha`, `orient`, `scale`<br>
 Back into standard PLY attributes: `f_rest_*`, `f_dc_*`, `opacity`, `f_rot_*`, `scale_*`
 
-There are currently two issues with this node:
-
-- It doesn't currently reorient the spherical harmonics. Harmonics are converted with their original orientation.
-- Harmonics may not work as expected in vectorized form. Currently there's a bug with the Bake GSplats node where it expects a `f@f_rest_44` attribute to compute harmonics. This attribute doesn't exist in vectorized form.
+It doesn't currently reorient the spherical harmonics. Harmonics are converted with their original orientation.
 
 | [Download the HDA!](./hdas/MysteryPancake.unbake_gsplat.1.0.hda) | [Download the HIP file!](./hdas/unbake_gsplats.hiplc) |
 | --- | --- |
