@@ -41,8 +41,8 @@ Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me shar
 
 <img src="./images/hdas/straight_skeletons.png" height="300">
 
-| [Download the HDA!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda) | [Download the HIP file!](./hdas/fast_straight_skeleton.hip) |
-| --- | --- |
+| [Download the HDA!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda) | [Download the HIP file!](./hdas/fast_straight_skeleton.hip) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/straightskeleton) |
+| --- | --- | --- |
 
 <h2><img src="./images/hdas/laplacian_filter.png" height="32"> HDA: Laplacian Frequency Filter</h2>
 
@@ -56,8 +56,8 @@ Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eige
 
 <img src="./images/hdas/laplacianfilter.png" width="500">
 
-| [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc) | [Download the HIP file!](./hdas/laplacian_filter.hiplc) |
-| --- | --- |
+| [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc) | [Download the HIP file!](./hdas/laplacian_filter.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/laplacianfilter) |
+| --- | --- | --- |
 
 <h2><img src="./images/hdas/plate_project.png" height="32"> HDA: Plate Project</h2>
 
@@ -79,8 +79,8 @@ This HDA lets you project plates in 3 ways:
 
 Remember to remove lens distortion (undistort) the plate before using this HDA to get correct results.
 
-| [Download the HDA!](./hdas/MysteryPancake.plate_project.1.0.hdalc) | [Download the HIP file!](./hdas/plate_project.hiplc) |
-| --- | --- |
+| [Download the HDA!](./hdas/MysteryPancake.plate_project.1.0.hdalc) | [Download the HIP file!](./hdas/plate_project.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/plateproject) |
+| --- | --- | --- |
 
 <h2><img src="./images/hdas/rigid_preroll.png" height="32"> HDA: Rigid Piece Preroll</h2>
 
@@ -92,8 +92,8 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 
 <img src="./images/hdas/rigidpreroll.gif" height="300">
 
-| [Download the HDA!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda) | [Download the HIP file!](./hdas/rigid_piece_preroll.hiplc) |
-| --- | --- |
+| [Download the HDA!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda) | [Download the HIP file!](./hdas/rigid_piece_preroll.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/rigidpreroll) |
+| --- | --- | --- |
 
 <h2><img src="./images/hdas/volumetric_deform.png" height="32"> HDA: Volumetric Deform</h2>
 
@@ -111,8 +111,8 @@ It works by casting rays in a sphere from each point, creating lines. Each line 
 
 <img src="./images/hdas/mvcraycast.gif" height="450">
 
-| [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc) | [Download the HIP file!](./hdas/mvc_deform.hiplc) | [Bonus MVC demos!](./hips/mvc_demos.hiplc) |
-| --- | --- | --- |
+| [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc) | [Download the HIP file!](./hdas/mvc_deform.hiplc) | [Bonus MVC demos!](./hips/mvc_demos.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/volumetricdeform) |
+| --- | --- | --- | --- |
 
 ```js
 float tolerance = chf("tolerance");
@@ -161,8 +161,8 @@ If the skeleton actually has cycles, you need to detect and cut them. I made a H
 
 <img src="./images/hdas/cycle_detection.png" height="400">
 
-| [Download the HDA!](./hdas/MysteryPancake.repair_cycles.1.0.hdalc) | [Download the HIP file!](./hdas/repair_cycles.hiplc) |
-| --- | --- |
+| [Download the HDA!](./hdas/MysteryPancake.repair_cycles.1.0.hdalc) | [Download the HIP file!](./hdas/repair_cycles.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/repaircycles) |
+| --- | --- | --- |
 
 ```js
 // Depth first search to detect graph cycles for cutting
@@ -236,8 +236,8 @@ Back into standard PLY attributes: `f_rest_*`, `f_dc_*`, `opacity`, `f_rot_*`, `
 
 It doesn't currently reorient the spherical harmonics. Harmonics are converted with their original orientation.
 
-| [Download the HDA!](./hdas/MysteryPancake.unbake_gsplat.1.0.hda) | [Download the HIP file!](./hdas/unbake_gsplats.hiplc) |
-| --- | --- |
+| [Download the HDA!](./hdas/MysteryPancake.unbake_gsplat.1.0.hda) | [Download the HIP file!](./hdas/unbake_gsplats.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/unbakegsplats) |
+| --- | --- | --- |
 
 ## Simple spring solver
 
