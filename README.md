@@ -114,6 +114,10 @@ It works by casting rays in a sphere from each point, creating lines. Each line 
 | [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc) | [Download the HIP file!](./hdas/mvc_deform.hiplc) | [Bonus MVC demos!](./hips/mvc_demos.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/volumetricdeform) |
 | --- | --- | --- | --- |
 
+The VEX below captures and deforms in one step. This is slower than the HDA since the capture is only needed once.
+
+The inputs are the same as Point Deform. The 1st input is geo to deform, the 2nd is the rest pose and the 3rd is the deformed pose.
+
 ```js
 float tolerance = chf("tolerance");
 int samples = chi("samples");
@@ -146,10 +150,6 @@ for (int i = 0; i < samples; ++i) {
     v@P += offsets[i] / weight_total;
 }
 ```
-
-The VEX above captures and deforms in one step, which is slower since ray is only needed once.
-
-The inputs are the same as Point Deform. The 1st input is geo to deform, the 2nd is the rest pose and the 3rd is the deformed pose.
 
 <h2><img src="./images/hdas/repair_cycles.svg" height="32"> HDA: Repair Cycles</h2>
 
