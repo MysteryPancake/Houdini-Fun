@@ -588,9 +588,11 @@ You can actually turn infinite layers of blurring and sharpening into a single i
 
 If you take a single white pixel (the impulse), then sharpen and blur as many times as you want, it's the response of all filters combined.
 
-You can run it through a [Convolve node](https://www.sidefx.com/docs/houdini/nodes/cop/convolvefilter.html) for the same result as all that in a single pass.
+Run it through a [Convolve node](https://www.sidefx.com/docs/houdini/nodes/cop/convolvefilter.html) for the same result in a single pass.
 
-This is popular for [convolution reverb](https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/plugins/Fruity%20Convolver.htm), recreating how sound echoes around a room.
+<img src="./images/cops/convolve_fir2.webp" height="350">
+
+It's popular for [convolution reverb](https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/plugins/Fruity%20Convolver.htm), recreating how sound echoes around a room.
 
 You can convert an impulse response into a frequency response using the [FFT node](https://www.sidefx.com/docs/houdini/nodes/cop/fft.html).
 
