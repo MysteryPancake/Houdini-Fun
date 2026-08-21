@@ -153,9 +153,9 @@ for (int i = 0; i < samples; ++i) {
 
 ## HDA: RBF Deformer
 
-Another popular way to deform is using radial basis functions (RBF).
+Another way to deform with respect to volume is using radial basis functions (RBF).
 
-RBF deforming is based on the distances to each point. The distances are shaped by a kernel, then smoothly blended together.
+RBF deforming is based on the distance to each point. The distances are shaped by a kernel, then smoothly blended together.
 
 Houdini has a built-in node for this, the [BlendPose CHOP node](https://www.sidefx.com/docs/houdini/nodes/chop/blendpose.html). This HDA is a wrapper for this node.
 
