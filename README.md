@@ -151,6 +151,21 @@ for (int i = 0; i < samples; ++i) {
 }
 ```
 
+## HDA: RBF Deformer
+
+Another popular way to deform is using radial basis functions (RBF).
+
+RBF deforming is based on the distances to each point. The distances are shaped by a kernel, then smoothly blended together.
+
+Houdini has a built-in node for this, [the BlendPose CHOP node](https://www.sidefx.com/docs/houdini/nodes/chop/blendpose.html). This HDA is a wrapper for this node.
+
+Note BlendPose is very slow! A faster version can be found on [XAPKOHHEH's page](https://github.com/permahorse/educational-hips/tree/master/rbf), and [Momme Carl's page](https://momme.gumroad.com/l/rbfinterpolate).
+
+<img src="./images/hdas/rbf_deformer.webp" height="400">
+
+| [Download the HDA!](./hdas/MysteryPancake.rbf_deformer.1.0.hda) | [Download the HIP file!](./hdas/rbf_deform.hiplc) |
+| --- | --- |
+
 <h2><img src="./images/hdas/repair_cycles.svg" height="32"> HDA: Repair Cycles</h2>
 
 KineFX often whinges when skeletons are cyclic (Hierarchy traversal failed: computeHierarchyResult.FoundCycle).
