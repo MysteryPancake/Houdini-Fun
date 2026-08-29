@@ -536,9 +536,9 @@ v@P = P + out * v@P.x + up * v@P.z;
 
 I saw a cool paper called ["Estimating Discrete Total Curvature with Per Triangle Normal Variation" by Crane He Chen](https://doi.org/10.1145/3587421.3595439).
 
-It uses the variation of the normals to represent curvature. It measures variation using the laplacian of the normals.
+It uses the variation of the normals to represent curvature. The laplacian of the normals measures the variation.
 
-This gives cleaner looking results than the curvature from the Measure node (left).
+This gives cleaner looking results than the Measure node (left).
 
 <img src="./images/fast_laplacian_curvature.png" width="500">
 
