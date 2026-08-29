@@ -618,20 +618,22 @@ You can convert an impulse response into a frequency response using the [FFT nod
 
 ## Copernicus: SDF blurring
 
-<img src="./images/cops/cops_sdf_blurring.png" height="350">
+There's many different ways to blur an SDF, each with different pros and cons.
+
+<img src="./images/cops/cops_sdf_blurring.png" width="600">
 
 | [Download the HIP file!](./hips/cops/cops_sdf_blurring.hiplc) |
 | --- |
 
-There's many different ways to blur an SDF, each with different pros and cons.
-
 ### 1. Blur node
 
-This is the most obvious approach, but it doesn't produce the most physically correct result.
+The most obvious approach, but it doesn't produce the most physically correct results.
 
-Remember an SDF represents the Euclidean distance to the shape. Blurring smears out the distances.
+Remember that an SDF represents the Euclidean distance to the shape. Blurring smears out the distances.
 
 To fix this, always add an SDF Rebuild node after blurring. This rebuilds the distances to make them Euclidean.
+
+<img src="./images/cops/cops_sdf_blur1.webp" height="350">
 
 ### 2. Add to the SDF
 
@@ -641,13 +643,17 @@ Inigo Quilez made a great video called [Rounding Corners in SDFs](https://www.yo
 
 He explains by adding to an SDF, you change its isosurface. The distant isosurfaces smooth out the object until it becomes a sphere.
 
-In Copernicus, you can use a Bright node to add to any layer. Increase the brightness to expand and blur the SDF.
+In Copernicus, you can use a Bright node to add to any layer. Increase the brightness to expand and blur out the SDF.
+
+<img src="./images/cops/cops_sdf_blur2.webp" height="350">
 
 ### 3. Add then subtract from the SDF
 
 By adding to the SDF it expands and blurs the exterior, but leaves the interior unchanged.
 
 To blur both the interior and exterior, you need to add then subtract, and rebuild in between.
+
+<img src="./images/cops/cops_sdf_blur3.webp" height="350">
 
 ## Copernicus: Pig paint
 
