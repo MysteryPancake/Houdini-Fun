@@ -616,6 +616,39 @@ You can convert an impulse response into a frequency response using the [FFT nod
 | [Download the HIP file!](./hips/cops/convolve_fir.hiplc) |
 | --- |
 
+## Copernicus: SDF blurring
+
+<img src="./images/cops/cops_sdf_blurring.png" height="350">
+
+| [Download the HIP file!](./hips/cops/cops_sdf_blurring.hiplc) |
+| --- |
+
+There's many different ways to blur an SDF, each with different pros and cons.
+
+### 1. Blur node
+
+This is the most obvious approach, but it doesn't produce the most physically correct result.
+
+Remember an SDF represents the Euclidean distance to the shape. Blurring smears out the distances.
+
+To fix this, always add an SDF Rebuild node after blurring. This rebuilds the distances to make them Euclidean.
+
+### 2. Add to the SDF
+
+Inigo Quilez made a great video called [Rounding Corners in SDFs](https://www.youtube.com/watch?v=s5NGeUV2EyU).
+
+[![Rounding corners tutorial](https://img.youtube.com/vi/s5NGeUV2EyU/mqdefault.jpg)](https://youtu.be/s5NGeUV2EyU)
+
+He explains by adding to an SDF, you change its isosurface. The distant isosurfaces smooth out the object until it becomes a sphere.
+
+In Copernicus, you can use a Bright node to add to any layer. Increase the brightness to expand and blur the SDF.
+
+### 3. Add then subtract from the SDF
+
+By adding to the SDF it expands and blurs the exterior, but leaves the interior unchanged.
+
+To blur both the interior and exterior, you need to add then subtract, and rebuild in between.
+
 ## Copernicus: Pig paint
 
 Using the Stamp Points node with the Flow Block to get a somewhat realistic flowing paint effect.
