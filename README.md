@@ -532,6 +532,66 @@ vector up = primuv(1, "up", i@prim, v@primuv);
 v@P = P + out * v@P.x + up * v@P.z;
 ```
 
+## Fast curvature from normals
+
+I saw a cool paper called ["Estimating Discrete Total Curvature with Per Triangle Normal Variation" by Crane He Chen](https://doi.org/10.1145/3587421.3595439).
+
+The idea is to use the variation of the normals to represent curvature. It involves computing the laplacian of the normals.
+
+This gives cleaner looking results than the curvature from the Measure node (left).
+
+<img src="./images/fast_laplacian_curvature.png" width="500">
+
+| [Download the HIP file!](./hips/fast_laplacian_curvature.hiplc) |
+| --- |
+
+```js
+int pts[] = primpoints(0, @primnum);
+vector v0 = point(0, "P", pts[0]);
+vector v1 = point(0, "P", pts[1]);
+vector v2 = point(0, "P", pts[2]);
+
+vector n0 = point(0, "N", pts[0]);
+vector n1 = point(0, "N", pts[1]);
+vector n2 = point(0, "N", pts[2]);
+
+// Compute the edge vectors
+vector e01 = v1 - v0;
+vector e02 = v2 - v0;
+vector e12 = v2 - v1;
+vector e10 = v0 - v1;
+vector e20 = v0 - v2;
+vector e21 = v1 - v2;
+
+// Compute the cotangents of each triangle's interior angles
+float eps = 1e-6;
+vector cross0 = cross(e01, e02);
+float cot0 = dot(e01, e02) / (length(cross0) + eps); // Angle at v0
+float cot1 = dot(e12, e10) / (length(cross(e12, e10)) + eps); // Angle at v1
+float cot2 = dot(e20, e21) / (length(cross(e20, e21)) + eps); // Angle at v2
+
+// Build a local 3x3 laplacian
+float L01 = 0.5 * cot2;
+float L02 = 0.5 * cot1;
+float L12 = 0.5 * cot0;
+float L00 = -(L01 + L02);
+float L11 = -(L01 + L12);
+float L22 = -(L02 + L12);
+
+// Page 2 of the paper (kT = trace(Nt * St * NtT))
+// Curvature is based on how much the normal varies
+matrix3 L = set(L00, L01, L02,
+                L01, L11, L12,
+                L02, L12, L22);
+                
+matrix3 N = set(n0.x, n1.x, n2.x,
+                n0.y, n1.y, n2.y,
+                n0.z, n1.z, n2.z);
+                
+f@curvature = -tr(N * L * transpose(N));
+f@area = length(cross0) * 0.5;
+```
+
 ## Copernicus pyro vs regular pyro
 
 Recently they added a Pyro solver to Copernius, along with most of the features of the regular Pyro solver. The advection method is different, but everything else is pretty much identical.
