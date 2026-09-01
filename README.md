@@ -613,7 +613,7 @@ matrix m = detail(1, "xform", 0);
 matrix3 m3 = matrix3(m);
 
 // slerp() uses polar decomposition, giving weird results for the S matrix
-// This is a matrix equivalent to lerp(), avoiding polar decomposition
+// Below is lerp() for matrices, avoiding polar decomposition
 matrix3 mlerp(matrix3 a; matrix3 b; float fac) {
     return a + fac * (b - a);
 }
