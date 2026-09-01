@@ -588,16 +588,16 @@ f@area = area2 * 0.5;
 
 [Singular value decomposition (SVD)](https://www.sidefx.com/docs/houdini/vex/functions/svddecomp.html) is a way to break a matrix into simpler matrices, like [polar decomposition](https://www.sidefx.com/docs/houdini/vex/functions/polardecomp.html).
 
-I made a video about it below, though it's demonstrated in Blender rather than Houdini.
+I made a video about SVD, though it's shown in Blender rather than Houdini.
 
 [![SVD tutorial](https://img.youtube.com/vi/tcx4XNoqSlY/mqdefault.jpg)](https://youtu.be/tcx4XNoqSlY)
 
 | [Video Tutorial](https://youtu.be/tcx4XNoqSlY) |
 | --- |
 
-SVD splits any matrix into 3 matrices. Rotation, followed by scale, followed by rotation again.
+It splits any matrix into 3 matrices: rotation, then scale, then rotation again.
 
-This isolates 3 things that are fudged together in the same part of the matrix (scale, rotation and skew)
+This isolates 3 things that are normally fudged together in the same part of the matrix (scale, rotation and skew)
 
 SVD is useful for many things, including the [Oriented Bounding Box node](https://www.sidefx.com/docs/houdini/nodes/sop/bound.html), [Extract Transform](#extract-transform-in-vex) and even [color correction](https://mysterypancake.gumroad.com/l/svd).
 
