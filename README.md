@@ -412,7 +412,7 @@ Path Deform works for this, but another approach is making a coordinate system a
 
 A 3D coordinate system has 3 axes, X, Y and Z. We want to map these axes along the curve.
 
-Orient Along Curve gives us `@orient` and `@up` vectors to build an orthogonal frame, similar to PolyFrame.
+Orient Along Curve gives us `@orient` and `@up` vectors to build an orthogonal frame, like PolyFrame.
 
 First we need the inverse mapping, to convert the original coordinate to the equivalent curve coordinate.
 
@@ -586,7 +586,7 @@ f@area = area2 * 0.5;
 
 ## Singular value decomposition
 
-[Singular value decomposition (SVD)](https://www.sidefx.com/docs/houdini/vex/functions/svddecomp.html) is a way to break a matrix into simpler matrices, similar to [polar decomposition](https://www.sidefx.com/docs/houdini/vex/functions/polardecomp.html).
+[Singular value decomposition (SVD)](https://www.sidefx.com/docs/houdini/vex/functions/svddecomp.html) is a way to break a matrix into simpler matrices, like [polar decomposition](https://www.sidefx.com/docs/houdini/vex/functions/polardecomp.html).
 
 I made a video about it below, though it's demonstrated in Blender rather than Houdini.
 
@@ -1919,7 +1919,7 @@ v@P = frac(set(.754877669, .569840296) * i@ptnum);
 
 Sunset333 on the CGWiki Discord wanted to remake [this circle animation by Mario Demeyer](https://www.instagram.com/p/DWBvVI5gpAq).
 
-Jakob suggested using recursive subdivision or a quadtree [similar to Matt Taylor](https://www.youtube.com/watch?v=GhquYJ9m1Oc).
+Jakob suggested using recursive subdivision or a quadtree [like Matt Taylor](https://www.youtube.com/watch?v=GhquYJ9m1Oc).
 
 I took a different approach, just using a tile split into 4 regions with different colors.
 
@@ -2146,7 +2146,7 @@ i@group_hit = 1;
 
 ## STIT tesselations
 
-A [STIT tesselation](https://www.lebesgue.fr/sites/default/files/attach/Nagel_Rennes16.pdf) looks very similar to a [Gilbert tesselation](#gilbert-tesselations).
+A [STIT tesselation](https://www.lebesgue.fr/sites/default/files/attach/Nagel_Rennes16.pdf) looks much like a [Gilbert tesselation](#gilbert-tesselations).
 
 The difference is a Gilbert tesselation is made by extending lines, while a STIT tesselation is made by recursively cutting faces (like recursive subdivision).
 
@@ -3418,7 +3418,7 @@ if (ang_p < angs[0]) {
 }
 ```
 
-The second was optimized for 2D only, similar to my 3D version except the cross products are replaced with `(y, -x)`.
+The second was optimized for 2D only, like my 3D version except the cross products are replaced with `(y, -x)`.
 
 ```js
 // 2D optimized version by Jake Rice
