@@ -547,49 +547,41 @@ This gives cleaner looking results than the Measure node (left).
 
 ```js
 int pts[] = primpoints(0, @primnum);
-vector v0 = point(0, "P", pts[0]);
-vector v1 = point(0, "P", pts[1]);
-vector v2 = point(0, "P", pts[2]);
+vector p0 = point(0, "P", pts[0]);
+vector p1 = point(0, "P", pts[1]);
+vector p2 = point(0, "P", pts[2]);
 
 vector n0 = point(0, "N", pts[0]);
 vector n1 = point(0, "N", pts[1]);
 vector n2 = point(0, "N", pts[2]);
 
-// Compute the edge vectors
-vector e01 = v1 - v0;
-vector e02 = v2 - v0;
-vector e12 = v2 - v1;
-vector e10 = v0 - v1;
-vector e20 = v0 - v2;
-vector e21 = v1 - v2;
+// Edge vectors
+vector e01 = p1 - p0;
+vector e02 = p2 - p0;
+vector e12 = p2 - p1;
+vector e10 = p0 - p1;
+vector e20 = p0 - p2;
+vector e21 = p1 - p2;
 
-// Compute the cotangents of each triangle's interior angles
+// Cotangents of each triangle's interior angles
 float eps = 1e-6;
-vector cross0 = cross(e01, e02);
-float cot0 = dot(e01, e02) / (length(cross0) + eps); // Angle at v0
+float area2 = length(cross(e01, e02));
+float cot0 = dot(e01, e02) / (area2 + eps); // Angle at v0
 float cot1 = dot(e12, e10) / (length(cross(e12, e10)) + eps); // Angle at v1
 float cot2 = dot(e20, e21) / (length(cross(e20, e21)) + eps); // Angle at v2
 
-// Build a local 3x3 laplacian
-float L01 = 0.5 * cot2;
-float L02 = 0.5 * cot1;
-float L12 = 0.5 * cot0;
-float L00 = -(L01 + L02);
-float L11 = -(L01 + L12);
-float L22 = -(L02 + L12);
+// St is the negative laplacian/stiffness matrix
+matrix3 St = 0.5 * set(cot1+cot2, -cot2,      -cot1,
+                      -cot2,       cot0+cot2, -cot0,
+                      -cot1,      -cot0,       cot0+cot1);
 
-// Page 2 of the paper (kT = trace(Nt * St * NtT))
+// Nt is the 3 normals stored as columns
+matrix3 Nt = transpose(set(n0, n1, n2));
+
+// Page 2 of the paper: kT = trace(Nt * St * NtT)
 // Curvature is based on how much the normal varies
-matrix3 L = set(L00, L01, L02,
-                L01, L11, L12,
-                L02, L12, L22);
-                
-matrix3 N = set(n0.x, n1.x, n2.x,
-                n0.y, n1.y, n2.y,
-                n0.z, n1.z, n2.z);
-                
-f@curvature = -tr(N * L * transpose(N));
-f@area = length(cross0) * 0.5;
+f@curvature = tr(Nt * St * transpose(Nt));
+f@area = area2 * 0.5;
 ```
 
 ## Copernicus pyro vs regular pyro
