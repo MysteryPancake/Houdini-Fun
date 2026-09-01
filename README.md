@@ -603,7 +603,7 @@ SVD is useful for many things, including the [Oriented Bounding Box node](https:
 
 <img src="./images/svd.webp" width="500">
 
-| [Video Tutorial](https://youtu.be/tcx4XNoqSlY) |
+| [Download the HIP file!](./hips/svd.hiplc) |
 | --- |
 
 ```js
