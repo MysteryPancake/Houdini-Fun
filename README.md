@@ -612,8 +612,8 @@ matrix m = detail(1, "xform", 0);
 // SVD works on 4x4 too, but 3x3 is easier to visualize
 matrix3 m3 = matrix3(m);
 
-// slerp() gives a weird result for the S matrix
-// This version avoids polar decomposition
+// slerp() uses polar decomposition, giving weird results for the S matrix
+// This is a matrix equivalent to lerp(), avoiding polar decomposition
 matrix3 mlerp(matrix3 a; matrix3 b; float fac) {
     return a + fac * (b - a);
 }
