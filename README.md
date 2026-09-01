@@ -584,6 +584,68 @@ f@curvature = tr(Nt * St * transpose(Nt));
 f@area = area2 * 0.5;
 ```
 
+## Singular value decomposition
+
+[Singular value decomposition (SVD)](https://www.sidefx.com/docs/houdini/vex/functions/svddecomp.html) is a way to break a matrix into simpler matrices, similar to [polar decomposition](https://www.sidefx.com/docs/houdini/vex/functions/polardecomp.html).
+
+I made a video about it below, though it's demonstrated in Blender rather than Houdini.
+
+[![SVD tutorial](https://img.youtube.com/vi/tcx4XNoqSlY/mqdefault.jpg)](https://youtu.be/tcx4XNoqSlY)
+
+| [Video Tutorial](https://youtu.be/tcx4XNoqSlY) |
+| --- |
+
+SVD splits any matrix into 3 matrices. Rotation, followed by scale, followed by rotation again.
+
+This isolates 3 things that are fudged together in the same part of the matrix (scale, rotation and skew)
+
+SVD is useful for many things, including the [Oriented Bounding Box node](https://www.sidefx.com/docs/houdini/nodes/sop/bound.html), [Extract Transform](#extract-transform-in-vex) and even [color correction](https://mysterypancake.gumroad.com/l/svd).
+
+<img src="./images/svd.webp" width="500">
+
+| [Video Tutorial](https://youtu.be/tcx4XNoqSlY) |
+| --- |
+
+```js
+// Plug any 4x4 matrix into the second input
+matrix m = detail(1, "xform", 0);
+// SVD works on 4x4 too, but 3x3 is easier to visualize
+matrix3 m3 = matrix3(m);
+
+// slerp() gives a weird result for the S matrix
+// This version avoids polar decomposition
+matrix3 mlerp(matrix3 a; matrix3 b; float fac) {
+    return a + fac * (b - a);
+}
+
+// SVD splits a single matrix (m3) into 3 matrices
+// Rotation (U) -> Scale (S) -> Rotation (V)
+matrix3 U, S, V;
+vector Sv;
+svddecomp(m3, U, Sv, V);
+// Sv is the diagonal of the scale matrix, the rest is 0
+S = diag(Sv);
+
+// V needs to be transposed to reconstruct the original matrix
+// m3 = U * S * transpose(V)
+V = transpose(V);
+
+// For text display
+3@U = U;
+3@S = S;
+3@V = V;
+
+// Blend the first rotation
+U = mlerp(ident(), U, chf("U"));
+// Blend the scale
+S = mlerp(ident(), S, chf("S"));
+// Blend the second rotation
+V = mlerp(ident(), V, chf("V"));
+
+// Reconstruct the original matrix (m3)
+v@P *= U * S * V;
+```
+
 ## Copernicus pyro vs regular pyro
 
 Recently they added a Pyro solver to Copernius, along with most of the features of the regular Pyro solver. The advection method is different, but everything else is pretty much identical.
