@@ -1215,7 +1215,26 @@ v@GS_Specular = specular_light;
 v@N = primuv(1, "N", prim, uv);
 ```
 
-## Copernicus: 2D gaussian splat relighting
+## Gaussian splat relighting: 3 new methods
+
+Houdini 22 added various new gaussian splatting nodes we can use for relighting.
+
+I still prefer my original method above, but you can get decent results with the new nodes too.
+
+1. [Labs Relight GSplats](https://www.sidefx.com/docs/houdini/nodes/lop/labs--relight_gsplats.html)
+2. [Rasterize GSplats + Light](#copernicus-rasterize-gsplats--light)
+3. [Rasterize GSplats + Project](#copernicus-rasterize-gsplats--project)
+
+| Labs Relight GSplats | Rasterize GSplats + Light | Rasterize GSplats + Projection |
+| --- | --- | --- |
+| <img src="./images/gaussian_splats/gun_relight_labs.png"> | <img src="./images/gaussian_splats/gun_relight_cops.png"> | <img src="./images/gaussian_splats/gun_relight_projected.png"> |
+
+The model in this screenshot and HIP file is ["Dymensium Badboy" by Adrian Cuesta](https://superspl.at/scene/b49d5e45).
+
+| [Download the HIP file!](./hips/gaussian_splats/gsplat_3_relighting_methods.hiplc) | [Download the splat!](https://superspl.at/scene/b49d5e45) |
+| --- | --- |
+
+### Copernicus: Rasterize GSplats + Light
 
 In Houdini 22 they added a [Rasterize GSplats](https://www.sidefx.com/docs/houdini/nodes/cop/rasterizegsplats.html) node.
 
@@ -1233,8 +1252,13 @@ Note this doesn't use raytracing, so it's missing the shadows and secondary boun
 
 <img src="./images/gaussian_splats/cops_relight_splat.png" width="700">
 
-| [Download the HIP file!](./hips/gaussian_splats/cops_relight_splat.hiplc) |
-| --- |
+| [Download the HIP file!](./hips/gaussian_splats/cops_relight_splat.hiplc) | [Download the splat!](https://superspl.at/scene/e38961ae) |
+| --- | --- |
+
+### Copernicus: Rasterize GSplats + Project
+
+| [Download the HIP file!](./hips/gaussian_splats/cops_relight_splat_projected.hiplc) | [Download the splat!](https://superspl.at/scene/e38961ae) |
+| --- | --- |
 
 ## Gaussian splat spherical harmonics evaluation
 
