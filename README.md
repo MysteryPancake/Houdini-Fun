@@ -1215,7 +1215,7 @@ v@GS_Specular = specular_light;
 v@N = primuv(1, "N", prim, uv);
 ```
 
-## Gaussian splat relighting in Copernicus
+## Copernicus: 2D gaussian splat relighting
 
 In Houdini 22 they added a [Rasterize GSplats](https://www.sidefx.com/docs/houdini/nodes/cop/rasterizegsplats.html) node.
 
