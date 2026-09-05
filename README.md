@@ -1219,7 +1219,7 @@ v@N = primuv(1, "N", prim, uv);
 
 Houdini 22 added various new gaussian splatting nodes we can use for relighting.
 
-I still prefer my original method above, but you can get decent results with the new nodes too.
+I still prefer [my original method](#gaussian-splat-relighting), but you can get decent results with the new nodes too.
 
 1. [Labs Relight GSplats](https://www.sidefx.com/docs/houdini/nodes/lop/labs--relight_gsplats.html)
 2. [Rasterize GSplats + Light](#copernicus-rasterize-gsplats--light)
@@ -1256,6 +1256,24 @@ Note this doesn't use raytracing, so it's missing the shadows and secondary boun
 | --- | --- |
 
 ### Copernicus: Rasterize GSplats + Project
+
+Since we have the [Rasterize GSplats](https://www.sidefx.com/docs/houdini/nodes/cop/rasterizegsplats.html) node in Copernicus, why use Karma to render the splats?
+
+Why not rasterize the splats in Copernicus and project them onto a proxy mesh in Karma?
+
+This requires using a [MtlX Position node](https://www.sidefx.com/docs/houdini/nodes/vop/mtlxposition.html) to set the projection to `ndc` (camera space).
+
+You can rasterize multiple textures for diffuse, specular, normals, opacity and anything else you need.
+
+<img src="./images/gaussian_splats/cops_gsplat_layers.png" width="700">
+
+The result isn't as nice as [my original method](#gaussian-splat-relighting), but it's a decent approximation.
+
+As a bonus since it bypasses Karma entirely, it renders in Karma CPU as well as Karma XPU!
+
+| Proxy mesh | Projected splats |
+| --- | --- |
+| <img src="./images/gaussian_splats/gs_projected2.webp"> | <img src="./images/gaussian_splats/gs_projected.webp"> |
 
 | [Download the HIP file!](./hips/gaussian_splats/cops_relight_splat_projected.hiplc) | [Download the splat!](https://superspl.at/scene/e38961ae) |
 | --- | --- |
