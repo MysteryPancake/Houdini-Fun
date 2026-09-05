@@ -1131,7 +1131,7 @@ diffuse = (diffuse - 0.5) / SH_C0;
 
 ## Gaussian splat relighting
 
-**UPDATE: Houdini 22 added a [Labs Relight GSplats](https://www.sidefx.com/docs/houdini/nodes/lop/labs--relight_gsplats.html) node. Currently it loops over the lights in VEX rather than using raytracing. This only supports primary lighting and shadows, not bounce lighting. My method below is more work to setup, but it supports bounce lighting and other raytraced effects.**
+**UPDATE: Houdini 22 added a [Labs Relight GSplats node](https://www.sidefx.com/docs/houdini/nodes/lop/labs--relight_gsplats-1.1.html). Currently it loops over the lights in VEX rather than using raytracing. This only supports primary lighting and shadows, not bounce lighting. My method below is more work to setup, but it supports bounce lighting and other raytraced effects.**
 
 [![Relighting tutorial](https://img.youtube.com/vi/BtbgwKK-WkY/mqdefault.jpg)](https://youtu.be/BtbgwKK-WkY)
 
@@ -1220,7 +1220,7 @@ Houdini 22 added various new gaussian splatting nodes we can use for relighting.
 
 I still prefer [my original method](#gaussian-splat-relighting), but you can get decent results with the new nodes too.
 
-1. [Labs Relight GSplats](https://www.sidefx.com/docs/houdini/nodes/lop/labs--relight_gsplats.html)
+1. [Labs Relight GSplats](https://www.sidefx.com/docs/houdini/nodes/lop/labs--relight_gsplats-1.1.html)
 2. [Rasterize GSplats + Light](#copernicus-rasterize-gsplats--light)
 3. [Rasterize GSplats + Project](#copernicus-rasterize-gsplats--project)
 
@@ -1235,7 +1235,7 @@ The model in this screenshot and HIP file is ["Dymensium Badboy" by Adrian Cuest
 
 ### Copernicus: Rasterize GSplats + Light
 
-In Houdini 22 they added a [Rasterize GSplats](https://www.sidefx.com/docs/houdini/nodes/cop/rasterizegsplats.html) node.
+In Houdini 22 they added a [Rasterize GSplats node](https://www.sidefx.com/docs/houdini/nodes/cop/rasterizegsplats.html).
 
 It turns 3D splats directly into a 2D image, including a few other passes like color and depth.
 
@@ -1245,7 +1245,7 @@ You can rasterize other attributes like normals and position by renaming them to
 | --- | --- | --- |
 | <img src="./images/gaussian_splats/cops_Cd.png"> | <img src="./images/gaussian_splats/cops_N.png"> | <img src="./images/gaussian_splats/cops_P.png"> |
 
-With these 3 passes, you can use a [Light](https://www.sidefx.com/docs/houdini/nodes/cop/light.html) node to approximate the primary lighting based on the normals.
+With these 3 passes, you can use a [Light node](https://www.sidefx.com/docs/houdini/nodes/cop/light.html) to approximate the primary lighting based on the normals.
 
 Note this doesn't use raytracing, so it's missing the shadows and secondary bounces you get from [baked lighting](#gaussian-splat-relighting).
 
@@ -1256,7 +1256,7 @@ Note this doesn't use raytracing, so it's missing the shadows and secondary boun
 
 ### Copernicus: Rasterize GSplats + Project
 
-Since we have the [Rasterize GSplats](https://www.sidefx.com/docs/houdini/nodes/cop/rasterizegsplats.html) node in Copernicus, why use Karma to render the splats?
+Since we have the [Rasterize GSplats node](https://www.sidefx.com/docs/houdini/nodes/cop/rasterizegsplats.html) in Copernicus, why even use Karma to render splats?
 
 Why not rasterize the splats in Copernicus and project them onto a proxy mesh in Karma?
 
