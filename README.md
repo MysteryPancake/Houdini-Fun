@@ -1231,8 +1231,8 @@ I still prefer [my original method](#gaussian-splat-relighting), but you can get
 
 The model in this screenshot and HIP file is ["Dymensium Badboy" by Adrian Cuesta](https://superspl.at/scene/b49d5e45).
 
-| [Download the HIP file!](./hips/gaussian_splats/gsplat_3_relighting_methods.hiplc) | [Download the splat!](https://superspl.at/scene/b49d5e45) |
-| --- | --- |
+| [Download the HIP file!](./hips/gaussian_splats/gsplat_3_relighting_methods.hiplc) | [Download the splat!](https://superspl.at/scene/b49d5e45) | [Video Tutorial](https://youtu.be/kpL5TNNxdBg) |
+| --- | --- | --- |
 
 ### Copernicus: Rasterize GSplats + Light
 
