@@ -1133,22 +1133,16 @@ diffuse = (diffuse - 0.5) / SH_C0;
 
 **UPDATE: Houdini 22 added a [Labs Relight GSplats](https://www.sidefx.com/docs/houdini/nodes/lop/labs--relight_gsplats.html) node. Currently it loops over the lights in VEX rather than using raytracing. This only supports primary lighting and shadows, not bounce lighting. My method below is more work to setup, but it supports bounce lighting and other raytraced effects.**
 
-Karma doesn't currently support relighting gaussian splats. Splats can only cast shadows, but not on themselves.
-
-One workaround is transferring baked lighting from a proxy model. This supports advanced effects like secondary bounces and self-shadowing.
-
-As a bonus, you can use the proxy for shadow casting. This is much faster than using splats for shadow casting.
-
-To transfer the lighting, you can use the [Karma Texture Baker](https://www.sidefx.com/docs/houdini/nodes/lop/karmatexturebaker.html) to bake diffuse and specular lighting textures.
-
-It doesn't have a preset for specular, but you can use the [LPE expression for combined glossy diffuse](https://www.sidefx.com/docs/houdini/solaris/support/lpe.html#lpelist): `C<RG>.*[LO]`
-
-The textures can be sampled using `colormap()` in VEX, then multiplied by the splat colors to tint them.
-
 [![Relighting tutorial](https://img.youtube.com/vi/BtbgwKK-WkY/mqdefault.jpg)](https://youtu.be/BtbgwKK-WkY)
 
 | [Video Tutorial](https://youtu.be/BtbgwKK-WkY) |
 | --- |
+
+Karma doesn't currently support relighting gaussian splats. Splats can only cast shadows, but not on themselves.
+
+One workaround is transferring baked lighting from a proxy model. This supports advanced effects like secondary bounces and self-shadowing. As a bonus, you can use the proxy for shadow casting. This is much faster than using splats for shadow casting.
+
+To transfer the lighting, you can use the [Karma Texture Baker](https://www.sidefx.com/docs/houdini/nodes/lop/karmatexturebaker.html) to bake diffuse and specular lighting textures. It doesn't have a preset for specular, but you can use the [LPE expression for combined glossy diffuse](https://www.sidefx.com/docs/houdini/solaris/support/lpe.html#lpelist): `C<RG>.*[LO]` The textures can be sampled using `colormap()` in VEX, then multiplied by the splat colors to tint them.
 
 You can even animate the splats and lighting!
 
@@ -1219,6 +1213,11 @@ v@N = primuv(1, "N", prim, uv);
 
 Houdini 22 added various new gaussian splatting nodes we can use for relighting.
 
+[![Relighting tutorial](https://img.youtube.com/vi/kpL5TNNxdBg/mqdefault.jpg)](https://youtu.be/kpL5TNNxdBg)
+
+| [Video Tutorial](https://youtu.be/kpL5TNNxdBg) |
+| --- |
+
 I still prefer [my original method](#gaussian-splat-relighting), but you can get decent results with the new nodes too.
 
 1. [Labs Relight GSplats](https://www.sidefx.com/docs/houdini/nodes/lop/labs--relight_gsplats.html)
@@ -1231,8 +1230,8 @@ I still prefer [my original method](#gaussian-splat-relighting), but you can get
 
 The model in this screenshot and HIP file is ["Dymensium Badboy" by Adrian Cuesta](https://superspl.at/scene/b49d5e45).
 
-| [Download the HIP file!](./hips/gaussian_splats/gsplat_3_relighting_methods.hiplc) | [Download the splat!](https://superspl.at/scene/b49d5e45) | [Video Tutorial](https://youtu.be/kpL5TNNxdBg) |
-| --- | --- | --- |
+| [Download the HIP file!](./hips/gaussian_splats/gsplat_3_relighting_methods.hiplc) | [Download the splat!](https://superspl.at/scene/b49d5e45) |
+| --- | --- |
 
 ### Copernicus: Rasterize GSplats + Light
 
