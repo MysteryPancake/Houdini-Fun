@@ -1261,7 +1261,9 @@ Since we have the [Rasterize GSplats](https://www.sidefx.com/docs/houdini/nodes/
 
 Why not rasterize the splats in Copernicus and project them onto a proxy mesh in Karma?
 
-| Rasterize GSplats + Project | My original method |
+The result isn't as nice as [my original method](#gaussian-splat-relighting), but it's a decent approximation.
+
+| This new method | My original method |
 | :---: | :---: |
 | <img src="./images/gaussian_splats/relight_method1.png"> | <img src="./images/gaussian_splats/relight_method3.png"> |
 | **Labs Relight GSplats** | **Proxy mesh** |
@@ -1272,8 +1274,6 @@ This requires using a [MtlX Position node](https://www.sidefx.com/docs/houdini/n
 You can rasterize multiple textures for diffuse, specular, normals, opacity and any other passes you need.
 
 <img src="./images/gaussian_splats/cops_gsplat_layers.png" width="500">
-
-The result isn't as nice as [my original method](#gaussian-splat-relighting), but it's a decent approximation.
 
 As a bonus, since this bypasses Karma entirely, it renders in Karma CPU as well as Karma XPU!
 
