@@ -1238,7 +1238,7 @@ The model in this screenshot and HIP file is ["Dymensium Badboy" by Adrian Cuest
 
 In Houdini 22 they added a [Rasterize GSplats](https://www.sidefx.com/docs/houdini/nodes/cop/rasterizegsplats.html) node.
 
-It turns splats directly into an image, including a few other passes like color and depth.
+It turns 3D splats directly into a 2D image, including a few other passes like color and depth.
 
 You can rasterize other attributes like normals and position by renaming them to color (Cd).
 
@@ -1248,7 +1248,7 @@ You can rasterize other attributes like normals and position by renaming them to
 
 With these 3 passes, you can use a [Light](https://www.sidefx.com/docs/houdini/nodes/cop/light.html) node to approximate the primary lighting based on the normals.
 
-Note this doesn't use raytracing, so it's missing the shadows and secondary bounces you get with baked lighting.
+Note this doesn't use raytracing, so it's missing the shadows and secondary bounces you get from [baked lighting](#gaussian-splat-relighting).
 
 <img src="./images/gaussian_splats/cops_relight_splat.png" width="700">
 
