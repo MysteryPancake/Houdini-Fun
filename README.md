@@ -1225,7 +1225,7 @@ I still prefer [my original method](#gaussian-splat-relighting), but you can get
 2. [Rasterize GSplats + Light](#copernicus-rasterize-gsplats--light)
 3. [Rasterize GSplats + Project](#copernicus-rasterize-gsplats--project)
 
-| Labs Relight GSplats | Rasterize GSplats + Light | Rasterize GSplats + Projection |
+| Labs Relight GSplats | Rasterize GSplats + Light | Rasterize GSplats + Project |
 | --- | --- | --- |
 | <img src="./images/gaussian_splats/gun_relight_labs.png"> | <img src="./images/gaussian_splats/gun_relight_cops.png"> | <img src="./images/gaussian_splats/gun_relight_projected.png"> |
 
@@ -1260,6 +1260,14 @@ Note this doesn't use raytracing, so it's missing the shadows and secondary boun
 Since we have the [Rasterize GSplats](https://www.sidefx.com/docs/houdini/nodes/cop/rasterizegsplats.html) node in Copernicus, why use Karma to render the splats?
 
 Why not rasterize the splats in Copernicus and project them onto a proxy mesh in Karma?
+
+| This new method | My original method |
+| --- | --- |
+| <img src="./images/gaussian_splats/relight_method1.png"> | <img src="./images/gaussian_splats/relight_method3.png"> |
+
+| Labs Relight GSplats | Proxy mesh |
+| --- | --- |
+| <img src="./images/gaussian_splats/relight_method2.png"> | <img src="./images/gaussian_splats/relight_reference.png"> |
 
 This requires using a [MtlX Position node](https://www.sidefx.com/docs/houdini/nodes/vop/mtlxposition.html) to set the projection to `ndc` (camera space).
 
