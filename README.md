@@ -1269,7 +1269,7 @@ You can rasterize multiple textures for diffuse, specular, normals, opacity and 
 
 The result isn't as nice as [my original method](#gaussian-splat-relighting), but it's a decent approximation.
 
-As a bonus since it bypasses Karma entirely, it renders in Karma CPU as well as Karma XPU!
+As a bonus, since this bypasses Karma entirely, it renders in Karma CPU as well as Karma XPU!
 
 | Proxy mesh | Projected splats |
 | --- | --- |
