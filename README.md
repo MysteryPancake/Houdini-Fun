@@ -1261,12 +1261,10 @@ Since we have the [Rasterize GSplats](https://www.sidefx.com/docs/houdini/nodes/
 
 Why not rasterize the splats in Copernicus and project them onto a proxy mesh in Karma?
 
-| This new method | My original method |
-| --- | --- |
+| Rasterize GSplats + Project | My original method |
+| :---: | :---: |
 | <img src="./images/gaussian_splats/relight_method1.png"> | <img src="./images/gaussian_splats/relight_method3.png"> |
-
-| Labs Relight GSplats | Proxy mesh |
-| --- | --- |
+| **Labs Relight GSplats** | **Proxy mesh** |
 | <img src="./images/gaussian_splats/relight_method2.png"> | <img src="./images/gaussian_splats/relight_reference.png"> |
 
 This requires using a [MtlX Position node](https://www.sidefx.com/docs/houdini/nodes/vop/mtlxposition.html) to set the projection to `ndc` (camera space).
