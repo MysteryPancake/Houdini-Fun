@@ -1263,9 +1263,9 @@ Why not rasterize the splats in Copernicus and project them onto a proxy mesh in
 
 This requires using a [MtlX Position node](https://www.sidefx.com/docs/houdini/nodes/vop/mtlxposition.html) to set the projection to `ndc` (camera space).
 
-You can rasterize multiple textures for diffuse, specular, normals, opacity and anything else you need.
+You can rasterize multiple textures for diffuse, specular, normals, opacity and any other passes you need.
 
-<img src="./images/gaussian_splats/cops_gsplat_layers.png" width="700">
+<img src="./images/gaussian_splats/cops_gsplat_layers.png" width="500">
 
 The result isn't as nice as [my original method](#gaussian-splat-relighting), but it's a decent approximation.
 
