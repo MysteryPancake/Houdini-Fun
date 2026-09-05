@@ -1265,7 +1265,7 @@ The result isn't as nice as [my original method](#gaussian-splat-relighting), bu
 
 | This new method | My original method |
 | :---: | :---: |
-| <img src="./images/gaussian_splats/relight_method1.png"> | <img src="./images/gaussian_splats/relight_method3.png"> |
+| <img src="./images/gaussian_splats/relight_method3.png"> | <img src="./images/gaussian_splats/relight_method1.png"> |
 | **Labs Relight GSplats** | **Proxy mesh** |
 | <img src="./images/gaussian_splats/relight_method2.png"> | <img src="./images/gaussian_splats/relight_reference.png"> |
 
