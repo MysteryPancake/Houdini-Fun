@@ -1275,7 +1275,7 @@ You can rasterize multiple textures for diffuse, specular, normals, opacity and 
 
 <img src="./images/gaussian_splats/cops_gsplat_layers.png" width="500">
 
-As a bonus, since this bypasses Karma entirely, it renders in Karma CPU as well as Karma XPU!
+As a bonus since this bypasses Karma entirely, it renders in Karma CPU as well as Karma XPU!
 
 | Proxy mesh | Projected splats |
 | --- | --- |
