@@ -2,7 +2,7 @@
 
 Ever wondered how `primuv()` and `xyzdist()` work? Me neither, but for performance reasons I had to remake them in VEX and OpenCL.
 
-**UPDATE: [SideFX added BVH functions to OpenCL!](https://www.sidefx.com/docs/houdini22.0/vex/ocl.html#feature-flags) This is no longer needed for OpenCL!**
+**UPDATE: [SideFX added BVH functions to OpenCL!](https://www.sidefx.com/docs/houdini22.0/vex/ocl.html#feature-flags) This means `xyzdist()` exists in OpenCL now, but `primuv()` doesn't!**
 
 ## `xyzdist()`
 
