@@ -6,8 +6,11 @@ Houdini works fine for visual effects, but the real question is does it work for
 
 I recently lost my mind and made a bunch of audio effects and synths in Houdini. Why? No clue!
 
-| [Download the HIP file!](hips/sdfs/sdf_volumes.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="hips/sdfs/sdf_volumes.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 <img src="./images/sound/soundfx.png" width="860">
 
