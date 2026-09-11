@@ -27,8 +27,11 @@ I did this for [a ton of SDFs](https://iquilezles.org/articles/distfunctions/) b
 
 [<img src="./images/sdfs/sdf_volumes.png">](hips/sdf_volumes.hipnc)
 
-| [Download the HIP file!](hips/sdfs/sdf_volumes.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="hips/sdfs/sdf_volumes.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Sphere - exact
 
