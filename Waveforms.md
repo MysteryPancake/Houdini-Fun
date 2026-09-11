@@ -202,8 +202,11 @@ Here's an example of a pattern made with a triangle wave.
 
 <img src="./images/waveforms/triangle_wave.png" width="400">
 
-| [Download the HIP file!](./hips/triangle_wave.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/triangle_wave.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 float triangle(float x; float scale; float spacing) {
