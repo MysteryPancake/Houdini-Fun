@@ -61,8 +61,13 @@ Thanks again to [White Dog](https://x.com/whitedo27114277?lang=en) for his [Eige
 
 <img src="./images/hdas/laplacianfilter.png" width="500">
 
-| [Download the HDA!](./hdas/MysteryPancake.laplacian_filter.1.0.hdalc) | [Download the HIP file!](./hdas/laplacian_filter.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/laplacianfilter) |
-| --- | --- | --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.laplacian_filter.1.0.hdalc">Download the HDA!</a></th>
+    <th><a href="./hdas/laplacian_filter.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://mysterypancake.gumroad.com/l/laplacianfilter">Download on Gumroad!</a></th>
+  </tr>
+</table>
 
 <h2><img src="./images/hdas/plate_project.png" height="32"> HDA: Plate Project</h2>
 
@@ -84,8 +89,13 @@ This HDA lets you project plates in 3 ways:
 
 Remember to remove lens distortion (undistort) the plate before using this HDA to get correct results.
 
-| [Download the HDA!](./hdas/MysteryPancake.plate_project.1.0.hdalc) | [Download the HIP file!](./hdas/plate_project.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/plateproject) |
-| --- | --- | --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.plate_project.1.0.hdalc">Download the HDA!</a></th>
+    <th><a href="./hdas/plate_project.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://mysterypancake.gumroad.com/l/plateproject">Download on Gumroad!</a></th>
+  </tr>
+</table>
 
 <h2><img src="./images/hdas/rigid_preroll.png" height="32"> HDA: Rigid Piece Preroll</h2>
 
@@ -97,8 +107,13 @@ This HDA works on single and multiple pieces, either packed or unpacked. For pac
 
 <img src="./images/hdas/rigidpreroll.gif" height="300">
 
-| [Download the HDA!](./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda) | [Download the HIP file!](./hdas/rigid_piece_preroll.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/rigidpreroll) |
-| --- | --- | --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.rigid_piece_preroll.1.0.hda">Download the HDA!</a></th>
+    <th><a href="./hdas/rigid_piece_preroll.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://mysterypancake.gumroad.com/l/rigidpreroll">Download on Gumroad!</a></th>
+  </tr>
+</table>
 
 <h2><img src="./images/hdas/volumetric_deform.png" height="32"> HDA: Volumetric Deform</h2>
 
@@ -116,8 +131,14 @@ It works by casting rays in a sphere from each point, creating lines. Each line 
 
 <img src="./images/hdas/mvcraycast.gif" height="450">
 
-| [Download the HDA!](./hdas/MysteryPancake.volumetric_deform.1.0.hdalc) | [Download the HIP file!](./hdas/mvc_deform.hiplc) | [Bonus MVC demos!](./hips/mvc_demos.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/volumetricdeform) |
-| --- | --- | --- | --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.volumetric_deform.1.0.hdalc">Download the HDA!</a></th>
+    <th><a href="./hdas/mvc_deform.hiplc">Download the HIP file!</a></th>
+    <th><a href="./hips/mvc_demos.hiplc">Bonus MVC demos!</a></th>
+    <th><a href="https://mysterypancake.gumroad.com/l/volumetricdeform">Download on Gumroad!</a></th>
+  </tr>
+</table>
 
 The VEX below captures and deforms in one step. This is slower than the HDA since the capture is only needed once.
 
@@ -168,8 +189,12 @@ Note the BlendPose node is slow! A faster version is found on [XAPKOHHEH's page]
 
 <img src="./images/hdas/rbf_deformer.webp" height="400">
 
-| [Download the HDA!](./hdas/MysteryPancake.rbf_deformer.1.0.hda) | [Download the HIP file!](./hdas/rbf_deform.hiplc) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.rbf_deformer.1.0.hda">Download the HDA!</a></th>
+    <th><a href="./hdas/rbf_deform.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 <h2><img src="./images/hdas/repair_cycles.svg" height="32"> HDA: Repair Cycles</h2>
 
@@ -181,8 +206,13 @@ If the skeleton actually has cycles, you need to detect and cut them. I made a H
 
 <img src="./images/hdas/cycle_detection.png" height="400">
 
-| [Download the HDA!](./hdas/MysteryPancake.repair_cycles.1.0.hdalc) | [Download the HIP file!](./hdas/repair_cycles.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/repaircycles) |
-| --- | --- | --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.repair_cycles.1.0.hdalc">Download the HDA!</a></th>
+    <th><a href="./hdas/repair_cycles.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://mysterypancake.gumroad.com/l/repaircycles">Download on Gumroad!</a></th>
+  </tr>
+</table>
 
 ```js
 // Depth first search to detect graph cycles for cutting
@@ -244,8 +274,12 @@ Note this doesn't consider faces, so it doesn't always work! Use a Detangle node
 	<img src="./images/hdas/deintersect2.webp" height="280">
 </p>
 
-| [Download the HDA!](./hdas/MysteryPancake.deintersect.1.0.hda) | [Download the HIP file!](./hdas/deintersect.hiplc) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.deintersect.1.0.hda">Download the HDA!</a></th>
+    <th><a href="./hdas/deintersect.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 <h2><img src="./images/hdas/unbake_gsplats.svg" height="32"> HDA: Unbake GSplats</h2>
 
@@ -256,8 +290,13 @@ Back into standard PLY attributes: `f_rest_*`, `f_dc_*`, `opacity`, `f_rot_*`, `
 
 It doesn't currently reorient the spherical harmonics. Harmonics are converted with their original orientation.
 
-| [Download the HDA!](./hdas/MysteryPancake.unbake_gsplat.1.0.hda) | [Download the HIP file!](./hdas/unbake_gsplats.hiplc) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/unbakegsplats) |
-| --- | --- | --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.unbake_gsplat.1.0.hda">Download the HDA!</a></th>
+    <th><a href="./hdas/unbake_gsplats.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://mysterypancake.gumroad.com/l/unbakegsplats">Download on Gumroad!</a></th>
+  </tr>
+</table>
 
 ## Simple spring solver
 
@@ -363,8 +402,11 @@ Want to prepare for the next war but can't solve projectile motion? Never fear, 
 
 [![Aimbot tutorial](https://img.youtube.com/vi/Ed2_62BlOFA/mqdefault.jpg)](https://youtu.be/Ed2_62BlOFA)
 
-| [Video Tutorial](https://youtu.be/Ed2_62BlOFA) |
-| --- |
+<table>
+  <tr>
+    <th><a href="https://youtu.be/Ed2_62BlOFA">Video Tutorial</a></th>
+  </tr>
+</table>
 
 ### Hit a static target
 
@@ -398,8 +440,11 @@ Use the same method as before, but sample the target's position forwards in time
 
 <img src="./images/aimbot_moving.gif" width="500">
 
-| [Download the HIP file!](./hips/aimbot.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/aimbot.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### Hit multiple targets
 
@@ -437,8 +482,11 @@ After inverting, you can offset the Y coordinate to animate noise along the curv
 
 <img src="./images/noise_along_curve_points.webp" width="500">
 
-| [Download the HIP file!](./hips/coords_along_curve.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/coords_along_curve.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 int prim;
@@ -470,8 +518,11 @@ The same approach works for volumes, just use the coordinate as the sample posit
 
 <img src="./images/noise_along_curve_volume.webp" width="500">
 
-| [Download the HIP file!](./hips/coords_along_curve.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/coords_along_curve.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 int prim;
@@ -503,8 +554,11 @@ As well as the inverse transform, the forward transform can be used to map objec
 
 <img src="./images/pig_along_curve.webp" width="500">
 
-| [Download the HIP file!](./hips/coords_along_curve.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/coords_along_curve.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 #### Inverse transform
 
@@ -547,8 +601,11 @@ This gives cleaner looking results than the Measure node (left).
 
 <img src="./images/fast_laplacian_curvature.png" width="500">
 
-| [Download the HIP file!](./hips/fast_laplacian_curvature.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/fast_laplacian_curvature.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 int pts[] = primpoints(0, @primnum);
@@ -597,8 +654,11 @@ I made a video about SVD, though it's shown in Blender rather than Houdini.
 
 [![SVD tutorial](https://img.youtube.com/vi/tcx4XNoqSlY/mqdefault.jpg)](https://youtu.be/tcx4XNoqSlY)
 
-| [Video Tutorial](https://youtu.be/tcx4XNoqSlY) |
-| --- |
+<table>
+  <tr>
+    <th><a href="https://youtu.be/tcx4XNoqSlY">Video Tutorial</a></th>
+  </tr>
+</table>
 
 It splits any matrix into 3 matrices: rotation, then scale, then rotation again.
 
@@ -608,8 +668,11 @@ SVD is useful for many things, including the [Oriented Bounding Box node](https:
 
 <img src="./images/svd.webp" width="500">
 
-| [Download the HIP file!](./hips/svd.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/svd.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 // Plug any 4x4 matrix into the second input
@@ -663,8 +726,11 @@ I can't be bothered myself, but you can use this file as a starting point!
 
 <img src="./images/cops/cop_pyro_comparison.webp" width="500">
 
-| [Download the HIP file!](./hips/cops/cops_pyro_comparison.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_pyro_comparison.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Copernicus: Texture to SOP attribute
 
@@ -676,8 +742,11 @@ Just remember to check the volume name matches the COP output, otherwise it disp
 
 <img src="./images/cops/cops_to_sops.png" width="500">
 
-| [Download the HIP file!](./hips/cops/cops_to_sops.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_to_sops.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Copernicus: Eikonal contour plotting
 
@@ -690,8 +759,12 @@ It's great for generating SDFs, trippy effects and contour plotting!
   <img src="./images/cops/cops_eikonal2.webp" height="280">
 </p>
 
-| [Download the HIP file!](./hips/cops/cops_eikonal.hiplc) | [Video Tutorial](https://youtu.be/s_av9vihvY0) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_eikonal.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://youtu.be/s_av9vihvY0">Video Tutorial</a></th>
+  </tr>
+</table>
 
 ## Copernicus: Edge blending
 
@@ -711,8 +784,11 @@ The same can be done in Copernicus using a Slap Comp Block.
 
 <img src="./images/cops/edge_blending.png" width="500">
 
-| [Download the HIP file!](./hips/cops/cops_edge_blend.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_edge_blend.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Copernicus: Signal processing
 
@@ -732,8 +808,11 @@ You can convert an impulse response into a frequency response using the [FFT nod
 
 <img src="./images/cops/convolve_fir.webp" height="350">
 
-| [Download the HIP file!](./hips/cops/convolve_fir.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/convolve_fir.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Copernicus: SDF blurring
 
@@ -741,8 +820,11 @@ There's many different ways to blur an SDF, each with different pros and cons.
 
 <img src="./images/cops/cops_sdf_blurring.png" width="600">
 
-| [Download the HIP file!](./hips/cops/cops_sdf_blurring.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_sdf_blurring.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### 1. Blur node
 
@@ -782,8 +864,11 @@ I painted strokes from dark to light along a tangent field to mimic how it works
 
 <img src="./images/cops/cops_pig_paint.webp" height="350">
 
-| [Download the HIP file!](./hips/cops/cops_pig_paint.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_pig_paint.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Copernicus: Concentric circles
 
@@ -793,8 +878,11 @@ This pattern is a [common visualizer for 2D SDFs](https://iquilezles.org/article
 
 <img src="./images/cops/cops_concentric_circles.png" width="600">
 
-| [Download the HIP file!](./hips/cops/cops_concentric_circles.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_concentric_circles.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Copernicus: Dot patterns
 
@@ -810,8 +898,11 @@ An easier way is using the Stamp Points node, which directly supports `@pscale` 
 
 <img src="./images/cops/cops_dots_stamp.png" width="600">
 
-| [Download the HIP file!](./hips/cops/cops_dot_patterns.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_dot_patterns.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Coperncius: FFT patterns
 
@@ -821,8 +912,11 @@ By giving it random shapes, you get trippy patterns like [Chladni Cymatic Patter
 
 <img src="./images/cops/cops_fft_fun.webp" width="350">
 
-| [Download the HIP file!](./hips/cops/cops_fft_fun.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_fft_fun.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Copernicus to heightfield
 
@@ -830,8 +924,12 @@ Florian Dheer on the CGWiki Discord wanted to turn a Copernicus image into a hei
 
 [![Heightfield tutorial](https://img.youtube.com/vi/-zGjD4zaYMU/mqdefault.jpg)](https://youtu.be/-zGjD4zaYMU)
 
-| [Download the HIP file!](./hips/cops/cops_to_heightfield.hiplc) | [Video Tutorial](https://youtu.be/-zGjD4zaYMU) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_to_heightfield.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://youtu.be/-zGjD4zaYMU">Video Tutorial</a></th>
+  </tr>
+</table>
 
 Copernicus stores images in 2D volumes. Guess what else is stored in 2D volumes? Heightfields!
 
@@ -876,8 +974,11 @@ v@v *= f@uv_area / f@world_area;
 
 <img src="./images/cops/cops_uv_velocity.webp" width="500">
 
-| [Download the HIP file!](./hips/cops/cops_uv_velocity.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_uv_velocity.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Copernicus: Blurring and sharpening volumes
 
@@ -889,8 +990,11 @@ It even works on Level Set (SDF) volumes!
 
 <img src="./images/cops/cops_blur_sharpen_sdf.png" width="500">
 
-| [Download the HIP file!](./hips/cops/cops_blurring_sharpening.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_blurring_sharpening.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 Also, the Sharpen node uses a method called [Unsharp Mask](https://en.wikipedia.org/wiki/Unsharp_masking), often found on [/r/shittyhdr](https://www.reddit.com/r/shittyHDR/).
 
@@ -908,8 +1012,11 @@ Afterwards used even more ramps to remap the timing, to get a speed ramp effect 
 
 <img src="./images/cops/cops_bars.png" width="700">
 
-| [Download the HIP file!](./hips/cops/cops_bars.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_bars.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Copernicus: Texture baker in VEX
 
@@ -919,8 +1026,11 @@ It gives similar results (top row) to the real thing (bottom row), but much slow
 
 <img src="./images/cops/cops_diy_baker.png" width="700">
 
-| [Download the HIP file!](./hips/cops/cops_diy_baker.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_diy_baker.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 // Convert an input UV coordinate to the world position
@@ -968,8 +1078,11 @@ In VEX you can convert from UV to world space using `uvsample()`, so the distanc
 
 <img src="./images/cops/cops_rasterize_world_space.png" width="600">
 
-| [Download the HIP file!](./hips/cops/cops_rasterize_world_space.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cops/cops_rasterize_world_space.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 vector uv_to_world = uvsample(1, "P", "uv", v@C);
@@ -1056,8 +1169,12 @@ Note the meaning of 0 is different for the first coefficient, since it's remappe
 
 The model in this screenshot and HIP file is ["Scorpion spec" by scant3d](https://superspl.at/scene/8a8b3c0f).
 
-| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_viz.hiplc) | [Download the splat!](https://superspl.at/scene/8a8b3c0f) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/gaussian_splats/gaussian_splat_viz.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://superspl.at/scene/8a8b3c0f">Download the splat!</a></th>
+  </tr>
+</table>
 
 ```js
 float SH_C0 = 0.28209479177387814;
@@ -1104,8 +1221,12 @@ To recolor and adjust the intensity of the diffuse and specular components, it n
 
 <img src="./images/gaussian_splats/gs_recolor.png" width="700">
 
-| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_recolor.hiplc) | [Download the splat!](https://superspl.at/scene/8a8b3c0f) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/gaussian_splats/gaussian_splat_recolor.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://superspl.at/scene/8a8b3c0f">Download the splat!</a></th>
+  </tr>
+</table>
 
 ```js
 vector diffuse_color = chv("diffuse_color") * chf("diffuse_mix");
@@ -1140,8 +1261,11 @@ diffuse = (diffuse - 0.5) / SH_C0;
 
 [![Relighting tutorial](https://img.youtube.com/vi/BtbgwKK-WkY/mqdefault.jpg)](https://youtu.be/BtbgwKK-WkY)
 
-| [Video Tutorial](https://youtu.be/BtbgwKK-WkY) |
-| --- |
+<table>
+  <tr>
+    <th><a href="https://youtu.be/BtbgwKK-WkY">Video Tutorial</a></th>
+  </tr>
+</table>
 
 Karma doesn't currently support relighting gaussian splats. Splats can only cast shadows, but not on themselves.
 
@@ -1153,8 +1277,14 @@ You can even animate the splats and lighting!
 
 <img src="./images/gaussian_splats/gs_relit.webp" width="500">
 
-| [HIP file (Scorpion version)](./hips/gaussian_splats/gaussian_splat_relighting.hiplc) | [Scorpion splat](https://superspl.at/scene/8a8b3c0f) | [HIP file (Beetle version)](./hips/gaussian_splats/gaussian_splat_relighting2.hiplc) | [Beetle splat](https://superspl.at/scene/e38961ae) |
-| --- | --- | --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/gaussian_splats/gaussian_splat_relighting.hiplc">HIP file (Scorpion version)</a></th>
+    <th><a href="https://superspl.at/scene/8a8b3c0f">Scorpion splat</a></th>
+    <th><a href="./hips/gaussian_splats/gaussian_splat_relighting2.hiplc">HIP file (Beetle version)</a></th>
+    <th><a href="https://superspl.at/scene/e38961ae">Beetle splat</a></th>
+  </tr>
+</table>
 
 ```js
 // Get the closest UV coordinate on the proxy mesh
@@ -1220,8 +1350,11 @@ Houdini 22 added various new gaussian splatting nodes we can use for relighting.
 
 [![Relighting tutorial](https://img.youtube.com/vi/kpL5TNNxdBg/mqdefault.jpg)](https://youtu.be/kpL5TNNxdBg)
 
-| [Video Tutorial](https://youtu.be/kpL5TNNxdBg) |
-| --- |
+<table>
+  <tr>
+    <th><a href="https://youtu.be/kpL5TNNxdBg">Video Tutorial</a></th>
+  </tr>
+</table>
 
 I still prefer [my original method](#gaussian-splat-relighting), but you can get decent results with the new nodes too.
 
@@ -1235,8 +1368,12 @@ I still prefer [my original method](#gaussian-splat-relighting), but you can get
 
 The model in this screenshot and HIP file is ["Dymensium Badboy" by Adrian Cuesta](https://superspl.at/scene/b49d5e45).
 
-| [Download the HIP file!](./hips/gaussian_splats/gsplat_3_relighting_methods.hiplc) | [Download the splat!](https://superspl.at/scene/b49d5e45) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/gaussian_splats/gsplat_3_relighting_methods.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://superspl.at/scene/b49d5e45">Download the splat!</a></th>
+  </tr>
+</table>
 
 ### Copernicus: Rasterize GSplats + Light
 
@@ -1256,8 +1393,12 @@ Note this doesn't use raytracing, so it's missing the shadows and secondary boun
 
 <img src="./images/gaussian_splats/cops_relight_splat.png" width="700">
 
-| [Download the HIP file!](./hips/gaussian_splats/cops_relight_splat.hiplc) | [Download the splat!](https://superspl.at/scene/e38961ae) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/gaussian_splats/cops_relight_splat.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://superspl.at/scene/e38961ae">Download the splat!</a></th>
+  </tr>
+</table>
 
 ### Copernicus: Rasterize GSplats + Project
 
@@ -1285,8 +1426,12 @@ As a bonus since this bypasses Karma entirely, it renders in Karma CPU as well a
 | --- | --- |
 | <img src="./images/gaussian_splats/gs_projected2.webp"> | <img src="./images/gaussian_splats/gs_projected.webp"> |
 
-| [Download the HIP file!](./hips/gaussian_splats/cops_relight_splat_projected.hiplc) | [Download the splat!](https://superspl.at/scene/e38961ae) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/gaussian_splats/cops_relight_splat_projected.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://superspl.at/scene/e38961ae">Download the splat!</a></th>
+  </tr>
+</table>
 
 ## Gaussian splat spherical harmonics evaluation
 
@@ -1298,8 +1443,12 @@ To get the color given the viewing angle, [you need to compute it](https://githu
 
 <img src="./images/gaussian_splats/gs_evaluate_sph.png" width="700">
 
-| [Download the HIP file!](./hips/gaussian_splats/gaussian_splat_evaluation.hiplc) | [Download the splat!](https://superspl.at/scene/e38961ae) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/gaussian_splats/gaussian_splat_evaluation.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://superspl.at/scene/e38961ae">Download the splat!</a></th>
+  </tr>
+</table>
 
 ```js
 // Computes the color in the view_dir direction based on the harmonics
@@ -1391,8 +1540,11 @@ To preserve concave areas, you can use Remesh followed by Ray in a feedback loop
   <img src="./images/concave_hull.webp" height="300">
 </p>
 
-| [Download the HIP file!](./hips/concave_hull.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/concave_hull.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Convert to bricks
 
@@ -1400,8 +1552,11 @@ The Labs PolySlice node produces a bunch of cross section curves. They can be re
 
 <img src="./images/bricken.png" width="500">
 
-| [Download the HIP file!](./hips/bricken.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/bricken.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Procedural Buildings
 
@@ -1411,8 +1566,11 @@ I remade a bunch of Sydney landmarks and turned them into HDAs for easy control.
 
 [![Procedural Buildings](https://img.youtube.com/vi/Kckh975WqQs/mqdefault.jpg)](https://youtu.be/Kckh975WqQs)
 
-| [Video Demo](https://youtu.be/Kckh975WqQs) |
-| --- |
+<table>
+  <tr>
+    <th><a href="https://youtu.be/Kckh975WqQs">Video Demo</a></th>
+  </tr>
+</table>
 
 ### Brick House
 
@@ -1427,8 +1585,11 @@ To recreate this pattern you can work subtractively:
 
 <img src="./images/building1.png" width="600">
 
-| [Download the HIP file!](./hips/Brick_House.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/Brick_House.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### Dancing City
 
@@ -1436,8 +1597,11 @@ I used Convex Hull to get interesting shapes, then added power lines for more de
 
 <img src="./images/building2.png" width="600">
 
-| [Download the HIP file!](./hips/Dancing_City.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/Dancing_City.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### UTS Tower (HDA)
 
@@ -1445,8 +1609,11 @@ Rough approximation of the [UTS Tower (Building 1)](https://en.wikipedia.org/wik
 
 <img src="./images/utstower.png" width="600">
 
-| [Download the HDA!](./hdas/MysteryPancake.UTS.hdanc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.UTS.hdanc">Download the HDA!</a></th>
+  </tr>
+</table>
 
 ### UTS Business School (HDA)
 
@@ -1454,8 +1621,11 @@ Rough approximation of [UTS Business School (Building 8)](https://maps.app.goo.g
 
 <img src="./images/businessschool.png" width="600">
 
-| [Download the HDA!](./hdas/MysteryPancake.BusinessSchool.hdanc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.BusinessSchool.hdanc">Download the HDA!</a></th>
+  </tr>
+</table>
 
 ### Centrepoint Tower (HDA)
 
@@ -1463,8 +1633,11 @@ Rough approximation of the [Sydney Tower Eye](https://en.wikipedia.org/wiki/Sydn
 
 <img src="./images/centrepoint.png" width="600">
 
-| [Download the HDA!](./hdas/MysteryPancake.Centrepoint.hdanc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.Centrepoint.hdanc">Download the HDA!</a></th>
+  </tr>
+</table>
 
 ## Chalk powder explosion
 
@@ -1480,8 +1653,11 @@ I took a much simpler approach, flattening a Pyro Burst Source and manually scat
 
 <img src="./images/chalk.png" width="500">
 
-| [Download the HIP file!](./hips/chalk.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/chalk.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Strandbeest
 
@@ -1491,8 +1667,11 @@ I found a cool use of Vellum for this, it can fix the edge lengths based on [the
 
 <img src="./images/creatures/strandbeest.webp" width="600">
 
-| [Download the HIP file!](./hips/creatures/strandbeest_v1.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/creatures/strandbeest_v1.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Vellum growth
 
@@ -1505,8 +1684,12 @@ To do this in Vellum, you can use a SOP Solver to change the topology, then repa
 	<img src="./images/creatures/vellum_growth2.webp" width="45%">
 </p>
 
-| [Download growth HIP!](./hips/creatures/vellum_growth.hiplc) | [Download walking HIP!](./hips/creatures/vellum_growth2.hiplc) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/creatures/vellum_growth.hiplc">Download growth HIP!</a></th>
+    <th><a href="./hips/creatures/vellum_growth2.hiplc">Download walking HIP!</a></th>
+  </tr>
+</table>
 
 ### Splitting a connection
 
@@ -1591,8 +1774,12 @@ You can get cool organic looking shapes using opposing forces, like Relax and At
 
 [![Growth tutorial](https://img.youtube.com/vi/h0TUYC2WNXY/mqdefault.jpg)](https://youtu.be/h0TUYC2WNXY)
 
-| [Download the HIP file!](./hips/spaghetti.hiplc) | [Video Tutorial](https://youtu.be/h0TUYC2WNXY) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/spaghetti.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://youtu.be/h0TUYC2WNXY">Video Tutorial</a></th>
+  </tr>
+</table>
 
 ## No more Point Deform!
 
@@ -1602,8 +1789,12 @@ There's much better ways to deform things depending what you're doing!
 
 [![Point Deform tutorial](https://img.youtube.com/vi/FKUJcXB33oM/mqdefault.jpg)](https://youtu.be/FKUJcXB33oM)
 
-| [Download the HIP file!](./hips/deform_methods.hiplc) | [Video Tutorial](https://youtu.be/FKUJcXB33oM) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/deform_methods.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://youtu.be/FKUJcXB33oM">Video Tutorial</a></th>
+  </tr>
+</table>
 
 ### 1. Point Deformation
 
@@ -1699,8 +1890,11 @@ This makes it easy to use the intrinsic UV coordinates as the regular UV coordin
 
 <img src="./images/pointprimuv.png" width="600">
 
-| [Download the HIP file!](./hips/pointprimuv.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/pointprimuv.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 // Replace v@uv with the primitive UVs
@@ -1723,8 +1917,12 @@ The examples below are only for 3D volumes, but the same ideas work in any dimen
 
 [![SDF tutorial](https://img.youtube.com/vi/xPrnFhfuuk4/mqdefault.jpg)](https://youtu.be/xPrnFhfuuk4)
 
-| [Download the HIP file!](./hips/sdfs/smooth_min.hiplc) | [Video Tutorial](https://youtu.be/xPrnFhfuuk4) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/sdfs/smooth_min.hiplc">Download the HIP file!</a></th>
+    <th><a href="https://youtu.be/xPrnFhfuuk4">Video Tutorial</a></th>
+  </tr>
+</table>
 
 ### 3D SDFs (Formula-based)
 
@@ -1926,8 +2124,11 @@ It works for a variety of fractals, including the Sierpinski Triangle and Menger
 	<img src="./images/sierpinski6.png" width="45%">
 </p>
 
-| [Download the HIP file!](./hips/sierpinski.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/sierpinski.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 It involves repeatedly adding points halfway between all the existing points in a feedback loop:
 
@@ -1948,8 +2149,11 @@ Matt Ebb taught us about the [Weyl sequence](https://en.wikipedia.org/wiki/Weyl_
 
 <img src="./images/weyl_sequence.webp" width="400">
 
-| [Download the HIP file!](./hips/weyl_sequence.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/weyl_sequence.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 There's a nice implementation by [spalmer on ShaderToy](https://www.shadertoy.com/view/WXjXRt). It looks like this in VEX:
 
@@ -1985,8 +2189,11 @@ Then copied a circle onto each of the tiles. Using a shader for this would be mu
 
 <img src="./images/circle_grid_demeyer2.webp" width="400">
 
-| [Download the HIP file!](./hips/circle_grid_demeyer.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/circle_grid_demeyer.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Demeyer carved waves
 
@@ -1996,8 +2203,11 @@ I used `sin()` and `cos()` for the waves, then Carve to change the length of eac
 
 <img src="./images/carved_waves_demeyer.webp" width="400">
 
-| [Download the HIP file!](./hips/carved_waves_demeyer.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/carved_waves_demeyer.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Spiral animation
 
@@ -2043,8 +2253,11 @@ I thought it'd be cool to pause in the middle for a staggering effect, then ramp
 
 <img src="./images/animated_spiral2.webp" width="400">
 
-| [Download the HIP file!](./hips/animated_spiral.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/animated_spiral.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 // Offset and wrap the current primnum to get the target primnum
@@ -2079,8 +2292,11 @@ Simple challenge from the CGWiki Discord, animating flapping wings using sine wa
 
 <img src="./images/flyingpig.gif" width="400">
 
-| [Download the HIP file!](./hips/flyingpig.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/flyingpig.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 I used `abs()` to make them flap symmetrically along the X axis, then slid a noise along the Z axis:
 
@@ -2114,8 +2330,11 @@ You can check for collisions using `intersect()` or `intersect_all()` in VEX. On
 	<img src="./images/gilbert4.webp" width="45%">
 </p>
 
-| [Download the HIP file!](./hips/gilbert.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/gilbert.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 float tolerance = chf("collision_tolerance");
@@ -2153,8 +2372,11 @@ By snapping to the surface each step, you can move around a 3D object.
 
 <img src="./images/gilbert_minpos.webp" width="400">
 
-| [Download the HIP file!](./hips/gilbert_minpos.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/gilbert_minpos.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 // Only move after a certain time (optional)
@@ -2208,8 +2430,11 @@ You can even cut with respect to the internal volume, like a regular voronoi fra
 
 <img src="./images/stit_cube.webp" width="400">
 
-| [Download the HIP file!](./hips/gilbert.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/gilbert.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Veiny pig
 
@@ -2219,8 +2444,11 @@ The hard part is generating the initial paths. Below I used the constraints from
 
 <img src="./images/vein_pig.webp" width="400">
 
-| [Download the HIP file!](./hips/vein_pig.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/vein_pig.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Procedurally rolling wheels
 
@@ -2228,8 +2456,11 @@ It's surprisingly hard to procedurally roll wheels along a curve without sliding
 
 <img src="./images/rolling_wheels.webp" width="400">
 
-| [Download the HIP file!](./hips/rolling_wheels.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/rolling_wheels.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 The `primuv()` units for a curve are normalized between 0 and 1, but the wheel radius is in meters. You need meters to track the distance travelled, but how to get it?
 
@@ -2263,8 +2494,11 @@ If you have a Level Set or Isosurface volume, you can use `volumegradient()` ins
 
 <img src="./images/vel_towards.png" width="500">
 
-| [Download the HIP file!](./hips/tornado_head.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/tornado_head.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 // Or xyzdist(1, v@P, prim, uv) then primuv(1, "P", prim, uv)
@@ -2293,8 +2527,11 @@ Cwalrus on Discord wanted to make a tornado travel around a head. This means com
 
 <img src="./images/tornado_head.gif" width="500">
 
-| [Download the HIP file!](./hips/tornado_head.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/tornado_head.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 vector towards_dir = (minpos(1, v@P) - v@P);
@@ -2312,8 +2549,11 @@ Note Timeshift doesn't normally work in foreach loops. To fix it, you need to us
 
 <img src="./images/timeshift_freeze.webp" width="500">
 
-| [Download the HIP file!](./hips/timeshift_freeze.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/timeshift_freeze.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 First store the current time and the time until the next movement.
 
@@ -2346,8 +2586,11 @@ Cubic bezier can be a useful interpolation function. Here's 2 versions if you ev
 
 <img src="./images/cubicbezier_2d.png" width="400">
 
-| [Download the HIP file!](./hips/cubic_bezier.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cubic_bezier.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 vector2 cubic_bezier(float t; float a; float b; float c; float d) {
@@ -2362,8 +2605,11 @@ v@P = cubic_bezier(v@P.x,.1,.6,.8,.6);
 
 <img src="./images/cubicbezier_3d.png" width="400">
 
-| [Download the HIP file!](./hips/cubic_bezier.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cubic_bezier.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 vector cubic_bezier(float t; vector a; vector b; vector c; vector d) {
@@ -2391,8 +2637,11 @@ If you normalize the attribute (eg. with Labs Normalize Float), it's easy to fit
 
 <img src="./images/normalized_animation.webp" width="500">
 
-| [Download the HIP file!](./hips/normalized_animation.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/normalized_animation.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 float min_frame = chi("min_frame");
@@ -2455,8 +2704,11 @@ I used this ramp for the demo above:
 
 <img src="./images/remove_post_sim_ramp.png" width="600">
 
-| [Download the HIP file!](./hips/pop_remove_post_sim.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/pop_remove_post_sim.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Generating circles
 
@@ -2519,8 +2771,11 @@ addprim(0, "poly", points);
 
 <br clear="left" />
 
-| [Download the HIP file!](./hips/circle.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/circle.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Sweep in VEX
 
@@ -2623,8 +2878,11 @@ If `cols` doesn't match the point count, never fear. You'll get cool trippy look
   <img src="./images/sweepshape2.png" width="40%">
 </p>
 
-| [Download the HIP file!](./hips/vex_sweep.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/vex_sweep.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Sweep varying cross sections
 
@@ -2665,8 +2923,11 @@ Now the cross sections connect perfectly without any resampling!
   <img src="./images/sweep7.png" width="45%">
 </p>
 
-| [Download the HIP file!](./hips/sweep_varying_cross_sections.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/sweep_varying_cross_sections.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## POP Curve Force in VEX
 
@@ -2676,8 +2937,11 @@ For more control, you can use Orientation Along Curve to compute the normal, the
 
 <img src="./images/curve_forces.webp" height="400">
 
-| [Download the HIP file!](./hips/curve_forces.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/curve_forces.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 int prim; vector uv;
@@ -2706,8 +2970,11 @@ You can multiply it by `{0,0,0}` to get the origin, or by `{0,0,-1}` to get the 
 
 <img src="./images/cam_pos_normal.png" width="600">
 
-| [Download the HIP file!](./hips/cam_pos_normal.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/cam_pos_normal.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 matrix cam = optransform(chsop("cam"));
@@ -2748,8 +3015,11 @@ A cool trick from [John Kunz](https://www.johnkunz.com/) is sampling a HDRI usin
 
 <img src="./images/hdrisample.png" height="320">
 
-| [Download the HIP file!](./hips/hdrisample.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/hdrisample.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 string cam = chsop("cam");
@@ -2767,8 +3037,11 @@ Levin on the CGWiki Discord wanted to blur volumes in VEX.
 
 <img src="./images/volumesmoothing.png" width="600">
 
-| [Download the HIP file!](./hips/volume_smoothing.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/volume_smoothing.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 To do this, you can sample the neighbors in a box and average them. It's much slower than the built-in volume nodes though.
 
@@ -2802,8 +3075,11 @@ To prevent this, you could divide by the total density along each ray to normali
 
 <img src="./images/normalize_density.webp" width="600">
 
-| [Download the HIP file!](./hips/normalize_density.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/normalize_density.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 matrix cam = optransform(chsop("cam"));
@@ -2837,8 +3113,11 @@ I had a similar idea using a rectangular envelope, [inspired by a rolling averag
 
 <img src="./images/normalize_windowed.webp" width="600">
 
-| [Download the HIP file!](./hips/normalize_windowed.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/normalize_windowed.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 First each point gets the min and max of its neighbours within a rectangular rolling window.
 
@@ -2899,8 +3178,11 @@ It's a recursive process involving making a voronoi diagram, finding the centers
 
 <img src="./images/lloyd_relaxation.webp" width="400">
 
-| [Download the HIP file!](./hips/lloyd_relaxation.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/lloyd_relaxation.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Fitting UV islands
 
@@ -2910,8 +3192,11 @@ Sometimes you need to overlap UV islands and fit them to a full tile, like when 
 |---|---|
 |<img src="./images/uvfitting1.png" height="200">|<img src="./images/uvfitting2.png" height="200">|
 
-| [Download the HIP file!](./hips/uv_island_fitting.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/uv_island_fitting.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 This is hard to do with Houdini's built-in nodes, so here's a manual approach.
 
@@ -2928,8 +3213,11 @@ It's hard to prevent `uvintersect()` and `xyzdist()` from snapping to themselves
 
 <img src="./images/overlapping_uvs.png" height="300">
 
-| [Download the HIP file!](./hips/detect_overlapping_uvs.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/detect_overlapping_uvs.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 One workaround is using the group argument to exclude nearby prims, like those connected to the current point.
 
@@ -3011,8 +3299,11 @@ v@P = addToPos(v@P);
 
 **UPDATE:** Van and WaffleboyTom said this is evil since it causes the code to recompile. Use if you dare!
 
-| [Download the HIP file!](./hips/including_vex_code.hip) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/including_vex_code.hip">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Dynamic attribute names
 
@@ -3028,8 +3319,11 @@ i@`chs("var_name")` = 123;
 
 Certain characters like spaces aren't allowed in variable names, so try not to include them!
 
-| [Download the HIP file!](./hips/vex_var_names.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/vex_var_names.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Default values in VEX
 
@@ -3055,8 +3349,11 @@ This is a feature [buried in the documentation](https://www.sidefx.com/docs/houd
 
 Surprisingly it's tricky to display text based on an attribute or VEX snippet. Here's a few ways to do it!
 
-| [Download the HIP file!](./hips/font_vex.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/font_vex.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### 1. Expressions
 
@@ -3097,8 +3394,11 @@ With this attribute, you can use `find(...)` or [regex](https://www.sidefx.com/d
 
 <img src="./images/font_color.png" width="800">
 
-| [Download the HIP file!](./hips/vex_color_text.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/vex_color_text.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 void find_and_color(string haystack; string needle; vector color_attr; vector color; int index) {
@@ -3125,8 +3425,11 @@ You could loop through each character of the text, toggling a color change each 
 
 <img src="./images/font_trigger.png" width="800">
 
-| [Download the HIP file!](./hips/vex_color_text.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/vex_color_text.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 string full_text = chs("full_text");
@@ -3188,8 +3491,11 @@ Khomatech on the CGWiki Discord wanted to deform volumes with noise baked in. He
 
 <img src="./images/volumedeform.webp" width="500">
 
-| [Download the HIP file!](./hips/volumedeform.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/volumedeform.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### 1. Volume Deform
 
@@ -3234,8 +3540,11 @@ The key is making sure the points aren't coplanar, otherwise they spread in 2D o
 
 <img src="./images/overlapped_cables.png" width="500">
 
-| [Download the HIP file!](./hips/overlapping_cables.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/overlapping_cables.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Nearest point to any attribute
 
@@ -3276,8 +3585,11 @@ The direct way is using unwrap to replace the context:
 i@near_id = nearpoint("unwrap:uv opinput:0", chv("uv_coordinate"));
 ```
 
-| [Download the HIP file!](./hips/geounwrap.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/geounwrap.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Split curve to individual lines and back again
 
@@ -3333,8 +3645,11 @@ Spot the difference. On the left is the Group node, on the right is VEX.
 
 <img src="./images/keepbynormals2.png" width="500">
 
-| [Download the HIP file!](./hips/keepbynormals.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/keepbynormals.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Select inside or outside
 
@@ -3365,8 +3680,11 @@ float correlation = dot(dir, v@N);
 
 <img src="./images/inside.png" width="250">
 
-| [Download the HIP file!](./hips/inside.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/inside.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Scaling primitives towards their center
 
@@ -3385,8 +3703,11 @@ v@P = lerp(center, v@P, chf("scale"));
 
 <img src="./images/scale_prims.png" width="300">
 
-| [Download the HIP file!](./hips/scale_prims.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/scale_prims.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Splitting a triangle into regions
 
@@ -3394,8 +3715,11 @@ Malmer on Discord wanted to split a triangle into 3 regions as seen below.
 
 <img src="./images/triangle_regions.webp" width="400">
 
-| [Download the HIP file!](./hips/triangle_regions.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/triangle_regions.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 It's a surprisingly tricky problem, so each of us came up with different solutions. I thought they were interesting enough to share.
 
@@ -3518,8 +3842,11 @@ Good for point clouds! VDB from Particles works too, but not as smoothly.
 
 <img src="./images/decentcollision.png" width="600">
 
-| [Download the HIP file!](./hips/decent_collision.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/decent_collision.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### 2. Extrude
 
@@ -3529,8 +3856,11 @@ Good for flat surfaces! For more control, use point normals to set the extrusion
 
 <img src="./images/decentcollision2.png" width="400">
 
-| [Download the HIP file!](./hips/decent_collision2.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/decent_collision2.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Applying orient to packed prims
 
@@ -3548,8 +3878,11 @@ Thanks to WaffleboyTom for this tip!
 
 Often it's nice to organise geometry by snapping it to the floor. Here's a few ways to do it!
 
-| [Download the HIP file!](./hips/snaptofloor.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/snaptofloor.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### 1. Match Size
 
@@ -3629,8 +3962,11 @@ This is how Vellum handles Geometry and Constraint Geometry separately.
 
 <img src="./images/split_multisolver.png" width="800">
 
-| [Download the HIP file!](./hips/split_multisolver.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/split_multisolver.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## FEM: Using real world physical units
 
@@ -3708,15 +4044,21 @@ v@P *= invert(mat);
 
 <img src="./images/extracttransform.webp" width="500">
 
-| [Download the HIP file!](./hips/extracttransform.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/extracttransform.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 The same technique can be used to stabilize geometry, like making everything relative to the pelvis:
 
 <img src="./images/inverttransform.webp" width="500">
 
-| [Download the HIP file!](./hips/inverttransform.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/inverttransform.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### Bendy geometry
 
@@ -3758,8 +4100,11 @@ This works best for enclosed containers or pinned geometry, since it's hard to m
 
 <img src="./images/stabilized_flip_sim.webp" width="500">
 
-| [Download the HIP file!](./hips/stabilized_flip_sim.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/stabilized_flip_sim.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### Relative gravity
 
@@ -3817,8 +4162,11 @@ The algorithm works like this:
 2. Find the best rotation using [Singular Value Decomposition (SVD)](https://www.sidefx.com/docs/houdini/vex/functions/svddecomp.html)
 3. Find the best scale using [the Umeyama algorithm](https://nghiaho.com/?page_id=671).
 
-| [Download the HIP file!](./hips/extract_transform_svd.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/extract_transform_svd.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### Align Translation
 
@@ -4192,8 +4540,11 @@ Cloth sims work best with preroll starting in a neutral rest pose. For example, 
 
 <img src="./images/fbxtransition.webp" height="320">
 
-| [Download the HIP file!](./hips/fbxtransition.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/fbxtransition.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ### Without FBX
 
@@ -4275,8 +4626,11 @@ Using hairgen to create geo at render time from guide hairs which are just SOPs 
 
 <img src="./images/lcrs/Ls_HairgenFromLines.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_HairgenFromLines_v03.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/lcrs/Ls_HairgenFromLines_v03.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Lewis Saunders: Mantra Shadow Mask
 
@@ -4286,8 +4640,11 @@ Making a shadow map by grabbing the direct shadow AOV from the PBR Lighting VOP,
 
 <img src="./images/lcrs/Ls_MantraShadowMask.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_MantraShadowMask_v01.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/lcrs/Ls_MantraShadowMask_v01.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Lewis Saunders: Mesh Divergence
 
@@ -4297,8 +4654,11 @@ The Measure node can compute the gradient of an attribute, but the divergence of
 
 <img src="./images/lcrs/Ls_MeshDivergence.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_MeshDivergence.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/lcrs/Ls_MeshDivergence.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 Jake Rice notes:
 
@@ -4363,8 +4723,11 @@ Works on both geometry and volumes, as seen in [Ls_VolumeMotionVectors](#lewis-s
 
 <img src="./images/lcrs/Ls_MotionVectors.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_MotionVectors_v01.hip) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/lcrs/Ls_MotionVectors_v01.hip">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ```js
 // 2D motion vector output in absolute pixels, lewis@lewissaunders.com July 2018
@@ -4399,8 +4762,11 @@ Basic particle trail using a Trail SOP followed by an Add SOP set to connect poi
 
 <img src="./images/lcrs/Ls_PopTrails.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_PopTrails_v01.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/lcrs/Ls_PopTrails_v01.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Lewis Saunders: Volume Motion Vectors
 
@@ -4412,8 +4778,12 @@ Motion vectors for volumes are tricky because of transparency. A wispy bit of sm
 
 <img src="./images/lcrs/Ls_VolumeMotionVectors.png" width="600">
 
-| [Download the HIP file!](./hips/lcrs/Ls_VolumeMotionVectors_v01.hipnc) | [Download the other HIP file!](./hips/lcrs/Ls_VolumeMotionVectorsNodes_v01.hipnc) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="./hips/lcrs/Ls_VolumeMotionVectors_v01.hipnc">Download the HIP file!</a></th>
+    <th><a href="./hips/lcrs/Ls_VolumeMotionVectorsNodes_v01.hipnc">Download the other HIP file!</a></th>
+  </tr>
+</table>
 
 ## Matt Ebb: 4D Slices (HDAs)
 
@@ -4427,5 +4797,9 @@ A while ago Matt Ebb did a talk on slicing 4D shapes to produce 3D cross section
 
 [![Slices talk](https://img.youtube.com/vi/WryM1E8E9qs/mqdefault.jpg)](https://youtu.be/WryM1E8E9qs)
 
-| [Video Demo](https://youtu.be/WryM1E8E9qs) | [Download the HDAs!](./hdas/mebb) |
-| --- | --- |
+<table>
+  <tr>
+    <th><a href="https://youtu.be/WryM1E8E9qs">Video Demo</a></th>
+    <th><a href="./hdas/mebb">Download the HDAs!</a></th>
+  </tr>
+</table>
