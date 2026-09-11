@@ -30,8 +30,11 @@ vector worldPos = fromNDC(chsop("cam"), ndcPos);
 
 Here's some NDC tricks you can play with.
 
-| [Download the HIP file!](./hips/ndc/ndcfun.hipnc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/ndc/ndcfun.hipnc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 ## Get the camera position
 
@@ -351,8 +354,11 @@ It's easiest using a solver to accumulate the visibility based on whichever cond
 
 <img src="./images/ndc/group_occluded.webp" width="400">
 
-| [Download the HIP file!](./hips/ndc/group_occluded.hiplc) |
-| --- |
+<table>
+  <tr>
+    <th><a href="./hips/ndc/group_occluded.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
 
 For an object to be visible it should meet two conditions, not occluded and inside the camera frustum.
 
