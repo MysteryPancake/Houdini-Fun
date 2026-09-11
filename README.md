@@ -41,9 +41,13 @@ Thanks to [White Dog](https://x.com/whitedo27114277?lang=en) for letting me shar
 
 <img src="./images/hdas/straight_skeletons.png" height="300">
 
-| [Download the HDA!](./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda) | [Download the HIP file!](./hdas/fast_straight_skeleton.hip) | [Download on Gumroad!](https://mysterypancake.gumroad.com/l/straightskeleton) |
-| --- | --- | --- |
-||||
+<table>
+  <tr>
+    <th><a href="./hdas/MysteryPancake.fast_straight_skeleton_3d.1.0.hda">Download the HDA!</a></th>
+    <th><a href="./hdas/fast_straight_skeleton.hip">Download the HIP file!</a></th>
+    <th><a href="https://mysterypancake.gumroad.com/l/straightskeleton">Download on Gumroad!</a></th>
+  </tr>
+</table>
 
 <h2><img src="./images/hdas/laplacian_filter.png" height="32"> HDA: Laplacian Frequency Filter</h2>
 
