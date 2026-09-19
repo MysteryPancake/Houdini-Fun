@@ -4347,15 +4347,32 @@ SideFX shared some information that might help:
 >
 > Note that you'll want to disable this parameter when not profiling, since the aforementioned sync up can slow down execution of the entire network.
 
-## Karma: Better quality lighting
+## Karma: Better quality global illumination
 
-Karma has only 1 diffuse sample by default. This isn't even enough for global illumination.
+Karma has a diffuse limit of 1 by default. This isn't even enough for global illumination.
 
-For better quality lighting, try increasing the diffuse limit up to around 4.
+For better quality lighting, try increasing the diffuse limit with a [Karma Render Settings](https://www.sidefx.com/docs/houdini/nodes/lop/karmarendersettings.html) node. 4 is a good starting point.
 
 Thanks to Philipp Welsing on the CGWiki Discord for this tip!
 
 <img src="./images/diffuse_limit.jpg">
+
+## Karma: Better quality glass
+
+Karma glass looks very dark by default. The default settings cause unrealistically high energy loss.
+
+I recommend these settings for better results. These are set in a [Render Geometry Settings](https://www.sidefx.com/docs/houdini/nodes/lop/rendergeometrysettings.html) node:
+
+- "Direct Refraction Subset" set to "Both"
+- "Enable Internal Reflection" set to enabled
+
+This allows the rays to bounce around more inside the glass, causing brighter and more realistic results.
+
+It also helps to increase the color limit using a [Karma Render Settings](https://www.sidefx.com/docs/houdini/nodes/lop/karmarendersettings.html) node.
+
+| Before | After |
+| --- | --- |
+| <img src="./images/karma_glass1.png"> | <img src="./images/karma_glass2.png"> |
 
 ## Karma: Render storage saving
 
