@@ -4351,22 +4351,29 @@ SideFX shared some information that might help:
 
 Karma has a diffuse limit of 1 by default. This isn't even enough for global illumination.
 
-For better quality lighting, try increasing the diffuse limit with a [Karma Render Settings](https://www.sidefx.com/docs/houdini/nodes/lop/karmarendersettings.html) node. 4 is a good starting point.
+For better quality lighting, try increasing the diffuse limit using a [Karma Render Settings](https://www.sidefx.com/docs/houdini/nodes/lop/karmarendersettings.html) node.
 
 Thanks to Philipp Welsing on the CGWiki Discord for this tip!
 
 <img src="./images/diffuse_limit.jpg">
 
-Some more tips from Edge on the CGWiki Discord:
+Edge on the CGWiki Discord shared more tips:
 
 > A big increase in fidelity can come from cranking the color limit. I set it to 10K xD
-Some will probably disagree, but IMO it makes the image look a lot better, and noise isn't much of a problem, especially if pixel oracle is set to Uniform, which I find renders a lot faster than Variance.
+>
+> <img src="./images/karma_colorlimit.png" width="400">
+>
+> Some will probably disagree, but IMO it makes the image look a lot better, and noise isn't much of a problem, especially if pixel oracle is set to Uniform, which I find renders a lot faster than Variance.
+> 
+> <img src="./images/karma_primarysamples.png" width="400">
 >
 > If you don't want to increase indirect color limit for performance reasons or whatever, you should at least disable "Shared Color Limit" and put the direct color limit up to 10k. That will match blenders defaults, which doesn't clamp direct lighting, only indirect.
 >
-> Another thing is disabling mip-maps, probably controversial, but in my experience it makes high res textures look a lot more crisp and nice, especially displacement / bump mapping. You can disable mipmapping by putting `KARMA_XPU_DISABLE_MIPMAPS = 1` in your houdini.env
+> Another thing is disabling mip-maps, probably controversial, but in my experience it makes high res textures look a lot more crisp and nice, especially displacement / bump mapping. You can disable mipmapping by putting `KARMA_XPU_DISABLE_MIPMAPS = 1` in your houdini.env.
 >
-> And regarding displacement, in render geometry settings if you set Displacement Style to `Bump Added to Displacement`, it will add necessary bump mapping wherever the dicing wasn't enough to match the texture resolution, and look a lot nicer and higher fidelity. 
+> And regarding displacement, in render geometry settings if you set Displacement Style to `Bump Added to Displacement`, it will add necessary bump mapping wherever the dicing wasn't enough to match the texture resolution, and look a lot nicer and higher fidelity.
+>
+> <img src="./images/karma_displacement.png" width="400">
 
 ## Karma: Better quality glass
 
