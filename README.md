@@ -4379,7 +4379,7 @@ Edge on the CGWiki Discord shared more tips:
 
 Karma glass looks very dark by default. The default settings cause unrealistically high energy loss.
 
-I recommend using the settings below in a [Render Geometry Settings](https://www.sidefx.com/docs/houdini/nodes/lop/rendergeometrysettings.html) node:
+For better results, try the settings below in a [Render Geometry Settings](https://www.sidefx.com/docs/houdini/nodes/lop/rendergeometrysettings.html) node:
 
 - "Direct Refraction Subset" set to "Both"
 - "Enable Internal Reflection" enabled
@@ -4387,6 +4387,8 @@ I recommend using the settings below in a [Render Geometry Settings](https://www
 This allows the rays to bounce around more inside the glass, causing brighter and more realistic results.
 
 It also helps to increase the color limit using a [Karma Render Settings](https://www.sidefx.com/docs/houdini/nodes/lop/karmarendersettings.html) node.
+
+Thanks to Edge on the CGWiki Discord for this tip!
 
 | Before | After |
 | --- | --- |
