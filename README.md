@@ -4337,16 +4337,6 @@ Usually liquids resting on a surface have a small gap due to the collision geome
 
 A tip from Raphael Gadot is to transfer normals from the surface onto the liquid with some falloff. This greatly improves the blending.
 
-## Karma: Better quality lighting
-
-Karma has only 1 diffuse sample by default. This isn't even enough for global illumination.
-
-For better quality lighting, try using up to 4 diffuse samples.
-
-Thanks to Philipp Welsing on the CGWiki Discord for this tip!
-
-<img src="./images/diffuse_limit.jpg">
-
 ## Copernicus: Fix performance monitoring
 
 The performance monitor in Copernicus often doesn't work properly, giving unreliable results.
@@ -4357,11 +4347,23 @@ SideFX shared some information that might help:
 >
 > Note that you'll want to disable this parameter when not profiling, since the aforementioned sync up can slow down execution of the entire network.
 
+## Karma: Better quality lighting
+
+Karma has only 1 diffuse sample by default. This isn't even enough for global illumination.
+
+For better quality lighting, try increasing the diffuse limit up to around 4.
+
+Thanks to Philipp Welsing on the CGWiki Discord for this tip!
+
+<img src="./images/diffuse_limit.jpg">
+
 ## Karma: Render storage saving
 
 When rendering with Karma, avoid using [SOP Import](https://www.sidefx.com/docs/houdini/nodes/lop/sopimport.html). It writes tons of USD data to disk that already exists as bgeo.
 
 It's better to use [Geometry Sequence](https://www.sidefx.com/docs/houdini/nodes/lop/geometrysequence.html) instead. It stores the bgeo path in the USD file instead, and loads it directly from disk.
+
+For better performance, use a [Geometry Clip Sequence](https://www.sidefx.com/docs/houdini/nodes/lop/geoclipsequence.html) to load it as a [Value Clip](https://www.sidefx.com/docs/houdini/nodes/lop/valueclip.html) instead.
 
 This makes the USD file much smaller and likely improves the render time too. Thanks Matt Ebb for this tip!
 
