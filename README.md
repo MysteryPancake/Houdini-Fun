@@ -4347,7 +4347,7 @@ SideFX shared some information that might help:
 >
 > Note that you'll want to disable this parameter when not profiling, since the aforementioned sync up can slow down execution of the entire network.
 
-## Karma: Better quality global illumination
+## Karma: Better quality lighting
 
 Karma has a diffuse limit of 1 by default. This isn't even enough for global illumination.
 
@@ -4357,6 +4357,17 @@ Thanks to Philipp Welsing on the CGWiki Discord for this tip!
 
 <img src="./images/diffuse_limit.jpg">
 
+Some more tips from Edge on the CGWiki Discord:
+
+> A big increase in fidelity can come from cranking the color limit. I set it to 10K xD
+Some will probably disagree, but IMO it makes the image look a lot better, and noise isn't much of a problem, especially if pixel oracle is set to Uniform, which I find renders a lot faster than Variance.
+>
+> If you don't want to increase indirect color limit for performance reasons or whatever, you should at least disable "Shared Color Limit" and put the direct color limit up to 10k. That will match blenders defaults, which doesn't clamp direct lighting, only indirect.
+>
+> Another thing is disabling mip-maps, probably controversial, but in my experience it makes high res textures look a lot more crisp and nice, especially displacement / bump mapping. You can disable mipmapping by putting `KARMA_XPU_DISABLE_MIPMAPS = 1` in your houdini.env
+>
+> And regarding displacement, in render geometry settings if you set Displacement Style to `Bump Added to Displacement`, it will add necessary bump mapping wherever the dicing wasn't enough to match the texture resolution, and look a lot nicer and higher fidelity. 
+
 ## Karma: Better quality glass
 
 Karma glass looks very dark by default. The default settings cause unrealistically high energy loss.
@@ -4364,7 +4375,7 @@ Karma glass looks very dark by default. The default settings cause unrealistical
 I recommend these settings for better results. These are set in a [Render Geometry Settings](https://www.sidefx.com/docs/houdini/nodes/lop/rendergeometrysettings.html) node:
 
 - "Direct Refraction Subset" set to "Both"
-- "Enable Internal Reflection" set to enabled
+- "Enable Internal Reflection" enabled
 
 This allows the rays to bounce around more inside the glass, causing brighter and more realistic results.
 
