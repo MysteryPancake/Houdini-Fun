@@ -1683,6 +1683,8 @@ I considered it like an arm connecting to a rotating point.
 
 I used 2 IK constraints. One goes from left -> right and the other goes from right -> left.
 
+I used the IK Chains node, but Swalsch said it's also possible using the Full Body IK node.
+
 <img src="./images/double_ik.webp" width="350">
 
 <table>
@@ -1690,8 +1692,6 @@ I used 2 IK constraints. One goes from left -> right and the other goes from rig
     <th><a href="./hips/double_ik.hiplc">Download the HIP file!</a></th>
   </tr>
 </table>
-
-I used the IK Chains node, but it should also be possible with the Full Body IK node.
 
 ## Vellum growth
 
