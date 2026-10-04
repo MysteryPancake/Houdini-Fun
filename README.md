@@ -1677,13 +1677,13 @@ I found a cool use of Vellum for this, it can fix the edge lengths based on [the
 
 Sam on the CGWiki Discord wanted to remake the motor rig [seen in this video](https://youtu.be/2zsBwnZlYRs?si=u58iA3SfKy-IoWLw).
 
-I considered it like an arm connecting to a rotating point.
+I considered it like an arm connecting to a rotating point, so I chose to use an IK rig.
 
 <img src="./images/double_ik.png" width="400">
 
-I used 2 IK constraints. One goes from left -> right and the other goes from right -> left.
+I used 2 IK constraints. One from left to right and the other from right to left.
 
-I used the IK Chains node, but Swalsch said it's also possible using the Full Body IK node.
+I used IK Chains node, though Swalsch said it's also possible using the Full Body IK node.
 
 <img src="./images/double_ik.webp" width="350">
 
