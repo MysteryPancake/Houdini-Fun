@@ -1673,6 +1673,26 @@ I found a cool use of Vellum for this, it can fix the edge lengths based on [the
   </tr>
 </table>
 
+## IK motor rig
+
+Sam on the CGWiki Discord wanted to remake the motor rig [seen in this video](https://youtu.be/2zsBwnZlYRs?si=u58iA3SfKy-IoWLw).
+
+I considered it like an arm connecting to a rotating point.
+
+<img src="./images/double_ik.png" width="400">
+
+I used 2 IK constraints. One goes from left -> right and the other goes from right -> left.
+
+<img src="./images/double_ik.webp" width="350">
+
+<table>
+  <tr>
+    <th><a href="./hips/double_ik.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
+
+I used the IK Chains node, but it should also be possible with the Full Body IK node.
+
 ## Vellum growth
 
 2swap makes [beautiful videos](https://www.youtube.com/watch?v=YGLNyHd2w10) about graph theory, with animations of adding and removing edges.
