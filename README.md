@@ -1673,9 +1673,9 @@ I found a cool use of Vellum for this, it can fix the edge lengths based on [the
   </tr>
 </table>
 
-## IK motor rig
+## Four-Bar Linkage
 
-Sam on the CGWiki Discord wanted to remake the motor rig [seen in this video](https://youtu.be/2zsBwnZlYRs?si=u58iA3SfKy-IoWLw).
+Sam on the CGWiki Discord wanted to remake the four-bar linkage [seen in this video](https://youtu.be/2zsBwnZlYRs?si=u58iA3SfKy-IoWLw).
 
 I considered it like an arm connecting to a rotating point, so I chose to use an IK rig.
 
