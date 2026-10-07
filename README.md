@@ -964,7 +964,9 @@ f@height = volumesample(1, chi("volume_index"), pos);
 
 The Rasterize Setup node can flatten geometry to the UV map, but it doesn't transform certain attributes like velocity.
 
-Luckily it's easy to fix, simply add an Attribute Reorient node into Rasterize Setup. It rotates the velocity to respect the flattened position.
+Luckily it's easy to fix, simply add an Attribute Reorient node into Rasterize Setup (inside SOP Invoke).
+
+This rotates the velocity to respect the flattened position.
 
 <img src="./images/cops/cops_uv_velocity_reorient.png" width="500">
 
