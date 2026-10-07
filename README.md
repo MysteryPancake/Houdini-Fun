@@ -966,6 +966,8 @@ The Rasterize Setup node can flatten geometry to the UV map, but it doesn't tran
 
 Luckily it's easy to fix, simply add an Attribute Reorient node into Rasterize Setup. It rotates the velocity to respect the flattened position.
 
+<img src="./images/cops/cops_uv_velocity_reorient.png" width="500">
+
 For more accuracy, you can scale the velocity to respect the change in size from world to UV space. I approximated it by dividing the two areas.
 
 ```js
