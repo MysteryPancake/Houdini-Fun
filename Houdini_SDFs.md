@@ -25,7 +25,7 @@ f@surface = sdSphere(v@P, 0.5);
 
 I did this for [a ton of SDFs](https://iquilezles.org/articles/distfunctions/) by Inigo Quilez.
 
-[<img src="./images/sdfs/sdf_volumes.png">](hips/sdf_volumes.hipnc)
+[<img src="./images/sdfs/sdf_volumes.png">](hips/sdfs/sdf_volumes.hipnc)
 
 <table>
   <tr>
