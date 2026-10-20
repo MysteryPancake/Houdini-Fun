@@ -8,7 +8,7 @@ I recently lost my mind and made a bunch of audio effects and synths in Houdini.
 
 <table>
   <tr>
-    <th><a href="hips/sdfs/sdf_volumes.hipnc">Download the HIP file!</a></th>
+    <th><a href="hips/sound/chops_sound.hiplc">Download the HIP file!</a></th>
   </tr>
 </table>
 
