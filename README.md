@@ -2953,6 +2953,33 @@ Now the cross sections connect perfectly without any resampling!
   </tr>
 </table>
 
+## Get packed primitive corners
+
+To get the corners of a packed primitive, you need to multiply the `packedbounds` by the `packedfulltransform`.
+
+<img src="./images/get_packed_corners.png" height="400">
+
+<table>
+  <tr>
+    <th><a href="./hips/get_packed_corners.hiplc">Download the HIP file!</a></th>
+  </tr>
+</table>
+
+```js
+// Primitive wrangle
+float b[] = primintrinsic(0, "packedbounds", @primnum);
+matrix t = primintrinsic(0, "packedfulltransform", @primnum);
+
+for (int x = 0; x < 2; x++) {
+    for (int y = 0; y < 2; y++) {
+        for (int z = 0; z < 2; z++) {
+            vector pos = set(b[x], b[2+y], b[4+z]);
+            addpoint(0, pos*t);
+        }
+    }
+}
+```
+
 ## POP Curve Force in VEX
 
 Many effects require animating towards, around or along curves. You can use POP Curve Force node for this.
