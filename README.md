@@ -247,17 +247,21 @@ for (int i = 0; i < n || len(stack) > 0; ++i) {
 
 When working with Vellum grain or MPM simulations, there's often chunks of points that move in a rigid way.
 
-This HDA automatically detects rigidly moving chunks and assigns them each a piece ID.
+This HDA automatically finds rigidly moving chunks and assigns each of them a unique piece ID.
 
-Thanks to Extract Transform, it also gives you template points with translation, rotation and optionally scale. This lets you deform any rigid geometry onto them.
+Thanks to Extract Transform, it also provides template points with translation, rotation and optionally scale. This lets you deform any rigid geometry onto them.
 
-It finds chunks by connecting lines between the points and checking if the lines stretch or squash, much like distance constraints.
+It detects chunks by connecting lines between points and checking if the lines change length, much like distance constraints.
 
-For translation and rotation, lines always stay the same length. If lines are stretched they get removed, forming rigid chunks.
+For translation and rotation, lines always stay the same length. If lines change length they get removed, forming rigid chunks.
 
-Lines can be created based on connectivity (Convert Line), proximity (Connect Adjacent Pieces) or connecting all points (Voronoi Adjacency).
+Lines can be created in 3 ways:
 
-It even works on animated characters, detecting points that might be parented to a single bone (like [Labs Dem Bones Skinning Converter](https://www.sidefx.com/docs/houdini/nodes/sop/labs--dembones_skinningconverter.html)).
+- Connectivity (Convert Line)
+- Proximity (Connect Adjacent Pieces)
+- All (Voronoi Adjacency)
+
+It even works on animated characters, detecting points that may belong to a single bone (like [Labs Dem Bones Skinning Converter](https://www.sidefx.com/docs/houdini/nodes/sop/labs--dembones_skinningconverter.html)).
 
 <table>
   <tr>
