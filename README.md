@@ -249,19 +249,15 @@ When working with Vellum grain or MPM simulations, there's often chunks of point
 
 This HDA automatically detects rigidly moving chunks and assigns them each a unique piece ID.
 
-Thanks to Extract Transform, it also provides template points with translation, rotation and optionally scale.
-
-You can instance any rigid geometry onto them, like [MPM Post-Fracture](https://www.sidefx.com/docs/houdini/nodes/sop/mpmpostfracture.html).
+Thanks to Extract Transform, it also provides template points with translation, rotation and optionally scale. You can instance any rigid geometry onto them, like [MPM Post-Fracture](https://www.sidefx.com/docs/houdini/nodes/sop/mpmpostfracture.html).
 
 | Detected chunks | Rigid approximation |
 | --- | --- |
 | <img src="./images/hdas/detect_rigid_pieces3.webp" height="280"> | <img src="./images/hdas/detect_rigid_pieces4.webp" height="280"> |
 
-It finds chunks by connecting lines between points and checking if the lines change length, much like distance constraints.
+It finds chunks by connecting lines between points and checking if they change length, like distance constraints. For translation and rotation, lines always stay the same length. If the length changes the line is removed, forming rigid chunks.
 
-For translation and rotation, lines always stay the same length. If lines change length they get removed, forming rigid chunks.
-
-Lines can be created in 3 ways:
+Connecting lines can be created in 3 ways:
 
 - Connectivity (Convert Line)
 - Proximity (Connect Adjacent Pieces)
@@ -271,7 +267,7 @@ Lines can be created in 3 ways:
 | --- | --- |
 | <img src="./images/hdas/detect_rigid_pieces.webp" height="280"> | <img src="./images/hdas/detect_rigid_pieces5.webp" height="280"> |
 
-It even works on rigged characters, detecting areas that may belong to a single bone, like [Labs Dem Bones Skinning Converter](https://www.sidefx.com/docs/houdini/nodes/sop/labs--dembones_skinningconverter.html).
+It even works on rigged characters, detecting points that may belong to a single bone, like [Labs Dem Bones Skinning Converter](https://www.sidefx.com/docs/houdini/nodes/sop/labs--dembones_skinningconverter.html).
 
 <img src="./images/hdas/detect_rigid_pieces2.webp" height="300">
 
