@@ -267,7 +267,9 @@ Connecting lines can be created in 3 ways:
 | --- | --- |
 | <img src="./images/hdas/detect_rigid_pieces.webp" height="280"> | <img src="./images/hdas/detect_rigid_pieces5.webp" height="280"> |
 
-It even works on rigged characters, detecting points that may belong to a single bone, like [Labs Dem Bones Skinning Converter](https://www.sidefx.com/docs/houdini/nodes/sop/labs--dembones_skinningconverter.html).
+It even works on rigged characters, detecting points that may belong to a single bone.
+
+To guess the full skeleton and bone capture weights, try [Labs Dem Bones Skinning Converter](https://www.sidefx.com/docs/houdini/nodes/sop/labs--dembones_skinningconverter.html) instead.
 
 <img src="./images/hdas/detect_rigid_pieces2.webp" height="300">
 
