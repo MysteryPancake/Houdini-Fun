@@ -249,7 +249,13 @@ When working with Vellum grain or MPM simulations, there's often chunks of point
 
 This HDA automatically finds rigidly moving chunks and assigns each of them a unique piece ID.
 
-Thanks to Extract Transform, it also provides template points with translation, rotation and optionally scale. This lets you deform any rigid geometry onto them.
+<img src="./images/hdas/detect_rigid_pieces.webp" height="300">
+
+Thanks to Extract Transform, it also provides template points with translation, rotation and optionally scale. You can instance any rigid geometry onto them.
+
+| Detected chunks | Rigid approximation |
+| --- | --- |
+| <img src="./images/hdas/detect_rigid_pieces3.webp" height="280"> | <img src="./images/hdas/detect_rigid_pieces4.webp" height="280"> |
 
 It detects chunks by connecting lines between points and checking if the lines change length, much like distance constraints.
 
@@ -261,7 +267,9 @@ Lines can be created in 3 ways:
 - Proximity (Connect Adjacent Pieces)
 - All (Voronoi Adjacency)
 
-It even works on animated characters, detecting points that may belong to a single bone (like [Labs Dem Bones Skinning Converter](https://www.sidefx.com/docs/houdini/nodes/sop/labs--dembones_skinningconverter.html)).
+It also works on rigged characters, detecting areas that may belong to a single bone (like [Labs Dem Bones Skinning Converter](https://www.sidefx.com/docs/houdini/nodes/sop/labs--dembones_skinningconverter.html)).
+
+<img src="./images/hdas/detect_rigid_pieces2.webp" height="300">
 
 <table>
   <tr>
@@ -296,10 +304,9 @@ Doing this in a for loop with blurring each step, you get a nice deintersection 
 
 Note this doesn't consider faces, so it doesn't always work! Use a Detangle node for more reliable results.
 
-<p align="left">
-	<img src="./images/hdas/deintersect1.webp" height="280">
-	<img src="./images/hdas/deintersect2.webp" height="280">
-</p>
+| `Distort Shape` disabled | `Distort Shape` enabled |
+| --- | --- |
+| <img src="./images/hdas/deintersect1.webp" height="280"> | <img src="./images/hdas/deintersect2.webp" height="280"> |
 
 <table>
   <tr>
